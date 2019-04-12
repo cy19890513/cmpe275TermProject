@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "Employer")
 public class Employer{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

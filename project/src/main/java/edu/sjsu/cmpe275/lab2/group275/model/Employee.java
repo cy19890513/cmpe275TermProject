@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
-@Table(name = "Employee")
+
 public class Employee{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +54,7 @@ public class Employee{
             inverseJoinColumns = {@JoinColumn(name="ID2", referencedColumnName="ID")})
     private List<Employee> collaborators;
 
+    public Employee(){}
     public Employee(String name, String email ){
         this.name = name;
         this.email = email;
@@ -109,7 +110,11 @@ public class Employee{
     }
 
     public void setManager(Employee manager){
-        this.Manager = manager;
+        if(manager.employer.equals(employer))
+            this.Manager = manager;
+        else {
+            System.out.println("wrong manager");
+        }
     }
 
     public List<Employee> getReports() {
