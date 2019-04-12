@@ -41,6 +41,10 @@ public class Address{
         return state;
     }
 
+    public void setState(String state){
+        this.state = state;
+    }
+
     public String getZip(){
         return zip;
     }
