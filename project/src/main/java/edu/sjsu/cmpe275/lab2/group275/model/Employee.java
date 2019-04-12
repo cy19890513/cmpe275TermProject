@@ -19,8 +19,8 @@ import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity
 
+@Entity
 public class Employee{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +55,7 @@ public class Employee{
     private List<Employee> collaborators;
 
     public Employee(){}
+
     public Employee(String name, String email ){
         this.name = name;
         this.email = email;
