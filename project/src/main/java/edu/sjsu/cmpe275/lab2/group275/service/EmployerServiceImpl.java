@@ -50,6 +50,7 @@ public class EmployerServiceImpl implements EmployerService {
                 return ResponseEntity.status(HttpStatus.OK).body(null);
             }
             else{
+                employerRepository.deleteById(id);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         }
