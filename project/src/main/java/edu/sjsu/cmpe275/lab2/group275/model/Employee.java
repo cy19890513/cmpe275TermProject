@@ -123,7 +123,15 @@ public class Employee{
         return reports;
     }
 
+    public void setReports(List<Employee> reports) {
+        this.reports = reports;
+    }
+
     public List<Employee> getCollaborators() {
         return collaborators;
+    }
+
+    public void setCollaborators(List<Employee> ecollabs){
+        this.collaborators = ecollabs;
     }
 }
