@@ -14,4 +14,5 @@ public interface EmployeeService {
     boolean existId(long id);
     boolean existEmployees(long employerId);
 
+    long getEmployerIdByEmployeeId(long eId);
 }

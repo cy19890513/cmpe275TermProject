@@ -1,22 +1,21 @@
 package edu.sjsu.cmpe275.lab2.group275.service;
 
 
-import java.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.sjsu.cmpe275.lab2.group275.model.Employee;
+import edu.sjsu.cmpe275.lab2.group275.model.Employer;
+import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.sjsu.cmpe275.lab2.group275.model.Employee;
-import edu.sjsu.cmpe275.lab2.group275.model.Address;
-import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
-
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @Transactional
     public Employee createEmployee(Employee employee){
@@ -66,6 +65,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean existEmployees(long employerId){
 
        return employeeRepository.existsByEmployerId(employerId);
+    }
+
+    @Transactional
+    public long getEmployerIdByEmployeeId(long employeeId){
+        if (employeeRepository.existsById(employeeId)) {
+            Employee e = employeeRepository.getOne(employeeId);
+            Employer er = e.getEmployer();
+            return er.getId();
+        }
+
+        return 0L;
     }
 
 }

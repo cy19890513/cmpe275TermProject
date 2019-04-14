@@ -15,11 +15,12 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Embedded;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+@XmlRootElement
 @Entity
 public class Employee{
     @Id
@@ -94,7 +95,7 @@ public class Employee{
         return address;
     }
 
-    public void setAddress(){
+    public void setAddress(Address address){
         this.address = address;
     }
 

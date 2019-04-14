@@ -16,11 +16,16 @@ import org.springframework.http.ResponseEntity;
 import sun.jvm.hotspot.opto.HaltNode;
 
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @RestController
 public class EmployerController {
-    @Autowired
-    EmployerService employerService;
+    private final EmployerService employerService;
+
+    public EmployerController(EmployerService employerService) {
+        this.employerService = employerService;
+    }
 
     @Autowired
     EmployeeService employeeService;
