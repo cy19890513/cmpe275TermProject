@@ -9,8 +9,9 @@ public interface EmployeeService {
     ResponseEntity<?> getEmployee(long id);
     Employee updateEmployee(Employee employee);
 
-    void deleteEmployee(Long id);
-    boolean existId(Long id);
+
+    ResponseEntity<?> deleteEmployee(long id);
+    boolean existId(long id);
     boolean existEmployees(long employerId);
 
 }
