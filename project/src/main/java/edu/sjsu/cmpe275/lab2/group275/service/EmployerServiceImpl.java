@@ -46,22 +46,9 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteEmployer(long id){
-        System.out.println("delete Employer");
-        if(!employerRepository.existsById(id)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        else{
-            if(employeeRepository.countEmployeeByEmployer(id) == 0){
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            }
-            else{
-                employerRepository.deleteById(id);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-        }
+    public void deleteEmployer(long id){
 
-
+            employerRepository.deleteById(id);
     }
 
     public boolean isEmployerExistByName(String name){

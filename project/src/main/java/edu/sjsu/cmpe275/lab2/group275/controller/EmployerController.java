@@ -1,16 +1,20 @@
 package edu.sjsu.cmpe275.lab2.group275.controller;
 
-
+import java.util.*;
 import edu.sjsu.cmpe275.lab2.group275.model.Address;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployerService;
+import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import sun.jvm.hotspot.opto.HaltNode;
+
 
 
 @RestController
@@ -18,15 +22,59 @@ public class EmployerController {
     @Autowired
     EmployerService employerService;
 
-    @RequestMapping(value = "/employer/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Employer> fetchEmployer(@PathVariable("id") long id) {
-       // return employerService.getEmployer(id);
-        return null;
+    @Autowired
+    EmployeeService employeeService;
+
+
+
+    @RequestMapping(value = "/checkHealth", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String checkHealth() {
+        return "all is good.";
     }
 
-    @RequestMapping(value = "/employer/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteEmployer(@PathVariable("id") long id){
-       return employerService.deleteEmployer(id);
+    @RequestMapping(value = "/employer/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> fetchEmployer(@PathVariable("id") long id,
+                                           @RequestParam(required = false) String format) {
+       if(!employerService.isEmployerExist(id)){
+           return new ResponseEntity<>("id does not exist",HttpStatus.NOT_FOUND);
+       }
+       else {
+           Employer e = employerService.getEmployer(id);
+           HttpHeaders httpHeaders = new HttpHeaders();
+
+           if(format != null && format.toLowerCase().equals("xml")) {
+
+               httpHeaders.setContentType(MediaType.APPLICATION_XML);
+
+           }
+           else
+               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+           return new ResponseEntity<>(e, httpHeaders, HttpStatus.OK);
+
+           //return new ResponseEntity<>(null, HttpStatus.OK);
+       }
+
+    }
+
+    @RequestMapping(value = "/employer/{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> deleteEmployer(@PathVariable("id") long id,
+                                            @RequestParam(required = false) String format){
+
+       if(!employerService.isEmployerExist(id))
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       else {
+           if(employeeService.existEmployees(id))
+               return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+           else{
+
+               //Employer e = employerService.deleteEmployer(id);
+               employerService.deleteEmployer(id);
+
+               return new ResponseEntity<>( HttpStatus.OK);
+           }
+       }
+
     }
 
 
@@ -36,7 +84,8 @@ public class EmployerController {
      * Description: create an employer
      */
     @RequestMapping(value = "/employer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createEmployer(@RequestParam String name, @RequestParam(required = false) String description,
+    public ResponseEntity<?> createEmployer(@RequestParam String name,
+                                            @RequestParam(required = false) String description,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
