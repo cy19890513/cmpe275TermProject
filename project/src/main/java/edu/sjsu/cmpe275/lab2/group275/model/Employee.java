@@ -95,7 +95,7 @@ public class Employee{
         return address;
     }
 
-    public void setAddress(){
+    public void setAddress(Address address){
         this.address = address;
     }
 
