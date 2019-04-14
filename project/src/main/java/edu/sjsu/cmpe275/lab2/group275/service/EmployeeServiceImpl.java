@@ -45,5 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.existsById(id);
     }
 
+    public boolean isCollaborators(long id1, long id2){
+        return false;
+    }
 
 }

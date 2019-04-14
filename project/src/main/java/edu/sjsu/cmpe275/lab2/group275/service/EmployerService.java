@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 public interface EmployerService {
 
     Employer createEmployer(Employer employer);
-    ResponseEntity<Employer> getEmployer(long id);
+    Employer getEmployer(long id);
     Employer updateEmployer(Employer employer);
     ResponseEntity<?> deleteEmployer(long id);
+    boolean isEmployerExistByName(String name);
+    boolean isEmployerExist(long id);
+    boolean duplicateName(String name, long id);
 }

@@ -6,6 +6,7 @@ import edu.sjsu.cmpe275.lab2.group275.repository.EmployerRepository;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
@@ -20,23 +21,28 @@ public class EmployerServiceImpl implements EmployerService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public Employer createEmployer(Employer employer){
-        // TODO
-       return null;
-    }
     @Transactional
-    public ResponseEntity<Employer> getEmployer(long id) {
-        System.out.println("get employer");
-        if(employerRepository.existsById(id))
-            return ResponseEntity.status(HttpStatus.OK).body(employerRepository.getOne(id));
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public Employer createEmployer(Employer employer){
+        return employerRepository.save(employer);
     }
 
+    @Transactional
+    public Employer getEmployer(long id) {
+//        System.out.println("get employer");
+//        if(employerRepository.existsById(id))
+//            return ResponseEntity.status(HttpStatus.OK).body(employerRepository.getOne(id));
+//        else{
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+        if(employerRepository.existsById(id)) {
+            return employerRepository.getOne(id);
+        }
+        return null;
+    }
+
+    @Transactional
     public Employer updateEmployer(Employer employer){
-        // TODO
-       return null;
+        return employerRepository.save(employer);
     }
 
     @Transactional
@@ -55,12 +61,24 @@ public class EmployerServiceImpl implements EmployerService {
             }
         }
 
-        // TODO
 
     }
 
+    public boolean isEmployerExistByName(String name){
+        return employerRepository.existsByName(name);
+    }
 
+    public boolean isEmployerExist(long id){
+        return employerRepository.existsById(id);
+    }
 
-
+    public boolean duplicateName(String name, long id){
+        if(employerRepository.findByName(name) != null){
+            if(employerRepository.findByName(name).getId() != id){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
