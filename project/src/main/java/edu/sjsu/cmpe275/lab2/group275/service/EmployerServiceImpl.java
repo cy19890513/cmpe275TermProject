@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class EmployerServiceImpl implements EmployerService {
-    @Autowired
-    EmployerRepository employerRepository;
-    @Autowired
-    EmployeeRepository employeeRepository;
+    private final EmployerRepository employerRepository;
+    private final EmployeeRepository employeeRepository;
+
+    public EmployerServiceImpl(EmployerRepository employerRepository, EmployeeRepository employeeRepository) {
+        this.employerRepository = employerRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
     @Transactional
     public Employer createEmployer(Employer employer){

@@ -17,8 +17,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @RestController
 public class EmployerController {
-    @Autowired
-    EmployerService employerService;
+    private final EmployerService employerService;
+
+    public EmployerController(EmployerService employerService) {
+        this.employerService = employerService;
+    }
 
     @RequestMapping(value = "/employer/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Employer> fetchEmployer(@PathVariable("id") long id) {
