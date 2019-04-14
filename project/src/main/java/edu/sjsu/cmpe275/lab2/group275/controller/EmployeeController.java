@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.List;
 
 
@@ -127,17 +128,34 @@ public class EmployeeController {
 
     @GetMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> fetchEmployee(@PathVariable Long id) {
-        return employeeService.getEmployee(id);
+        if (employeeService.existId(id)) {
+            Employee employee = employeeService.getEmployee(id);
+            Map<String, Object> response = employeeService.convertEmployeeToMap(employee);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else if (!employeeService.existId(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-        return employeeService.deleteEmployee(id);
+        if (!employeeService.existId(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Employee employee = employeeService.getEmployee(id);
+        ResponseEntity<Employee> responseEntity = new ResponseEntity<>(employee, HttpStatus.OK);
+        if (!employee.getReports().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        employeeService.deleteEmployee(id);
+        return responseEntity;
     }
 
     @GetMapping(value="/test", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> getEmployee() {
         Employee emp = new Employee("Alice", "sss@aa.com");
-        return new ResponseEntity<>(emp, HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.convertEmployeeToMap(emp), HttpStatus.OK);
     }
 }

@@ -131,7 +131,15 @@ public class Employee{
         return collaborators;
     }
 
+
     public void setCollaborators(List<Employee> ecollabs){
         this.collaborators = ecollabs;
+    }
+    
+    public void removeAllCollaborators() {
+        for (Employee e : collaborators) {
+            collaborators.remove(e);
+            e.getCollaborators().remove(this);
+        }
     }
 }
