@@ -3,6 +3,9 @@ package edu.sjsu.cmpe275.lab2.group275.service;
 
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +20,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     public Employee createEmployee(Employee employee){
-
         return employeeRepository.save(employee);
     }
 
     @Transactional
-    public Employee getEmployee(Long id){
-        return employeeRepository.getOne(id);
-
+    public ResponseEntity<?> getEmployee(long id){
+        if (employeeRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body(employeeRepository.getOne(id));
+        } else if (!employeeRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional
@@ -34,14 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployee(Long id){
-        //TODO
-        employeeRepository.deleteById(id);
-
+    public ResponseEntity<?> deleteEmployee(long id){
+        if (!employeeRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Employee employee = employeeRepository.getOne(id);
+        if (!employee.getReports().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        // TODO delete collaboration
+        return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 
     @Transactional
-    public boolean existId(Long id){
+    public boolean existId(long id){
         return employeeRepository.existsById(id);
     }
 

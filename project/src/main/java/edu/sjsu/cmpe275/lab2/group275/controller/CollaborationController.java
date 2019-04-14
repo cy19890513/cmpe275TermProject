@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.lab2.group275.controller;
 
+import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,4 +37,5 @@ public class CollaborationController {
 
         return null;
     }
+
 }
