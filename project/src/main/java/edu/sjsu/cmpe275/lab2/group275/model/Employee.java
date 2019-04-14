@@ -126,4 +126,11 @@ public class Employee{
     public List<Employee> getCollaborators() {
         return collaborators;
     }
+
+    public void removeAllCollaborators() {
+        for (Employee e : collaborators) {
+            collaborators.remove(e);
+            e.getCollaborators().remove(this);
+        }
+    }
 }
