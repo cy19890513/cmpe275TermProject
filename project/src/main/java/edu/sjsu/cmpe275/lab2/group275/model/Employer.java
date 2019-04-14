@@ -1,6 +1,8 @@
 package edu.sjsu.cmpe275.lab2.group275.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
@@ -12,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.Embedded;
 import javax.persistence.Transient;
 
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Employer")
 public class Employer{
 

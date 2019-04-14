@@ -8,6 +8,10 @@ public interface EmployeeService {
     Employee createEmployee(Employee employee);
     ResponseEntity<?> getEmployee(long id);
     Employee updateEmployee(Employee employee);
+
+
     ResponseEntity<?> deleteEmployee(long id);
     boolean existId(long id);
+    boolean existEmployees(long employerId);
+
 }

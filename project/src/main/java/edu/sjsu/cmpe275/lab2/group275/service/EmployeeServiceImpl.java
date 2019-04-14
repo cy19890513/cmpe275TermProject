@@ -65,4 +65,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return false;
     }
 
+    @Transactional
+    public boolean existEmployees(long employerId){
+
+       return employeeRepository.existsByEmployerId(employerId);
+    }
+
 }
