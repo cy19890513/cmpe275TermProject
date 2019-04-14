@@ -2,7 +2,10 @@ package edu.sjsu.cmpe275.lab2.group275.controller;
 
 import edu.sjsu.cmpe275.lab2.group275.model.Address;
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
+import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
+import edu.sjsu.cmpe275.lab2.group275.service.EmployerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @Autowired
+    EmployerService employerService;
 
     /**
      * Sample test
@@ -27,27 +32,40 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/employee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createEmployee(@RequestParam String name,
-                                            @RequestParam String employerId,
+                                            @RequestParam long employerId,
                                             @RequestParam String email,
-                                            @RequestParam(required = false) String managerId,
+                                            @RequestParam(required = false) long managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
 
-        if(name == null || employerId == null || email == null ) {
+        if(name == null || employerId == 0L || email == null ) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+
+        Employer employer =  employerService.getEmployer(employerId);
+        if(employer == null)
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
+        long mgrEprId = 0L;
+        if(managerId != 0L)
+            mgrEprId = employeeService.getEmployerIdByEmployeeId(managerId);
+        if(managerId != 0L &&  mgrEprId != 0L
+           && ( mgrEprId == employerId)){
+        }else{
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
         Employee employee = new Employee();
         employee.setName(name);
-        //employee.setEmployerId(Long.parseLong(employerId));
+        employee.setEmployer(employer);
         employee.setEmail(email);
         Address address = new Address();
         if(street != null) address.setStreet(street);
         if(city != null) address.setCity(city);
         if(state != null) address.setState(state);
         if(zip != null) address.setZip(zip);
-        //employee.setAddress(address);
+        employee.setAddress(address);
 
         return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.OK);
     }
@@ -59,25 +77,34 @@ public class EmployeeController {
      */
     @PutMapping(value = "/employee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateEmployee(@RequestParam String name,
-                                            @RequestParam String employerId,
+                                            @RequestParam long employerId,
                                             @RequestParam String email,
-                                            @RequestParam(required = false) String managerId,
+                                            @RequestParam(required = false) long managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
 
-//        if (!employeeService.isEmployeeExist(id)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
+        Employer employer =  employerService.getEmployer(employerId);
+        if(employer == null)
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
-        if(name == null || employerId == null || email == null ) {
+        if(name == null || employerId == 0L || email == null ) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+
+        long mgrEprId = 0L;
+        if(managerId != 0L)
+            mgrEprId = employeeService.getEmployerIdByEmployeeId(managerId);
+        if(managerId != 0L &&  mgrEprId != 0L
+                && ( mgrEprId == employerId)){
+        }else{
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
         Employee employee = new Employee();
         employee.setName(name);
         //TODO update here
-        //employee.setEmployer();
+        employee.setEmployer(employer);
         employee.setEmail(email);
         Address address = new Address();
         if(street != null) address.setStreet(street);
