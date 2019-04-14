@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -31,6 +33,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Transactional
+    public Employee getEmployeeById(long id){
+        if (employeeRepository.existsById(id)) {
+            return employeeRepository.getOne(id);
+        }
+        return null;
     }
 
     @Transactional
@@ -76,6 +86,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return 0L;
+    }
+
+    @Transactional
+    public void updateManager( List<Employee> reports, long mgrEId){
+
+    }
+
+    @Transactional
+    public void addCollabrator(){
+        
     }
 
 }

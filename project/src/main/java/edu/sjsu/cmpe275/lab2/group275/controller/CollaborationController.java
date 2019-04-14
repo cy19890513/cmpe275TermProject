@@ -25,7 +25,15 @@ public class CollaborationController {
      * Description: add a collaborator
      */
     //TODO
+    @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> addCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2){
 
+        if(!employeeService.existId(id1) || !employeeService.existId(id2)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return null;
+    }
     /**
      * Sample test
      * DELETE: http://localhost:8080/collaborators/{id1}/{id2}?format={json | xml }
