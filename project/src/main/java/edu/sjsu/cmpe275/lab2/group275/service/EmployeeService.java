@@ -1,14 +1,18 @@
 package edu.sjsu.cmpe275.lab2.group275.service;
 
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 
 import java.util.Map;
 
 public interface EmployeeService {
 
     Employee createEmployee(Employee employee);
+
     Employee getEmployee(long id);
+
+    Employee getEmployeeById(long id);
     Employee updateEmployee(Employee employee);
 
 
@@ -18,5 +22,6 @@ public interface EmployeeService {
 
     long getEmployerIdByEmployeeId(long eId);
 
-    public Map<String, Object> convertEmployeeToMap(Employee employee);
+    Map<String, Object> convertEmployeeToMap(Employee employee);
+    void updateManager( List<Employee> reports, long mgrEId);
 }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 
 @RestController
@@ -32,28 +33,28 @@ public class EmployeeController {
      * POST: employee?name=XX&email=ZZ&title=UU&street=VV...manageId=WW&employerId=BB&format={json | xml }
      * Description: create an employee
      */
-    @RequestMapping(value = "/employee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employee", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> createEmployee(@RequestParam String name,
-                                            @RequestParam long employerId,
+                                            @RequestParam String employerId,
                                             @RequestParam String email,
-                                            @RequestParam(required = false) long managerId,
+                                            @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
 
-        if(name == null || employerId == 0L || email == null ) {
+        if(name == null || employerId == null || email == null ) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
-        Employer employer =  employerService.getEmployer(employerId);
+        Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
         if(employer == null)
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
         long mgrEprId = 0L;
-        if(managerId != 0L)
-            mgrEprId = employeeService.getEmployerIdByEmployeeId(managerId);
-        if(managerId != 0L &&  mgrEprId != 0L
-           && ( mgrEprId == employerId)){
+        if(managerId != null)
+            mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
+        if(managerId != null &&  mgrEprId != 0L
+           && ( mgrEprId == Long.parseLong(employerId))){
         }else{
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -77,28 +78,29 @@ public class EmployeeController {
      * PUT:  employee/{id}?name=XX&email=ZZ&title=UU&street=VV$...... &format={json | xml }
      * Description: update an employee
      */
-    @PutMapping(value = "/employee/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateEmployee(@RequestParam String name,
-                                            @RequestParam long employerId,
+    @PutMapping(value = "/employee/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id,
+                                            @RequestParam String name,
+                                            @RequestParam String employerId,
                                             @RequestParam String email,
-                                            @RequestParam(required = false) long managerId,
+                                            @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
 
-        Employer employer =  employerService.getEmployer(employerId);
+        Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
         if(employer == null)
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
-        if(name == null || employerId == 0L || email == null ) {
+        if(name == null || employerId == null || email == null ) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
         long mgrEprId = 0L;
-        if(managerId != 0L)
-            mgrEprId = employeeService.getEmployerIdByEmployeeId(managerId);
-        if(managerId != 0L &&  mgrEprId != 0L
-                && ( mgrEprId == employerId)){
+        if(managerId != null)
+            mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
+        if(managerId != null &&  mgrEprId != 0L
+                && ( mgrEprId == Long.parseLong(employerId))){
         }else{
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -115,8 +117,11 @@ public class EmployeeController {
         if(zip != null) address.setZip(zip);
         employee.setAddress(address);
 
-        //TODO reports will belong to his manager. collabrators stays unchange. check manager same organization.
-
+        //TODO reports will belong to his manager. collabrators stays unchange. 
+        Employee oldEpe =  employeeService.getEmployeeById(id);
+        List<Employee> reports = oldEpe.getReports();
+        if(reports!=null)
+            employeeService.updateManager( reports, Long.parseLong(managerId));
 
         return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.OK);
     }

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -88,6 +90,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
+    public Employee getEmployeeById(long id){
+        if (employeeRepository.existsById(id)) {
+            return employeeRepository.getOne(id);
+        }
+        return null;
+    }
+
+    @Transactional
     public Employee updateEmployee(Employee employee){
         //TODO
         return employeeRepository.save(employee);
@@ -124,6 +134,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return 0L;
+    }
+
+    @Transactional
+    public void updateManager( List<Employee> reports, long mgrEId){
+
+    }
+
+    @Transactional
+    public void addCollabrator(){
+        
     }
 
 }
