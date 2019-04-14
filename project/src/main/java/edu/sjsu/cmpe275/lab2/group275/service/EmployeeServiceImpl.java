@@ -3,6 +3,9 @@ package edu.sjsu.cmpe275.lab2.group275.service;
 
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +25,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public Employee getEmployee(Long id){
-        return employeeRepository.getOne(id);
-
+    public ResponseEntity<Employee> getEmployee(long id){
+        if (employeeRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body(employeeRepository.getOne(id));
+        } else if (!employeeRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @Transactional
@@ -34,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployee(Long id){
+    public void deleteEmployee(long id){
         //TODO
         employeeRepository.deleteById(id);
 
