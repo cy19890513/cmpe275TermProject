@@ -1,12 +1,13 @@
 package edu.sjsu.cmpe275.lab2.group275.service;
 
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
+import org.springframework.http.ResponseEntity;
 
 public interface EmployeeService {
 
     Employee createEmployee(Employee employee);
-    Employee getEmployee(Long id);
+    ResponseEntity<?> getEmployee(long id);
     Employee updateEmployee(Employee employee);
-    void deleteEmployee(Long id);
-    boolean existId(Long id);
+    ResponseEntity<?> deleteEmployee(long id);
+    boolean existId(long id);
 }

@@ -20,18 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     public Employee createEmployee(Employee employee){
-
         return employeeRepository.save(employee);
     }
 
     @Transactional
-    public ResponseEntity<Employee> getEmployee(long id){
+    public ResponseEntity<?> getEmployee(long id){
         if (employeeRepository.existsById(id)) {
             return ResponseEntity.status(HttpStatus.OK).body(employeeRepository.getOne(id));
         } else if (!employeeRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -42,14 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployee(long id){
-        //TODO
-        employeeRepository.deleteById(id);
-
+    public ResponseEntity<?> deleteEmployee(long id){
+        if (!employeeRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Employee employee = employeeRepository.getOne(id);
+        if (!employee.getReports().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        // TODO delete collaboration
+        return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 
     @Transactional
-    public boolean existId(Long id){
+    public boolean existId(long id){
         return employeeRepository.existsById(id);
     }
 
