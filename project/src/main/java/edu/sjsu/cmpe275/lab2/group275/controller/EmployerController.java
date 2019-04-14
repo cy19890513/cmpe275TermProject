@@ -12,7 +12,9 @@ import edu.sjsu.cmpe275.lab2.group275.service.EmployerService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @RestController
 public class EmployerController {
     @Autowired
