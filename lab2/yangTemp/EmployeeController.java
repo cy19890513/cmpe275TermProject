@@ -13,9 +13,18 @@ public class EmployeeController {
     private final AtomicLong counter = new AtomicLong();
 
     //employee?name=XX&email=ZZ&title=UU&street=VV...manageId=WW&employerId=BB&format={json | xml }
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                            String.format(template, name));
+    @PostMapping("/employee")
+    public Greeting greeting(@RequestParam String name,@RequestParam String employerId,@RequestParam String email
+    						 ) {
+        
+    	//name, employer ID, and email are required. Anything else is optional
+
+    	//Collaborators or reports are not allowed to be passed in as a parameter
+
+
+
+        return new Employee( name, employerId, email);
+    
+
     }
 }
