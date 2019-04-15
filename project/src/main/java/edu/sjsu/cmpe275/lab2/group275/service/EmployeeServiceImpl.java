@@ -94,9 +94,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(Employee employee){
+    public Employee updateEmployee(long id, Employee newEmployee){
         //TODO
-        return employeeRepository.save(employee);
+        return employeeRepository.findById(newEmployee.getId())
+            .map(employee -> {
+                employee.setName(newEmployee.getName());
+                employee.setEmployer(newEmployee.getEmployer());
+                employee.setAddress(newEmployee.getAddress());
+                employee.setCollaborators(newEmployee.getCollaborators());
+                employee.setReports(newEmployee.getReports());
+                return employeeRepository.save(employee);
+            })
+            .orElseGet(() -> {
+                newEmployee.setId(id);
+                return employeeRepository.save(newEmployee);
+            });
     }
 
     @Transactional

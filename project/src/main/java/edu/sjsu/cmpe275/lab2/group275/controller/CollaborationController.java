@@ -27,7 +27,7 @@ public class CollaborationController {
      * Description: add a collaborator
      */
     //TODO
-    @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE， MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> addCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2){
 
         if(!employeeService.existId(id1) || !employeeService.existId(id2)){
@@ -49,6 +49,10 @@ public class CollaborationController {
         }
         if(!lce2.contains(e1)) lce2.add(e2);
         e1.setCollaborators(lce2);
+
+        // employeeService.updateEmployee(e1);
+        // employeeService.updateEmployee(e2);
+
         return new ResponseEntity<String>(HttpStatus.OK);
     }
     /**

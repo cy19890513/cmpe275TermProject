@@ -107,16 +107,17 @@ System.out.println("line 72 debug");
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
 
-        long mgrEprId = 0L;
-        if(managerId != null)
-            mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
-        if(managerId != null &&  mgrEprId != 0L
-                && ( mgrEprId == Long.parseLong(employerId))){
-        }else{
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-        }
+        // long mgrEprId = 0L;
+        // if(managerId != null)
+        //     mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
+        // if(managerId != null &&  mgrEprId != 0L
+        //         && ( mgrEprId == Long.parseLong(employerId))){
+        // }else{
+        //     return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        // }
 
         Employee employee = new Employee();
+        employee.setId(id);
         employee.setName(name);
         //TODO update here
         employee.setEmployer(employer);
@@ -131,10 +132,10 @@ System.out.println("line 72 debug");
         //TODO reports will belong to his manager. collabrators stays unchange. 
         Employee oldEpe =  employeeService.getEmployeeById(id);
         List<Employee> reports = oldEpe.getReports();
-        if(reports!=null)
+        if(reports!=null && managerId != null)
             employeeService.updateManager( reports, Long.parseLong(managerId));
 
-        return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.updateEmployee(id, employee), HttpStatus.OK);
     }
 
     @GetMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
