@@ -4,6 +4,7 @@ package edu.sjsu.cmpe275.lab2.group275.service;
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
+
+    @Autowired
+    EmployerService employerService;
 
     @Transactional
     public Employee createEmployee(Employee employee){
@@ -94,22 +98,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    public boolean duplicateEmail(long id, String email){
+        if(employeeRepository.findByEmail(email) != null){
+            if(employeeRepository.findByEmail(email).getId() != id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Transactional
-    public Employee updateEmployee(long id, Employee newEmployee){
-        //TODO
-        return employeeRepository.findById(newEmployee.getId())
-            .map(employee -> {
-                employee.setName(newEmployee.getName());
-                employee.setEmployer(newEmployee.getEmployer());
-                employee.setAddress(newEmployee.getAddress());
-                employee.setCollaborators(newEmployee.getCollaborators());
-                employee.setReports(newEmployee.getReports());
-                return employeeRepository.save(employee);
-            })
-            .orElseGet(() -> {
-                newEmployee.setId(id);
-                return employeeRepository.save(newEmployee);
-            });
+    public Employee updateEmployee(Employee employee){
+        return employeeRepository.save(employee);
     }
 
     @Transactional
@@ -151,6 +151,47 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return 0L;
+    }
+
+    @Transactional
+    public boolean sameEmployer(Employee e1, Employee manager){
+        return e1.getEmployer() == manager.getEmployer();
+    }
+
+    @Transactional
+    public void changeEmployer(Employee e, long employerId, String managerId){
+        if(e.getManager() != null){
+            changeReportManager(e);
+        }else if(e.getManager() == null){
+            deleteReportManager(e);
+        }
+        if(managerId != null){
+            long mId = Long.parseLong(managerId);
+            if(existId(mId) && sameEmployer(e, getEmployee(mId))){
+                e.setManager(getEmployee(mId));
+            }
+        }
+        e.setEmployer(employerService.getEmployer(employerId));
+        employeeRepository.save(e);
+    }
+
+    @Transactional
+    public void changeReportManager(Employee e){
+        List<Employee> eReports = e.getReports();
+        Employee manager = e.getManager();
+        for(Employee tempE: eReports){
+            tempE.setManager(manager);
+            employeeRepository.save(tempE);
+        }
+    }
+
+    @Transactional
+    public void deleteReportManager(Employee e){
+        List<Employee> eReports = e.getReports();
+        for(Employee tempE: eReports){
+            tempE.setManager(null);
+            employeeRepository.save(tempE);
+        }
     }
 
     @Transactional

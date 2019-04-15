@@ -94,46 +94,42 @@ System.out.println("line 72 debug");
                                             @RequestParam String email,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                            @RequestParam(required = false) String format){
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
 
-        Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
-        if(employer == null)
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-
-        if(name == null || employerId == null || email == null ) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        if(!employeeService.existId(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        if(email == null || name == null || employerId == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(employeeService.duplicateEmail(id, email)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Employee e = employeeService.getEmployee(id);
+        if(managerId != null && employeeService.existId(Long.parseLong(managerId))
+                && !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(e.getEmployer().getId() != Long.parseLong(employerId)) {
+            employeeService.changeEmployer(e, Long.parseLong(employerId), managerId);
+        }
+        e = employeeService.getEmployee(id);
 
-        // long mgrEprId = 0L;
-        // if(managerId != null)
-        //     mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
-        // if(managerId != null &&  mgrEprId != 0L
-        //         && ( mgrEprId == Long.parseLong(employerId))){
-        // }else{
-        //     return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-        // }
-
-        Employee employee = new Employee();
-        employee.setId(id);
-        employee.setName(name);
-        //TODO update here
-        employee.setEmployer(employer);
-        employee.setEmail(email);
-        Address address = new Address();
+        e.setName(name);
+        e.setEmail(email);
+        Address address = e.getAddress();
+        if(address == null) address = new Address();
         if(street != null) address.setStreet(street);
         if(city != null) address.setCity(city);
         if(state != null) address.setState(state);
         if(zip != null) address.setZip(zip);
-        employee.setAddress(address);
+        e.setAddress(address);
 
-        //TODO reports will belong to his manager. collabrators stays unchange. 
-        Employee oldEpe =  employeeService.getEmployeeById(id);
-        List<Employee> reports = oldEpe.getReports();
-        if(reports!=null && managerId != null)
-            employeeService.updateManager( reports, Long.parseLong(managerId));
+        employeeService.updateEmployee(e);
+        Employee employee = employeeService.getEmployee(id);
+        Map<String, Object> response = employeeService.convertEmployeeToMap(employee);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
-        return new ResponseEntity<>(employeeService.updateEmployee(id, employee), HttpStatus.OK);
     }
 
     /**
