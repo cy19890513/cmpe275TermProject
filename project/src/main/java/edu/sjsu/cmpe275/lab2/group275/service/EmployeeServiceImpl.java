@@ -124,7 +124,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public boolean isCollaborators(long id1, long id2){
-        return false;
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 == null || l2 == null || getCollaboratorIndex(l1, e2) == -1 || getCollaboratorIndex(l2, e1) == -1){
+            return false;
+        }
+
+        return true;
     }
 
     @Transactional
@@ -152,6 +160,36 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void addCollabrator(){
         
+    }
+
+    @Transactional
+    public void deleteCollaborator(long id1, long id2){
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 != null && l2 != null) {
+            int index1 = getCollaboratorIndex(l1, e2);
+            int index2 = getCollaboratorIndex(l2, e1);
+            if (index1 != -1 && index2 != -1) {
+                l1.remove(index1);
+                l2.remove(index2);
+                e1.setCollaborators(l1);
+                e2.setCollaborators(l2);
+                employeeRepository.save(e1);
+                employeeRepository.save(e2);
+            }
+        }
+
+    }
+
+    public int getCollaboratorIndex(List<Employee> list, Employee e){
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) == e){
+                return i;
+            }
+        }
+        return -1;
     }
 
 }
