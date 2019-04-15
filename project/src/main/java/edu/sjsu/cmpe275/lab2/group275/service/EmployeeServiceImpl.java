@@ -7,10 +7,7 @@ import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -115,7 +112,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void deleteEmployee(long id){
         Employee employee = employeeRepository.getOne(id);
-        employee.removeAllCollaborators();
+        if (employee.getCollaborators() != null) {
+            Iterator<Employee> it = employee.getCollaborators().iterator();
+            while (it.hasNext()) {
+                Employee col = it.next();
+                it.remove();
+                col.getCollaborators().remove(employee);
+            }
+        }
         employeeRepository.deleteById(id);
     }
 
