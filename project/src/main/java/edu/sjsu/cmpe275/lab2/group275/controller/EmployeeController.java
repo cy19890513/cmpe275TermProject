@@ -92,10 +92,12 @@ System.out.println("line 72 debug");
                                             @RequestParam String name,
                                             @RequestParam String employerId,
                                             @RequestParam String email,
+                                            @RequestParam(required = false) String title,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
 
+        System.out.println("update started");
         if(!employeeService.existId(id)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -107,16 +109,24 @@ System.out.println("line 72 debug");
         }
         Employee e = employeeService.getEmployee(id);
         if(managerId != null && employeeService.existId(Long.parseLong(managerId))
-                && !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))){
+                && Long.parseLong(employerId) != employeeService.getEmployee(Long.parseLong(managerId)).getEmployer().getId() &&
+                !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if(e.getEmployer().getId() != Long.parseLong(employerId)) {
-            employeeService.changeEmployer(e, Long.parseLong(employerId), managerId);
+            System.out.println("start to change employer");
+            employeeService.changeEmployer(e, Long.parseLong(employerId));
+        }
+
+        if(managerId != null){
+            System.out.println("start to change manager");
+            employeeService.changeManager(e, managerId);
         }
         e = employeeService.getEmployee(id);
 
         e.setName(name);
         e.setEmail(email);
+        e.setTitle(title);
         Address address = e.getAddress();
         if(address == null) address = new Address();
         if(street != null) address.setStreet(street);

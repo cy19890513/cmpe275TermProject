@@ -91,7 +91,7 @@ public class Employee{
         return title;
     }
 
-    public void getTitle(String title){
+    public void setTitle(String title){
         this.title =  title;
     }
 

@@ -15,9 +15,10 @@ public interface EmployeeService {
     Employee getEmployeeById(long id);
     Employee updateEmployee(Employee employee);
 
-    void changeEmployer(Employee e, long employerId, String managerId);
+    void changeEmployer(Employee e, long employerId);
     boolean sameEmployer(Employee e1, Employee manager);
     boolean duplicateEmail(long id, String email);
+    void changeManager(Employee e, String managerId);
 
     void deleteEmployee(long id);
     boolean existId(long id);

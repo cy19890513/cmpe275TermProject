@@ -163,20 +163,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void changeEmployer(Employee e, long employerId, String managerId){
+    public void changeEmployer(Employee e, long employerId){
         if(e.getManager() != null){
+            System.out.println("manager not null printed");
             changeReportManager(e);
-        }else if(e.getManager() == null){
+        }else{
+            System.out.println("manager null printed");
             deleteReportManager(e);
         }
+
+        e.setEmployer(employerService.getEmployer(employerId));
+        employeeRepository.save(e);
+    }
+
+    @Transactional
+    public void changeManager(Employee e, String managerId){
         if(managerId != null){
+            System.out.println("managerId not null");
             long mId = Long.parseLong(managerId);
             if(existId(mId) && sameEmployer(e, getEmployee(mId))){
                 e.setManager(getEmployee(mId));
+                employeeRepository.save(e);
             }
         }
-        e.setEmployer(employerService.getEmployer(employerId));
-        employeeRepository.save(e);
     }
 
     @Transactional
@@ -187,6 +196,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             tempE.setManager(manager);
             employeeRepository.save(tempE);
         }
+        e.setReports(null);
+        employeeRepository.save(e);
     }
 
     @Transactional
@@ -196,6 +207,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             tempE.setManager(null);
             employeeRepository.save(tempE);
         }
+        e.setReports(null);
+        employeeRepository.save(e);
     }
 
     @Transactional
