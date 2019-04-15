@@ -41,25 +41,36 @@ public class EmployeeController {
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
                                             @RequestParam(required = false) String format){
-
+System.out.println("line 44 debug");
         if(name == null || employerId == null || email == null ) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("request paramaters missing",HttpStatus.BAD_REQUEST);
         }
 
         Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
         if(employer == null)
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Employer does not exist",HttpStatus.BAD_REQUEST);
+System.out.println("line 52 debug");
+        Employee employee = new Employee();
 
         long mgrEprId = 0L;
-        if(managerId != null)
+        if(managerId != null) {
             mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
-        if(managerId != null &&  mgrEprId != 0L
-           && ( mgrEprId == Long.parseLong(employerId))){
-        }else{
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            Employee manager = employeeService.getEmployee(Long.parseLong(managerId));
+            if ( mgrEprId != 0L
+                    && (mgrEprId == Long.parseLong(employerId))) {
+            } else {
+                return new ResponseEntity<>((Object) "manager Employer Id Error", HttpStatus.BAD_REQUEST);
+            }
+System.out.println(manager);
+            if(manager != null) {
+                employee.setManager(manager);
+            }
+            else{
+                return new ResponseEntity<>((Object) "manager Not Exist", HttpStatus.BAD_REQUEST);
+            }
         }
+System.out.println("line 61 debug");
 
-        Employee employee = new Employee();
         employee.setName(name);
         employee.setEmployer(employer);
         employee.setEmail(email);
@@ -69,8 +80,8 @@ public class EmployeeController {
         if(state != null) address.setState(state);
         if(zip != null) address.setZip(zip);
         employee.setAddress(address);
-
-        return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.OK);
+System.out.println("line 72 debug");
+        return new ResponseEntity<>(employeeService.convertEmployeeToMap(employeeService.createEmployee(employee)), HttpStatus.OK);
     }
 
     /**
