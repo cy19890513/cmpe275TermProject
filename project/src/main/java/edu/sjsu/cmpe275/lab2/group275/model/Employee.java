@@ -112,18 +112,34 @@ public class Employee{
     }
 
     public void setManager(Employee manager){
-        if(manager.employer.equals(employer))
+        //if(manager.employer.equals(employer))
             this.Manager = manager;
-        else {
-            System.out.println("wrong manager");
-        }
+        //else {
+        //    System.out.println("wrong manager");
+        //}
     }
 
     public List<Employee> getReports() {
         return reports;
     }
 
+    public void setReports(List<Employee> reports) {
+        this.reports = reports;
+    }
+
     public List<Employee> getCollaborators() {
         return collaborators;
+    }
+
+
+    public void setCollaborators(List<Employee> ecollabs){
+        this.collaborators = ecollabs;
+    }
+    
+    public void removeAllCollaborators() {
+        for (Employee e : collaborators) {
+            collaborators.remove(e);
+            e.getCollaborators().remove(this);
+        }
     }
 }

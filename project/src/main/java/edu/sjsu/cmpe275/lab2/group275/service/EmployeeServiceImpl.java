@@ -4,10 +4,13 @@ package edu.sjsu.cmpe275.lab2.group275.service;
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -23,14 +26,71 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public ResponseEntity<?> getEmployee(long id){
-        if (employeeRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.OK).body(employeeRepository.getOne(id));
-        } else if (!employeeRepository.existsById(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public Employee getEmployee(long id){
+        return employeeRepository.getOne(id);
+    }
+
+    public Map<String, Object> convertEmployeeToMap(Employee employee) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("id", employee.getId());
+        map.put("name", employee.getName());
+        map.put("email", employee.getEmail());
+        map.put("title", employee.getTitle());
+        map.put("Address", employee.getAddress());
+        map.put("employer", generateEmployerMap(employee.getEmployer()));
+        map.put("manager", simplifyEmployeeToMap(employee.getManager()));
+        map.put("reports", generateReports(employee.getReports()));
+        map.put("collaborators", generateCollaborators(employee.getCollaborators()));
+        return map;
+    }
+
+    private Map<String, Object> simplifyEmployeeToMap(Employee employee) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        if (employee != null) {
+            map.put("id", employee.getId());
+            map.put("name", employee.getName());
+            map.put("title", employee.getTitle());
         }
+        return map;
+    }
+
+    private List<Map<String, Object>> generateReports(List<Employee> reports) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        if (reports != null) {
+            for (Employee report : reports) {
+                list.add(simplifyEmployeeToMap(report));
+            }
+        }
+        return list;
+    }
+
+    private List<Map<String, Object>> generateCollaborators(List<Employee> cols) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map;
+        if (cols != null) {
+            for (Employee employee : cols) {
+                map = simplifyEmployeeToMap(employee);
+                map.put("employer", generateEmployerMap(employee.getEmployer()));
+            }
+        }
+        return list;
+    }
+
+    private Map<String, Object> generateEmployerMap(Employer employer) {
+        Map<String, Object> employerMap = new LinkedHashMap<>();
+        if (employer != null) {
+            employerMap.put("id", employer.getId());
+            employerMap.put("name", employer.getName());
+        }
+        return employerMap;
+    }
+
+    @Transactional
+    public Employee getEmployeeById(long id){
+        if (employeeRepository.existsById(id)) {
+            return employeeRepository.getOne(id);
+        }
+        return null;
     }
 
     @Transactional
@@ -40,16 +100,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteEmployee(long id){
-        if (!employeeRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public void deleteEmployee(long id){
         Employee employee = employeeRepository.getOne(id);
-        if (!employee.getReports().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        // TODO delete collaboration
-        return ResponseEntity.status(HttpStatus.OK).body(employee);
+        employee.removeAllCollaborators();
+        employeeRepository.deleteById(id);
     }
 
     @Transactional
@@ -76,6 +130,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return 0L;
+    }
+
+    @Transactional
+    public void updateManager( List<Employee> reports, long mgrEId){
+
+    }
+
+    @Transactional
+    public void addCollabrator(){
+        
     }
 
 }
