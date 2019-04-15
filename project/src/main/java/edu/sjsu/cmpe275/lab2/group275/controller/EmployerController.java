@@ -13,7 +13,7 @@ import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import sun.jvm.hotspot.opto.HaltNode;
+//import sun.jvm.hotspot.opto.HaltNode;
 
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -88,12 +88,11 @@ public class EmployerController {
      * POST: http://localhost:8080/employer?name=XX&description=YY&street=ZZ&...&format={json | xml }
      * Description: create an employer
      */
-    @RequestMapping(value = "/employer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employer", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> createEmployer(@RequestParam String name,
                                             @RequestParam(required = false) String description,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                            @RequestParam(required = false) String format){
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
 
         if(name == null || employerService.isEmployerExistByName(name)) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -117,11 +116,11 @@ public class EmployerController {
      * PUT: http://localhost:8080/employer/{id}?name=XX&description=YY&street=ZZ&...&format={json | xml }
      * Description: update an employer
      */
-    @RequestMapping(value = "/employer/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employer/{id}", method = RequestMethod.PUT, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> updateEmployer(@PathVariable("id") long id, @RequestParam String name,
                                             @RequestParam(required = false) String description, @RequestParam(required = false) String street,
                                             @RequestParam(required = false) String city, @RequestParam(required = false) String state,
-                                            @RequestParam(required = false) String zip, @RequestParam(required = false) String format) {
+                                            @RequestParam(required = false) String zip) {
 
         if (!employerService.isEmployerExist(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

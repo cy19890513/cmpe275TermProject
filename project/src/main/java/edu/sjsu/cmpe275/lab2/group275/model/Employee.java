@@ -67,6 +67,10 @@ public class Employee{
         return id;
     }
 
+    public void setId(long id){
+        this.id = id;
+    }
+
     public String getName(){
         return name;
     }
@@ -95,7 +99,7 @@ public class Employee{
         return address;
     }
 
-    public void setAddress(){
+    public void setAddress(Address address){
         this.address = address;
     }
 
@@ -112,18 +116,29 @@ public class Employee{
     }
 
     public void setManager(Employee manager){
-        if(manager.employer.equals(employer))
+        //if(manager.employer.equals(employer))
             this.Manager = manager;
-        else {
-            System.out.println("wrong manager");
-        }
+        //else {
+        //    System.out.println("wrong manager");
+        //}
     }
 
     public List<Employee> getReports() {
         return reports;
     }
 
+    public void setReports(List<Employee> reports) {
+        this.reports = reports;
+    }
+
     public List<Employee> getCollaborators() {
         return collaborators;
     }
+
+
+    public void setCollaborators(List<Employee> ecollabs){
+        this.collaborators = ecollabs;
+    }
+
+
 }
