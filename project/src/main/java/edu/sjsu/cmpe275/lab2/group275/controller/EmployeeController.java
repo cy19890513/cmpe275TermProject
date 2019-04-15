@@ -169,7 +169,8 @@ System.out.println("line 72 debug");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         Employee employee = employeeService.getEmployee(id);
-        ResponseEntity<Employee> responseEntity = new ResponseEntity<>(employee, HttpStatus.OK);
+        Map<String, Object> map = employeeService.convertEmployeeToMap(employee);
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(map, HttpStatus.OK);
         if (!employee.getReports().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
