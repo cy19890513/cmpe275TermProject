@@ -71,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             for (Employee employee : cols) {
                 map = simplifyEmployeeToMap(employee);
                 map.put("employer", generateEmployerMap(employee.getEmployer()));
+                list.add(map);
             }
         }
         return list;

@@ -5,7 +5,6 @@ import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +19,12 @@ public class EmployeeController {
     //TODO
 
     private final EmployeeService employeeService;
+    private final EmployerService employerService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployerService employerService) {
         this.employeeService = employeeService;
+        this.employerService = employerService;
     }
-
-    @Autowired
-    EmployerService employerService;
 
     /**
      * Sample test
@@ -138,6 +136,13 @@ System.out.println("line 72 debug");
         return new ResponseEntity<>(employeeService.updateEmployee(id, employee), HttpStatus.OK);
     }
 
+    /**
+     * return employee by given employee id
+     * @param id employee id
+     * @return 404 if id not existed
+     *         200 and employee if successful
+     *         400 for other error
+     */
     @GetMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> fetchEmployee(@PathVariable Long id) {
         if (employeeService.existId(id)) {
@@ -151,6 +156,13 @@ System.out.println("line 72 debug");
         }
     }
 
+    /**
+     * Delete employee by given employee id and collaboration relates to the employee
+     * @param id employee id
+     * @return 404 if id not existed
+     *         400 if employee still has report
+     *         200 and employee prior to the deletion
+     */
     @DeleteMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         if (!employeeService.existId(id)) {
@@ -163,11 +175,5 @@ System.out.println("line 72 debug");
         }
         employeeService.deleteEmployee(id);
         return responseEntity;
-    }
-
-    @GetMapping(value="/test", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> getEmployee() {
-        Employee emp = new Employee("Alice", "sss@aa.com");
-        return new ResponseEntity<>(employeeService.convertEmployeeToMap(emp), HttpStatus.OK);
     }
 }
