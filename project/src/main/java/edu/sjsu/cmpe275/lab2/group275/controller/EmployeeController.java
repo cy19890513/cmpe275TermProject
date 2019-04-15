@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.List;
 
 
 @RestController
@@ -35,11 +34,11 @@ public class EmployeeController {
     public ResponseEntity<?> createEmployee(@RequestParam String name,
                                             @RequestParam String employerId,
                                             @RequestParam String email,
+                                            @RequestParam(required = false) String title,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                            @RequestParam(required = false) String format){
-System.out.println("line 44 debug");
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
+
         if(name == null || employerId == null || email == null ) {
             return new ResponseEntity<>("request paramaters missing",HttpStatus.BAD_REQUEST);
         }
@@ -47,7 +46,6 @@ System.out.println("line 44 debug");
         Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
         if(employer == null)
             return new ResponseEntity<>("Employer does not exist",HttpStatus.BAD_REQUEST);
-System.out.println("line 52 debug");
         Employee employee = new Employee();
 
         long mgrEprId = 0L;
@@ -59,7 +57,6 @@ System.out.println("line 52 debug");
             } else {
                 return new ResponseEntity<>((Object) "manager Employer Id Error", HttpStatus.BAD_REQUEST);
             }
-System.out.println(manager);
             if(manager != null) {
                 employee.setManager(manager);
             }
@@ -67,18 +64,17 @@ System.out.println(manager);
                 return new ResponseEntity<>((Object) "manager Not Exist", HttpStatus.BAD_REQUEST);
             }
         }
-System.out.println("line 61 debug");
 
         employee.setName(name);
         employee.setEmployer(employer);
         employee.setEmail(email);
+        if(title != null)  employee.setTitle(title);
         Address address = new Address();
         if(street != null) address.setStreet(street);
         if(city != null) address.setCity(city);
         if(state != null) address.setState(state);
         if(zip != null) address.setZip(zip);
         employee.setAddress(address);
-System.out.println("line 72 debug");
         return new ResponseEntity<>(employeeService.convertEmployeeToMap(employeeService.createEmployee(employee)), HttpStatus.OK);
     }
 
@@ -92,6 +88,7 @@ System.out.println("line 72 debug");
                                             @RequestParam String name,
                                             @RequestParam String employerId,
                                             @RequestParam String email,
+                                            @RequestParam(required = false) String title,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                             @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
@@ -117,6 +114,7 @@ System.out.println("line 72 debug");
 
         e.setName(name);
         e.setEmail(email);
+        if(title != null)  e.setTitle(title);
         Address address = e.getAddress();
         if(address == null) address = new Address();
         if(street != null) address.setStreet(street);
