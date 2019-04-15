@@ -22,6 +22,7 @@ public interface EmployeeService {
     boolean isCollaborators(long id1, long id2);
 
     long getEmployerIdByEmployeeId(long eId);
+    void addCollabrator(long id1, long id2);
 
     Map<String, Object> convertEmployeeToMap(Employee employee);
     void updateManager( List<Employee> reports, long mgrEId);

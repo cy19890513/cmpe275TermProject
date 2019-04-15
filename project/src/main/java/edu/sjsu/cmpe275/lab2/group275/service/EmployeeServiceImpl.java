@@ -146,8 +146,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void addCollabrator(){
-        
+    public void addCollabrator(long id1, long id2){
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 == null) l1 = new ArrayList<>();
+        if(l2 == null) l2 = new ArrayList<>();
+        if(getCollaboratorIndex(l1, e2) == -1){
+            l1.add(e2);
+        }
+        if(getCollaboratorIndex(l2,e1) == -1){
+            l2.add(e1);
+        }
+        e1.setCollaborators(l1);
+        e2.setCollaborators(l2);
+        employeeRepository.save(e1);
+        employeeRepository.save(e2);
+
     }
 
     @Transactional
