@@ -19,9 +19,11 @@ public interface EmployeeService {
     void deleteEmployee(long id);
     boolean existId(long id);
     boolean existEmployees(long employerId);
+    boolean isCollaborators(long id1, long id2);
 
     long getEmployerIdByEmployeeId(long eId);
 
     Map<String, Object> convertEmployeeToMap(Employee employee);
     void updateManager( List<Employee> reports, long mgrEId);
+    void deleteCollaborator(long id1, long id2);
 }
