@@ -15,13 +15,19 @@ public interface EmployeeService {
     Employee getEmployeeById(long id);
     Employee updateEmployee(Employee employee);
 
+    void changeEmployer(Employee e, long employerId, String managerId);
+    boolean sameEmployer(Employee e1, Employee manager);
+    boolean duplicateEmail(long id, String email);
 
     void deleteEmployee(long id);
     boolean existId(long id);
     boolean existEmployees(long employerId);
+    boolean isCollaborators(long id1, long id2);
 
     long getEmployerIdByEmployeeId(long eId);
+    void addCollabrator(long id1, long id2);
 
     Map<String, Object> convertEmployeeToMap(Employee employee);
     void updateManager( List<Employee> reports, long mgrEId);
+    void deleteCollaborator(long id1, long id2);
 }

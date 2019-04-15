@@ -67,6 +67,10 @@ public class Employee{
         return id;
     }
 
+    public void setId(long id){
+        this.id = id;
+    }
+
     public String getName(){
         return name;
     }
@@ -135,11 +139,6 @@ public class Employee{
     public void setCollaborators(List<Employee> ecollabs){
         this.collaborators = ecollabs;
     }
-    
-    public void removeAllCollaborators() {
-        for (Employee e : collaborators) {
-            collaborators.remove(e);
-            e.getCollaborators().remove(this);
-        }
-    }
+
+
 }

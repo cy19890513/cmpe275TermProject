@@ -4,13 +4,11 @@ package edu.sjsu.cmpe275.lab2.group275.service;
 import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,6 +17,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
+
+    @Autowired
+    EmployerService employerService;
 
     @Transactional
     public Employee createEmployee(Employee employee){
@@ -71,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             for (Employee employee : cols) {
                 map = simplifyEmployeeToMap(employee);
                 map.put("employer", generateEmployerMap(employee.getEmployer()));
+                list.add(map);
             }
         }
         return list;
@@ -93,16 +95,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    public boolean duplicateEmail(long id, String email){
+        if(employeeRepository.findByEmail(email) != null){
+            if(employeeRepository.findByEmail(email).getId() != id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Transactional
     public Employee updateEmployee(Employee employee){
-        //TODO
         return employeeRepository.save(employee);
     }
 
     @Transactional
     public void deleteEmployee(long id){
         Employee employee = employeeRepository.getOne(id);
-        employee.removeAllCollaborators();
+        if (employee.getCollaborators() != null) {
+            Iterator<Employee> it = employee.getCollaborators().iterator();
+            while (it.hasNext()) {
+                Employee col = it.next();
+                it.remove();
+                col.getCollaborators().remove(employee);
+            }
+        }
         employeeRepository.deleteById(id);
     }
 
@@ -112,7 +129,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public boolean isCollaborators(long id1, long id2){
-        return false;
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 == null || l2 == null || getCollaboratorIndex(l1, e2) == -1 || getCollaboratorIndex(l2, e1) == -1){
+            return false;
+        }
+
+        return true;
     }
 
     @Transactional
@@ -133,13 +158,100 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
+    public boolean sameEmployer(Employee e1, Employee manager){
+        return e1.getEmployer() == manager.getEmployer();
+    }
+
+    @Transactional
+    public void changeEmployer(Employee e, long employerId, String managerId){
+        if(e.getManager() != null){
+            changeReportManager(e);
+        }else if(e.getManager() == null){
+            deleteReportManager(e);
+        }
+        if(managerId != null){
+            long mId = Long.parseLong(managerId);
+            if(existId(mId) && sameEmployer(e, getEmployee(mId))){
+                e.setManager(getEmployee(mId));
+            }
+        }
+        e.setEmployer(employerService.getEmployer(employerId));
+        employeeRepository.save(e);
+    }
+
+    @Transactional
+    public void changeReportManager(Employee e){
+        List<Employee> eReports = e.getReports();
+        Employee manager = e.getManager();
+        for(Employee tempE: eReports){
+            tempE.setManager(manager);
+            employeeRepository.save(tempE);
+        }
+    }
+
+    @Transactional
+    public void deleteReportManager(Employee e){
+        List<Employee> eReports = e.getReports();
+        for(Employee tempE: eReports){
+            tempE.setManager(null);
+            employeeRepository.save(tempE);
+        }
+    }
+
+    @Transactional
     public void updateManager( List<Employee> reports, long mgrEId){
 
     }
 
     @Transactional
-    public void addCollabrator(){
-        
+    public void addCollabrator(long id1, long id2){
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 == null) l1 = new ArrayList<>();
+        if(l2 == null) l2 = new ArrayList<>();
+        if(getCollaboratorIndex(l1, e2) == -1){
+            l1.add(e2);
+        }
+        if(getCollaboratorIndex(l2,e1) == -1){
+            l2.add(e1);
+        }
+        e1.setCollaborators(l1);
+        e2.setCollaborators(l2);
+        employeeRepository.save(e1);
+        employeeRepository.save(e2);
+
+    }
+
+    @Transactional
+    public void deleteCollaborator(long id1, long id2){
+        Employee e1 = employeeRepository.getOne(id1);
+        Employee e2 = employeeRepository.getOne(id2);
+        List<Employee> l1 = e1.getCollaborators();
+        List<Employee> l2 = e2.getCollaborators();
+        if(l1 != null && l2 != null) {
+            int index1 = getCollaboratorIndex(l1, e2);
+            int index2 = getCollaboratorIndex(l2, e1);
+            if (index1 != -1 && index2 != -1) {
+                l1.remove(index1);
+                l2.remove(index2);
+                e1.setCollaborators(l1);
+                e2.setCollaborators(l2);
+                employeeRepository.save(e1);
+                employeeRepository.save(e2);
+            }
+        }
+
+    }
+
+    public int getCollaboratorIndex(List<Employee> list, Employee e){
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) == e){
+                return i;
+            }
+        }
+        return -1;
     }
 
 }

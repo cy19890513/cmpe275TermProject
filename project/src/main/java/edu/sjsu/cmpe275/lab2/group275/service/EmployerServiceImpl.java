@@ -31,12 +31,7 @@ public class EmployerServiceImpl implements EmployerService {
 
     @Transactional
     public Employer getEmployer(long id) {
-//        System.out.println("get employer");
-//        if(employerRepository.existsById(id))
-//            return ResponseEntity.status(HttpStatus.OK).body(employerRepository.getOne(id));
-//        else{
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
+
         if(employerRepository.existsById(id)) {
             return employerRepository.getOne(id);
         }

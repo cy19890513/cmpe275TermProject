@@ -5,7 +5,6 @@ import edu.sjsu.cmpe275.lab2.group275.model.Employee;
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployeeService;
 import edu.sjsu.cmpe275.lab2.group275.service.EmployerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +19,12 @@ public class EmployeeController {
     //TODO
 
     private final EmployeeService employeeService;
+    private final EmployerService employerService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployerService employerService) {
         this.employeeService = employeeService;
+        this.employerService = employerService;
     }
-
-    @Autowired
-    EmployerService employerService;
 
     /**
      * Sample test
@@ -96,47 +94,51 @@ System.out.println("line 72 debug");
                                             @RequestParam String email,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                            @RequestParam(required = false) String format){
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
 
-        Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
-        if(employer == null)
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-
-        if(name == null || employerId == null || email == null ) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        if(!employeeService.existId(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        long mgrEprId = 0L;
-        if(managerId != null)
-            mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
-        if(managerId != null &&  mgrEprId != 0L
-                && ( mgrEprId == Long.parseLong(employerId))){
-        }else{
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        if(email == null || name == null || employerId == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        if(employeeService.duplicateEmail(id, email)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Employee e = employeeService.getEmployee(id);
+        if(managerId != null && employeeService.existId(Long.parseLong(managerId))
+                && !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(e.getEmployer().getId() != Long.parseLong(employerId)) {
+            employeeService.changeEmployer(e, Long.parseLong(employerId), managerId);
+        }
+        e = employeeService.getEmployee(id);
 
-        Employee employee = new Employee();
-        employee.setName(name);
-        //TODO update here
-        employee.setEmployer(employer);
-        employee.setEmail(email);
-        Address address = new Address();
+        e.setName(name);
+        e.setEmail(email);
+        Address address = e.getAddress();
+        if(address == null) address = new Address();
         if(street != null) address.setStreet(street);
         if(city != null) address.setCity(city);
         if(state != null) address.setState(state);
         if(zip != null) address.setZip(zip);
-        employee.setAddress(address);
+        e.setAddress(address);
 
-        //TODO reports will belong to his manager. collabrators stays unchange. 
-        Employee oldEpe =  employeeService.getEmployeeById(id);
-        List<Employee> reports = oldEpe.getReports();
-        if(reports!=null)
-            employeeService.updateManager( reports, Long.parseLong(managerId));
+        employeeService.updateEmployee(e);
+        Employee employee = employeeService.getEmployee(id);
+        Map<String, Object> response = employeeService.convertEmployeeToMap(employee);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
-        return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.OK);
     }
 
+    /**
+     * return employee by given employee id
+     * @param id employee id
+     * @return 404 if id not existed
+     *         200 and employee if successful
+     *         400 for other error
+     */
     @GetMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> fetchEmployee(@PathVariable Long id) {
         if (employeeService.existId(id)) {
@@ -150,23 +152,25 @@ System.out.println("line 72 debug");
         }
     }
 
+    /**
+     * Delete employee by given employee id and collaboration relates to the employee
+     * @param id employee id
+     * @return 404 if id not existed
+     *         400 if employee still has report
+     *         200 and employee prior to the deletion
+     */
     @DeleteMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         if (!employeeService.existId(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         Employee employee = employeeService.getEmployee(id);
-        ResponseEntity<Employee> responseEntity = new ResponseEntity<>(employee, HttpStatus.OK);
+        Map<String, Object> map = employeeService.convertEmployeeToMap(employee);
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(map, HttpStatus.OK);
         if (!employee.getReports().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         employeeService.deleteEmployee(id);
         return responseEntity;
-    }
-
-    @GetMapping(value="/test", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> getEmployee() {
-        Employee emp = new Employee("Alice", "sss@aa.com");
-        return new ResponseEntity<>(employeeService.convertEmployeeToMap(emp), HttpStatus.OK);
     }
 }
