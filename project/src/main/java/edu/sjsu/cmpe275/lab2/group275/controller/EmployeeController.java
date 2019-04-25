@@ -37,30 +37,29 @@ public class EmployeeController {
                                             @RequestParam(required = false) String title,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip) {
 
-        if(name == null || employerId == null || email == null ) {
-            return new ResponseEntity<>("request paramaters missing",HttpStatus.BAD_REQUEST);
+        if (name == null || employerId == null || email == null) {
+            return new ResponseEntity<>("request paramaters missing", HttpStatus.BAD_REQUEST);
         }
 
-        Employer employer =  employerService.getEmployer(Long.parseLong(employerId));
-        if(employer == null)
-            return new ResponseEntity<>("Employer does not exist",HttpStatus.BAD_REQUEST);
+        Employer employer = employerService.getEmployer(Long.parseLong(employerId));
+        if (employer == null)
+            return new ResponseEntity<>("Employer does not exist", HttpStatus.BAD_REQUEST);
         Employee employee = new Employee();
 
         long mgrEprId = 0L;
-        if(managerId != null) {
+        if (managerId != null) {
             mgrEprId = employeeService.getEmployerIdByEmployeeId(Long.parseLong(managerId));
             Employee manager = employeeService.getEmployee(Long.parseLong(managerId));
-            if ( mgrEprId != 0L
+            if (mgrEprId != 0L
                     && (mgrEprId == Long.parseLong(employerId))) {
             } else {
                 return new ResponseEntity<>((Object) "manager Employer Id Error", HttpStatus.BAD_REQUEST);
             }
-            if(manager != null) {
+            if (manager != null) {
                 employee.setManager(manager);
-            }
-            else{
+            } else {
                 return new ResponseEntity<>((Object) "manager Not Exist", HttpStatus.BAD_REQUEST);
             }
         }
@@ -68,12 +67,12 @@ public class EmployeeController {
         employee.setName(name);
         employee.setEmployer(employer);
         employee.setEmail(email);
-        if(title != null)  employee.setTitle(title);
+        if (title != null) employee.setTitle(title);
         Address address = new Address();
-        if(street != null) address.setStreet(street);
-        if(city != null) address.setCity(city);
-        if(state != null) address.setState(state);
-        if(zip != null) address.setZip(zip);
+        if (street != null) address.setStreet(street);
+        if (city != null) address.setCity(city);
+        if (state != null) address.setState(state);
+        if (zip != null) address.setZip(zip);
         employee.setAddress(address);
         return new ResponseEntity<>(employeeService.convertEmployeeToMap(employeeService.createEmployee(employee)), HttpStatus.OK);
     }
@@ -91,30 +90,30 @@ public class EmployeeController {
                                             @RequestParam(required = false) String title,
                                             @RequestParam(required = false) String managerId,
                                             @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
+                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip) {
 
         System.out.println("update started");
-        if(!employeeService.existId(id)){
+        if (!employeeService.existId(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if(email == null || name == null || employerId == null){
+        if (email == null || name == null || employerId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(employeeService.duplicateEmail(id, email)){
+        if (employeeService.duplicateEmail(id, email)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Employee e = employeeService.getEmployee(id);
-        if(managerId != null && employeeService.existId(Long.parseLong(managerId))
+        if (managerId != null && employeeService.existId(Long.parseLong(managerId))
                 && Long.parseLong(employerId) != employeeService.getEmployee(Long.parseLong(managerId)).getEmployer().getId() &&
-                !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))){
+                !employeeService.sameEmployer(e, employeeService.getEmployee(Long.parseLong(managerId)))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(e.getEmployer().getId() != Long.parseLong(employerId)) {
+        if (e.getEmployer().getId() != Long.parseLong(employerId)) {
             System.out.println("start to change employer");
             employeeService.changeEmployer(e, Long.parseLong(employerId));
         }
 
-        if(managerId != null){
+        if (managerId != null) {
             System.out.println("start to change manager");
             employeeService.changeManager(e, managerId);
         }
@@ -123,13 +122,13 @@ public class EmployeeController {
         e.setName(name);
         e.setEmail(email);
 
-        if(title != null)  e.setTitle(title);
+        if (title != null) e.setTitle(title);
         Address address = e.getAddress();
-        if(address == null) address = new Address();
-        if(street != null) address.setStreet(street);
-        if(city != null) address.setCity(city);
-        if(state != null) address.setState(state);
-        if(zip != null) address.setZip(zip);
+        if (address == null) address = new Address();
+        if (street != null) address.setStreet(street);
+        if (city != null) address.setCity(city);
+        if (state != null) address.setState(state);
+        if (zip != null) address.setZip(zip);
         e.setAddress(address);
 
         employeeService.updateEmployee(e);
@@ -141,12 +140,13 @@ public class EmployeeController {
 
     /**
      * return employee by given employee id
+     *
      * @param id employee id
      * @return 404 if id not existed
-     *         200 and employee if successful
-     *         400 for other error
+     * 200 and employee if successful
+     * 400 for other error
      */
-    @GetMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/employee/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> fetchEmployee(@PathVariable Long id) {
         if (employeeService.existId(id)) {
             Employee employee = employeeService.getEmployee(id);
@@ -161,12 +161,13 @@ public class EmployeeController {
 
     /**
      * Delete employee by given employee id and collaboration relates to the employee
+     *
      * @param id employee id
      * @return 404 if id not existed
-     *         400 if employee still has report
-     *         200 and employee prior to the deletion
+     * 400 if employee still has report
+     * 200 and employee prior to the deletion
      */
-    @DeleteMapping(value="/employee/{id}", produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @DeleteMapping(value = "/employee/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         if (!employeeService.existId(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

@@ -1,6 +1,7 @@
 package hello;//modify this
 
 import java.util.concurrent.atomic.AtomicLong;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,17 +15,16 @@ public class EmployeeController {
 
     //employee?name=XX&email=ZZ&title=UU&street=VV...manageId=WW&employerId=BB&format={json | xml }
     @PostMapping("/employee")
-    public Greeting greeting(@RequestParam String name,@RequestParam String employerId,@RequestParam String email
-    						 ) {
-        
-    	//name, employer ID, and email are required. Anything else is optional
+    public Greeting greeting(@RequestParam String name, @RequestParam String employerId, @RequestParam String email
+    ) {
 
-    	//Collaborators or reports are not allowed to be passed in as a parameter
+        //name, employer ID, and email are required. Anything else is optional
+
+        //Collaborators or reports are not allowed to be passed in as a parameter
 
 
+        return new Employee(name, employerId, email);
 
-        return new Employee( name, employerId, email);
-    
 
     }
 }

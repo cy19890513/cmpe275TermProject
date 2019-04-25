@@ -22,18 +22,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployerService employerService;
 
     @Transactional
-    public Employee createEmployee(Employee employee){
+    public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
     @Transactional
-    public Employee getEmployee(long id){
+    public Employee getEmployee(long id) {
         return employeeRepository.getOne(id);
     }
 
     /**
      * Convert employee's information to a Map
      * To clean up manager, reports, and collaborators
+     *
      * @param employee
      * @return LinkedHashMap ready to respond http request
      */
@@ -53,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * Clean up employee for manager and reports
+     *
      * @param employee
      * @return LinkedHashMap with id, name, and title
      */
@@ -68,8 +70,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * Convert List<Employee> to List<Map>>
+     *
      * @param reports list of employee
-     * @return List<Map<String, Object>>
+     * @return List<Map   <   String   ,       Object>>
      */
     private List<Map<String, Object>> generateReports(List<Employee> reports) {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -83,6 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * Convert List of employee to List of Maps include employee's id, name, and title
+     *
      * @param cols list of employee
      * @return List of Maps include employee's id, name, and title
      */
@@ -101,6 +105,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * Convert employer to Map includes employer's id and name
+     *
      * @param employer
      * @return Map includes employer's id and name
      */
@@ -114,16 +119,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public Employee getEmployeeById(long id){
+    public Employee getEmployeeById(long id) {
         if (employeeRepository.existsById(id)) {
             return employeeRepository.getOne(id);
         }
         return null;
     }
 
-    public boolean duplicateEmail(long id, String email){
-        if(employeeRepository.findByEmail(email) != null){
-            if(employeeRepository.findByEmail(email).getId() != id){
+    public boolean duplicateEmail(long id, String email) {
+        if (employeeRepository.findByEmail(email) != null) {
+            if (employeeRepository.findByEmail(email).getId() != id) {
                 return true;
             }
         }
@@ -131,12 +136,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public Employee updateEmployee(Employee employee){
+    public Employee updateEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
     @Transactional
-    public void deleteEmployee(long id){
+    public void deleteEmployee(long id) {
         Employee employee = employeeRepository.getOne(id);
         if (employee.getCollaborators() != null) {
             Iterator<Employee> it = employee.getCollaborators().iterator();
@@ -150,16 +155,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public boolean existId(long id){
+    public boolean existId(long id) {
         return employeeRepository.existsById(id);
     }
 
-    public boolean isCollaborators(long id1, long id2){
+    public boolean isCollaborators(long id1, long id2) {
         Employee e1 = employeeRepository.getOne(id1);
         Employee e2 = employeeRepository.getOne(id2);
         List<Employee> l1 = e1.getCollaborators();
         List<Employee> l2 = e2.getCollaborators();
-        if(l1 == null || l2 == null || getCollaboratorIndex(l1, e2) == -1 || getCollaboratorIndex(l2, e1) == -1){
+        if (l1 == null || l2 == null || getCollaboratorIndex(l1, e2) == -1 || getCollaboratorIndex(l2, e1) == -1) {
             return false;
         }
 
@@ -167,13 +172,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public boolean existEmployees(long employerId){
+    public boolean existEmployees(long employerId) {
 
-       return employeeRepository.existsByEmployerId(employerId);
+        return employeeRepository.existsByEmployerId(employerId);
     }
 
     @Transactional
-    public long getEmployerIdByEmployeeId(long employeeId){
+    public long getEmployerIdByEmployeeId(long employeeId) {
         if (employeeRepository.existsById(employeeId)) {
             Employee e = employeeRepository.getOne(employeeId);
             Employer er = e.getEmployer();
@@ -184,16 +189,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public boolean sameEmployer(Employee e1, Employee manager){
+    public boolean sameEmployer(Employee e1, Employee manager) {
         return e1.getEmployer() == manager.getEmployer();
     }
 
     @Transactional
-    public void changeEmployer(Employee e, long employerId){
-        if(e.getManager() != null){
+    public void changeEmployer(Employee e, long employerId) {
+        if (e.getManager() != null) {
             System.out.println("manager not null printed");
             changeReportManager(e);
-        }else{
+        } else {
             System.out.println("manager null printed");
             deleteReportManager(e);
         }
@@ -203,11 +208,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void changeManager(Employee e, String managerId){
-        if(managerId != null){
+    public void changeManager(Employee e, String managerId) {
+        if (managerId != null) {
             System.out.println("managerId not null");
             long mId = Long.parseLong(managerId);
-            if(existId(mId) && sameEmployer(e, getEmployee(mId))){
+            if (existId(mId) && sameEmployer(e, getEmployee(mId))) {
                 e.setManager(getEmployee(mId));
                 employeeRepository.save(e);
             }
@@ -215,10 +220,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void changeReportManager(Employee e){
+    public void changeReportManager(Employee e) {
         List<Employee> eReports = e.getReports();
         Employee manager = e.getManager();
-        for(Employee tempE: eReports){
+        for (Employee tempE : eReports) {
             tempE.setManager(manager);
             employeeRepository.save(tempE);
         }
@@ -227,9 +232,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void deleteReportManager(Employee e){
+    public void deleteReportManager(Employee e) {
         List<Employee> eReports = e.getReports();
-        for(Employee tempE: eReports){
+        for (Employee tempE : eReports) {
             tempE.setManager(null);
             employeeRepository.save(tempE);
         }
@@ -238,22 +243,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void updateManager( List<Employee> reports, long mgrEId){
+    public void updateManager(List<Employee> reports, long mgrEId) {
 
     }
 
     @Transactional
-    public void addCollabrator(long id1, long id2){
+    public void addCollabrator(long id1, long id2) {
         Employee e1 = employeeRepository.getOne(id1);
         Employee e2 = employeeRepository.getOne(id2);
         List<Employee> l1 = e1.getCollaborators();
         List<Employee> l2 = e2.getCollaborators();
-        if(l1 == null) l1 = new ArrayList<>();
-        if(l2 == null) l2 = new ArrayList<>();
-        if(getCollaboratorIndex(l1, e2) == -1){
+        if (l1 == null) l1 = new ArrayList<>();
+        if (l2 == null) l2 = new ArrayList<>();
+        if (getCollaboratorIndex(l1, e2) == -1) {
             l1.add(e2);
         }
-        if(getCollaboratorIndex(l2,e1) == -1){
+        if (getCollaboratorIndex(l2, e1) == -1) {
             l2.add(e1);
         }
         e1.setCollaborators(l1);
@@ -264,12 +269,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Transactional
-    public void deleteCollaborator(long id1, long id2){
+    public void deleteCollaborator(long id1, long id2) {
         Employee e1 = employeeRepository.getOne(id1);
         Employee e2 = employeeRepository.getOne(id2);
         List<Employee> l1 = e1.getCollaborators();
         List<Employee> l2 = e2.getCollaborators();
-        if(l1 != null && l2 != null) {
+        if (l1 != null && l2 != null) {
             int index1 = getCollaboratorIndex(l1, e2);
             int index2 = getCollaboratorIndex(l2, e1);
             if (index1 != -1 && index2 != -1) {
@@ -284,9 +289,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
-    public int getCollaboratorIndex(List<Employee> list, Employee e){
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i) == e){
+    public int getCollaboratorIndex(List<Employee> list, Employee e) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == e) {
                 return i;
             }
         }
