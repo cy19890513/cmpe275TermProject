@@ -23,9 +23,9 @@ public class User {
     private String aboutMe;
     private Boolean isVerified;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORGANIZATION_ID")
-    private Organization organization;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "ORGANIZATION_ID")
+    //private Organization organization;
 
     @Embedded
     private Address address;
@@ -86,21 +86,21 @@ public class User {
         isVerified = verified;
     }
 
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+//    public Organization getOrganization() {
+//        return organization;
+//    }
+//
+//    public void setOrganization(Organization organization) {
+//        this.organization = organization;
+//    }
+//
+//    public Address getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 
     
 

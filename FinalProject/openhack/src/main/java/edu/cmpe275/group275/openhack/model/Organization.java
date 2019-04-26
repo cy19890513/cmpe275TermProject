@@ -1,11 +1,13 @@
-package edu.cmpe275.group275.openhack.model;
+// package edu.cmpe275.group275.openhack.model;
 
-import javax.persistence.*;
+// import jdk.nashorn.internal.ir.annotations.Ignore;
 
-
-
-public class Organization {
+// import javax.persistence.*;
 
 
+// @Ignore
+// public class Organization {
 
-}
+
+
+// }

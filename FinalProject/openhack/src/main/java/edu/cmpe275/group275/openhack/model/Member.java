@@ -1,40 +1,50 @@
 package edu.cmpe275.group275.openhack.model;
 
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
+import javax.persistence.Entity;
+import javax.persistence.*;
+
+
+@Entity
 public class Member {
 
-    //link by id
-    private HackerUser hacker;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+   //TODO link by id
+   //private HackerUser hacker;
 
-    private String role;
+   private String role;
 
-    private Boolean ifPaid = false;
+   private Boolean ifPaid = false;
 
 
-    public Member(){
+   public Member(){
 
-    }
+   }
 
-    public Member(HackerUser hacker, String role){
-        this.hacker = hacker;
-        this.role = role;
-    }
+   public Member(HackerUser hacker, String role){
+       //this.hacker = hacker;
+       this.role = role;
+   }
 
-    public Member(HackerUser hacker, String role, Boolean ifPaid){
-        this.hacker = hacker;
-        this.role = role;
-        this.ifPaid = ifPaid;
-    }
+   public Member(HackerUser hacker, String role, Boolean ifPaid){
+       //this.hacker = hacker;
+       this.role = role;
+       this.ifPaid = ifPaid;
+   }
 
-    public MemberBuilder() { }
 
-    public Member buildMember(){
-        return new Member(hacker,role, ifPaid);
-    }
 
 
 
 }
+//public class MemberBuilder(){
+//
+//    public Member buildMember(){
+//        return new Member(hacker,role,ifPaid);
+//    }
 
-
+//}
