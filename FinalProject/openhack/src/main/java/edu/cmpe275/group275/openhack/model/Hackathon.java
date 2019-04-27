@@ -13,16 +13,30 @@ public class Hackathon {
 
    private String name;
 
-   private Date startDate;
-   private Date endDate;
+   private java.sql.Date startDate;
+   private java.sql.Date endDate;
    private String description;
    private Double fee;
-   //private List<HackerUser> judges;
+
+
+   @ManyToMany
+   @JoinTable(name = "HACKATHON_JUDGES",
+           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+           inverseJoinColumns = {@JoinColumn(name = "JDG_HACKER_ID", referencedColumnName = "ID")})
+   private List<HackerUser> judges;
    private int minSize;
    private int maxSize;
-   //private List<Organization> sponsors;
+
+
+   @ManyToMany
+   @JoinTable(name = "HACKTHON_SPONORORGS",
+           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+           inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
+   private List<Organization> sponsors;
    private Double discount;
-   //private List<Team> teams;
+
+   @OneToMany(mappedBy = "hackathon")
+   private List<Team> teams;
    private Boolean isClosed;
    private Boolean isFinalized;
 

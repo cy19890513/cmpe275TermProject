@@ -13,11 +13,15 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-   //TODO link by id
-   //private HackerUser hacker;
+   @OneToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name="HACKERUSER_ID")
+   private HackerUser hacker;
 
    private String role;
 
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name="TEAM_ID")
+   private Team team;
    private Boolean ifPaid = false;
 
 

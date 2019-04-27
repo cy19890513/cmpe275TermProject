@@ -4,6 +4,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
 
+@Entity
 public class Organization {
 
     @Id
@@ -12,10 +13,13 @@ public class Organization {
 
     private String name;
 
-    //one to one
-    //private User owner;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
+    private User owner;
 
     private String description;
+
+
 
     @Embedded
     private Address address;
