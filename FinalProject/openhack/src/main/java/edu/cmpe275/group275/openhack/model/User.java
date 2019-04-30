@@ -30,6 +30,17 @@ public class User {
     @Embedded
     private Address address;
 
+    public User(String email, String username){
+        this.email = email;
+        this.username = username;
+    }
+    public User(long id, String email, String username){
+        this.id = id;
+        this.email = email;
+        this.username = username;
+    }
+
+    //auto getter and setter
     public long getId() {
         return id;
     }
@@ -94,17 +105,14 @@ public class User {
 //        this.organization = organization;
 //    }
 //
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
 
-    
+    public Address getAddress() {
+        return address;
+    }
 
-
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }
 
 

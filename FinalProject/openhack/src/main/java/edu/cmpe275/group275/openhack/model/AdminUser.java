@@ -8,5 +8,8 @@ import javax.persistence.*;
 @DiscriminatorValue("admin")
 @Table(name="ADMINUSER")
 public class AdminUser extends User {
+    public AdminUser(long id, String email,String username) {
+        super(id,email,username);
+    }
 
 }

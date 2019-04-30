@@ -18,6 +18,11 @@ public class HackerUser extends User {
            inverseJoinColumns = {@JoinColumn(name = "HACKERID", referencedColumnName = "ID")})
    private List<Hackathon> lists;
 
+    public HackerUser(long id, String email,String username) {
+        super(id, email, username);
+    }
+
+    //auto getter and setter
    public List<Hackathon> getLists() {
        return lists;
    }
