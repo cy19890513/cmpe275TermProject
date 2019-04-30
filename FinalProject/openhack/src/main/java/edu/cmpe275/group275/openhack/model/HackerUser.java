@@ -10,29 +10,42 @@ import java.util.List;
 public class HackerUser extends User {
 
 
-   //TODO joinColumn or inverseJoinColumn
-   // use @ManyToMany(mappedBy="users")
-   @ManyToMany
-   @JoinTable(name = "HACKATHON_USERS",
-           joinColumns = {@JoinColumn(name = "HACKTHONID", referencedColumnName = "ID")},
-           inverseJoinColumns = {@JoinColumn(name = "HACKERID", referencedColumnName = "ID")})
-   private List<Hackathon> lists;
+   @ManyToMany(mappedBy = "hackers")
+//   @JoinTable(name = "HACKATHON_USERS",
+//           joinColumns = {@JoinColumn(name = "HACKTHONID", referencedColumnName = "ID")},
+//           inverseJoinColumns = {@JoinColumn(name = "HACKERID", referencedColumnName = "ID")})
+   private List<Hackathon> joinedHacks;
+
+   @ManyToMany(mappedBy = "judges")
+   private List<Hackathon> judgeLists;
 
    public HackerUser(long id, String email,String username) {
         super(id, email, username);
     }
 
+    public HackerUser(String email, String username) {
+        super(email, username);
+    }
+
     public HackerUser(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address, List<Hackathon> lists) {
         super(email, username, portrait, businessTitle, aboutMe, isVerified, address);
-        this.lists = lists;
+        this.joinedHacks = lists;
     }
 
     //auto getter and setter
-   public List<Hackathon> getLists() {
-       return lists;
-   }
+    public List<Hackathon> getJoinedHacks() {
+        return joinedHacks;
+    }
 
-   public void setLists(List<Hackathon> lists) {
-       this.lists = lists;
-   }
+    public void setJoinedHacks(List<Hackathon> joinedHacks) {
+        this.joinedHacks = joinedHacks;
+    }
+
+    public List<Hackathon> getJudgeLists() {
+        return judgeLists;
+    }
+
+    public void setJudgeLists(List<Hackathon> judgeLists) {
+        this.judgeLists = judgeLists;
+    }
 }

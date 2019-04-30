@@ -34,6 +34,14 @@ public class Hackathon {
            joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
            inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
    private List<Organization> sponsors;
+
+   @ManyToMany
+   @JoinTable(name = "HACKATHON_HACKERS",
+           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+           inverseJoinColumns = {@JoinColumn(name = "HACKER_ID", referencedColumnName = "ID")})
+   private List<HackerUser> hackers;
+
+
    private Double discount;
 
    @OneToMany(mappedBy = "hackathon")

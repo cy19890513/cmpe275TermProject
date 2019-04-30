@@ -2,6 +2,7 @@ package edu.cmpe275.group275.openhack.model;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +22,16 @@ public class Organization {
 
     @Embedded
     private Address address;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ORG_MEMBERS",
+            joinColumns = {@JoinColumn(name="ORG_ID",referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name="MEMBER_USERID",referencedColumnName = "ID")})
+    private List<User> members;
+
+    @ManyToMany(mappedBy = "sponsors")
+    private List<Hackathon> sponsored_hacks;
 
     public Organization(String name, User owner, String description, Address address) {
         this.name = name;

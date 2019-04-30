@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.model;
 
+import java.util.List;
 import javax.persistence.*;
 
 
@@ -23,9 +24,8 @@ public class User {
     private String aboutMe;
     private Boolean isVerified;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "ORGANIZATION_ID")
-    //private Organization organization;
+    @ManyToMany(mappedBy = "members")
+    private List<Organization> organizations;
 
     @Embedded
     private Address address;
