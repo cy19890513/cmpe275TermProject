@@ -16,24 +16,20 @@ public class Organization {
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="USER_ID")
-    private User owner;
+    private HackerUser owner;
 
     private String description;
 
     @Embedded
     private Address address;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ORG_MEMBERS",
-            joinColumns = {@JoinColumn(name="ORG_ID",referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name="MEMBER_USERID",referencedColumnName = "ID")})
-    private List<User> members;
+    @OneToMany(mappedBy="organization")
+    private List<HackerUser> members;
 
     @ManyToMany(mappedBy = "sponsors")
     private List<Hackathon> sponsored_hacks;
 
-    public Organization(String name, User owner, String description, Address address) {
+    public Organization(String name, HackerUser owner, String description, Address address) {
         this.name = name;
         this.owner = owner;
         this.description = description;
@@ -61,7 +57,7 @@ public class Organization {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(HackerUser owner) {
         this.owner = owner;
     }
 

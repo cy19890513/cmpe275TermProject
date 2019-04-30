@@ -24,8 +24,8 @@ public class User {
     private String aboutMe;
     private Boolean isVerified;
 
-    @ManyToMany(mappedBy = "members")
-    private List<Organization> organizations;
+    //@ManyToMany(mappedBy = "members")
+    //private List<Organization> organizations;
 
     @Embedded
     private Address address;
