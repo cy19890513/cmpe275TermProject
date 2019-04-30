@@ -30,6 +30,9 @@ public class Organization {
     @ManyToMany(mappedBy = "sponsors")
     private List<Hackathon> sponsored_hacks;
 
+    public Organization() {
+    }
+
     public Organization(String name, HackerUser owner, String description, Address address) {
         this.name = name;
         this.owner = owner;
