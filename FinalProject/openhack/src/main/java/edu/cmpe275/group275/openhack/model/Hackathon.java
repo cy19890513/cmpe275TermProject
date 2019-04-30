@@ -30,7 +30,7 @@ public class Hackathon {
 
 
    @ManyToMany
-   @JoinTable(name = "HACKTHON_SPONORORGS",
+   @JoinTable(name = "HACKATHON_SPONORORGS",
            joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
            inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
    private List<Organization> sponsors;
@@ -43,6 +43,22 @@ public class Hackathon {
 
    public Hackathon(){
 
+   }
+
+   public Hackathon(String name, Date startDate, Date endDate, String description, Double fee, List<HackerUser> judges, int minSize, int maxSize, List<Organization> sponsors, Double discount, List<Team> teams, Boolean isClosed, Boolean isFinalized) {
+      this.name = name;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      this.description = description;
+      this.fee = fee;
+      this.judges = judges;
+      this.minSize = minSize;
+      this.maxSize = maxSize;
+      this.sponsors = sponsors;
+      this.discount = discount;
+      this.teams = teams;
+      this.isClosed = isClosed;
+      this.isFinalized = isFinalized;
    }
 
    //auto getter and setter

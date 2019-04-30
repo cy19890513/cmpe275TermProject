@@ -40,6 +40,13 @@ public class Member {
        this.ifPaid = ifPaid;
    }
 
+    public Member(HackerUser hacker, String role, Team team, Boolean ifPaid) {
+        this.hacker = hacker;
+        this.role = role;
+        this.team = team;
+        this.ifPaid = ifPaid;
+    }
+
     //auto getter and setter
 
 

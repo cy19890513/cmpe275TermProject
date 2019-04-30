@@ -12,4 +12,11 @@ public class AdminUser extends User {
         super(id,email,username);
     }
 
+    public AdminUser(String email, String username) {
+        super(email, username);
+    }
+
+    public AdminUser(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address) {
+        super(email, username, portrait, businessTitle, aboutMe, isVerified, address);
+    }
 }

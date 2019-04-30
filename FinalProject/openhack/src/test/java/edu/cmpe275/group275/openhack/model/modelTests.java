@@ -4,8 +4,9 @@ import org.junit.Test;
 
 public class modelTests {
     @Test
-    void testOne(){
+    public void testOne(){
         User a = new User("ad","asd");
         Address b = new Address();
+        AdminUser c = new AdminUser("asd","qwe");
     }
 }

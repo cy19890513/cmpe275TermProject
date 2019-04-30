@@ -13,13 +13,18 @@ public class HackerUser extends User {
    //TODO joinColumn or inverseJoinColumn
    // use @ManyToMany(mappedBy="users")
    @ManyToMany
-   @JoinTable(name = "HACKTHONUSERS",
+   @JoinTable(name = "HACKATHON_USERS",
            joinColumns = {@JoinColumn(name = "HACKTHONID", referencedColumnName = "ID")},
            inverseJoinColumns = {@JoinColumn(name = "HACKERID", referencedColumnName = "ID")})
    private List<Hackathon> lists;
 
-    public HackerUser(long id, String email,String username) {
+   public HackerUser(long id, String email,String username) {
         super(id, email, username);
+    }
+
+    public HackerUser(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address, List<Hackathon> lists) {
+        super(email, username, portrait, businessTitle, aboutMe, isVerified, address);
+        this.lists = lists;
     }
 
     //auto getter and setter

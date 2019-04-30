@@ -40,6 +40,16 @@ public class User {
         this.username = username;
     }
 
+    public User(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address) {
+        this.email = email;
+        this.username = username;
+        this.portrait = portrait;
+        this.businessTitle = businessTitle;
+        this.aboutMe = aboutMe;
+        this.isVerified = isVerified;
+        this.address = address;
+    }
+
     //auto getter and setter
     public long getId() {
         return id;

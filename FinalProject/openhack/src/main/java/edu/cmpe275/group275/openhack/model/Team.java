@@ -29,6 +29,17 @@ public class Team{
     @JoinColumn(name="HACKTHON_ID")
     private Hackathon hackathon;
 
+
+    public Team(String teamName, Member teamLead, List<Member> members, Double grade, String url, Boolean ifAllPaid, Hackathon hackathon) {
+        this.teamName = teamName;
+        this.teamLead = teamLead;
+        this.members = members;
+        this.grade = grade;
+        this.url = url;
+        this.ifAllPaid = ifAllPaid;
+        this.hackathon = hackathon;
+    }
+
     //auto getter and setter
     public long getId() {
         return id;

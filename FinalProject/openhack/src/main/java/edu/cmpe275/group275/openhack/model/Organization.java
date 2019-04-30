@@ -22,6 +22,13 @@ public class Organization {
     @Embedded
     private Address address;
 
+    public Organization(String name, User owner, String description, Address address) {
+        this.name = name;
+        this.owner = owner;
+        this.description = description;
+        this.address = address;
+    }
+
     //auto getter and setter
     public long getId() {
         return id;
