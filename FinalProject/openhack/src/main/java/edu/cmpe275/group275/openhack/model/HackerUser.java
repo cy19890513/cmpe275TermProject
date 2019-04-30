@@ -9,6 +9,10 @@ import java.util.List;
 @Table(name="HACKERUSER")
 public class HackerUser extends User {
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ORG_ID")
+    private Organization organization;
+
 
    @ManyToMany(mappedBy = "hackers")
 //   @JoinTable(name = "HACKATHON_USERS",
@@ -33,6 +37,15 @@ public class HackerUser extends User {
     }
 
     //auto getter and setter
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
     public List<Hackathon> getJoinedHacks() {
         return joinedHacks;
     }

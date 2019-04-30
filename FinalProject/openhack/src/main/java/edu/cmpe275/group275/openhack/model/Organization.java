@@ -24,12 +24,8 @@ public class Organization {
     @Embedded
     private Address address;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ORG_MEMBERS",
-            joinColumns = {@JoinColumn(name="ORG_ID",referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name="MEMBER_USERID",referencedColumnName = "ID")})
-    private List<User> members;
+    @OneToMany(mappedBy="organization")
+    private List<HackerUser> members;
 
     @ManyToMany(mappedBy = "sponsors")
     private List<Hackathon> sponsored_hacks;
