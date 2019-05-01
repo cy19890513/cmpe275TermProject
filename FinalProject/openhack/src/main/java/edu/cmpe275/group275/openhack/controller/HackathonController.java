@@ -9,10 +9,7 @@ import edu.cmpe275.group275.openhack.service.MemberService;
 import edu.cmpe275.group275.openhack.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -65,6 +62,18 @@ public class HackathonController {
      * PUT: hackathon/teamInfo?teamId=XX&grade=YY&submitUrl=ZZ
      * Description: update grade
      */
+    @PutMapping(value="/hackathon/teamInfo", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> updateTeamInfo(@RequestParam long teamId,
+                                            @RequestParam(required = false) Double grade,
+                                            @RequestParam(required = false) String submitUrl){
 
+        Team t = teamService.getTeam(teamId);
+        if(grade != null)
+            t.setGrade(grade);
+        if(submitUrl != null)
+            t.setUrl(submitUrl);
+
+        return null;
+    }
 
 }
