@@ -1,6 +1,7 @@
 package edu.cmpe275.group275.openhack.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -23,9 +24,15 @@ public class User {
     private String aboutMe;
     private Boolean isVerified;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "ORGANIZATION_ID")
-    //private Organization organization;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORGANIZATION_ID")
+    private Organization organization;
+
+//    @ManyToMany
+//    @JoinTable(name="ORGANIZATION_JOIN",
+//            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+//            inverseJoinColumns = {@JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID")})
+//    private List<Organization> organizations;
 
     @Embedded
     private Address address;
@@ -86,21 +93,29 @@ public class User {
         isVerified = verified;
     }
 
-//    public Organization getOrganization() {
-//        return organization;
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+//    public List<Organization> getOrganizations() {
+//        return organizations;
 //    }
 //
-//    public void setOrganization(Organization organization) {
-//        this.organization = organization;
+//    public void setOrganizations(List<Organization> organizations) {
+//        this.organizations = organizations;
 //    }
-//
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     
 
