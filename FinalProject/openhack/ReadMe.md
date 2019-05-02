@@ -7,5 +7,7 @@ Notes:
     - Yang:   
         - 1. maybe use class Builder. TODO  
         - 2. verify registration by email. https://www.baeldung.com/registration-verify-user-by-email  
+        - 3. log in session. https://www.baeldung.com/spring-security-track-logged-in-users
+        - 4. hackathon samples: devpost https://devpost.com/
 
         
