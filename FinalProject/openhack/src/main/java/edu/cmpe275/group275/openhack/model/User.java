@@ -1,7 +1,7 @@
 package edu.cmpe275.group275.openhack.model;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.*;
 
 
 @Entity
@@ -19,24 +19,62 @@ public class User {
 
     @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
+
+    private String name;
+
     private String portrait;
     private String businessTitle;
     private String aboutMe;
     private Boolean isVerified;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORGANIZATION_ID")
-    private Organization organization;
+    @Column(name = "PASSWORD", nullable = false)
+    private String hashcode;
 
-//    @ManyToMany
-//    @JoinTable(name="ORGANIZATION_JOIN",
-//            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID")})
-//    private List<Organization> organizations;
+
+    //@ManyToMany(mappedBy = "members")
+    //private List<Organization> organizations;
+
+
+    @ManyToMany
+    @JoinTable(name = "MEM_ORG",
+            joinColumns={@JoinColumn(name="MEM_ID", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="ORG_ID", referencedColumnName="id")})
+    private List<Organization> organizations;
 
     @Embedded
     private Address address;
 
+    public User(String email, String username, String hashcode){
+        this.email = email;
+        this.username = username;
+        this.hashcode = hashcode;
+    }
+
+
+
+
+    public User(String email, String username){
+        this.email = email;
+        this.username = username;
+    }
+    public User(long id, String email, String username){
+        this.id = id;
+        this.email = email;
+        this.username = username;
+    }
+
+    public User(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address) {
+        this.email = email;
+        this.username = username;
+        this.portrait = portrait;
+        this.businessTitle = businessTitle;
+        this.aboutMe = aboutMe;
+        this.isVerified = isVerified;
+        this.address = address;
+    }
+
+
+    //auto getter and setter
     public long getId() {
         return id;
     }
@@ -60,6 +98,16 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
+    public String getName() {
+        return username;
+    }
+
+    public void setName(String username) {
+        this.username = username;
+    }
+
 
     public String getPortrait() {
         return portrait;
@@ -93,21 +141,17 @@ public class User {
         isVerified = verified;
     }
 
-    public Organization getOrganization() {
-        return organization;
+
+    public void setHashcode(String hashcode) {this.hashcode = hashcode;}
+
+    public List<Organization> getOrganization() {
+        return organizations;
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setOrganization(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 
-//    public List<Organization> getOrganizations() {
-//        return organizations;
-//    }
-//
-//    public void setOrganizations(List<Organization> organizations) {
-//        this.organizations = organizations;
-//    }
 
     public Address getAddress() {
         return address;
@@ -116,10 +160,6 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
-
-    
-
-
 }
 
 

@@ -21,6 +21,7 @@ public class Address {
        this.zip = zip;
    }
 
+    //auto getter and setter
    public String getStreet() {
        return street;
    }

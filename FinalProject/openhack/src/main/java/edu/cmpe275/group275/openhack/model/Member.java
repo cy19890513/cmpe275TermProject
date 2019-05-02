@@ -40,10 +40,55 @@ public class Member {
        this.ifPaid = ifPaid;
    }
 
+    public Member(HackerUser hacker, String role, Team team, Boolean ifPaid) {
+        this.hacker = hacker;
+        this.role = role;
+        this.team = team;
+        this.ifPaid = ifPaid;
+    }
+
+    //auto getter and setter
 
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
+    public HackerUser getHacker() {
+        return hacker;
+    }
+
+    public void setHacker(HackerUser hacker) {
+        this.hacker = hacker;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Boolean getIfPaid() {
+        return ifPaid;
+    }
+
+    public void setIfPaid(Boolean ifPaid) {
+        this.ifPaid = ifPaid;
+    }
 }
 //public class MemberBuilder(){
 //
