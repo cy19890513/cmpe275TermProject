@@ -21,6 +21,7 @@ public class CollaborationController {
 
     @Autowired
     EmployeeService employeeService;
+
     /**
      * Sample test
      * PUT: http://localhost:8080/collaborators/{id1}/{id2}?format={json | xml }
@@ -28,31 +29,32 @@ public class CollaborationController {
      */
 
     @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> addCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2){
+    public ResponseEntity<?> addCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2) {
 
-        if(!employeeService.existId(id1) || !employeeService.existId(id2)){
+        if (!employeeService.existId(id1) || !employeeService.existId(id2)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if(employeeService.isCollaborators(id1, id2)){
+        if (employeeService.isCollaborators(id1, id2)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         employeeService.addCollabrator(id1, id2);
         String response = "Employees " + id1 + " and " + id2 + " are added as collaborators successfully.";
         return new ResponseEntity<>(response, HttpStatus.OK);
-        
+
     }
+
     /**
      * Sample test
      * DELETE: http://localhost:8080/collaborators/{id1}/{id2}?format={json | xml }
      * Description: delete a collaborator
      */
-    @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.DELETE, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<?> deleteCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2){
+    @RequestMapping(value = "/collaborators/{id1}/{id2}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> deleteCollaborator(@PathVariable("id1") long id1, @PathVariable("id2") long id2) {
 
-        if(!employeeService.existId(id1) || !employeeService.existId(id2)){
+        if (!employeeService.existId(id1) || !employeeService.existId(id2)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if(!employeeService.isCollaborators(id1, id2)){
+        if (!employeeService.isCollaborators(id1, id2)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         employeeService.deleteCollaborator(id1, id2);

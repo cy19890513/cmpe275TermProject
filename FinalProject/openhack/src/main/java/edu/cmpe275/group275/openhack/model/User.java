@@ -19,17 +19,24 @@ public class User {
 
     @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
+<<<<<<< HEAD
     private String name;
+=======
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
     private String portrait;
     private String businessTitle;
     private String aboutMe;
     private Boolean isVerified;
+<<<<<<< HEAD
     @Column(name = "PASSWORD", nullable = false)
     private String hashcode;
+=======
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 
     //@ManyToMany(mappedBy = "members")
     //private List<Organization> organizations;
 
+<<<<<<< HEAD
     @ManyToMany
     @JoinTable(name = "MEM_ORG",
             joinColumns={@JoinColumn(name="MEM_ID", referencedColumnName = "id")},
@@ -45,6 +52,30 @@ public class User {
         this.hashcode = hashcode;
     }
 
+=======
+    @Embedded
+    private Address address;
+
+    public User(String email, String username){
+        this.email = email;
+        this.username = username;
+    }
+    public User(long id, String email, String username){
+        this.id = id;
+        this.email = email;
+        this.username = username;
+    }
+
+    public User(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address) {
+        this.email = email;
+        this.username = username;
+        this.portrait = portrait;
+        this.businessTitle = businessTitle;
+        this.aboutMe = aboutMe;
+        this.isVerified = isVerified;
+        this.address = address;
+    }
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 
     //auto getter and setter
     public long getId() {
@@ -71,6 +102,7 @@ public class User {
         this.username = username;
     }
 
+<<<<<<< HEAD
     public String getName() {
         return username;
     }
@@ -79,6 +111,8 @@ public class User {
         this.username = username;
     }
 
+=======
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
     public String getPortrait() {
         return portrait;
     }
@@ -111,6 +145,7 @@ public class User {
         isVerified = verified;
     }
 
+<<<<<<< HEAD
     public void setHashcode(String hashcode) {this.hashcode = hashcode;}
 
     public List<Organization> getOrganization() {
@@ -121,6 +156,16 @@ public class User {
         this.organizations = organizations;
     }
 
+=======
+//    public Organization getOrganization() {
+//        return organization;
+//    }
+//
+//    public void setOrganization(Organization organization) {
+//        this.organization = organization;
+//    }
+//
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 
     public Address getAddress() {
         return address;

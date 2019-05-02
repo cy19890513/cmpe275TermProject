@@ -5,7 +5,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class modelTests {
+<<<<<<< HEAD
  /*   @Test
+=======
+    @Test
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
     public void testOne(){
         User a = new User("ad","asd");
         Address b = new Address();
@@ -21,5 +25,9 @@ public class modelTests {
         }});
 
 
+<<<<<<< HEAD
     }*/
+=======
+    }
+>>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 }

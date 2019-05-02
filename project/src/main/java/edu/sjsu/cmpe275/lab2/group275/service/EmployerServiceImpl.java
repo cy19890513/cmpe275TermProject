@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.lab2.group275.service;
 
 import java.util.*;
+
 import edu.sjsu.cmpe275.lab2.group275.model.Employer;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployerRepository;
 import edu.sjsu.cmpe275.lab2.group275.repository.EmployeeRepository;
@@ -25,41 +26,41 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Transactional
-    public Employer createEmployer(Employer employer){
+    public Employer createEmployer(Employer employer) {
         return employerRepository.save(employer);
     }
 
     @Transactional
     public Employer getEmployer(long id) {
 
-        if(employerRepository.existsById(id)) {
+        if (employerRepository.existsById(id)) {
             return employerRepository.getOne(id);
         }
         return null;
     }
 
     @Transactional
-    public Employer updateEmployer(Employer employer){
+    public Employer updateEmployer(Employer employer) {
         return employerRepository.save(employer);
     }
 
     @Transactional
-    public void deleteEmployer(long id){
+    public void deleteEmployer(long id) {
 
-            employerRepository.deleteById(id);
+        employerRepository.deleteById(id);
     }
 
-    public boolean isEmployerExistByName(String name){
+    public boolean isEmployerExistByName(String name) {
         return employerRepository.existsByName(name);
     }
 
-    public boolean isEmployerExist(long id){
+    public boolean isEmployerExist(long id) {
         return employerRepository.existsById(id);
     }
 
-    public boolean duplicateName(String name, long id){
-        if(employerRepository.findByName(name) != null){
-            if(employerRepository.findByName(name).getId() != id){
+    public boolean duplicateName(String name, long id) {
+        if (employerRepository.findByName(name) != null) {
+            if (employerRepository.findByName(name).getId() != id) {
                 return true;
             }
         }

@@ -18,13 +18,13 @@ import javax.persistence.Transient;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Employer")
-public class Employer{
+public class Employer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "NAME", nullable = false, unique = true )
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
     private String description;
@@ -32,7 +32,7 @@ public class Employer{
     @Embedded
     private Address address;
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 

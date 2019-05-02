@@ -4,6 +4,7 @@ import edu.cmpe275.group275.openhack.model.User;
 import edu.cmpe275.group275.openhack.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService{
         return map;
     }
 
+
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
+
     public  User createUser(User user) {
         userRepository.save(user);
         return user;
@@ -54,6 +57,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     public List<User> getAll(){return userRepository.findAll();}
+
 
 
 
