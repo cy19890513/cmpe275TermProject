@@ -23,7 +23,7 @@ public class HackerUser extends User {
    @ManyToMany(mappedBy = "judges")
    private List<Hackathon> judgeLists;
 
-<<<<<<< HEAD
+
    public HackerUser(String email,String username, String hashcode) {
         super( email, username, hashcode);
     }
@@ -31,30 +31,7 @@ public class HackerUser extends User {
 
     //auto getter and setter
 
-=======
-   public HackerUser(long id, String email,String username) {
-        super(id, email, username);
-    }
 
-    public HackerUser(String email, String username) {
-        super(email, username);
-    }
-
-    public HackerUser(String email, String username, String portrait, String businessTitle, String aboutMe, Boolean isVerified, Address address, List<Hackathon> lists) {
-        super(email, username, portrait, businessTitle, aboutMe, isVerified, address);
-        this.joinedHacks = lists;
-    }
-
-    //auto getter and setter
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
->>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 
     public List<Hackathon> getJoinedHacks() {
         return joinedHacks;

@@ -4,7 +4,7 @@ import edu.cmpe275.group275.openhack.model.User;
 import edu.cmpe275.group275.openhack.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
+
 
 import org.springframework.transaction.annotation.Transactional;
 

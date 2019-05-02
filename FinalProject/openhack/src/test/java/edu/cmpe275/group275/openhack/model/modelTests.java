@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class modelTests {
-<<<<<<< HEAD
+
  /*   @Test
 =======
     @Test
@@ -27,7 +27,5 @@ public class modelTests {
 
 <<<<<<< HEAD
     }*/
-=======
-    }
->>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
+
 }
