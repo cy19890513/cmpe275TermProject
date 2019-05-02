@@ -51,7 +51,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
+
         <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
         <dependency>
             <groupId>org.mindrot</groupId>
@@ -74,8 +74,7 @@
             <artifactId>spring-web</artifactId>
             <version>5.1.6.RELEASE</version>
         </dependency>
-=======
->>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
+
     </dependencies>
 
     <build>
@@ -86,7 +85,6 @@
             </plugin>
         </plugins>
     </build>
-<<<<<<< HEAD
     <repositories>
         <repository>
             <id>spring-snapshot</id>
@@ -94,7 +92,5 @@
         </repository>
     </repositories>
 
-=======
->>>>>>> 94547bbd2ec99fd05e96b51a06a70514fb22e5ab
 
 </project>
