@@ -1,0 +1,13 @@
+.content {
+    margin: 24px;
+}
+
+.container{
+    margin-left: auto; 
+    margin-right: auto; 
+    float: left;
+}
+
+.abc {
+    align-content: flex-start
+}

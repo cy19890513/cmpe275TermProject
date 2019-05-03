@@ -1,0 +1,24 @@
+
+.map-size {
+  width: 1000px;
+  height: 700px;
+}
+
+.chart {
+  margin: auto;
+  height: inherit;
+  width: inherit;
+}
+
+#map {
+  padding: 0 12px;
+}
+
+.background {
+  background-color: rgb(218, 218, 218);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Black Ops One', cursive;
+  font-family: 'Jockey One', sans-serif;  
+}

@@ -1,0 +1,3 @@
+
+Earthquake in the Past 100 Years - This chart record the frequency of earthquake in the past decade. It help user realized that earthquake is still around and should prepare for it. For the Number of Earthquake in the Past 100 years chart, we use a line chart to display it. In this chart, we check the tendency of the number of earthquakes that occurs in the past 100 years. It is easily and clearly for user to view the tendency of number earthquake in the past 100 years and compare each year. We use solid lines to display the trend and a single line to clearly present it. And you can see the detailed information when you move your mouse on the chart. 
+
