@@ -1,0 +1,144 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+input,
+button,
+textarea {
+  outline: none;
+  border-style: none;
+  background-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+.logo {
+  height: 300px;
+  width: 600px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.search {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  margin: 0 0 20px 0;
+}
+
+.home-search {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  height: 40px;
+}
+
+.search-form {
+  display: inline-flex;
+  background-color: #e6e6e610;
+  box-sizing: border-box;
+  border: 1px solid #50505044;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px;
+  box-shadow: 0px 1px 2px rgba(19, 19, 19, 0.2);
+  outline-color: initial;
+  outline-style: none;
+  outline-width: initial;
+
+  width: 600px;
+  height: 40px;
+}
+
+.search-form:hover {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.search-key-words {
+  height: 100%;
+  width: 510px;
+  border: 0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: hidden;
+  font-size: 20px;
+  box-shadow: none;
+  -webkit-writing-mode: horizontal-tb !important;
+  writing-mode: horizontal-tb !important;
+}
+
+.submit-search {
+  position: relative;
+  height: 100%;
+  width: 60px;
+  right: 0px;
+  top: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.submit-search:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 11px 26px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button2 {
+  background-color: #008cba;
+} /* Blue */
+.button3 {
+  background-color: #f44336;
+} /* Red */
+
+h3 {
+  text-align: center;
+}
+
+.about {
+  text-align: center;
+  margin-top: 3em;
+}
+
+.earthquake_table {
+  border-collapse: collapse;
+  width: 100%;
+}
