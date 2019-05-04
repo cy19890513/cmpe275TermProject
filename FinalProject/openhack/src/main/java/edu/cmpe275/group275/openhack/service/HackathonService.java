@@ -14,4 +14,8 @@ public interface HackathonService {
     Hackathon getHackathon(long id);
 
     Team createTeam(Member teamLead, String teamName, List<Member> members);
+
+    List<Hackathon> getHackathonList();
+
+    List<Hackathon> getHackathonsByName(String name);
 }

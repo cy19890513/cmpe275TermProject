@@ -25,13 +25,21 @@ public class HackathonServiceImpl implements HackathonService{
     }
 
     @Transactional
-    public Hackathon getHackathon(long id) {
+    public Hackathon getHackathon(long  id) {
         return hackathonRepository.getOne(id);
     }
 
     public Team createTeam(Member teamLead, String teamName, List<Member> members){
         //TODO
         return null;
+    }
+
+    public List<Hackathon> getHackathonList() {
+        return hackathonRepository.findAll();
+    }
+
+    public List<Hackathon> getHackathonsByName(String name) {
+        return hackathonRepository.findHackathonsByNameIgnoreCase(name);
     }
 
 }

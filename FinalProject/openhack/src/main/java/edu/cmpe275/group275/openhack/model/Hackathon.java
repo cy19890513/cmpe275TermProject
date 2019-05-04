@@ -3,182 +3,198 @@ package edu.cmpe275.group275.openhack.model;
 import javax.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Hackathon {
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-   private String name;
+    private String name;
 
-   private java.sql.Date startDate;
-   private java.sql.Date endDate;
-   private String description;
-   private Double fee;
-
-
-   @ManyToMany
-   @JoinTable(name = "HACKATHON_JUDGES",
-           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
-           inverseJoinColumns = {@JoinColumn(name = "JDG_HACKER_ID", referencedColumnName = "ID")})
-   private List<HackerUser> judges;
-   private int minSize;
-   private int maxSize;
+    private java.sql.Date startDate;
+    private java.sql.Date endDate;
+    private String description;
+    private Double fee;
 
 
-   @ManyToMany
-   @JoinTable(name = "HACKATHON_SPONORORGS",
-           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
-           inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
-   private List<Organization> sponsors;
-
-   @ManyToMany
-   @JoinTable(name = "HACKATHON_HACKERS",
-           joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
-           inverseJoinColumns = {@JoinColumn(name = "HACKER_ID", referencedColumnName = "ID")})
-   private List<HackerUser> hackers;
+    @ManyToMany
+    @JoinTable(name = "HACKATHON_JUDGES",
+            joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "JDG_HACKER_ID", referencedColumnName = "ID")})
+    private List<HackerUser> judges;
+    private int minSize;
+    private int maxSize;
 
 
-   private Double discount;
+    @ManyToMany
+    @JoinTable(name = "HACKATHON_SPONORORGS",
+            joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
+    private List<Organization> sponsors;
 
-   @OneToMany(mappedBy = "hackathon")
-   private List<Team> teams;
-   private Boolean isClosed;
-   private Boolean isFinalized;
+    @ManyToMany
+    @JoinTable(name = "HACKATHON_HACKERS",
+            joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "HACKER_ID", referencedColumnName = "ID")})
+    private List<HackerUser> hackers;
 
-   public Hackathon(){
 
-   }
+    private Double discount;
 
-   public Hackathon(String name, Date startDate, Date endDate, String description, Double fee, List<HackerUser> judges, int minSize, int maxSize, List<Organization> sponsors, Double discount, List<Team> teams, Boolean isClosed, Boolean isFinalized) {
-      this.name = name;
-      this.startDate = startDate;
-      this.endDate = endDate;
-      this.description = description;
-      this.fee = fee;
-      this.judges = judges;
-      this.minSize = minSize;
-      this.maxSize = maxSize;
-      this.sponsors = sponsors;
-      this.discount = discount;
-      this.teams = teams;
-      this.isClosed = isClosed;
-      this.isFinalized = isFinalized;
-   }
+    @OneToMany(mappedBy = "hackathon")
+    private List<Team> teams;
+    private Boolean isClosed;
+    private Boolean isFinalized;
 
-   //auto getter and setter
-   public long getId() {
-      return id;
-   }
+    public Hackathon(){
 
-   public void setId(long id) {
-      this.id = id;
-   }
+    }
 
-   public String getName() {
-      return name;
-   }
+    public Hackathon(String name, Date startDate, Date endDate, String description, Double fee, List<HackerUser> judges, int minSize, int maxSize) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.fee = fee;
+        this.judges = judges;
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+        this.isClosed = false;
+        this.isFinalized = false;
+        this.teams = new ArrayList<>();
+        this.sponsors = new ArrayList<>();
+    }
 
-   public void setName(String name) {
-      this.name = name;
-   }
+    public Hackathon(String name, Date startDate, Date endDate, String description, Double fee, List<HackerUser> judges, int minSize, int maxSize, List<Organization> sponsors, Double discount, List<Team> teams, Boolean isClosed, Boolean isFinalized) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.fee = fee;
+        this.judges = judges;
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+        this.sponsors = sponsors;
+        this.discount = discount;
+        this.teams = teams;
+        this.isClosed = isClosed;
+        this.isFinalized = isFinalized;
+    }
 
-   public Date getStartDate() {
-      return startDate;
-   }
+    //auto getter and setter
+    public long getId() {
+        return id;
+    }
 
-   public void setStartDate(Date startDate) {
-      this.startDate = startDate;
-   }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-   public Date getEndDate() {
-      return endDate;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public void setEndDate(Date endDate) {
-      this.endDate = endDate;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   public String getDescription() {
-      return description;
-   }
+    public Date getStartDate() {
+        return startDate;
+    }
 
-   public void setDescription(String description) {
-      this.description = description;
-   }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-   public Double getFee() {
-      return fee;
-   }
+    public Date getEndDate() {
+        return endDate;
+    }
 
-   public void setFee(Double fee) {
-      this.fee = fee;
-   }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-   public List<HackerUser> getJudges() {
-      return judges;
-   }
+    public String getDescription() {
+        return description;
+    }
 
-   public void setJudges(List<HackerUser> judges) {
-      this.judges = judges;
-   }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-   public int getMinSize() {
-      return minSize;
-   }
+    public Double getFee() {
+        return fee;
+    }
 
-   public void setMinSize(int minSize) {
-      this.minSize = minSize;
-   }
+    public void setFee(Double fee) {
+        this.fee = fee;
+    }
 
-   public int getMaxSize() {
-      return maxSize;
-   }
+    public List<HackerUser> getJudges() {
+        return judges;
+    }
 
-   public void setMaxSize(int maxSize) {
-      this.maxSize = maxSize;
-   }
+    public void setJudges(List<HackerUser> judges) {
+        this.judges = judges;
+    }
 
-   public List<Organization> getSponsors() {
-      return sponsors;
-   }
+    public int getMinSize() {
+        return minSize;
+    }
 
-   public void setSponsors(List<Organization> sponsors) {
-      this.sponsors = sponsors;
-   }
+    public void setMinSize(int minSize) {
+        this.minSize = minSize;
+    }
 
-   public Double getDiscount() {
-      return discount;
-   }
+    public int getMaxSize() {
+        return maxSize;
+    }
 
-   public void setDiscount(Double discount) {
-      this.discount = discount;
-   }
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
 
-   public List<Team> getTeams() {
-      return teams;
-   }
+    public List<Organization> getSponsors() {
+        return sponsors;
+    }
 
-   public void setTeams(List<Team> teams) {
-      this.teams = teams;
-   }
+    public void setSponsors(List<Organization> sponsors) {
+        this.sponsors = sponsors;
+    }
 
-   public Boolean getClosed() {
-      return isClosed;
-   }
+    public Double getDiscount() {
+        return discount;
+    }
 
-   public void setClosed(Boolean closed) {
-      isClosed = closed;
-   }
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
 
-   public Boolean getFinalized() {
-      return isFinalized;
-   }
+    public List<Team> getTeams() {
+        return teams;
+    }
 
-   public void setFinalized(Boolean finalized) {
-      isFinalized = finalized;
-   }
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public Boolean getClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(Boolean closed) {
+        isClosed = closed;
+    }
+
+    public Boolean getFinalized() {
+        return isFinalized;
+    }
+
+    public void setFinalized(Boolean finalized) {
+        isFinalized = finalized;
+    }
 }
