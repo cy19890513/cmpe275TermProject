@@ -6,7 +6,7 @@ function Routing() {
     <Router>
       <Switch>
         <Route exact path={'/'} component={null} />
-          <Route path={'/hackathon'} component={null} />
+          <Route path={'/hackathons'} component=HackathonList />
           <Route path={'/login'} component={null} />
           <Route path={'/register'} component={null} />
       </Switch>
