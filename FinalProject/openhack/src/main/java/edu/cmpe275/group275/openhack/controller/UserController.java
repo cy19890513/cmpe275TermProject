@@ -37,6 +37,7 @@ public class UserController {
     public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
 
+
     }
 
     @RequestMapping(value = "/__health", method = RequestMethod.GET)
@@ -112,8 +113,20 @@ public class UserController {
                 return  new ResponseEntity<>("email is already exists", HttpStatus.BAD_REQUEST);
             }
             else{
+
                 String hashcode = Bcrypt.hashPassword(password);
-                User user = new User(email, username, hashcode);
+                // check email
+                String regex = "^(.+)@sjsu.edu$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(email);
+                User user;
+                if(matcher.matches()){
+                    user = new AdminUser(email, username, hashcode);
+                }
+                else{
+                    user = new HackerUser(email, username, hashcode);
+                }
+
                 if(registration.containsKey("name")) {
                     String name = (String) registration.get("name");
                     user.setName(name);
@@ -155,7 +168,7 @@ public class UserController {
                         address.setZip(zip);
                     }
                 }
-                user.setVerified(false);
+                user.setVerified(true);
                 userService.createUser(user);
                 return new ResponseEntity<>("confirm by email", HttpStatus.OK);
             }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 @DiscriminatorValue("admin")
 @Table(name="ADMINUSER")
 public class AdminUser extends User {
+    public AdminUser(){};
 
     public AdminUser( String email,String username, String hashcode) {
         super(email,username, hashcode);
