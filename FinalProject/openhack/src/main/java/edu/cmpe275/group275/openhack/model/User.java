@@ -31,15 +31,12 @@ public class User {
     private String hashcode;
 
 
-    //@ManyToMany(mappedBy = "members")
-    //private List<Organization> organizations;
 
 
-    @ManyToMany
-    @JoinTable(name = "MEM_ORG",
-            joinColumns={@JoinColumn(name="MEM_ID", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name="ORG_ID", referencedColumnName="id")})
-    private List<Organization> organizations;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ORG_ID")
+    private Organization organization;
 
     @Embedded
     private Address address;
@@ -144,12 +141,12 @@ public class User {
 
     public void setHashcode(String hashcode) {this.hashcode = hashcode;}
 
-    public List<Organization> getOrganization() {
-        return organizations;
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setOrganization(List<Organization> organizations) {
-        this.organizations = organizations;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
 
