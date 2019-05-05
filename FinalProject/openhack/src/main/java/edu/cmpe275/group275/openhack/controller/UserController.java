@@ -16,19 +16,27 @@ import edu.cmpe275.group275.openhack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class UserController {
 
     private final UserService userService;
+
+
 
 
     public UserController(UserService userService, UserRepository userRepository) {
@@ -38,11 +46,18 @@ public class UserController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> login, HttpSession session) {
+        String email = login.get("email");
+        String password = login.get("password");
         String hashcode = Bcrypt.hashPassword(password);
         if (userService.existUser(email, hashcode)) {
             User user = userService.getUserByEmail(email);
-            return new ResponseEntity<>("successful login", HttpStatus.OK);
+
+            String sessionId = UUID.randomUUID().toString();
+            session.setAttribute("sessionId", sessionId);
+            session.setAttribute("uid", user.getId());
+            System.out.println("login sessionId:" + sessionId);
+            return new ResponseEntity<>(sessionId, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>("log in failed", HttpStatus.BAD_REQUEST);
@@ -57,7 +72,7 @@ public class UserController {
                                            @RequestParam(required = false) String businessTitle, @RequestParam(required = false) String aboutMe,
                                            @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                            @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                           @RequestParam(required = false) List<Organization> organizations) {
+                                           @RequestParam(required = false) Organization organization) {
         if (!password.equals(confirmPassword)) {
             return new ResponseEntity<>("password does not match confirmpassword", HttpStatus.BAD_REQUEST);
         } else if (!userService.existUser(email, password)) {
@@ -88,8 +103,8 @@ public class UserController {
             if (zip != null) {
                 address.setZip(zip);
             }
-            if (organizations != null) {
-                user.setOrganization(organizations);
+            if (organization != null) {
+                user.setOrganization(organization);
             }
 
             userService.createUser(user);
@@ -116,8 +131,8 @@ public class UserController {
     @RequestMapping(value = "/getOrg", method = RequestMethod.GET)
     public ResponseEntity<?> getOrg(long id) {
         User user = userService.getUser(id);
-        List<Organization> organizations = user.getOrganization();
-        return new ResponseEntity<>(organizations, HttpStatus.OK);
+        Organization organization = user.getOrganization();
+        return new ResponseEntity<>(organization, HttpStatus.OK);
 
     }
 
