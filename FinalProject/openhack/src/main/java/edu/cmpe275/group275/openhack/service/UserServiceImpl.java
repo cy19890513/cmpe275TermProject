@@ -26,6 +26,13 @@ public class UserServiceImpl implements UserService{
         map.put("portrait",user.getPortrait());
         return map;
     }
+    public Map<String, Object> convertRoleToMap(long uid, String role, String sessionId) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("uid", uid);
+        map.put("role", role);
+        map.put("sessionId", sessionId);
+        return map;
+    }
 
 
     private final UserRepository userRepository;

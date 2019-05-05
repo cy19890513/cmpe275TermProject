@@ -1,4 +1,4 @@
-/*package edu.cmpe275.group275.openhack.configuration;
+package edu.cmpe275.group275.openhack.configuration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
@@ -8,4 +8,4 @@ import org.springframework.session.web.context.AbstractHttpSessionApplicationIni
 @Configuration
 @EnableRedisHttpSession
 public class SessionConfig extends AbstractHttpSessionApplicationInitializer {
-}*/
+}

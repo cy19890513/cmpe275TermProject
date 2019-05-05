@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
@@ -43,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestBody Map<String, Object> login) {
+    public ResponseEntity<?> login(@RequestBody Map<String, Object> login, HttpSession session) {
         if(login.containsKey("email") && login.containsKey("password") ) {
             String email = (String)login.get("email");
             String password = (String)login.get("password");
@@ -55,15 +57,29 @@ public class UserController {
                     if (user.getVerified() == false) {
                         return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
                     }
-                  //  String sessionId = UUID.randomUUID().toString();
-                    VerificationToken token = new VerificationToken();
+                    String sessionId = UUID.randomUUID().toString();
+                    String role = "";
+                    long uid = user.getId();
+                /*    VerificationToken token = new VerificationToken();
                     token.setT(UUID.randomUUID().toString());
-                    user.setToken(token);
-                /*    session.setAttribute("sessionId", sessionId);
-                    session.setAttribute("uid", user.getId());
+                    user.setToken(token);*/
+                    session.setAttribute("sessionId", sessionId);
+                    session.setAttribute("uid", uid);
+                    String regex = "^(.+)@sjsu.edu$";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(email);
+                    if(matcher.matches()){
+                        role = "AdminUser";
+                    }
+                    else{
+                        role = "hackerUser";
+                    }
 
-                    System.out.println("login sessionId:" + sessionId);*/
-                    return new ResponseEntity<>(token, HttpStatus.OK);
+                    session.setAttribute( "role", role);
+                    Map<String, Object> res = userService.convertRoleToMap(uid, role, sessionId);
+
+                    System.out.println("login sessionId:" + sessionId);
+                    return new ResponseEntity<>(res, HttpStatus.OK);
                 }
                 else {
                     return new ResponseEntity<>("password is not correct", HttpStatus.NO_CONTENT);
