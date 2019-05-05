@@ -22,6 +22,7 @@ public class HackerUser extends User {
 
    @ManyToMany(mappedBy = "judges")
    private List<Hackathon> judgeLists;
+    public HackerUser(){};
 
 
    public HackerUser(String email,String username, String hashcode) {
