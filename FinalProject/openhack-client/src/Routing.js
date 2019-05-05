@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login, { LoginPage } from './login/Login';
+import Login from './login/Login';
 
 function Routing() {
   return (
