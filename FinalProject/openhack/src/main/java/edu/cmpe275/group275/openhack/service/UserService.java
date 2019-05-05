@@ -14,9 +14,10 @@ public interface UserService {
     User getUser(long id);
 
     User getUserByEmail(String email);
-    boolean existUser(String email, String hashcode);
+    boolean existUser(String email);
     boolean eixtId(long id);
     List<User> getAll();
     Map<String, Object> convertuserToMap(User user);
+    Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
 
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from './login/Login';
 
 import HackathonList from './hackathon/HackathonList';
 
@@ -8,8 +9,12 @@ function Routing() {
     <Router>
       <Switch>
         <Route exact path={'/'} component={null} />
+
           <Route path={'/hackathons'} component={HackathonList} />
-          <Route path={'/login'} component={null} />
+
+
+          <Route path={'/login'} component={Login} />
+
           <Route path={'/register'} component={null} />
       </Switch>
     </Router>

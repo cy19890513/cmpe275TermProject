@@ -2,10 +2,7 @@ package edu.cmpe275.group275.openhack.controller;
 
 
 
-import edu.cmpe275.group275.openhack.model.Address;
-import edu.cmpe275.group275.openhack.model.Organization;
-import edu.cmpe275.group275.openhack.model.User;
-import edu.cmpe275.group275.openhack.model.Bcrypt;
+import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.repository.UserRepository;
 import edu.cmpe275.group275.openhack.service.HackathonService;
@@ -16,87 +13,165 @@ import edu.cmpe275.group275.openhack.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
-
     private final UserService userService;
-
 
     public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
 
+
     }
 
+    @RequestMapping(value = "/__health", method = RequestMethod.GET)
+    public String checkHealth() {
+        return "all is well.";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-        String hashcode = Bcrypt.hashPassword(password);
-        if (userService.existUser(email, hashcode)) {
-            User user = userService.getUserByEmail(email);
-            return new ResponseEntity<>("successful login", HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody Map<String, Object> login, HttpSession session) {
+        if(login.containsKey("email") && login.containsKey("password") ) {
+            String email = (String)login.get("email");
+            String password = (String)login.get("password");
+            if(userService.existUser(email)){
+                User user = userService.getUserByEmail(email);
+                String hashcode = user.getHashcode();
 
-        } else {
-            return new ResponseEntity<>("log in failed", HttpStatus.BAD_REQUEST);
+                if(Bcrypt.checkPassword(password, hashcode)){
+                    if (user.getVerified() == false) {
+                        return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
+                    }
+                    String sessionId = UUID.randomUUID().toString();
+                    String role = "";
+                    long uid = user.getId();
+                /*    VerificationToken token = new VerificationToken();
+                    token.setT(UUID.randomUUID().toString());
+                    user.setToken(token);*/
+                    session.setAttribute("sessionId", sessionId);
+                    session.setAttribute("uid", uid);
+                    String regex = "^(.+)@sjsu.edu$";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(email);
+                    if(matcher.matches()){
+                        role = "AdminUser";
+                    }
+                    else{
+                        role = "hackerUser";
+                    }
+
+                    session.setAttribute( "role", role);
+                    Map<String, Object> res = userService.convertRoleToMap(uid, role, sessionId);
+
+                    System.out.println("login sessionId:" + sessionId);
+                    return new ResponseEntity<>(res, HttpStatus.OK);
+                }
+                else {
+                    return new ResponseEntity<>("password is not correct", HttpStatus.NO_CONTENT);
+                }
+            }
+            else{
+                return new ResponseEntity<>("email is not correct", HttpStatus.NO_CONTENT);
+            }
+
+        }else {
+            return new ResponseEntity<>("emaill or password can not be null", HttpStatus.NO_CONTENT);
         }
 
 
     }
 
-    @RequestMapping(value = "/Registeration", method = RequestMethod.POST)
-    public ResponseEntity<?> registeration(@RequestParam String email, @RequestParam String password, @RequestParam String confirmPassword, @RequestParam String username,
-                                           @RequestParam(required = false) String name, @RequestParam(required = false) String portrait,
-                                           @RequestParam(required = false) String businessTitle, @RequestParam(required = false) String aboutMe,
-                                           @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                           @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                           @RequestParam(required = false) List<Organization> organizations) {
-        if (!password.equals(confirmPassword)) {
-            return new ResponseEntity<>("password does not match confirmpassword", HttpStatus.BAD_REQUEST);
-        } else if (!userService.existUser(email, password)) {
-            String hashcode = Bcrypt.hashPassword(password);
-            User user = new User(email, username, hashcode);
-            if (aboutMe != null) {
-                user.setAboutMe(aboutMe);
-            }
-            if (businessTitle != null) {
-                user.setBusinessTitle(businessTitle);
-            }
-            if (portrait != null) {
-                user.setPortrait(portrait);
-            }
-            if (name != null) {
-                user.setName(name);
-            }
-            Address address = new Address();
-            if (street != null) {
-                address.setStreet(street);
-            }
-            if (city != null) {
-                address.setCity(city);
-            }
-            if (state != null) {
-                address.setState(state);
-            }
-            if (zip != null) {
-                address.setZip(zip);
-            }
-            if (organizations != null) {
-                user.setOrganization(organizations);
-            }
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ResponseEntity<?> registeration(@RequestBody  Map<String, Object> registration) {
+        System.out.println("enter registration.");
+        if(!registration.containsKey("email") || !registration.containsKey("username") || !registration.containsKey("password")){
+            System.out.println("null");
+            return new ResponseEntity<>("email or password or username cannot be null", HttpStatus.BAD_REQUEST);
+        }
 
-            userService.createUser(user);
-            return new ResponseEntity<>("confirm by email", HttpStatus.OK);
+        else {
+            String email = (String) registration.get("email");
+            String password = (String) registration.get("password");
+            String username = (String) registration.get("username");
+            if(userService.existUser(email)){
+                return  new ResponseEntity<>("email is already exists", HttpStatus.BAD_REQUEST);
+            }
+            else{
 
-        } else {
-            return new ResponseEntity<>("The email has already exited", HttpStatus.BAD_REQUEST);
+                String hashcode = Bcrypt.hashPassword(password);
+                // check email
+                String regex = "^(.+)@sjsu.edu$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(email);
+                User user;
+                if(matcher.matches()){
+                    user = new AdminUser(email, username, hashcode);
+                }
+                else{
+                    user = new HackerUser(email, username, hashcode);
+                }
+
+                if(registration.containsKey("name")) {
+                    String name = (String) registration.get("name");
+                    user.setName(name);
+                }
+                if(registration.containsKey("portrait")) {
+                    String portrait=(String)registration.get("portrait");
+                    user.setPortrait(portrait);
+                }
+                if(registration.containsKey("businessTitle")) {
+                    String businessTitle=(String)registration.get("businessTitle");
+                    user.setBusinessTitle(businessTitle);
+                }
+                if(registration.containsKey("aboutMe")) {
+                    String aboutMe=(String)registration.get("aboutMe");
+                    user.setName(aboutMe);
+                }
+                Address address = new Address();
+                if(registration.containsKey("street")) {
+                    String street=(String)registration.get("street");
+                    if (street != null) {
+                        address.setStreet(street);
+                    }
+                }
+                if(registration.containsKey("city")) {
+                    String city=(String)registration.get("city");
+                    if (city != null) {
+                        address.setCity(city);
+                    }
+                }
+                if(registration.containsKey("state")) {
+                    String state=(String)registration.get("state");
+                    if (state != null) {
+                        address.setState(state);
+                    }
+                }
+                if(registration.containsKey("zip")) {
+                    String zip=(String)registration.get("zip");
+                    if (zip != null) {
+                        address.setZip(zip);
+                    }
+                }
+                user.setVerified(true);
+                userService.createUser(user);
+                return new ResponseEntity<>("confirm by email", HttpStatus.OK);
+            }
         }
     }
 
@@ -116,8 +191,8 @@ public class UserController {
     @RequestMapping(value = "/getOrg", method = RequestMethod.GET)
     public ResponseEntity<?> getOrg(long id) {
         User user = userService.getUser(id);
-        List<Organization> organizations = user.getOrganization();
-        return new ResponseEntity<>(organizations, HttpStatus.OK);
+        Organization organization = user.getOrganization();
+        return new ResponseEntity<>(organization, HttpStatus.OK);
 
     }
 

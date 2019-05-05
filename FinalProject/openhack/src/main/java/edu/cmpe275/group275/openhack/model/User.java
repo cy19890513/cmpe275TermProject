@@ -30,19 +30,18 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String hashcode;
 
+    @OneToOne(mappedBy="user")
+    VerificationToken token;
 
-    //@ManyToMany(mappedBy = "members")
-    //private List<Organization> organizations;
 
-
-    @ManyToMany
-    @JoinTable(name = "MEM_ORG",
-            joinColumns={@JoinColumn(name="MEM_ID", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name="ORG_ID", referencedColumnName="id")})
-    private List<Organization> organizations;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ORG_ID")
+    private Organization organization;
 
     @Embedded
     private Address address;
+
+    public User(){};
 
     public User(String email, String username, String hashcode){
         this.email = email;
@@ -144,12 +143,14 @@ public class User {
 
     public void setHashcode(String hashcode) {this.hashcode = hashcode;}
 
-    public List<Organization> getOrganization() {
-        return organizations;
+    public String getHashcode() {return hashcode;}
+
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setOrganization(List<Organization> organizations) {
-        this.organizations = organizations;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
 
@@ -160,6 +161,10 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public VerificationToken getToken(){return token;}
+
+    public void setToken(VerificationToken token){this.token = token;}
 }
 
 

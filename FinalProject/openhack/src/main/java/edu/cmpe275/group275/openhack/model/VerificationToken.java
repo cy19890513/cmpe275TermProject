@@ -14,7 +14,7 @@ import java.sql.Timestamp;
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
 
-        private String token;
+        private String t;
 
         @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
         @JoinColumn(nullable = false, name = "user_id")
@@ -22,15 +22,19 @@ import java.sql.Timestamp;
 
         private Date expiryDate;
 
-    public VerificationToken() {
-    }
+        public VerificationToken() {
 
-    private Date calculateExpiryDate(int expiryTimeInMinutes) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Timestamp(cal.getTime().getTime()));
-            cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-            return new Date(cal.getTime().getTime());
         }
+
+        private Date calculateExpiryDate(int expiryTimeInMinutes) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Timestamp(cal.getTime().getTime()));
+                cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+                return new Date(cal.getTime().getTime());
+        }
+
+        public void setT(String t){  this.t = t; }
+        public String getT(){return t;};
 
         // standard constructors, getters and setters
     }
