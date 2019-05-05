@@ -53,29 +53,38 @@ public class UserController {
         if (userService.existUser(email, hashcode)) {
             User user = userService.getUserByEmail(email);
 
+            if(user.getVerified() == false){
+                return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
+            }
             String sessionId = UUID.randomUUID().toString();
             session.setAttribute("sessionId", sessionId);
             session.setAttribute("uid", user.getId());
+
             System.out.println("login sessionId:" + sessionId);
             return new ResponseEntity<>(sessionId, HttpStatus.OK);
 
         } else {
-            return new ResponseEntity<>("log in failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("log in failed", HttpStatus.NO_CONTENT);
         }
 
 
     }
 
     @RequestMapping(value = "/Registeration", method = RequestMethod.POST)
-    public ResponseEntity<?> registeration(@RequestParam String email, @RequestParam String password, @RequestParam String confirmPassword, @RequestParam String username,
-                                           @RequestParam(required = false) String name, @RequestParam(required = false) String portrait,
-                                           @RequestParam(required = false) String businessTitle, @RequestParam(required = false) String aboutMe,
-                                           @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                           @RequestParam(required = false) String state, @RequestParam(required = false) String zip,
-                                           @RequestParam(required = false) Organization organization) {
-        if (!password.equals(confirmPassword)) {
-            return new ResponseEntity<>("password does not match confirmpassword", HttpStatus.BAD_REQUEST);
-        } else if (!userService.existUser(email, password)) {
+    public ResponseEntity<?> registeration(@RequestBody  Map<String, Object> registeration) {
+         String email = (String)registeration.get("email");
+         String password = (String)registeration.get("password");
+         String username =(String)registeration.get("username");
+         String name = (String)registeration.get("name");
+         String portrait=(String)registeration.get("portrait");
+         String businessTitle=(String)registeration.get("businessTitle");
+         String aboutMe=(String)registeration.get("aboutMe");
+         String street=(String)registeration.get("street");
+         String city = (String)registeration.get("city");
+         String state =(String)registeration.get("state");
+         String zip =(String)registeration.get("zip");
+
+         if (!userService.existUser(email, password)) {
             String hashcode = Bcrypt.hashPassword(password);
             User user = new User(email, username, hashcode);
             if (aboutMe != null) {
@@ -103,9 +112,8 @@ public class UserController {
             if (zip != null) {
                 address.setZip(zip);
             }
-            if (organization != null) {
-                user.setOrganization(organization);
-            }
+            user.setVerified(false);
+
 
             userService.createUser(user);
             return new ResponseEntity<>("confirm by email", HttpStatus.OK);
