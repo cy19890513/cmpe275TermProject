@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
     HelpBlock,
+    Button,
     FormGroup,
     FormControl,
     ControlLabel
   } from "react-bootstrap";
-  import LoaderButton from "../components/LoaderButton";
+  //import LoaderButton from "../components/LoaderButton";
   import "./Signup.css";
   
   export default class Signup extends Component {
@@ -50,37 +51,37 @@ import {
       this.setState({ isLoading: false });
     }
   
-    handleConfirmationSubmit = async event => {
-      event.preventDefault();
+    // handleConfirmationSubmit = async event => {
+    //   event.preventDefault();
   
-      this.setState({ isLoading: true });
-    }
+    //   this.setState({ isLoading: true });
+    // }
   
-    renderConfirmationForm() {
-      return (
-        <form onSubmit={this.handleConfirmationSubmit}>
-          <FormGroup controlId="confirmationCode" bsSize="large">
-            <ControlLabel>Confirmation Code</ControlLabel>
-            <FormControl
-              autoFocus
-              type="tel"
-              value={this.state.confirmationCode}
-              onChange={this.handleChange}
-            />
-            <HelpBlock>Please check your email for the code.</HelpBlock>
-          </FormGroup>
-          <LoaderButton
-            block
-            bsSize="large"
-            disabled={!this.validateConfirmationForm()}
-            type="submit"
-            isLoading={this.state.isLoading}
-            text="Verify"
-            loadingText="Verifying…"
-          />
-        </form>
-      );
-    }
+    // renderConfirmationForm() {
+    //   return (
+    //     <form onSubmit={this.handleConfirmationSubmit}>
+    //       <FormGroup controlId="confirmationCode" bsSize="large">
+    //         <ControlLabel>Confirmation Code</ControlLabel>
+    //         <FormControl
+    //           autoFocus
+    //           type="tel"
+    //           value={this.state.confirmationCode}
+    //           onChange={this.handleChange}
+    //         />
+    //         <HelpBlock>Please check your email for the code.</HelpBlock>
+    //       </FormGroup>
+    //       <LoaderButton
+    //         block
+    //         bsSize="large"
+    //         disabled={!this.validateConfirmationForm()}
+    //         type="submit"
+    //         isLoading={this.state.isLoading}
+    //         text="Verify"
+    //         loadingText="Verifying…"
+    //       />
+    //     </form>
+    //   );
+    // }
   
     renderForm() {
       return (
@@ -110,7 +111,7 @@ import {
               type="password"
             />
           </FormGroup>
-          <LoaderButton
+          <Button
             block
             bsSize="large"
             disabled={!this.validateForm()}
@@ -126,9 +127,10 @@ import {
     render() {
       return (
         <div className="Signup">
-          {this.state.newUser === null
-            ? this.renderForm()
-            : this.renderConfirmationForm()}
+         {//this.state.newUser === null
+             this.renderForm()
+         //   : this.renderConfirmationForm()
+         }
         </div>
       );
     }
