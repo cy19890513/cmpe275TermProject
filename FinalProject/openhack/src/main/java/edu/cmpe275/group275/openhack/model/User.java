@@ -30,8 +30,8 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String hashcode;
 
-
-
+    @OneToOne(mappedBy="user")
+    VerificationToken token;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,6 +40,8 @@ public class User {
 
     @Embedded
     private Address address;
+
+    public User(){};
 
     public User(String email, String username, String hashcode){
         this.email = email;
@@ -141,6 +143,8 @@ public class User {
 
     public void setHashcode(String hashcode) {this.hashcode = hashcode;}
 
+    public String getHashcode() {return hashcode;}
+
     public Organization getOrganization() {
         return organization;
     }
@@ -157,6 +161,10 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public VerificationToken getToken(){return token;}
+
+    public void setToken(VerificationToken token){this.token = token;}
 }
 
 

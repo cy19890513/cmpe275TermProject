@@ -47,16 +47,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    public User getUserByEmail(String email) {return userRepository.findUserByEmail(email);}
+    public User getUserByEmail(String email) {return userRepository.findOneByEmail(email);}
 
     @Transactional
-    public boolean existUser(String email, String hashcode) {return userRepository.existsUserByEmailAndHashcode(email, hashcode);}
+    public boolean existUser(String email) {return userRepository.existsUserByEmail(email);}
 
     @Transactional
     public boolean eixtId(long id){return userRepository.existsById(id);}
 
     @Transactional
     public List<User> getAll(){return userRepository.findAll();}
+
+    @Transactional
+    public User getUserByUsername(String username) {return userRepository.findOneByUsername(username);}
 
 
 
