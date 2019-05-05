@@ -112,6 +112,7 @@ public class UserController {
             if (zip != null) {
                 address.setZip(zip);
             }
+            user.setVerified(false);
 
 
             userService.createUser(user);
