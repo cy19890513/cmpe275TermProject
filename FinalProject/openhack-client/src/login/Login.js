@@ -1,74 +1,70 @@
 import React, { Component } from 'react';
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { userService } from '../_services/user.service';
+import "./Login.css";
 
 class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
-            submitted: false,
-            loading: false,
-            error: ''
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
-    }
+    validateForm() {
+       // return this.state.email.length > 0 && this.state.password.length > 0;
+       return true;
+      }
+    
+      handleChange = event => {
+        this.setState({
+          [event.target.id]: event.target.value
+        });
+      }
+    
+      handleSubmit = event => {
+        event.preventDefault();
+        console.log("pressed button");
+        userService.login(this.state.email, this.state.password);
+        var s = localStorage.getItem("sessionId");
+        console.log(s);
+        this.props.history.push("/");
+      }
 
-    handleSubmit(e) {
-        e.preventDefault();
-
-        this.setState({ submitted: true });
-        const { username, password, returnUrl } = this.state;
-
-        // stop here if form is invalid
-        if (!(username && password)) {
-            return;
-        }
-
-        this.setState({ loading: true });
-        userService.login(username, password);
-    }
-
-    render() {
-        const { username, password, submitted, loading, error } = this.state;
+      render() {
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
-                <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
-                        {submitted && !username &&
-                            <div className="help-block">Username is required</div>
-                        }
-                    </div>
-                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
-                        {submitted && !password &&
-                            <div className="help-block">Password is required</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary" disabled={loading}>Login</button>
-                        {loading}
-                    </div>
-                    {error &&
-                        <div className={'alert alert-danger'}>{error}</div>
-                    }
-                </form>
-            </div>
+          <div className="Login">
+            <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="email" bsSize="large">
+                <ControlLabel>email</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="password" bsSize="large">
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  type="password"
+                />
+              </FormGroup>
+              <Button
+                block
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+              >
+                Login
+              </Button>
+            </form>
+          </div>
         );
-    }
-
-
+      }
 
 }
 

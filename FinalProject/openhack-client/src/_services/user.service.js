@@ -6,30 +6,33 @@ export const userService = {
     register
 };
 
-function login(username, password) {
-    var serverUrl = "http://localhost:8080/login";
-    var self = this;
-    var payload = {
-        "username": username,
-        "password": password
-    }
-    axios.post(serverUrl, payload).then(
-        function (response) {
-            console.log(response);
-            if(response.data.code == 200){
-                console.log("Login successful");
-                localStorage.setItem('sessionId', response.data.body);
-            }else if(response.data.code == 204){
-                console.log("Username password do not match");
-                alert("username password do not match");
-            }else{
-                console.log("Username does not exists");
-                alert("Username does not exist");
-            }
-        }
-    ).catch(function (error){
-        console.log(error);
-    });
+function login(email, password) {
+    console.log("inside login service function");
+    localStorage.setItem("sessionId", "12345");
+   // console.log(localStorage.getItem("sessionId"));
+    return;
+    // var serverUrl = "http://localhost:8080/login";
+    // var self = this;
+    // var payload = {
+    //     "email": email,
+    //     "password": password
+    // }
+    // axios.post(serverUrl, payload).then(res => {
+    //         console.log(res);
+    //         if(res.status == 200){
+    //             console.log("Login successful");
+    //             localStorage.setItem('sessionId', res.data.body);
+    //         }else if(res.status == 204){
+    //             console.log("email password do not match");
+    //             alert("email password do not match");
+    //         }else{
+    //             console.log("email does not exists");
+    //             alert("email does not exist");
+    //         }
+    //     }
+    // ).catch(function (error){
+    //     console.log(error);
+    // });
 }
 
 function logout() {
