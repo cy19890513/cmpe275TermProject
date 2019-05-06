@@ -46,7 +46,9 @@ public class MemberServiceImpl implements MemberService{
             members.add(m.getHacker().getUsername());
         }
         res.put("members", members);
-        res.put("grade", t.getGrade());
+        if(t.getHackathon().getFinalized()){
+            res.put("grade", t.getGrade());
+        }
         res.put("url", t.getUrl());
         return res;
     }

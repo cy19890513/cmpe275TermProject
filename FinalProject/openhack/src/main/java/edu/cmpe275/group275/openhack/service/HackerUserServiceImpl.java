@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.Hackathon;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.repository.HackerUserRepository;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,7 @@ public class HackerUserServiceImpl implements HackerUserService {
     public HackerUser getUserByUsername(String username) {
         return hackerUserRepository.findOneByUsername(username);
     }
+
 }
 
 

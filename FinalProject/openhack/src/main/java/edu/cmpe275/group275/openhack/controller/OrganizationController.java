@@ -94,6 +94,11 @@ public class OrganizationController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/organization?name=FakeOrg
+     * Description: get an organization detail
+     */
     @RequestMapping(value = "/organization", method = RequestMethod.GET)
     public ResponseEntity<?> getOrganization(@RequestParam String name){
         if(name == null){
@@ -105,5 +110,7 @@ public class OrganizationController {
         Organization org = organizationService.getByName(name);
         return new ResponseEntity<>(organizationService.convertOrgToMap(org), HttpStatus.OK);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.Hackathon;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 
 
