@@ -6,7 +6,6 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("hacker")
-@Table(name="HACKERUSER")
 public class HackerUser extends User {
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -48,5 +47,13 @@ public class HackerUser extends User {
 
     public void setJudgeLists(List<Hackathon> judgeLists) {
         this.judgeLists = judgeLists;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

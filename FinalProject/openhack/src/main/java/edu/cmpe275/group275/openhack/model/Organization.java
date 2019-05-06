@@ -1,6 +1,6 @@
 package edu.cmpe275.group275.openhack.model;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
+//import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.util.List;
 import javax.persistence.*;
@@ -80,4 +80,6 @@ public class Organization {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
 }

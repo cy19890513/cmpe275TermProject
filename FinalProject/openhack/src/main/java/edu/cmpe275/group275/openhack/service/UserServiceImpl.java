@@ -1,5 +1,7 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.AdminUser;
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.User;
 import edu.cmpe275.group275.openhack.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-
     public  User createUser(User user) {
         userRepository.save(user);
         return user;
@@ -69,6 +70,10 @@ public class UserServiceImpl implements UserService{
     public User getUserByUsername(String username) {return userRepository.findOneByUsername(username);}
 
 
+    @Transactional
+    public HackerUser getHackerByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 
 
 }
