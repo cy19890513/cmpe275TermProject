@@ -74,7 +74,7 @@ public class UserController {
                     }
 
                     session.setAttribute( "role", role);
-                    Map<String, Object> res = userService.convertRoleToMap(uid, role, sessionId);
+                    Map<String, Object> res = userService.convertRoleToMap(uid, role, sessionId, user.getUsername());
 
                     System.out.println("login sessionId:" + sessionId);
                     return new ResponseEntity<>(res, HttpStatus.OK);
@@ -182,8 +182,63 @@ public class UserController {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
 
         }
-
     }
+
+    /**
+     * Sample test
+     * POST: http://localhost:8080/organization?uid=XX&name=AA&description=CC
+     * Description: create an organization
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<?> logout(@RequestParam long id){
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * POST: http://localhost:8080/userProfile?id=XX
+     * payload: {
+     *
+     * }
+     * Description: update a user profile
+     */
+    @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+    public ResponseEntity<?> updateUser(@RequestParam long id,
+                                        @RequestBody Map<String, Object> payload) {
+        if(!userService.eixtId(id)) {
+            return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.getUser(id);
+        if(payload.containsKey("aboutMe")){
+            user.setAboutMe((String) payload.get("aboutMe"));
+        }
+        if(payload.containsKey("name")){
+            user.setName((String) payload.get("name"));
+        }
+        if(payload.containsKey("portrait")){
+            user.setPortrait((String) payload.get("portrait"));
+        }
+        if(payload.containsKey("businessTitle")){
+            user.setBusinessTitle((String) payload.get("businessTitle"));
+        }
+        Address address = user.getAddress();
+        if(payload.containsKey("city")){
+            address.setCity((String) payload.get("city"));
+        }
+        if(payload.containsKey("street")){
+            address.setCity((String) payload.get("street"));
+        }
+        if(payload.containsKey("state")){
+            address.setCity((String) payload.get("state"));
+        }
+        if(payload.containsKey("zip")){
+            address.setCity((String) payload.get("zip"));
+        }
+        user.setAddress(address);
+        userService.updateUser(user);
+        return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/getOrg", method = RequestMethod.GET)
     public ResponseEntity<?> getOrg(long id) {
