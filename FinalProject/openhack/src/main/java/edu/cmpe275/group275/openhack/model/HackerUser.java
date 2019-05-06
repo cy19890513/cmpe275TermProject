@@ -6,7 +6,6 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("hacker")
-@Table(name="HACKERUSER")
 public class HackerUser extends User {
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance
 @DiscriminatorColumn(name="role")
 @Table(name="USER")
 public class User {
@@ -44,8 +44,6 @@ public class User {
         this.username = username;
         this.hashcode = hashcode;
     }
-
-
 
 
     public User(String email, String username){

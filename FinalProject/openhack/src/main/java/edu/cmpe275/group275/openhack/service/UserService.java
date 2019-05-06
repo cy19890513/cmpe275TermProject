@@ -1,5 +1,7 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.AdminUser;
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.User;
 
 
@@ -21,4 +23,5 @@ public interface UserService {
     Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
     User getUserByUsername(String username);
 
+    HackerUser getHackerByEmail(String email);
 }

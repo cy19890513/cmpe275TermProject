@@ -222,7 +222,14 @@ public class UserController {
 
     }
 
-
+    @RequestMapping(value = "/getHacker", method = RequestMethod.GET)
+    public ResponseEntity<?> getHacker(@RequestParam String email) {
+        if(email == null){
+            return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
+        }
+        HackerUser hacker = userService.getHackerByEmail(email);
+        return new ResponseEntity<>(userService.convertuserToMap(hacker), HttpStatus.OK);
+    }
 
 
 }
