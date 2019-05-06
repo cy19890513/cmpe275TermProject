@@ -18,4 +18,6 @@ public interface HackathonService {
     List<Hackathon> getHackathonList();
 
     List<Hackathon> getHackathonsByName(String name);
+
+
 }

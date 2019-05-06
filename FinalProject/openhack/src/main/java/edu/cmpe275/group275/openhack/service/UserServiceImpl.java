@@ -71,9 +71,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Transactional
-    public HackerUser getHackerByEmail(String email){
-        return userRepository.findByEmail(email);
+    public void updateUser(User user){
+        userRepository.save(user);
     }
-
-
 }

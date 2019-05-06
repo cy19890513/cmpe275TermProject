@@ -35,8 +35,6 @@ public class UserController {
     public UserController(UserService userService,HackerUserService hackerUserService ) {
         this.userService = userService;
         this.hackerUserService = hackerUserService;
-
-
     }
 
     @RequestMapping(value = "/__health", method = RequestMethod.GET)

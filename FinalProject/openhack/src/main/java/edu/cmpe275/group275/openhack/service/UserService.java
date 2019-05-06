@@ -23,5 +23,6 @@ public interface UserService {
     Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
     User getUserByUsername(String username);
 
-    HackerUser getHackerByEmail(String email);
+
+    void updateUser(User user);
 }
