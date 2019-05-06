@@ -6,7 +6,7 @@ import {
     Button,
     FormGroup,
     FormControl,
-    ControlLabel
+    FormLabel
   } from "react-bootstrap";
 import "./Signup.css";
 import { userService } from '../_services/user.service';
@@ -57,7 +57,7 @@ import { userService } from '../_services/user.service';
       return (
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl
               autoFocus
               type="email"
@@ -66,7 +66,7 @@ import { userService } from '../_services/user.service';
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <FormLabel>Password</FormLabel>
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
@@ -74,7 +74,7 @@ import { userService } from '../_services/user.service';
             />
           </FormGroup>
           <FormGroup controlId="confirmPassword" bsSize="large">
-            <ControlLabel>Confirm Password</ControlLabel>
+            <FormLabel>Confirm Password</FormLabel>
             <FormControl
               value={this.state.confirmPassword}
               onChange={this.handleChange}
