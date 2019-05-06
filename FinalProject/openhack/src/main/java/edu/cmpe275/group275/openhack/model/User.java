@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance
 @DiscriminatorColumn(name="role")
 @Table(name="USER")
 public class User {
@@ -34,10 +34,6 @@ public class User {
     VerificationToken token;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ORG_ID")
-    private Organization organization;
-
     @Embedded
     private Address address;
 
@@ -48,8 +44,6 @@ public class User {
         this.username = username;
         this.hashcode = hashcode;
     }
-
-
 
 
     public User(String email, String username){
@@ -145,13 +139,13 @@ public class User {
 
     public String getHashcode() {return hashcode;}
 
-    public Organization getOrganization() {
+  /*  public Organization getOrganization() {
         return organization;
     }
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
-    }
+    }*/
 
 
     public Address getAddress() {

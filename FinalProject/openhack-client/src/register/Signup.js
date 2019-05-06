@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+//import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//import RaisedButton from 'material-ui/RaisedButton';
 import {
     FormText,
+    HelpBlock,
+    Button,
     FormGroup,
     FormControl,
     FormLabel
   } from "react-bootstrap";
-  import LoaderButton from "../components/LoaderButton";
-  import "./Signup.css";
+import "./Signup.css";
+import { userService } from '../_services/user.service';
   
   export default class Signup extends Component {
     constructor(props) {
@@ -23,16 +27,14 @@ import {
     }
   
     validateForm() {
-      return (
-        this.state.email.length > 0 &&
-        this.state.password.length > 0 &&
-        this.state.password === this.state.confirmPassword
-      );
+      return true;
+      // return (
+      //   this.state.email.length > 0 &&
+      //   this.state.password.length > 0 &&
+      //   this.state.password === this.state.confirmPassword
+      // );
     }
   
-    validateConfirmationForm() {
-      return this.state.confirmationCode.length > 0;
-    }
   
     handleChange = event => {
       this.setState({
@@ -44,44 +46,45 @@ import {
       event.preventDefault();
   
       this.setState({ isLoading: true });
+      userService.register(this.state.email, this.state.password);
   
       this.setState({ newUser: "test" });
   
       this.setState({ isLoading: false });
     }
-  
+
     handleConfirmationSubmit = async event => {
       event.preventDefault();
   
       this.setState({ isLoading: true });
     }
   
-    renderConfirmationForm() {
-      return (
-        <form onSubmit={this.handleConfirmationSubmit}>
-          <FormGroup controlId="confirmationCode" bsSize="large">
-            <FormLabel>Confirmation Code</FormLabel>
-            <FormControl
-              autoFocus
-              type="tel"
-              value={this.state.confirmationCode}
-              onChange={this.handleChange}
-            />
-            <FormText>Please check your email for the code.</FormText>
-          </FormGroup>
-          <LoaderButton
-            block
-            bsSize="large"
-            disabled={!this.validateConfirmationForm()}
-            type="submit"
-            isLoading={this.state.isLoading}
-            text="Verify"
-            loadingText="Verifying…"
-          />
-        </form>
-      );
-    }
-  
+    // renderConfirmationForm() {
+    //   return (
+    //     <form onSubmit={this.handleConfirmationSubmit}>
+    //       <FormGroup controlId="confirmationCode" bsSize="large">
+    //         <FormLabel>Confirmation Code</FormLabel>
+    //         <FormControl
+    //           autoFocus
+    //           type="tel"
+    //           value={this.state.confirmationCode}
+    //           onChange={this.handleChange}
+    //         />
+    //         <FormText>Please check your email for the code.</FormText>
+    //       </FormGroup>
+    //       <LoaderButton
+    //         block
+    //         bsSize="large"
+    //         disabled={!this.validateConfirmationForm()}
+    //         type="submit"
+    //         isLoading={this.state.isLoading}
+    //         text="Verify"
+    //         loadingText="Verifying…"
+    //       />
+    //     </form>
+    //   );
+    // }
+
     renderForm() {
       return (
         <form onSubmit={this.handleSubmit}>
@@ -110,15 +113,17 @@ import {
               type="password"
             />
           </FormGroup>
-          <LoaderButton
+          <Button
             block
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
-            isLoading={this.state.isLoading}
-            text="Signup"
-            loadingText="Signing up…"
-          />
+        //    isLoading={this.state.isLoading}
+        //    text="Signup"
+        //    loadingText="Signing up…"
+        >
+        Sign Up
+      </Button>
         </form>
       );
     }
@@ -126,9 +131,10 @@ import {
     render() {
       return (
         <div className="Signup">
-          {this.state.newUser === null
-            ? this.renderForm()
-            : this.renderConfirmationForm()}
+         {//this.state.newUser === null
+             this.renderForm()
+         //   : this.renderConfirmationForm()
+         }
         </div>
       );
     }

@@ -2,6 +2,7 @@ package edu.cmpe275.group275.openhack.service;
 
 
 import edu.cmpe275.group275.openhack.model.Member;
+import edu.cmpe275.group275.openhack.model.Team;
 import edu.cmpe275.group275.openhack.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +23,11 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Member getMember(long id) {
         return memberRepository.getOne(id);
+    }
+
+    @Transactional
+    public Team getTeam(long uid){
+        Member m = memberRepository.findByHacker(uid);
+        return m.getTeam();
     }
 }

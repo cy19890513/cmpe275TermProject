@@ -6,10 +6,9 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("hacker")
-@Table(name="HACKERUSER")
 public class HackerUser extends User {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ORG_ID")
     private Organization organization;
 
@@ -22,7 +21,8 @@ public class HackerUser extends User {
 
    @ManyToMany(mappedBy = "judges")
    private List<Hackathon> judgeLists;
-    public HackerUser(){};
+
+   public HackerUser(){}
 
 
    public HackerUser(String email,String username, String hashcode) {
@@ -48,5 +48,13 @@ public class HackerUser extends User {
 
     public void setJudgeLists(List<Hackathon> judgeLists) {
         this.judgeLists = judgeLists;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

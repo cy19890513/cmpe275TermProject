@@ -31,7 +31,7 @@ public class Hackathon {
 
 
     @ManyToMany
-    @JoinTable(name = "HACKATHON_SPONORORGS",
+    @JoinTable(name = "HACKATHON_SPONSORS",
             joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "SPR_ORG_ID", referencedColumnName = "ID")})
     private List<Organization> sponsors;

@@ -13,7 +13,9 @@ public class Team{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique = true)
     private String teamName;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TEAMLEAD_MEMBERID")
     private Member teamLead;
@@ -29,6 +31,7 @@ public class Team{
     @JoinColumn(name="HACKTHON_ID")
     private Hackathon hackathon;
 
+    public Team(){}
     public Team(String teamName, Member teamLead, List<Member> members, Double grade, String url, Boolean ifAllPaid, Hackathon hackathon) {
         this.teamName = teamName;
         this.teamLead = teamLead;

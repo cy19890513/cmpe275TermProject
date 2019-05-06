@@ -5,10 +5,7 @@ package edu.cmpe275.group275.openhack.controller;
 import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.repository.UserRepository;
-import edu.cmpe275.group275.openhack.service.HackathonService;
-import edu.cmpe275.group275.openhack.service.MemberService;
-import edu.cmpe275.group275.openhack.service.TeamService;
-import edu.cmpe275.group275.openhack.service.UserService;
+import edu.cmpe275.group275.openhack.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,11 +30,11 @@ import java.util.regex.Pattern;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final HackerUserService hackerUserService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService,HackerUserService hackerUserService ) {
         this.userService = userService;
-
-
+        this.hackerUserService = hackerUserService;
     }
 
     @RequestMapping(value = "/__health", method = RequestMethod.GET)
@@ -55,7 +52,7 @@ public class UserController {
                 String hashcode = user.getHashcode();
 
                 if(Bcrypt.checkPassword(password, hashcode)){
-                    if (user.getVerified() == false) {
+                    if (user.getVerified() == true) {
                         return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
                     }
                     String sessionId = UUID.randomUUID().toString();
@@ -168,7 +165,7 @@ public class UserController {
                         address.setZip(zip);
                     }
                 }
-                user.setVerified(true);
+                user.setVerified(false);
                 userService.createUser(user);
                 return new ResponseEntity<>("confirm by email", HttpStatus.OK);
             }
@@ -190,11 +187,29 @@ public class UserController {
 
     @RequestMapping(value = "/getOrg", method = RequestMethod.GET)
     public ResponseEntity<?> getOrg(long id) {
-        User user = userService.getUser(id);
+        HackerUser user = hackerUserService.getHackerUser(id);
         Organization organization = user.getOrganization();
         return new ResponseEntity<>(organization, HttpStatus.OK);
 
     }
+
+    @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
+    public ResponseEntity<?> joinOrg(long id, long orgId) {
+        HackerUser user = hackerUserService.getHackerUser(id);
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
+    public ResponseEntity<?> leaveOrg(long id, long orgId) {
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+
+    }
+
+
+
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> findAll() {
@@ -205,7 +220,14 @@ public class UserController {
 
     }
 
-
+    @RequestMapping(value = "/getHacker", method = RequestMethod.GET)
+    public ResponseEntity<?> getHacker(@RequestParam String email) {
+        if(email == null){
+            return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
+        }
+        HackerUser hacker = hackerUserService.getHackerByEmail(email);
+        return new ResponseEntity<>(hackerUserService.convertuserToMap(hacker), HttpStatus.OK);
+    }
 
 
 }

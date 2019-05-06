@@ -1,7 +1,7 @@
 package edu.cmpe275.group275.openhack.model;
 
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
+//import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -13,6 +13,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
    @OneToOne(fetch = FetchType.LAZY)
    @JoinColumn(name="HACKERUSER_ID")
    private HackerUser hacker;
@@ -22,6 +23,7 @@ public class Member {
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name="TEAM_ID")
    private Team team;
+
    private Boolean ifPaid = false;
 
 
