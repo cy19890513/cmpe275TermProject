@@ -19,5 +19,6 @@ public interface UserService {
     List<User> getAll();
     Map<String, Object> convertuserToMap(User user);
     Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
+    User getUserByUsername(String username);
 
 }

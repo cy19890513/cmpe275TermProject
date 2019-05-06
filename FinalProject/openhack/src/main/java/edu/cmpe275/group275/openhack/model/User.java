@@ -34,10 +34,6 @@ public class User {
     VerificationToken token;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ORG_ID")
-    private Organization organization;
-
     @Embedded
     private Address address;
 
@@ -145,13 +141,13 @@ public class User {
 
     public String getHashcode() {return hashcode;}
 
-    public Organization getOrganization() {
+  /*  public Organization getOrganization() {
         return organization;
     }
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
-    }
+    }*/
 
 
     public Address getAddress() {

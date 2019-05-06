@@ -80,4 +80,6 @@ public class Organization {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
 }

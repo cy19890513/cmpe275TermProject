@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-
     public  User createUser(User user) {
         userRepository.save(user);
         return user;
