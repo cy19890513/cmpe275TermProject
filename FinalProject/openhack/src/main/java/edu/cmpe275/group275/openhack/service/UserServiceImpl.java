@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", user.getId());
-        map.put("ScreenName", user.getUsername());
+        map.put("username", user.getUsername());
         map.put("email", user.getEmail());
         map.put("name", user.getName());
         map.put("BusinessTitle", user.getBusinessTitle());
@@ -30,11 +30,12 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
-    public Map<String, Object> convertRoleToMap(long uid, String role, String sessionId) {
+    public Map<String, Object> convertRoleToMap(long uid, String role, String sessionId, String username) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("uid", uid);
         map.put("role", role);
         map.put("sessionId", sessionId);
+        map.put("username", username);
         return map;
     }
 
