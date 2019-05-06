@@ -8,11 +8,8 @@ import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
 import UserProfile from "./userProfile/userProfile";
-<<<<<<< HEAD
 import CreateOrg from "./createOrg/createOrg";
-=======
 import Home from './Home/Home';
->>>>>>> 2e318309fb9c6fdcb87964019c35ab8401214217
 
 function Routing() {
   return (
@@ -22,19 +19,13 @@ function Routing() {
 
           <Route path={'/hackathons'} component={HackathonList} />
           <Route path={'/hackathonEvent'} component={HackathonEvent} />
-
           <Route path={'/login'} component={Login} />
-<<<<<<< HEAD
           <Route path={'/updateUser'} component={UpdateUser}/>
-
           <Route path={'/register'} component={Signup} />
-=======
           <Route path={'/signup'} component={Signup} />
->>>>>>> 2e318309fb9c6fdcb87964019c35ab8401214217
           <Route path={'/userprofile'} component={UserProfile} />
           <Route path={'/create_hackathon'} component={CreateHackathon} />
           <Route path={'/createOrg'} component={CreateOrg} />
-
           <Route path={'/submit/:uid'} component={Submission} />
       </Switch>
     </Router>
