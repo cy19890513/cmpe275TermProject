@@ -14,6 +14,9 @@ public class Team{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Id
+    private long hackathon_id;
+
     @Column(nullable = false, unique = true)
     private String teamName;
 
@@ -41,6 +44,7 @@ public class Team{
         this.url = url;
         this.ifAllPaid = ifAllPaid;
         this.hackathon = hackathon;
+        this.hackathon_id = hackathon.getId();
     }
 
     //auto getter and setter
@@ -106,6 +110,14 @@ public class Team{
 
     public void setHackathon(Hackathon hackathon) {
         this.hackathon = hackathon;
+    }
+
+    public void setHackathonId(long id) {
+        hackathon_id = id;
+    }
+
+    public long getHackathonId() {
+        return this.hackathon_id;
     }
 }
 

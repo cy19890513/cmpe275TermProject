@@ -57,4 +57,6 @@ public class HackerUser extends User {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+//    public String getUsername() { return super.getUsername(); }
 }

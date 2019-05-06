@@ -41,7 +41,6 @@ public class MemberServiceImpl implements MemberService{
         res.put("id", t.getId());
         res.put("teamName", t.getTeamName());
         res.put("teamLead", t.getTeamLead().getHacker().getUsername());
-        System.out.println("");
         List<String> members = new ArrayList<>();
         for(Member m: t.getMembers()){
             members.add(m.getHacker().getUsername());

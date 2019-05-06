@@ -1,28 +1,31 @@
 package edu.cmpe275.group275.openhack.model;
 import java.util.*;
 
-public class TeamPK {
-    private long team_id;
-    private long h_id;
+import java.io.Serializable;
+
+public class TeamPK implements Serializable {
+    private long id;
+    private long hackathon_id;
 
     public TeamPK() {}
 
-    public TeamPK(long team_id, long h_id) {
-        this.team_id = team_id;
-        this.h_id =h_id;
+
+    public TeamPK(long id, long hachathon_id) {
+        this.id = id;
+        this.hackathon_id = hackathon_id;
     }
 
     public boolean equals(Object object) {
         if (object instanceof TeamPK) {
             TeamPK pk = (TeamPK)object;
-            return team_id == pk.team_id && h_id == pk.h_id;
+            return id == pk.id && hackathon_id == pk.hackathon_id;
         } else {
             return false;
         }
     }
 
     public int hashCode() {
-        return  (int)(h_id+ team_id);
+        return  (int)(hackathon_id + id);
     }
 
 }
