@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, FormlLabel } from "react-bootstrap";
 import { userService } from '../_services/user.service';
-<<<<<<< HEAD
 import Header from '../utils/Header';
 import Org from '../utils/Org';
-=======
 // import "./css/style.css";
->>>>>>> 2e318309fb9c6fdcb87964019c35ab8401214217
 
 
 class UserProfile extends Component {
