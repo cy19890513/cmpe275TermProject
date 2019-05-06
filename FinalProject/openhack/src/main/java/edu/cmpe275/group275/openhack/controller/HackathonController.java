@@ -65,7 +65,7 @@ public class HackathonController {
         Hackathon h = hackathonService.getHackathon((long)payload.get("hackathonId"));
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         Member lead = new Member();
-
+        lead.setHacker(hacker);
 //        Member lead = memberService.createMember()
 //
 //     //   Member teamLead = memberService.getMember(teamLeadId);
@@ -82,19 +82,21 @@ public class HackathonController {
 
     /**
      * Sample test
-     * PUT: hackathon/teamInfo?teamId=XX&grade=YY&submitUrl=ZZ
-     * Description: update grade
+     * POST: hackathon/teamInfo/submit?hackathonId=1&teamId=XX&submitUrl=ZZ
+     * Description: code submit
      */
-    @PutMapping(value="/hackathon/teamInfo", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @PostMapping(value="/hackathon/teamInfo/submit")
     public ResponseEntity<?> updateTeamInfo(@RequestParam long teamId,
+                                            @RequestParam long hackathonId,
                                             @RequestParam(required = false) Double grade,
                                             @RequestParam(required = false) String submitUrl){
 
-        Team t = teamService.getTeam(teamId);
-        if(grade != null)
-            t.setGrade(grade);
-        if(submitUrl != null)
-            t.setUrl(submitUrl);
+        //TODO
+//        Team t = teamService.getTeam(teamId);
+//        if(grade != null)
+//            t.setGrade(grade);
+//        if(submitUrl != null)
+//            t.setUrl(submitUrl);
 
         return null;
     }
@@ -105,7 +107,7 @@ public class HackathonController {
      * GET: hackathon/teamInfo?uid=9
      * Description: get team info
      */
-    @GetMapping(value="/hackathon/teamInfo", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value="/hackathon/teamInfo")
     public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
         Team t = memberService.getTeam(uid);
         if(t == null){
@@ -188,6 +190,11 @@ public class HackathonController {
         return new ResponseEntity<>(filterHackathon(h), HttpStatus.CREATED);
     }
 
+    /**
+     * Sample test
+     * GET: hackathon/search?id=9
+     * Description: get a hackathon info
+     */
     @GetMapping(value="/hackathon/search")
     public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long id,
                                               @RequestParam(required = false) String name) {
@@ -203,6 +210,55 @@ public class HackathonController {
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
+    /**
+     * Sample test
+     * POST: hackathon/join?id=1
+     * payload: {
+     *     team: {
+     *
+     *     }
+     * }
+     * Description: join a hackathon
+     */
+    @PostMapping(value="/hackathon/join")
+    public ResponseEntity<?> joinHackathon(@RequestParam Long id,
+                                           @RequestBody Team team) {
+
+
+        hackathonService.joinHackathon(id, team);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    /**
+     * Sample test
+     * POST: hackathon/close?id=1
+     * Description: close a hackathon
+     */
+    @PostMapping(value="/hackathon/close")
+    public ResponseEntity<?> closeHackathon(@RequestParam Long id) {
+        Hackathon hackathon = hackathonService.getHackathon(id);
+        hackathon.setClosed(true);
+        hackathonService.update(hackathon);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * POST: hackathon/close?id=1
+     * Description: finalize a hackathon
+     */
+    @PostMapping(value="/hackathon/finalize")
+    public ResponseEntity<?> finalizeHackathon(@RequestParam Long id) {
+        Hackathon hackathon = hackathonService.getHackathon(id);
+        hackathon.setFinalized(true);
+        hackathonService.update(hackathon);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+
+
     private Map<String, Object> filterHackathon(Hackathon h) {
         Map<String, Object> map = new LinkedHashMap<>();
         if (h == null) {
@@ -216,7 +272,13 @@ public class HackathonController {
         map.put("fee", h.getFee());
         map.put("minSize", h.getMinSize());
         map.put("maxSize", h.getMaxSize());
-        map.put("sponsors", h.getSponsors());
+        if(h.getSponsors() != null){
+            List<String> sp = new ArrayList<>();
+            for(Organization org: h.getSponsors()){
+                sp.add(org.getName());
+            }
+            map.put("sponsors", sp);
+        }
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
         return map;

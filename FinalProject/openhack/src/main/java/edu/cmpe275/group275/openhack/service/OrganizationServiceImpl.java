@@ -5,6 +5,7 @@ import edu.cmpe275.group275.openhack.model.Organization;
 import edu.cmpe275.group275.openhack.model.User;
 import edu.cmpe275.group275.openhack.repository.OrganizationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         return map;
     }
 
+    @Transactional
     public Organization create(Organization organization){
         HackerUser owner = organization.getOwner();
         if(owner.getOrganization() == null){
@@ -40,6 +42,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.save(organization);
     }
 
+    @Transactional
     public List<Organization> getList(){
         return organizationRepository.findAll();
     }

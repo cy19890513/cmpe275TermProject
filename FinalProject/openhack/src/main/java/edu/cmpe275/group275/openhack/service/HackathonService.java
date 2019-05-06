@@ -19,5 +19,7 @@ public interface HackathonService {
 
     List<Hackathon> getHackathonsByName(String name);
 
+    void update(Hackathon h);
 
+    void joinHackathon(long id, Team team);
 }

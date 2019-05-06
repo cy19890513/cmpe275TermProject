@@ -210,7 +210,6 @@ public class UserController {
 
 
 
-
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> findAll() {
         List<User> users = userService.getAll();
