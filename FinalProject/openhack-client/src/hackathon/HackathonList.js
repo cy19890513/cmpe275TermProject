@@ -34,8 +34,24 @@ class HackathonList extends Component{
         console.log(props);
     }
 
+    componentDidMount() {
+        //
+        axios.get("http://localhost:8080/api/all_hackathons")
+            .then(res => {
+                const hackathons = res.data;
+                // const suggestions = hackathons.map(suggestion => ({
+                //     value: suggestion._id,
+                //     label: suggestion._id
+                //}));
+               // this.setState({ suggestions: suggestions.sort((a, b) => (a.value > b.value) ? 1 : -1) });
+            })
+            .catch(err => {
+                console.error("err");
+            });
+    }
 
-
+    //get random element
+    //var item = items[Math.floor(Math.random()*items.length)];
     render(){
         return(
             <div>
@@ -58,7 +74,7 @@ class HackathonList extends Component{
 
 
 		<![endif]*/}
-                {/* Header */}
+
                 {/*<header id="header">*/}
                 {/*    /!* Nav *!/*/}
                 {/*    <div id="nav">*/}
@@ -72,12 +88,12 @@ class HackathonList extends Component{
                 {/*                /!* /logo *!/*/}
                 {/*                /!* nav *!/*/}
                 {/*                <ul className="nav-menu nav navbar-nav">*/}
-                {/*                    <li><a href="category.html">News</a></li>*/}
-                {/*                    <li><a href="category.html">Popular</a></li>*/}
-                {/*                    <li className="cat-1"><a href="category.html">Web Design</a></li>*/}
-                {/*                    <li className="cat-2"><a href="category.html">JavaScript</a></li>*/}
-                {/*                    <li className="cat-3"><a href="category.html">Css</a></li>*/}
-                {/*                    <li className="cat-4"><a href="category.html">Jquery</a></li>*/}
+                {/*                    <li class="nav-item"><a href="category.html">News</a></li>*/}
+                {/*                    <li class="nav-item"><a href="category.html">Popular</a></li>*/}
+                {/*                    <li className="nav-item cat-1 "><a href="category.html">Web Design</a></li>*/}
+                {/*                    <li className="nav-item cat-2"><a href="category.html">JavaScript</a></li>*/}
+                {/*                    <li className="nav-item cat-3"><a href="category.html">Css</a></li>*/}
+                {/*                    <li className="nav-item cat-4"><a href="category.html">Jquery</a></li>*/}
                 {/*                </ul>*/}
                 {/*                /!* /nav *!/*/}
                 {/*                /!* search & aside toggle *!/*/}
@@ -93,6 +109,10 @@ class HackathonList extends Component{
                 {/*            </div>*/}
                 {/*        </div>*/}
                 {/*        /!* /Main Nav *!/*/}
+
+
+                {/*        */}
+
                 {/*        /!* Aside Nav *!/*/}
                 {/*        <div id="nav-aside">*/}
                 {/*            /!* nav *!/*/}
@@ -148,7 +168,7 @@ class HackathonList extends Component{
                 {/*    </div>*/}
                 {/*    /!* /Nav *!/*/}
                 {/*</header>*/}
-                {/* /Header */}
+
                 {/* section */}
                 <div className="section">
                     {/* container */}
@@ -161,7 +181,7 @@ class HackathonList extends Component{
                                     <a className="post-img" href="blog-post.html"><img src={require('./img/post-1.jpg')} alt /></a>
                                     <div className="post-body">
                                         <div className="post-meta">
-                                            <a className="post-category cat-2" href="category.html">JavaScript</a>
+                                            <a className="post-category cat-2" href="category.html">Judge</a>
                                             <span className="post-date">March 27, 2018</span>
                                         </div>
                                         <h3 className="post-title"><a href="blog-post.html">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
@@ -175,7 +195,39 @@ class HackathonList extends Component{
                                     <a className="post-img" href="blog-post.html"><img src={require('./img/post-2.jpg')} alt /></a>
                                     <div className="post-body">
                                         <div className="post-meta">
-                                            <a className="post-category cat-3" href="category.html">Jquery</a>
+                                            <a className="post-category cat-3" href="category.html">Open</a>
+                                            <span className="post-date">March 27, 2018</span>
+                                        </div>
+                                        <h3 className="post-title"><a href="blog-post.html">Ask HN: Does Anybody Still Use JQuery?</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* /post */}
+                        </div>
+                        {/* /row */}
+                        {/* row */}
+                        <div className="row">
+                            {/* post */}
+                            <div className="col-md-6">
+                                <div className="post post-thumb">
+                                    <a className="post-img" href="blog-post.html"><img src={require('./img/post-1.jpg')} alt /></a>
+                                    <div className="post-body">
+                                        <div className="post-meta">
+                                            <a className="post-category cat-2" href="category.html">Judge</a>
+                                            <span className="post-date">March 27, 2018</span>
+                                        </div>
+                                        <h3 className="post-title"><a href="blog-post.html">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* /post */}
+                            {/* post */}
+                            <div className="col-md-6">
+                                <div className="post post-thumb">
+                                    <a className="post-img" href="blog-post.html"><img src={require('./img/post-2.jpg')} alt /></a>
+                                    <div className="post-body">
+                                        <div className="post-meta">
+                                            <a className="post-category cat-3" href="category.html">Finalized</a>
                                             <span className="post-date">March 27, 2018</span>
                                         </div>
                                         <h3 className="post-title"><a href="blog-post.html">Ask HN: Does Anybody Still Use JQuery?</a></h3>
@@ -189,7 +241,7 @@ class HackathonList extends Component{
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="section-title">
-                                    <h2>Recent Posts</h2>
+                                    <h2>Recent Hackathons</h2>
                                 </div>
                             </div>
                             {/* post */}
@@ -644,76 +696,76 @@ class HackathonList extends Component{
                     {/* /container */}
                 </div>
                 {/* /section */}
-                {/* Footer */}
-                <footer id="footer">
-                    {/* container */}
-                    <div className="container">
-                        {/* row */}
-                        <div className="row">
-                            <div className="col-md-5">
-                                <div className="footer-widget">
-                                    <div className="footer-logo">
-                                        <a href="index.html" className="logo"><img src={require('./img/logo.png')} alt /></a>
-                                    </div>
-                                    <ul className="footer-nav">
-                                        <li><a href="#">Privacy Policy</a></li>
-                                        <li><a href="#">Advertisement</a></li>
-                                    </ul>
-                                    <div className="footer-copyright">
-                    <span>© {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                        Copyright © All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true" /> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="footer-widget">
-                                            <h3 className="footer-title">About Us</h3>
-                                            <ul className="footer-links">
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><a href="#">Join Us</a></li>
-                                                <li><a href="contact.html">Contacts</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="footer-widget">
-                                            <h3 className="footer-title">Catagories</h3>
-                                            <ul className="footer-links">
-                                                <li><a href="category.html">Web Design</a></li>
-                                                <li><a href="category.html">JavaScript</a></li>
-                                                <li><a href="category.html">Css</a></li>
-                                                <li><a href="category.html">Jquery</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="footer-widget">
-                                    <h3 className="footer-title">Join our Newsletter</h3>
-                                    <div className="footer-newsletter">
-                                        <form>
-                                            <input className="input" type="email" name="newsletter" placeholder="Enter your email" />
-                                            <button className="newsletter-btn"><i className="fa fa-paper-plane" /></button>
-                                        </form>
-                                    </div>
-                                    <ul className="footer-social">
-                                        <li><a href="#"><i className="fa fa-facebook" /></a></li>
-                                        <li><a href="#"><i className="fa fa-twitter" /></a></li>
-                                        <li><a href="#"><i className="fa fa-google-plus" /></a></li>
-                                        <li><a href="#"><i className="fa fa-pinterest" /></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        {/* /row */}
-                    </div>
-                    {/* /container */}
-                </footer>
-                {/* /Footer */}
+                {/*/!* Footer *!/*/}
+                {/*<footer id="footer">*/}
+                {/*    /!* container *!/*/}
+                {/*    <div className="container">*/}
+                {/*        /!* row *!/*/}
+                {/*        <div className="row">*/}
+                {/*            <div className="col-md-5">*/}
+                {/*                <div className="footer-widget">*/}
+                {/*                    <div className="footer-logo">*/}
+                {/*                        <a href="index.html" className="logo"><img src={require('./img/logo.png')} alt /></a>*/}
+                {/*                    </div>*/}
+                {/*                    <ul className="footer-nav">*/}
+                {/*                        <li><a href="#">Privacy Policy</a></li>*/}
+                {/*                        <li><a href="#">Advertisement</a></li>*/}
+                {/*                    </ul>*/}
+                {/*                    <div className="footer-copyright">*/}
+                {/*    <span>© /!* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. *!/*/}
+                {/*        Copyright © All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true" /> by <a href="https://colorlib.com" target="_blank">Colorlib</a>*/}
+                {/*        /!* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. *!/</span>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            <div className="col-md-4">*/}
+                {/*                <div className="row">*/}
+                {/*                    <div className="col-md-6">*/}
+                {/*                        <div className="footer-widget">*/}
+                {/*                            <h3 className="footer-title">About Us</h3>*/}
+                {/*                            <ul className="footer-links">*/}
+                {/*                                <li><a href="about.html">About Us</a></li>*/}
+                {/*                                <li><a href="#">Join Us</a></li>*/}
+                {/*                                <li><a href="contact.html">Contacts</a></li>*/}
+                {/*                            </ul>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    <div className="col-md-6">*/}
+                {/*                        <div className="footer-widget">*/}
+                {/*                            <h3 className="footer-title">Catagories</h3>*/}
+                {/*                            <ul className="footer-links">*/}
+                {/*                                <li><a href="category.html">Web Design</a></li>*/}
+                {/*                                <li><a href="category.html">JavaScript</a></li>*/}
+                {/*                                <li><a href="category.html">Css</a></li>*/}
+                {/*                                <li><a href="category.html">Jquery</a></li>*/}
+                {/*                            </ul>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            <div className="col-md-3">*/}
+                {/*                <div className="footer-widget">*/}
+                {/*                    <h3 className="footer-title">Join our Newsletter</h3>*/}
+                {/*                    <div className="footer-newsletter">*/}
+                {/*                        <form>*/}
+                {/*                            <input className="input" type="email" name="newsletter" placeholder="Enter your email" />*/}
+                {/*                            <button className="newsletter-btn"><i className="fa fa-paper-plane" /></button>*/}
+                {/*                        </form>*/}
+                {/*                    </div>*/}
+                {/*                    <ul className="footer-social">*/}
+                {/*                        <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
+                {/*                        <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
+                {/*                        <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
+                {/*                        <li><a href="#"><i className="fa fa-pinterest" /></a></li>*/}
+                {/*                    </ul>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*        /!* /row *!/*/}
+                {/*    </div>*/}
+                {/*    /!* /container *!/*/}
+                {/*</footer>*/}
+                {/*/!* /Footer *!/*/}
                 {/* jQuery Plugins */}
             </div>
 
