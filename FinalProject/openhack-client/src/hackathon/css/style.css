@@ -740,7 +740,31 @@ p.small{
     color: #333333;
 }
 
+strong, b, .bold {
+    color: #003e54;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
 
+strong, b {
+    font-weight: bold;
+    line-height: inherit;
+}
+
+a {
+    color: #2d9eb2;
+    text-decoration: none;
+    line-height: inherit;
+}
+
+p {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 1.25em;
+    text-rendering: optimizeLegibility;
+}
 
  .sticky-container {
      position: relative;

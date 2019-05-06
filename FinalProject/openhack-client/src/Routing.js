@@ -7,6 +7,7 @@ import CreateHackathon from './createHackathon/CreateHackathon';
 
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
+import UserProfile from "./userProfile/UserProfile";
 
 function Routing() {
   return (
@@ -21,7 +22,7 @@ function Routing() {
 
 
           <Route path={'/register'} component={Signup} />
-
+          <Route path={'/userprofile'} component={UserProfile} />
           <Route path={'/create_hackathon'} component={CreateHackathon} />
 
       </Switch>
