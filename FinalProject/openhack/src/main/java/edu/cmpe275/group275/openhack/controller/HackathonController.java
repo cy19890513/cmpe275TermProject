@@ -1,6 +1,5 @@
 package edu.cmpe275.group275.openhack.controller;
 
-import com.google.gson.JsonElement;
 import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.service.*;
@@ -18,8 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
 
 @XmlRootElement
 @RestController
@@ -85,6 +82,21 @@ public class HackathonController {
             t.setUrl(submitUrl);
 
         return null;
+    }
+
+
+    /**
+     * Sample test
+     * GET: hackathon/teamInfo?uid=9
+     * Description: get team info
+     */
+    @GetMapping(value="/hackathon/teamInfo", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
+        Team t = memberService.getTeam(uid);
+        if(t == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(t, HttpStatus.OK);
     }
 
     @GetMapping(value="/hackathon")

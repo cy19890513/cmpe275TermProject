@@ -225,8 +225,8 @@ public class UserController {
         if(email == null){
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
-        HackerUser hacker = userService.getHackerByEmail(email);
-        return new ResponseEntity<>(userService.convertuserToMap(hacker), HttpStatus.OK);
+        HackerUser hacker = hackerUserService.getHackerByEmail(email);
+        return new ResponseEntity<>(hackerUserService.convertuserToMap(hacker), HttpStatus.OK);
     }
 
 
