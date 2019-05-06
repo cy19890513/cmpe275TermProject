@@ -44,14 +44,11 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/team?hackathonId=PP&&teamName=XX&teamLeadId=ZZ&
+     * POST: hackathon/team?hackathonId=1&uid=9&teamName=Super
      * payload: {
-     *     hackathonId: 1,
-     *     uid: 9,
-     *     teamName: Super,
      *     members: [
      *         "jam@gmail.com",
-     * 		    "wang@test.com"
+     * 		   "wang@test.com"
      *     ]
      * }
      * Description: create an team
@@ -62,17 +59,32 @@ public class HackathonController {
                                         @RequestParam String teamName,
                                         @RequestBody Map<String, Object> payload){
 
-        Hackathon h = hackathonService.getHackathon((long)payload.get("hackathonId"));
+        Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         Member lead = new Member();
         lead.setHacker(hacker);
-//        Member lead = memberService.createMember()
-//
-//     //   Member teamLead = memberService.getMember(teamLeadId);
-//        List<Member> members = new ArrayList<Member>();
-//        Team t = hackathonService.createTeam(teamLead, "SPARTAN",members);
+        lead.setRole("Team Lead");
+        memberService.createMember(lead);
+        List<String> list = (List<String>) payload.get("members");
+        List<Member> members = new ArrayList<>();
+        int i = 1;
+        for(String email: list){
+            HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
+            Member member = new Member();
+            member.setHacker(hackerUser);
+            member.setRole("Role"+i);
+            i++;
+            memberService.createMember(member);
+            members.add(member);
+        }
+        Team team = new Team();
+        team.setTeamName(teamName);
+        team.setTeamLead(lead);
+        team.setMembers(members);
+        team.setHackathon(h);
+        teamService.createTeam(team);
 
-        return null;
+        return new ResponseEntity<>(memberService.convertToMap(team), HttpStatus.OK);
     }
     /**
      * Sample test

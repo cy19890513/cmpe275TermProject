@@ -4,7 +4,7 @@ import edu.cmpe275.group275.openhack.model.Team;
 
 public interface TeamService {
 
-    Team createTeam(Team hackathon);
+    Team createTeam(Team t);
 
     Team getTeam(long id);
     Team getTeamByName(String name);
