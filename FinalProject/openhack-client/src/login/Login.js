@@ -30,27 +30,29 @@ class Login extends Component {
         var s = localStorage.getItem("sessionId");
         console.log(s);
         this.props.history.push("/");
-      }
+      };
 
       render() {
         return (
           <div className="Login">
             <form onSubmit={this.handleSubmit}>
               <FormGroup controlId="email" bsSize="large">
-                {/*<FormLabel>email</FormLabel>*/}
+                <FormLabel>Email</FormLabel>
                 <FormControl
                   autoFocus
                   type="email"
                   value={this.state.email}
                   onChange={this.handleChange}
+                  placeholder={"example@email.com"}
                 />
               </FormGroup>
               <FormGroup controlId="password" bsSize="large">
-                {/*<FormLabel>Password</FormLabel>*/}
+                <FormLabel>Password</FormLabel>
                 <FormControl
                   value={this.state.password}
                   onChange={this.handleChange}
                   type="password"
+                  placeholder={"password"}
                 />
               </FormGroup>
               <Button
