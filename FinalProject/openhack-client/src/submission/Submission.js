@@ -20,7 +20,21 @@ class Submission extends Component {
 
     componentDidMount() {
         const {match : { params }} = this.props;
-        // axios.get()
+        axios.get('/hackathon/teamInfo', {
+            params: {
+                uid: this.state.uid,
+            }
+        })
+            .then( res => {
+                const teamInfo = res.data;
+                const members = teamInfo.members.map(member => {
+                    return {name: member.name, email: member.email};
+                });
+                this.setState( () => {return {hackers: members, teamName: teamInfo.teamName}});
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     createTable() {

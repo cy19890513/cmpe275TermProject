@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, FormlLabel } from "react-bootstrap";
 import { userService } from '../_services/user.service';
-import "./ProfileCard.css"
+// import "./css/style.css";
 
 
 class UserProfile extends Component {
@@ -14,9 +14,6 @@ class UserProfile extends Component {
         };
     }
 
-
-  
-    
       componentDidMount(){
         fetch('/userProfile?id=6',{
             method: 'GET',

@@ -1,0 +1,15 @@
+.background {
+    /*position: absolute;*/
+    background-image: url("./img/background.jpg");
+    height: 100vh;
+    width: 100vm;
+}
+
+.home-main {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+}
