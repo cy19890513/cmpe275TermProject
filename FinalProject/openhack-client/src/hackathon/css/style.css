@@ -650,6 +650,98 @@ RESPONSIVE
 /*=========================================================
 	POST PAGE
 ===========================================================*/
+
+.panel{
+    border-style: none;
+    border-width: 0;
+    border-color: #d6d6d6;
+    margin-bottom: 1.25em;
+    padding: 1.25em;
+    background: #f0f0f0;
+}
+
+
+.img-responsive{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+
+#challenge-information section {
+    border-bottom: 1px solid #e6e6e6;
+    margin: 0 1.25em;
+    padding: 1em 0;
+}
+
+section{
+    display: block;
+}
+
+
+
+
+ .button{
+    margin: 0.3em 0;
+}
+
+.button{
+    box-shadow: none;
+    transition: all 200ms ease-out;
+    border-style: solid;
+    border-width: 0 0 3px;
+    cursor: pointer;
+    font-family: "ClearSans", "HelveticaNeue-Bold", "Helvetica Neue Bold", sans-serif;
+    font-weight: bold;
+    line-height: normal;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+}
+.button.secondary{
+    background: #77ad39;
+    color: white;
+    border-color: #5d872c;
+}
+
+.button.radius{
+    border-radius: 2px;
+}
+
+.button.large{
+    padding-top: 0.90625em;
+    padding-bottom: 0.90625em;
+    -webkit-appearance: none;
+    font-size: 1.125em;
+}
+
+.button.expand{
+    padding-right: 0;
+    padding-left: 0;
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    .button{
+        display: inline-block;
+    }
+
+}
+
+#challenge-information p{
+    margin: 0.3em 0;
+}
+
+p.small{
+    font-size: 0.875em;
+}
+
+.panel p{
+    color: #333333;
+}
+
+
+
  .sticky-container {
      position: relative;
      padding-left: 80px;

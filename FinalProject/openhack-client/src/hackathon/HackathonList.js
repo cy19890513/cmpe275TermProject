@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import axios from 'axios';
+
 import './css/style.css';
 //import './css/bootstrap.min.css';
 //import './css/font-awesome.min.css';
@@ -52,6 +54,21 @@ class HackathonList extends Component{
 
     //get random element
     //var item = items[Math.floor(Math.random()*items.length)];
+
+    //split into 2 array
+    //https://stackoverflow.com/questions/6872630/split-an-array-into-two-based-on-a-index-in-javascript/6872661
+    //var p1 = p.splice(4)
+    //var p2 = p
+
+    //react component with value
+    //https://reactjs.org/docs/components-and-props.html
+
+    //loop an array
+    // https://thinkster.io/tutorials/iterating-and-rendering-loops-in-react
+    // var namesList = names.map(function(name){
+    //     return <li>{name}</li>;
+    // })
+
     render(){
         return(
             <div>

@@ -6,6 +6,7 @@ import CreateHackathon from './createHackathon/CreateHackathon';
 
 
 import HackathonList from './hackathon/HackathonList';
+import HackathonEvent from "./hackathon/HackathonEvent";
 
 function Routing() {
   return (
@@ -14,7 +15,7 @@ function Routing() {
         <Route exact path={'/'} component={null} />
 
           <Route path={'/hackathons'} component={HackathonList} />
-
+          <Route path={'/hackathonEvent'} component={HackathonEvent} />
 
           <Route path={'/login'} component={Login} />
 
