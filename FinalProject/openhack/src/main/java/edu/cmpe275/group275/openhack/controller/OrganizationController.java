@@ -26,11 +26,11 @@ public class OrganizationController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/organization?name=AA&username=BB&description=CC
+     * POST: http://localhost:8080/organization?name=AA&email=BB&description=CC
      * Description: create an organization
      */
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
-    public ResponseEntity<?> createOrganization(@RequestParam String name, @RequestParam String username,
+    public ResponseEntity<?> createOrganization(@RequestParam String name, @RequestParam String email,
                                                 @RequestParam(required = false) String description,
                                                 @RequestParam(required = false) String street, @RequestParam(required = false) String city,
                                                 @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
@@ -39,8 +39,12 @@ public class OrganizationController {
 
         Organization org = new Organization();
         org.setName(name);
-        //HackerUser owner = userService.getUser(username);
-        //org.setOwner(owner);
+        HackerUser owner = userService.getHackerByEmail(email);
+        if(owner != null){
+            org.setOwner(owner);
+        }else{
+            return new ResponseEntity<>("Owner is not a hacker", HttpStatus.BAD_REQUEST);
+        }
         if(description != null){
             org.setDescription(description);
         }
