@@ -9,10 +9,10 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import axios from 'axios';
 
 import Header from '../utils/Header';
-import './CreateHackathon.css';
+import './EditHackathon.css';
 
 
-class CreateHackathon extends Component {
+class EditHackathon extends Component {
 
     constructor(props) {
         super(props);
@@ -195,4 +195,4 @@ class CreateHackathon extends Component {
     }
 }
 
-export default CreateHackathon;
+export default EditHackathon;

@@ -2,9 +2,7 @@ package edu.cmpe275.group275.openhack.controller;
 
 import edu.cmpe275.group275.openhack.model.*;
 
-import edu.cmpe275.group275.openhack.service.HackathonService;
-import edu.cmpe275.group275.openhack.service.MemberService;
-import edu.cmpe275.group275.openhack.service.TeamService;
+import edu.cmpe275.group275.openhack.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,30 +24,53 @@ public class HackathonController {
     private final MemberService memberService;
     private final TeamService teamService;
     private final HackathonService hackathonService;
+    private final UserService userService;
+
+    @Autowired
+    private HackerUserService hackerUserService;
+    @Autowired
+    private OrganizationService organizationService;
 
     //@Autowired
     //MemberService memberService;
 
-    public HackathonController(MemberService memberService, TeamService teamService, HackathonService hackathonService) {
+    public HackathonController(MemberService memberService, TeamService teamService,
+                               HackathonService hackathonService, UserService userService) {
         this.memberService = memberService;
         this.teamService = teamService;
         this.hackathonService = hackathonService;
+        this.userService = userService;
     }
 
     /**
      * Sample test
      * POST: hackathon/team?hackathonId=PP&&teamName=XX&teamLeadId=ZZ&
+     * payload: {
+     *     hackathonId: 1,
+     *     uid: 9,
+     *     teamName: Super,
+     *     members: [
+     *         "jam@gmail.com",
+     * 		    "wang@test.com"
+     *     ]
+     * }
      * Description: create an team
      */
-    @RequestMapping(value="/hackathon/team",method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestParam long hackathonId,
-                                        @RequestParam long teamLeadId,
-                                        @RequestParam String teamName){
+                                        @RequestParam long uid,
+                                        @RequestParam String teamName,
+                                        @RequestBody Map<String, Object> payload){
 
-        Hackathon h = hackathonService.getHackathon(hackathonId);
-        Member teamLead = memberService.getMember(teamLeadId);
-        List<Member> members = new ArrayList<Member>();
-        Team t = hackathonService.createTeam(teamLead, "SPARTAN",members);
+        Hackathon h = hackathonService.getHackathon((long)payload.get("hackathonId"));
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
+        Member lead = new Member();
+
+//        Member lead = memberService.createMember()
+//
+//     //   Member teamLead = memberService.getMember(teamLeadId);
+//        List<Member> members = new ArrayList<Member>();
+//        Team t = hackathonService.createTeam(teamLead, "SPARTAN",members);
 
         return null;
     }
@@ -78,6 +99,21 @@ public class HackathonController {
         return null;
     }
 
+
+    /**
+     * Sample test
+     * GET: hackathon/teamInfo?uid=9
+     * Description: get team info
+     */
+    @GetMapping(value="/hackathon/teamInfo", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
+        Team t = memberService.getTeam(uid);
+        if(t == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(memberService.convertToMap(t), HttpStatus.OK);
+    }
+
     @GetMapping(value="/hackathon")
     public ResponseEntity<?> getHackathonList() {
         List<Map<String, Object>> responseList = new ArrayList<>();
@@ -88,41 +124,68 @@ public class HackathonController {
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
     }
 
+    /**
+     * Sample test
+     * POST: http://localhost:8080/hackathon?uid=8
+     * payload: {
+     *  "name": "FakeHackathon",
+     * 	"startDate": "2019-04-30",
+     * 	"endDate": "2019-06-30",
+     * 	"description": "hackathon event",
+     * 	"fee": 20.0,
+     * 	"judges": [
+     * 		"jam@gmail.com",
+     * 		"wang@test.com"
+     * 	],
+     * 	"minSize": 3,
+     * 	"maxSize": 5
+     * }
+     * Description: create a hackathon event
+     */
     @PostMapping(value="/hackathon")
-    public ResponseEntity<?> createHackathon(@RequestParam String name,
-                                             @RequestParam String startDate,
-                                             @RequestParam String endDate,
-                                             @RequestParam String description,
-                                             @RequestParam Double fee,
-                                             @RequestParam List<HackerUser> judges,
-                                             @RequestParam Integer minSize,
-                                             @RequestParam Integer maxSize,
-                                             @RequestParam(required = false) List<Organization> sponsors,
-                                             @RequestParam(required = false) Double discount) {
-        if (name == null || name.isEmpty() || startDate == null || startDate.isEmpty() ||
-                endDate == null || endDate.isEmpty() || description == null || description.isEmpty() ||
-                fee == null || judges == null || judges.isEmpty() ||
-                minSize == null || minSize < 1 || maxSize == null) {
+    public ResponseEntity<?> createHackathon(@RequestParam String uid,
+                                             @RequestBody Map<String, Object> payload) {
+        // AOP
+        if(uid == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Date start;
-        Date end;
-        try {
-            start = Date.valueOf(startDate);
-            end = Date.valueOf(endDate);
-        } catch (IllegalArgumentException e) {
+        if (!payload.containsKey("name")  || !payload.containsKey("startDate") || !payload.containsKey("endDate")
+                || !payload.containsKey("description") || !payload.containsKey("fee") ||
+                !payload.containsKey("judges") || !payload.containsKey("minSize") || !payload.containsKey("maxSize")
+        ) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        Hackathon h = new Hackathon();
+        h.setName(String.valueOf(payload.get("name")));
+        h.setStartDate(Date.valueOf((String)payload.get("startDate")));
+        h.setEndDate(Date.valueOf((String)payload.get("endDate")));
+        h.setDescription(String.valueOf(payload.get("description")));
+        List<String> list = (List<String>) payload.get("judges");
+        List<HackerUser> judges = new ArrayList<>();
+        for(String s: list){
+            if(hackerUserService.getHackerByEmail(s) != null)
+                judges.add(hackerUserService.getHackerByEmail(s));
+        }
+        h.setJudges(judges);
+        h.setMinSize((int) payload.get("minSize"));
+        h.setFee((double) payload.get("fee"));
+        h.setMaxSize((int) payload.get("maxSize"));
 
-        Hackathon hackathon = new Hackathon(name, start, end, description, fee, judges, minSize, maxSize);
-        if (sponsors != null) {
-            hackathon.setSponsors(sponsors);
+        if(payload.containsKey("sponsors")){
+            List<String> sList = (List<String>) payload.get("sponsors");
+            List<Organization> sponsorsList = new ArrayList<>();
+            for(String org: sList){
+                if(organizationService.getByName(org) != null){
+                    sponsorsList.add(organizationService.getByName(org));
+                    h.setSponsors(sponsorsList);
+                }
+            }
         }
-        if (discount != null) {
-            hackathon.setDiscount(discount);
+        if(payload.containsKey("discount")){
+            h.setDiscount((double) payload.get("discount"));
         }
-        hackathonService.createHackathon(hackathon);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        hackathonService.createHackathon(h);
+        return new ResponseEntity<>(filterHackathon(h), HttpStatus.CREATED);
     }
 
     @GetMapping(value="/hackathon/search")

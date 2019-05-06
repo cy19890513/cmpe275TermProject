@@ -27,8 +27,6 @@ public class HackerUserServiceImpl implements HackerUserService {
     }
 
 
-
-
     private final HackerUserRepository hackerUserRepository;
 
     public HackerUserServiceImpl(HackerUserRepository hackerUserRepositoryRepository) {
