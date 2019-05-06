@@ -13,7 +13,7 @@ public class Team{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String teamName;
 
     @OneToOne(fetch = FetchType.LAZY)

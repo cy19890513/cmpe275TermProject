@@ -45,17 +45,32 @@ public class HackathonController {
     /**
      * Sample test
      * POST: hackathon/team?hackathonId=PP&&teamName=XX&teamLeadId=ZZ&
+     * payload: {
+     *     hackathonId: 1,
+     *     uid: 9,
+     *     teamName: Super,
+     *     members: [
+     *         "jam@gmail.com",
+     * 		    "wang@test.com"
+     *     ]
+     * }
      * Description: create an team
      */
-    @RequestMapping(value="/hackathon/team",method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestParam long hackathonId,
-                                        @RequestParam long teamLeadId,
-                                        @RequestParam String teamName){
+                                        @RequestParam long uid,
+                                        @RequestParam String teamName,
+                                        @RequestBody Map<String, Object> payload){
 
-        Hackathon h = hackathonService.getHackathon(hackathonId);
-        Member teamLead = memberService.getMember(teamLeadId);
-        List<Member> members = new ArrayList<Member>();
-        Team t = hackathonService.createTeam(teamLead, "SPARTAN",members);
+        Hackathon h = hackathonService.getHackathon((long)payload.get("hackathonId"));
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
+        Member lead = new Member();
+
+//        Member lead = memberService.createMember()
+//
+//     //   Member teamLead = memberService.getMember(teamLeadId);
+//        List<Member> members = new ArrayList<Member>();
+//        Team t = hackathonService.createTeam(teamLead, "SPARTAN",members);
 
         return null;
     }
@@ -96,7 +111,7 @@ public class HackathonController {
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(t, HttpStatus.OK);
+        return new ResponseEntity<>(memberService.convertToMap(t), HttpStatus.OK);
     }
 
     @GetMapping(value="/hackathon")
