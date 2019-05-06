@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.Address;
 import edu.cmpe275.group275.openhack.model.AdminUser;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.User;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService{
         map.put("email", user.getEmail());
         map.put("name", user.getName());
         map.put("BusinessTitle", user.getBusinessTitle());
-        map.put("Address", user.getAddress());
+        map.put("Address", convertAddress(user.getAddress()));
         map.put("Description", user.getAboutMe());
         map.put("portrait",user.getPortrait());
         return map;
@@ -34,6 +35,15 @@ public class UserServiceImpl implements UserService{
         map.put("role", role);
         map.put("sessionId", sessionId);
         return map;
+    }
+
+    public String convertAddress(Address address) {
+        String street = address.getStreet();
+        String city = address.getCity();
+        String state = address.getState();
+        String zip = address.getZip();
+        String res = street + "," + city + "," + state + "," + zip;
+        return res;
     }
 
 
