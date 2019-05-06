@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+### Notes
+Doc Link:  https://docs.google.com/document/d/1jOSIULEdApR4kgQ2o2aTF9jHNJEvIE8Cr3S0gpBj1rY/edit  
+Hackathon List Template:  https://colorlib.com/preview/#webmag   
+
+
+### Fixes
+login controlLabel not found: npm install react-bootstrap (0.32.4)
+
 ## Available Scripts
 
 In the project directory, you can run:

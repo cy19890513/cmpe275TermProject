@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, FormlLabel } from "react-bootstrap";
 import { userService } from '../_services/user.service';
+import "./ProfileCard.css"
 
 
 class UserProfile extends Component {
@@ -13,10 +14,11 @@ class UserProfile extends Component {
         };
     }
 
+
   
     
       componentDidMount(){
-        fetch('http://localhost:8080/userProfile?id=6',{
+        fetch('/userProfile?id=6',{
             method: 'GET',
             headers:{
                 'Content-Type':'application/json'
@@ -37,18 +39,25 @@ class UserProfile extends Component {
             return <div> Loading...</div>;
         }
         else{
+
+           
             return (
-            <div className="userProfile">
-                {user.map(user =>(
-                    <li key={user.id}>
-                        Name :{user.Screenname} | Email:{user.email}}
-                    </li>
-                ))}
+               
+            <div className="UserProfile">
+                <h1> welcome {user.ScreenName}</h1>
+                    <img src= 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdddVm4g4gaYFb56WgKroI5kJ-H4ONMEvFbQqrd49FkGf7rrZSSA'/>
+                    <li> Name：{user.name}</li>
+                    <li> Email: {user.email}</li>
+                    <li> BusinessTitle: {user.BusinessTitle}</li>
+                    <li> Address: {user.Address}</li>
+                    <li> Description: {user.Description}</li>
+
             </div>
             );
         }
       }
 
 }
+
 
 export default UserProfile;

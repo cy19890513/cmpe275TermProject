@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.Address;
 import edu.cmpe275.group275.openhack.model.AdminUser;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.User;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", user.getId());
@@ -23,17 +24,27 @@ public class UserServiceImpl implements UserService{
         map.put("email", user.getEmail());
         map.put("name", user.getName());
         map.put("BusinessTitle", user.getBusinessTitle());
-        map.put("Address", user.getAddress());
+        map.put("Address", convertAddress(user.getAddress()));
         map.put("Description", user.getAboutMe());
-        map.put("portrait",user.getPortrait());
+        map.put("portrait", user.getPortrait());
         return map;
     }
+
     public Map<String, Object> convertRoleToMap(long uid, String role, String sessionId) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("uid", uid);
         map.put("role", role);
         map.put("sessionId", sessionId);
         return map;
+    }
+
+    public String convertAddress(Address address) {
+        String street = address.getStreet();
+        String city = address.getCity();
+        String state = address.getState();
+        String zip = address.getZip();
+        String res = street + "," + city + "," + state + "," + zip;
+        return res;
     }
 
 
@@ -44,34 +55,45 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    public  User createUser(User user) {
+    public User createUser(User user) {
         userRepository.save(user);
         return user;
     }
 
     @Transactional
-    public User  getUser(long id) {
+    public User getUser(long id) {
         return userRepository.getOne(id);
     }
 
     @Transactional
-    public User getUserByEmail(String email) {return userRepository.findOneByEmail(email);}
+    public User getUserByEmail(String email) {
+        return userRepository.findOneByEmail(email);
+    }
 
     @Transactional
-    public boolean existUser(String email) {return userRepository.existsUserByEmail(email);}
+    public boolean existUser(String email) {
+        return userRepository.existsUserByEmail(email);
+    }
 
     @Transactional
-    public boolean eixtId(long id){return userRepository.existsById(id);}
+    public boolean eixtId(long id) {
+        return userRepository.existsById(id);
+    }
 
     @Transactional
-    public List<User> getAll(){return userRepository.findAll();}
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
 
     @Transactional
-    public User getUserByUsername(String username) {return userRepository.findOneByUsername(username);}
+    public User getUserByUsername(String username) {
+        return userRepository.findOneByUsername(username);
+    }
 
 
     @Transactional
-    public void updateUser(User user){
+    public void updateUser(User user) {
         userRepository.save(user);
     }
+
 }
