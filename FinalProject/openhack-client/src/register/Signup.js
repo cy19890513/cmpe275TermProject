@@ -1,110 +1,95 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 //import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //import RaisedButton from 'material-ui/RaisedButton';
 import {
+    FormText,
     HelpBlock,
     Button,
     FormGroup,
     FormControl,
-    ControlLabel
-  } from "react-bootstrap";
+    FormLabel
+} from "react-bootstrap";
 import "./Signup.css";
-import { userService } from '../_services/user.service';
-  
-  export default class Signup extends Component {
+import {userService} from '../_services/user.service';
+import Header from '../utils/Header';
+
+class Signup extends Component {
     constructor(props) {
-      super(props);
-  
-      this.state = {
-        isLoading: false,
-        email: "",
-        password: "",
-        confirmPassword: "",
-        confirmationCode: "",
-        newUser: null
-      };
+        super(props);
+
+        this.state = {
+            isLoading: false,
+            email: "",
+            username: "",
+            password: "",
+            confirmPassword: "",
+            confirmationCode: "",
+        };
     }
-  
-    validateForm() {
-      return true;
-      // return (
-      //   this.state.email.length > 0 &&
-      //   this.state.password.length > 0 &&
-      //   this.state.password === this.state.confirmPassword
-      // );
-    }
-  
-  
+
     handleChange = event => {
-      this.setState({
-        [event.target.id]: event.target.value
-      });
+        this.setState({
+            [event.target.id]: event.target.value
+        });
     }
-  
+
     handleSubmit = async event => {
-      event.preventDefault();
-  
-      this.setState({ isLoading: true });
-      userService.register(this.state.email, this.state.password);
-  
-      this.setState({ newUser: "test" });
-  
-      this.setState({ isLoading: false });
-    }
-  
-    
-    renderForm() {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <FormGroup controlId="confirmPassword" bsSize="large">
-            <ControlLabel>Confirm Password</ControlLabel>
-            <FormControl
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-        //    isLoading={this.state.isLoading}
-        //    text="Signup"
-        //    loadingText="Signing up…"
-        >
-        Sign Up
-      </Button>
-        </form>
-      );
-    }
-  
+        this.props.history.push('/');
+        if (this.state.password === this.state.confirmPassword) {
+            userService.register(this.state.email, this.state.password, this.state.username);
+        } else {
+            alert("Password not match");
+        }
+    };
+
     render() {
-      return (
-        <div className="Signup">
-         {//this.state.newUser === null
-             this.renderForm()
-         //   : this.renderConfirmationForm()
-         }
-        </div>
-      );
+        return (
+            <div>
+                <Header/>
+                <div className="Signup">
+                    <form onSubmit={this.handleSubmit}>
+                        <FormGroup controlId="email" bsSize="large">
+                            <FormLabel>Email</FormLabel>
+                            <FormControl
+                                autoFocus
+                                type="email"
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="username" bsSize="large">
+                            <FormLabel>User name</FormLabel>
+                            <FormControl
+                                autoFocus
+                                type="text"
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="password" bsSize="large">
+                            <FormLabel>Password</FormLabel>
+                            <FormControl
+                                onChange={this.handleChange}
+                                type="password"
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="confirmPassword" bsSize="large">
+                            <FormLabel>Confirm Password</FormLabel>
+                            <FormControl
+                                onChange={this.handleChange}
+                                type="password"
+                            />
+                        </FormGroup>
+                        <Button
+                            block
+                            bsSize="large"
+                            type="submit"
+                        >
+                            Sign Up
+                        </Button>
+                    </form>
+                </div>
+            </div>
+        );
     }
-  }
-  
+}
+
+export default Signup;

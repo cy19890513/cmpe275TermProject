@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
+import edu.cmpe275.group275.openhack.model.Hackathon;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 
 
@@ -19,5 +20,5 @@ public interface HackerUserService {
 
     Map<String, Object> convertuserToMap(HackerUser heaker);
    // Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
-
+    void update(HackerUser hacker);
 }

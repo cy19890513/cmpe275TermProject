@@ -42,4 +42,18 @@ public class HackathonServiceImpl implements HackathonService{
         return hackathonRepository.findHackathonsByNameIgnoreCase(name);
     }
 
+    @Transactional
+    public void update(Hackathon h){
+        hackathonRepository.save(h);
+    }
+
+    @Transactional
+    public void joinHackathon(long id, Team team){
+        Hackathon h = getHackathon(id);
+        List<Team> teamList = h.getTeams();
+        teamList.add(team);
+        h.setTeams(teamList);
+        hackathonRepository.save(h);
+    }
+
 }

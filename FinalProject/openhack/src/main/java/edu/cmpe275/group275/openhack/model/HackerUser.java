@@ -8,7 +8,7 @@ import java.util.List;
 @DiscriminatorValue("hacker")
 public class HackerUser extends User {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ORG_ID")
     private Organization organization;
 
@@ -21,7 +21,8 @@ public class HackerUser extends User {
 
    @ManyToMany(mappedBy = "judges")
    private List<Hackathon> judgeLists;
-    public HackerUser(){};
+
+   public HackerUser(){}
 
 
    public HackerUser(String email,String username, String hashcode) {
@@ -56,4 +57,6 @@ public class HackerUser extends User {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+//    public String getUsername() { return super.getUsername(); }
 }

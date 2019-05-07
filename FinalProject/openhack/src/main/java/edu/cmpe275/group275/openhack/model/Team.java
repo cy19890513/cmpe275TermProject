@@ -13,7 +13,9 @@ public class Team{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false, unique = true)
     private String teamName;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TEAMLEAD_MEMBERID")
     private Member teamLead;
@@ -27,8 +29,10 @@ public class Team{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="HACKTHON_ID")
+    //@PrimaryKeyJoinColumn (name="HACKTHON_ID", referencedColumnName = "Hack_Id")
     private Hackathon hackathon;
 
+    public Team(){}
     public Team(String teamName, Member teamLead, List<Member> members, Double grade, String url, Boolean ifAllPaid, Hackathon hackathon) {
         this.teamName = teamName;
         this.teamLead = teamLead;
@@ -103,6 +107,7 @@ public class Team{
     public void setHackathon(Hackathon hackathon) {
         this.hackathon = hackathon;
     }
+
 }
 
 

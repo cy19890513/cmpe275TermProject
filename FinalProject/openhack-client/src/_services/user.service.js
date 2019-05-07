@@ -21,7 +21,11 @@ function login(email, password) {
             console.log(res);
             if(res.status == 200){
                 console.log("Login successful");
-                localStorage.setItem('sessionId', res.data.body);
+                const data = res.data;
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('uid', data.uid);
+                localStorage.setItem('role', data.role);
+                localStorage.setItem('sessionId', data.sessionId);
             }else if(res.status == 204){
                 console.log("email password do not match");
                 alert("email password do not match");
@@ -43,17 +47,16 @@ function logout() {
 function register(email, password, username){
     console.log("inside register service function");
    // return;
-    var serverUrl = "http://localhost:8080/registration";
-    var self = this;
-    var payload = {
+    const serverUrl = "/registration";
+    const payload = {
         "email": email,
         "password": password,
         "username": username,
-    }
+    };
     
     axios.post(serverUrl, payload).then(res => {
             console.log(res);
-            if(res.status == 200){
+            if(res.status === 200){
                 console.log("register successful");
             }else{
                 console.log("some error occurred");

@@ -15,7 +15,7 @@ public class Organization {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="USER_ID", nullable = false)
     private HackerUser owner;
 
@@ -57,7 +57,7 @@ public class Organization {
         this.name = name;
     }
 
-    public User getOwner() {
+    public HackerUser getOwner() {
         return owner;
     }
 

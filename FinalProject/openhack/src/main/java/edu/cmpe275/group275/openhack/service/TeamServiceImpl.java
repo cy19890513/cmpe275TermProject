@@ -1,6 +1,7 @@
 package edu.cmpe275.group275.openhack.service;
 
 
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Team;
 import edu.cmpe275.group275.openhack.repository.TeamRepository;
 
@@ -24,4 +25,9 @@ public class TeamServiceImpl implements TeamService{
     public Team getTeam(long id) {
         return teamRepository.getOne(id);
     }
+
+    public Team getTeamByName(String name){
+        return teamRepository.findByTeamName(name);
+    }
+
 }
