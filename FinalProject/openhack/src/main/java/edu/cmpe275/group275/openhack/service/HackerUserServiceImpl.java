@@ -70,6 +70,11 @@ public class HackerUserServiceImpl implements HackerUserService {
         return hackerUserRepository.findOneByUsername(username);
     }
 
+    @Transactional
+    public void update(HackerUser hacker){
+        hackerUserRepository.save(hacker);
+    }
+
 }
 
 

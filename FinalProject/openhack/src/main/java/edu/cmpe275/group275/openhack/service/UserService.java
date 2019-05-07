@@ -17,7 +17,7 @@ public interface UserService {
 
     User getUserByEmail(String email);
     boolean existUser(String email);
-    boolean eixtId(long id);
+    boolean existId(long id);
     List<User> getAll();
     Map<String, Object> convertuserToMap(User user);
     Map<String, Object> convertRoleToMap(long uid, String role, String sessionId, String username);

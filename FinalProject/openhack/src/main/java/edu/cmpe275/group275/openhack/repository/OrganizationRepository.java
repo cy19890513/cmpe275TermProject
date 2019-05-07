@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
     Organization findByName(String name);
     boolean existsByName(String name);
+    Organization findById(long id);
 }

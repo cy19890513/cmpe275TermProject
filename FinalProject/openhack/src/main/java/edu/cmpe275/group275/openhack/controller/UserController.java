@@ -31,6 +31,10 @@ public class UserController {
     private final UserService userService;
     private final HackerUserService hackerUserService;
 
+
+    @Autowired
+    private OrganizationService organizationService;
+
     public UserController(UserService userService, HackerUserService hackerUserService) {
         this.userService = userService;
         this.hackerUserService = hackerUserService;
@@ -164,12 +168,19 @@ public class UserController {
         }
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/userProfile?id=7
+     * Description: get user info
+     */
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(long id) {
-        if (userService.eixtId(id)) {
-            User user = userService.getUser(id);
-            return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
-        } else {
+    public ResponseEntity<?> getUser(@RequestParam long id) {
+        if(userService.existId(id)) {
+            User user= userService.getUser(id);
+            System.out.println(user.toString());
+            return new ResponseEntity<>(userService.convertuserToMap(user) , HttpStatus.OK);
+        }
+        else {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
 
         }
@@ -177,8 +188,8 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/organization?uid=XX&name=AA&description=CC
-     * Description: create an organization
+     * POST: http://localhost:8080/logout
+     * Description: logout
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(@RequestParam long id){
@@ -189,14 +200,16 @@ public class UserController {
      * Sample test
      * POST: http://localhost:8080/userProfile?id=XX
      * payload: {
-     *
+     *      "name": "Alice",
+     *      "businessTitle" : "Software Manager",
+     *      "aboutMe": "love coding"
      * }
      * Description: update a user profile
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
     public ResponseEntity<?> updateUser(@RequestParam long id,
                                         @RequestBody Map<String, Object> payload) {
-        if(!userService.eixtId(id)) {
+        if(!userService.existId(id)) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
         User user = userService.getUser(id);
@@ -213,6 +226,9 @@ public class UserController {
             user.setBusinessTitle((String) payload.get("businessTitle"));
         }
         Address address = user.getAddress();
+        if(address == null){
+            address = new Address();
+        }
         if(payload.containsKey("city")){
             address.setCity((String) payload.get("city"));
         }
@@ -240,8 +256,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> joinOrg(long id, long orgId) {
+    public ResponseEntity<?> joinOrg(@RequestParam long id, @RequestParam long orgId) {
         HackerUser user = hackerUserService.getHackerUser(id);
+        Organization org = organizationService.getOrg(orgId);
+
 
         return new ResponseEntity<>("", HttpStatus.OK);
 
