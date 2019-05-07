@@ -56,7 +56,7 @@ class CreateHackathon extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
-        axios.post('http://localhost:8080/hackathon', {
+        axios.post('/hackathon', {
             name: data.name,
             startDate: data.startDate,
             endDate: data.endDate,

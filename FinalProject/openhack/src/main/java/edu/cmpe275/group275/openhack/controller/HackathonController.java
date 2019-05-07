@@ -291,10 +291,7 @@ public class HackathonController {
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
-
-
+    
     private Map<String, Object> filterHackathon(Hackathon h) {
         Map<String, Object> map = new LinkedHashMap<>();
         if (h == null) {

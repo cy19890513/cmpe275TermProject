@@ -123,7 +123,8 @@ class UserProfile extends Component {
     handleClose(hid) {
         const state = this.state;
         console.log('hid', hid);
-        axios.post('/hackathon/close', {
+        const url = '/hackathon/close?id=' + hid;
+        axios.post(url, {
             id: hid,
         })
             .then(res => {
@@ -142,10 +143,10 @@ class UserProfile extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
-        const data = {
-            id: hid,
-        };
-        axios.post('/hackathon/finalize', data)
+        const url = '/hackathon/finalize?id=' + hid;
+        axios.post(url, {
+            id: 100,
+        })
             .then(res => {
                 if (res.status === 200) {
                     state.hackathons = state.hackathons.map(h => {
