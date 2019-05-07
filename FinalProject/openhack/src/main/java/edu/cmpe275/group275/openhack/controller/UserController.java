@@ -282,11 +282,15 @@ public class UserController {
 
     }
 
+    /**
+     * Sample test
+     * POST: http://localhost:8080/leaveOrg?id=1
+     * Description: leave org
+     */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> leaveOrg(long id, long orgId) {
-
-        return new ResponseEntity<>("", HttpStatus.OK);
-
+    public ResponseEntity<?> leaveOrg(@RequestParam long id) {
+        organizationService.leaveOrg(id);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
 

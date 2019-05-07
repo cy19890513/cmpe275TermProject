@@ -47,6 +47,7 @@ public class Hackathon {
 
     @OneToMany(mappedBy = "hackathon")
     private List<Team> teams;
+
     private Boolean isClosed;
     private Boolean isFinalized;
 

@@ -22,4 +22,5 @@ public interface HackathonService {
     void update(Hackathon h);
 
     void joinHackathon(long id, Team team);
+
 }
