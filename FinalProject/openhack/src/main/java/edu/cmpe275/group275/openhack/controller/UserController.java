@@ -1,7 +1,6 @@
 package edu.cmpe275.group275.openhack.controller;
 
 
-
 import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.repository.UserRepository;
@@ -32,10 +31,11 @@ public class UserController {
     private final UserService userService;
     private final HackerUserService hackerUserService;
 
+
     @Autowired
     private OrganizationService organizationService;
 
-    public UserController(UserService userService,HackerUserService hackerUserService ) {
+    public UserController(UserService userService, HackerUserService hackerUserService) {
         this.userService = userService;
         this.hackerUserService = hackerUserService;
     }
@@ -47,14 +47,14 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody Map<String, Object> login, HttpSession session) {
-        if(login.containsKey("email") && login.containsKey("password") ) {
-            String email = (String)login.get("email");
-            String password = (String)login.get("password");
-            if(userService.existUser(email)){
+        if (login.containsKey("email") && login.containsKey("password")) {
+            String email = (String) login.get("email");
+            String password = (String) login.get("password");
+            if (userService.existUser(email)) {
                 User user = userService.getUserByEmail(email);
                 String hashcode = user.getHashcode();
 
-                if(Bcrypt.checkPassword(password, hashcode)){
+                if (Bcrypt.checkPassword(password, hashcode)) {
                     if (user.getVerified() == true) {
                         return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
                     }
@@ -69,10 +69,9 @@ public class UserController {
                     String regex = "^(.+)@sjsu.edu$";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(email);
-                    if(matcher.matches()){
+                    if (matcher.matches()) {
                         role = "AdminUser";
-                    }
-                    else{
+                    } else {
                         role = "hackerUser";
                     }
 
@@ -81,16 +80,14 @@ public class UserController {
 
                     System.out.println("login sessionId:" + sessionId);
                     return new ResponseEntity<>(res, HttpStatus.OK);
-                }
-                else {
+                } else {
                     return new ResponseEntity<>("password is not correct", HttpStatus.NO_CONTENT);
                 }
-            }
-            else{
+            } else {
                 return new ResponseEntity<>("email is not correct", HttpStatus.NO_CONTENT);
             }
 
-        }else {
+        } else {
             return new ResponseEntity<>("emaill or password can not be null", HttpStatus.NO_CONTENT);
         }
 
@@ -98,21 +95,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity<?> registeration(@RequestBody  Map<String, Object> registration) {
+    public ResponseEntity<?> registeration(@RequestBody Map<String, Object> registration) {
         System.out.println("enter registration.");
-        if(!registration.containsKey("email") || !registration.containsKey("username") || !registration.containsKey("password")){
+        if (!registration.containsKey("email") || !registration.containsKey("username") || !registration.containsKey("password")) {
             System.out.println("null");
             return new ResponseEntity<>("email or password or username cannot be null", HttpStatus.BAD_REQUEST);
-        }
-
-        else {
+        } else {
             String email = (String) registration.get("email");
             String password = (String) registration.get("password");
             String username = (String) registration.get("username");
-            if(userService.existUser(email)){
-                return  new ResponseEntity<>("email is already exists", HttpStatus.BAD_REQUEST);
-            }
-            else{
+            if (userService.existUser(email)) {
+                return new ResponseEntity<>("email is already exists", HttpStatus.BAD_REQUEST);
+            } else {
 
                 String hashcode = Bcrypt.hashPassword(password);
                 // check email
@@ -120,50 +114,49 @@ public class UserController {
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(email);
                 User user;
-                if(matcher.matches()){
+                if (matcher.matches()) {
                     user = new AdminUser(email, username, hashcode);
-                }
-                else{
+                } else {
                     user = new HackerUser(email, username, hashcode);
                 }
 
-                if(registration.containsKey("name")) {
+                if (registration.containsKey("name")) {
                     String name = (String) registration.get("name");
                     user.setName(name);
                 }
-                if(registration.containsKey("portrait")) {
-                    String portrait=(String)registration.get("portrait");
+                if (registration.containsKey("portrait")) {
+                    String portrait = (String) registration.get("portrait");
                     user.setPortrait(portrait);
                 }
-                if(registration.containsKey("businessTitle")) {
-                    String businessTitle=(String)registration.get("businessTitle");
+                if (registration.containsKey("businessTitle")) {
+                    String businessTitle = (String) registration.get("businessTitle");
                     user.setBusinessTitle(businessTitle);
                 }
-                if(registration.containsKey("aboutMe")) {
-                    String aboutMe=(String)registration.get("aboutMe");
+                if (registration.containsKey("aboutMe")) {
+                    String aboutMe = (String) registration.get("aboutMe");
                     user.setName(aboutMe);
                 }
                 Address address = new Address();
-                if(registration.containsKey("street")) {
-                    String street=(String)registration.get("street");
+                if (registration.containsKey("street")) {
+                    String street = (String) registration.get("street");
                     if (street != null) {
                         address.setStreet(street);
                     }
                 }
-                if(registration.containsKey("city")) {
-                    String city=(String)registration.get("city");
+                if (registration.containsKey("city")) {
+                    String city = (String) registration.get("city");
                     if (city != null) {
                         address.setCity(city);
                     }
                 }
-                if(registration.containsKey("state")) {
-                    String state=(String)registration.get("state");
+                if (registration.containsKey("state")) {
+                    String state = (String) registration.get("state");
                     if (state != null) {
                         address.setState(state);
                     }
                 }
-                if(registration.containsKey("zip")) {
-                    String zip=(String)registration.get("zip");
+                if (registration.containsKey("zip")) {
+                    String zip = (String) registration.get("zip");
                     if (zip != null) {
                         address.setZip(zip);
                     }
@@ -175,6 +168,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/userProfile?id=7
+     * Description: get user info
+     */
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@RequestParam long id) {
         if(userService.existId(id)) {
@@ -275,7 +273,6 @@ public class UserController {
     }
 
 
-
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> findAll() {
         List<User> users = userService.getAll();
@@ -287,7 +284,7 @@ public class UserController {
 
     @RequestMapping(value = "/getHacker", method = RequestMethod.GET)
     public ResponseEntity<?> getHacker(@RequestParam String email) {
-        if(email == null){
+        if (email == null) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
         HackerUser hacker = hackerUserService.getHackerByEmail(email);
