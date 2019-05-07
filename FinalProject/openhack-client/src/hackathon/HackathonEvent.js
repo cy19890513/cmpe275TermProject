@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 
 import './css/style.css';
+import PostHeader from './img/post-page.jpg';
+import axios from "axios";
 
 
 
@@ -9,13 +11,44 @@ class HackathonEvent extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log(props);
+        this.state = {
+            eventId: null,
+            eventName: null,
+            startDate: null,
+            endDate: null,
+            description: null,
+            registrationFee: null,
+            minSize: null,
+            maxSize: null,
+            sponsors: [],
+            isClosed: null,
+            isFinalized: null,
+            hkData: []
+        }
+
     }
 
+    componentDidMount() {
+        //
+        axios.get("/hackathon/search?id=2")
+            .then(res => {
 
+                //res.data.results.map()
+
+                const hkData = res.data;
+                this.setState({ hkData });
+
+            })
+            .catch(err => {
+                console.error("line 45 err");
+            });
+    }
     render(){
+        console.log("hkData ",this.state.hkData);
         return(
             <div>
+                {}
                 {/*<meta charSet="utf-8" />*/}
                 {/*<meta httpEquiv="X-UA-Compatible" content="IE=edge" />*/}
                 {/*<meta name="viewport" content="width=device-width, initial-scale=1" />*/}
@@ -125,20 +158,20 @@ class HackathonEvent extends Component {
                 {/*    </div>*/}
                 {/*    /!* /Nav *!/*/}
                 {/*    /!* Page Header *!/*/}
-                {/*    <div id="post-header" className="page-header">*/}
-                {/*        <div className="background-img" style={{backgroundImage: 'url("./img/post-page.jpg")'}} />*/}
-                {/*        <div className="container">*/}
-                {/*            <div className="row">*/}
-                {/*                <div className="col-md-10">*/}
-                {/*                    <div className="post-meta">*/}
-                {/*                        <a className="post-category cat-2" href="category.html">JavaScript</a>*/}
-                {/*                        <span className="post-date">March 27, 2018</span>*/}
-                {/*                    </div>*/}
-                {/*                    <h1>Ask HN: Does Anybody Still Use JQuery?</h1>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
+                    <div id="post-header" className="page-header">
+                        <div className="background-img" style={{backgroundImage: `url(${PostHeader})`}} />
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-10">
+                                    <div className="post-meta">
+                                        <a className="post-category cat-2" href="category.html">Open Register</a>
+                                        <span className="post-date">March 27, 2018</span>
+                                    </div>
+                                    <h1>{this.state.hkData.name}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {/*    /!* /Page Header *!/*/}
                 {/*</header>*/}
                 {/* /Header */}
@@ -151,20 +184,13 @@ class HackathonEvent extends Component {
 
 
 
-
-
-
-
-
-
-
                         {/* row */}
                         <div className="row">
                             {/* Post content */}
                             <div className="col-md-8">
                                 <div className="section-row sticky-container">
                                     <div className="main-post">
-                                        <h3>Lorem Ipsum: when, and when not to use it</h3>
+                                        <h3> {this.state.hkData.name}</h3>
                                         <p>Do you like Cheese Whiz? Spray tan? Fake eyelashes? That's what is Lorem Ipsum to many—it rubs them the wrong way, all the way. It's unreal, uncanny, makes you wonder if something is wrong, it seems to seek your attention for all the wrong reasons. Usually, we prefer the real thing, wine without sulfur based preservatives, real butter, not margarine, and so we'd like our layouts and designs to be filled with real words, with thoughts that count, information that has value. </p>
                                         <p>The toppings you may chose for that TV dinner pizza slice when you forgot to shop for foods, the paint you may slap on your face to impress the new boss is your business. But what about your daily bread? Design comps, layouts, wireframes—will your clients accept that you go about things the facile way? Authorities in our business will tell in no uncertain terms that Lorem Ipsum is that huge, huge no no to forswear forever. Not so fast, I'd say, there are some redeeming factors in favor of greeking text, as its use is merely the symptom of a worse problem to take into consideration.</p>
                                         <figure className="figure-img">
