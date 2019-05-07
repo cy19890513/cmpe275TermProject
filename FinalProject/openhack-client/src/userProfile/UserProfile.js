@@ -18,16 +18,21 @@ class UserProfile extends Component {
             error: false,
             organization: {},
             orgs: [],
-            selectOrg: null,
+            selectedOrg: [],
+            role: "",
+            hackathons: [],
         };
     }
 
 
     componentDidMount() {
-        console.log(localStorage.getItem('uid'));
+        // console.log(localStorage.getItem('uid'));
+        const uid = localStorage.getItem('uid');
+
+        this.setState({role: localStorage.getItem('role')});
         axios.get('/userProfile', {
             params: {
-                id: localStorage.getItem('uid')
+                id: uid
             }
         })
             .then(res => {
@@ -40,15 +45,35 @@ class UserProfile extends Component {
                 });
             });
 
-        axios.get('/organizations')
-            .then(res => {
-                this.setState(() => {
-                    return {orgs: res.data};
+        this.getData();
+
+    }
+
+    getData() {
+        console.log(this.state.role);
+        const role = localStorage.getItem('role');
+        if (role === 'hackerUser') {
+            axios.get('/organizations')
+                .then(res => {
+                    this.setState(() => {
+                        return {orgs: res.data};
+                    })
                 })
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+
+        if (role === 'AdminUser') {
+            axios.get('/hackathon')
+                .then(res => {
+                    console.log("hackathon", res);
+                    this.setState({hackathons: res.data});
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     }
 
     organizationNameList() {
@@ -58,8 +83,138 @@ class UserProfile extends Component {
     }
 
     handleSubmit(e) {
-        
+        e.preventDefault();
+        const uid = localStorage.getItem("uid");
+        const orgs = this.state.orgs;
+        const orgId = orgs.find(org => org.name === this.state.selectedOrg[0]).id;
+        console.log('orgs', this.state.orgs);
+        console.log(uid);
+        console.log(orgId);
+        console.log(this.state.selectedOrg);
+        axios.post('/joinOrg', {id: uid, orgId: orgId})
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState(() => {
+                        return {
+                            organization: {name: this.state.selectedOrg + " (Pending)"},
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
+
+    handleLeave(e) {
+        const uid = localStorage.getItem("uid");
+        const orgId = this.state.orgs.find(org => {
+            return org.name === this.state.selectedOrg[0]
+        }).id;
+        axios.post('/leaveOrg', {id: uid, orgId: orgId})
+            .then(res => {
+                this.setState(() => {
+                    return {
+                        organization: {},
+                    }
+                });
+            });
+    }
+
+    handleClose(e) {
+        const orgId = e.id;
+        const state = this.state;
+        axios.post('/hachathon/close')
+            .then(res => {
+                state.hackathons = state.hackathons.map(h => {
+                    if (h.id === orgId) {
+                        h.isClosed = true;
+                    }
+                });
+                this.setState(state);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    leaveButton() {
+        if (this.state.organization.name != null) {
+            return <Button type="button" variant="danger" onClick={this.handleLeave}>Leave</Button>
+        }
+    }
+
+    showOrganization() {
+        const role = localStorage.getItem('role');
+        if (role === 'hackerUser') {
+            return (
+                <div className={"orgSession"}>
+                    <Card>
+                        <Card.Header as="h5">Organization</Card.Header>
+                        <Card.Body>
+                            <Card.Title>{this.state.organization.name}</Card.Title>
+                            <Card.Text>
+                                {this.state.organization.description}
+                            </Card.Text>
+                            {this.leaveButton()}
+                            <Form onSubmit={this.handleSubmit.bind(this)}>
+                                <Form.Group as={Row}>
+                                    <Col sm={8}>
+                                        <Typeahead
+                                            bsSize={"default"}
+                                            clearButton
+                                            labelKey="organization"
+                                            id={1}
+                                            options={this.organizationNameList()}
+                                            placeholder="Choose a organization..."
+                                            onChange={e => {
+                                                this.setState(() => {
+                                                    return {selectedOrg: e}
+                                                });
+                                            }}
+                                        />
+                                    </Col>
+                                    <Col sm={4}>
+                                        <Button type={"submit"}>Request to Join</Button>
+                                    </Col>
+                                </Form.Group>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </div>
+            );
+        }
+
+        if (role === 'AdminUser') {
+            const hackathonList = this.state.hackathons.map(h => {
+                const isClosed = h.isClosed == null;
+                const isFinalized = h.isFinalized == null;
+                return (
+                    <Card>
+                        <Card.Body>
+                            <Row>
+                                <Col sm={8}>
+                                    <Card.Title>{h.name}</Card.Title>
+                                    <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
+                                    <Card.Text>{h.description}</Card.Text>
+                                </Col>
+                                <Col sm={4}>
+                                    <Button variant="warning" className={"buttons"} disabled={isClosed}>Close</Button>
+                                    <Button variant="warning" className={"buttons"} disabled={isFinalized}>Finalized</Button>
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                )
+            });
+            return (
+                <div className={"orgSession"}>
+                    {hackathonList}
+                </div>
+            )
+        }
+    }
+
 
     render() {
         if (this.state.error) {
@@ -76,8 +231,7 @@ class UserProfile extends Component {
                 addr.state == null ? "" : (addr.state + " ") +
                 addr.zip == null ? "" : (addr.zip);
             }
-            // console.log(user);
-            //
+
             return (
                 <div>
                     <Header/>
@@ -94,37 +248,7 @@ class UserProfile extends Component {
                             <ListGroup.Item>Description: {user.discription}</ListGroup.Item>
                         </ListGroup>
                         {/*<a href="/updateUser">edit</a>*/}
-                        <div className={"orgSession"}>
-                            <Card>
-                                <Card.Header as="h5">Organization</Card.Header>
-                                <Card.Body>
-                                    <Card.Title>{this.state.organization.name}</Card.Title>
-                                    <Card.Text>
-                                        {this.state.organization.description}
-                                    </Card.Text>
-                                    <Form onSubmit={this.handleSubmit}>
-                                        <Form.Group as={Row}>
-                                            <Col sm={8}>
-                                                <Typeahead
-                                                    bsSize={"default"}
-                                                    clearButton
-                                                    labelKey="organization"
-                                                    id={1}
-                                                    options={this.organizationNameList()}
-                                                    placeholder="Choose a organization..."
-                                                    onChange={e => {
-                                                        this.setState(()=> {return {selectOrg: e}});
-                                                    }}
-                                                />
-                                            </Col>
-                                            <Col sm={4}>
-                                                <Button type={"submit"}>Request to Join</Button>
-                                            </Col>
-                                        </Form.Group>
-                                    </Form>
-                                </Card.Body>
-                            </Card>
-                        </div>
+                        {this.showOrganization()}
                     </div>
                 </div>
             );

@@ -98,7 +98,7 @@ public class User {
     }
 
     public void setName(String username) {
-        this.username = username;
+        this.name = username;
     }
 
 

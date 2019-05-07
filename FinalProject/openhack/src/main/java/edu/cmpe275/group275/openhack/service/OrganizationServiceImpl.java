@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.internet.InternetAddress;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
     private HackerUserService hackerUserService;
 
-//    @Autowired
-//    public JavaMailSender emailSender;
+    @Autowired
+    public JavaMailSender emailSender;
 
     public OrganizationServiceImpl(OrganizationRepository organizationRepository, UserService userService) {
         this.organizationRepository = organizationRepository;
@@ -75,26 +76,32 @@ public class OrganizationServiceImpl implements OrganizationService {
             hackerUserService.update(hacker);
         }
         hacker.setOrganization(null);
-     //   sendRequest(hacker, owner);
+        sendRequest(hacker, owner, org.getId());
     }
 
     @Transactional
     public void approve(Organization org, HackerUser hackerUser){
         hackerUser.setOrganization(org);
         hackerUserService.update(hackerUser);
+        System.out.println("approved successfully");
     }
 
-    private void sendRequest(HackerUser hacker, HackerUser owner){
+    private void sendRequest(HackerUser hacker, HackerUser owner, long orgId){
         String email = owner.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
-        String to = email;
-        String text = "Dear " + owner.getUsername() + ", user "
-                + hacker.getUsername() + " has requested to join your organization. " +
-                "Please click below link for approval.";
+       // String to = email;
+        String to = "verawang0112@gmail.com";
+        long uid = hacker.getId();
+        String text = "Dear " + owner.getUsername() + ", \n\n" +
+                "User " + hacker.getUsername() + " has requested to join your organization. " +
+                "Please click link below for approval. \n\n" +
+                "<a href='http://localhost:8080/approveJoinRequest?id="+uid+"&orgId="+orgId+ "'>" +
+                "approvetheuserrequest</a> \n\n" +
+                "Hackathon Management System";
         message.setTo(to);
-        message.setSubject("Monthly Bill from DWMS App");
+        message.setSubject("Hackathon Management: Request Approval for Your Organization");
         message.setText(text);
- //       emailSender.send(message);
+        emailSender.send(message);
         System.out.println("email sent out");
     }
 
