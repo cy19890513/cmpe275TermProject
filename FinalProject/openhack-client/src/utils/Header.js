@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
+import axios from 'axios';
 
 import Nav from 'react-bootstrap/Nav';
 import './Header.css';
@@ -9,20 +10,33 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginName: undefined,
+            loginName: null,
         };
     }
 
     componentDidMount() {
-        if (localStorage.getItem('username') !== undefined) {
+        if (localStorage.getItem('username') != undefined) {
             this.setState({loginName: localStorage.getItem('username')});
         }
     }
 
+    handleSignout() {
+        axios.post('/logout')
+            .then(res => {
+                console.log("logout");
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        localStorage.clear();
+        this.setState({loginName: undefined});
+    }
+
     render() {
         let userSession;
-        console.log(localStorage.getItem('username'));
-        if (this.state.loginName !== undefined) {
+        // console.log(localStorage.getItem('username'));
+        if (localStorage.getItem('username') == undefined) {
+            // console.log(localStorage.getItem('username'));
             userSession = (
                 <div>
                     <Navbar.Text>
@@ -41,7 +55,7 @@ class Header extends Component {
                         <a href={profileUrl}>{this.state.loginName}</a>
                     </Navbar.Text>
                     <Navbar.Text style={{marginLeft: "20px"}}>
-                        <a href="/logout">Log out</a>
+                        <a href="/" onClick={this.handleSignout}>Log out</a>
                     </Navbar.Text>
                 </div>
             );
