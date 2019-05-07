@@ -16,6 +16,7 @@ public interface OrganizationService {
     boolean exists(String name);
     void joinOrg(Organization org, HackerUser hacker);
     void approve(Organization org, HackerUser hackerUser);
+    void leaveOrg(long id);
 
 
 }

@@ -105,4 +105,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         System.out.println("email sent out");
     }
 
+    public void leaveOrg(long id){
+        HackerUser hackerUser = hackerUserService.getHackerUser(id);
+        hackerUser.setOrganization(null);
+        hackerUserService.update(hackerUser);
+    }
+
 }

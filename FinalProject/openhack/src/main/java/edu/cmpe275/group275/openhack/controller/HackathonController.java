@@ -44,36 +44,43 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/team?hackathonId=1&uid=9&teamName=Super
+     * POST: hackathon/team?hackathonId=1&uid=9
      * payload: {
-     *     members: [
-     *         "jam@gmail.com",
-     * 		   "wang@test.com"
-     *     ]
+     *  "teamName": "Super",
+     * 	"members": [
+     *                {
+     * 			"email": "jam@gmail.com",
+     * 			"role": "Engineer"
+     *        },
+     *        {
+     * 			"email": "wang@test.com",
+     * 			"role": "Data Engineer"
+     *        }
+     * 	]
      * }
      * Description: create an team
      */
     @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestParam long hackathonId,
                                         @RequestParam long uid,
-                                        @RequestParam String teamName,
                                         @RequestBody Map<String, Object> payload){
 
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
+        String teamName = (String) payload.get("teamName");
         Member lead = new Member();
         lead.setHacker(hacker);
         lead.setRole("Team Lead");
         memberService.createMember(lead);
-        List<String> list = (List<String>) payload.get("members");
+        List<Map<String, String>> list = (List<Map<String, String>>) payload.get("members");
         List<Member> members = new ArrayList<>();
-        int i = 1;
-        for(String email: list){
+        for(Map<String, String> entry: list){
+            String email = entry.get("email");
+            String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
             Member member = new Member();
             member.setHacker(hackerUser);
-            member.setRole("Role"+i);
-            i++;
+            member.setRole(role);
             memberService.createMember(member);
             members.add(member);
         }
@@ -83,14 +90,21 @@ public class HackathonController {
         team.setMembers(members);
         team.setHackathon(h);
         teamService.createTeam(team);
+        teamService.updateMembers(team);
 
         return new ResponseEntity<>(memberService.convertToMap(team), HttpStatus.OK);
     }
     /**
      * Sample test
-     * PUT: hackathon/teamPayment?teamId=XX&teamMemberId=YY&IsPaid=ZZ
+     * GET: hackathon/payment?teamId=1&uid=9
      * Description: update payment
      */
+    @GetMapping(value="/hackathon/payment")
+    public ResponseEntity<?> processPayment(@RequestParam long teamId,
+                                            @RequestParam long uid){
+        teamService.processPayment(teamId, uid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     /**
      * Sample test
@@ -117,11 +131,25 @@ public class HackathonController {
     /**
      * Sample test
      * GET: hackathon/teamInfo?uid=9
-     * Description: get team info
+     * Description: get team info by hacker id
      */
     @GetMapping(value="/hackathon/teamInfo")
     public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
-        Team t = memberService.getTeam(uid);
+        Team t = teamService.getTeam(uid);
+        if(t == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(memberService.convertToMap(t), HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * GET: hackathon/team?teamId=1
+     * Description: get team info by team id
+     */
+    @GetMapping(value="/hackathon/team")
+    public ResponseEntity<?> getTeam(@RequestParam long teamId){
+        Team t = teamService.getTeam(teamId);
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -184,6 +212,8 @@ public class HackathonController {
         h.setMinSize((int) payload.get("minSize"));
         h.setFee((double) payload.get("fee"));
         h.setMaxSize((int) payload.get("maxSize"));
+        h.setFinalized(false);
+        h.setClosed(false);
 
         if(payload.containsKey("sponsors")){
             List<String> sList = (List<String>) payload.get("sponsors");
@@ -224,19 +254,13 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/join?id=1
-     * payload: {
-     *     team: {
-     *
-     *     }
-     * }
+     * POST: hackathon/join?id=1&teamId=1
      * Description: join a hackathon
      */
     @PostMapping(value="/hackathon/join")
     public ResponseEntity<?> joinHackathon(@RequestParam Long id,
-                                           @RequestBody Team team) {
-
-
+                                           @RequestParam long teamId) {
+        Team team = teamService.getTeam(teamId);
         hackathonService.joinHackathon(id, team);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -293,6 +317,13 @@ public class HackathonController {
         }
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
+        if(h.getTeams() != null){
+            List<String> res = new ArrayList<>();
+            for(Team t: h.getTeams()){
+                res.add(t.getTeamName());
+            }
+            map.put("teams", res);
+        }
         return map;
     }
 }
