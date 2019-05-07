@@ -17,15 +17,17 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", user.getId());
         map.put("username", user.getUsername());
         map.put("email", user.getEmail());
         map.put("name", user.getName());
-        map.put("BusinessTitle", user.getBusinessTitle());
-        map.put("Address", convertAddress(user.getAddress()));
-        map.put("Description", user.getAboutMe());
+        map.put("businessTitle", user.getBusinessTitle());
+        map.put("address", user.getAddress());
+      //  map.put("Address", convertAddress(user.getAddress()));
+        map.put("aboutMe", user.getAboutMe());
         map.put("portrait", user.getPortrait());
         return map;
     }
@@ -40,12 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public String convertAddress(Address address) {
-        String street = address.getStreet();
-        String city = address.getCity();
-        String state = address.getState();
-        String zip = address.getZip();
-        String res = street + "," + city + "," + state + "," + zip;
-        return res;
+        if(address != null){
+            String street = address.getStreet();
+            String city = address.getCity();
+            String state = address.getState();
+            String zip = address.getZip();
+            String res = street + "," + city + "," + state + "," + zip;
+            return res;
+        }
+        return null;
     }
 
 
@@ -63,7 +68,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User getUser(long id) {
-        return userRepository.getOne(id);
+        return userRepository.getById(id);
+       // return userRepository.getOne(id);
     }
 
     @Transactional
@@ -77,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public boolean eixtId(long id) {
+    public boolean existId(long id) {
         return userRepository.existsById(id);
     }
 

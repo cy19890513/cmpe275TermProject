@@ -20,5 +20,5 @@ public interface HackerUserService {
 
     Map<String, Object> convertuserToMap(HackerUser heaker);
    // Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
-
+    void update(HackerUser hacker);
 }
