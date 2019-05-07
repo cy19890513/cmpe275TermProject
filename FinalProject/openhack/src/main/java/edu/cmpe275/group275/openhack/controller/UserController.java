@@ -249,7 +249,7 @@ public class UserController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/joinOrg?id=9&orgId=4
+     * POST: http://localhost:8080/joinOrg?id=9&orgId=4
      * Description: request to join an organization
      */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
