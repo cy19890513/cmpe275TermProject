@@ -94,7 +94,7 @@ public class User {
 
 
     public String getName() {
-        return username;
+        return name;
     }
 
     public void setName(String username) {

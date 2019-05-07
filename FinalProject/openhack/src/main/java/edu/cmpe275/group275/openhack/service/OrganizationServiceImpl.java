@@ -21,8 +21,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final UserService userService;
     @Autowired
     private HackerUserService hackerUserService;
-    @Autowired
-    public JavaMailSender emailSender;
+
+//    @Autowired
+//    public JavaMailSender emailSender;
 
     public OrganizationServiceImpl(OrganizationRepository organizationRepository, UserService userService) {
         this.organizationRepository = organizationRepository;
@@ -74,7 +75,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             hackerUserService.update(hacker);
         }
         hacker.setOrganization(null);
-        sendRequest(hacker, owner);
+     //   sendRequest(hacker, owner);
     }
 
     @Transactional
@@ -93,7 +94,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         message.setTo(to);
         message.setSubject("Monthly Bill from DWMS App");
         message.setText(text);
-        emailSender.send(message);
+ //       emailSender.send(message);
         System.out.println("email sent out");
     }
 
