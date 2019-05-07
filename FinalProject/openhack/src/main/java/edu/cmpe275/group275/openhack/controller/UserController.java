@@ -255,13 +255,30 @@ public class UserController {
 
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/joinOrg?id=9&orgId=4
+     * Description: request to join an organization
+     */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
     public ResponseEntity<?> joinOrg(@RequestParam long id, @RequestParam long orgId) {
         HackerUser user = hackerUserService.getHackerUser(id);
         Organization org = organizationService.getOrg(orgId);
+        organizationService.joinOrg(org, user);
+        return new ResponseEntity<>("Waiting for owner approval", HttpStatus.OK);
+    }
 
-
-        return new ResponseEntity<>("", HttpStatus.OK);
+    /**
+     * Sample test
+     * GET: http://localhost:8080/approveJoinRequest?id=&orgId=3
+     * Description: approve a join organization request
+     */
+    @RequestMapping(value = "/approveJoinRequest", method = RequestMethod.GET)
+    public ResponseEntity<?> approveJoinRequest(@RequestParam long id, @RequestParam long orgId) {
+        Organization org = organizationService.getOrg(orgId);
+        HackerUser hacker = hackerUserService.getHackerUser(id);
+        organizationService.approve(org, hacker);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
