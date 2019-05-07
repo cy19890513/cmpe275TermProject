@@ -112,5 +112,22 @@ public class OrganizationController {
     }
 
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/organizationInfo?id=4
+     * Description: get an organization detail
+     */
+    @RequestMapping(value = "/organizationInfo", method = RequestMethod.GET)
+    public ResponseEntity<?> getOrganizationById(@RequestParam long id){
+//        if(id == null){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+        Organization org = organizationService.getOrg(id);
+        if(org == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(organizationService.convertOrgToMap(org), HttpStatus.OK);
+    }
+
 
 }

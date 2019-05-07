@@ -212,6 +212,8 @@ public class HackathonController {
         h.setMinSize((int) payload.get("minSize"));
         h.setFee((double) payload.get("fee"));
         h.setMaxSize((int) payload.get("maxSize"));
+        h.setFinalized(false);
+        h.setClosed(false);
 
         if(payload.containsKey("sponsors")){
             List<String> sList = (List<String>) payload.get("sponsors");
@@ -315,6 +317,13 @@ public class HackathonController {
         }
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
+        if(h.getTeams() != null){
+            List<String> res = new ArrayList<>();
+            for(Team t: h.getTeams()){
+                res.add(t.getTeamName());
+            }
+            map.put("teams", res);
+        }
         return map;
     }
 }

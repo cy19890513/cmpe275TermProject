@@ -247,14 +247,6 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/getOrg", method = RequestMethod.GET)
-    public ResponseEntity<?> getOrg(long id) {
-        HackerUser user = hackerUserService.getHackerUser(id);
-        Organization organization = user.getOrganization();
-        return new ResponseEntity<>(organization, HttpStatus.OK);
-
-    }
-
     /**
      * Sample test
      * GET: http://localhost:8080/joinOrg?id=9&orgId=4
@@ -284,7 +276,7 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/leaveOrg?id=1
+     * POST: http://localhost:8080/leaveOrg?id=6
      * Description: leave org
      */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
