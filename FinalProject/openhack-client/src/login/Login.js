@@ -42,7 +42,8 @@ class Login extends Component {
                     localStorage.setItem('uid', data.uid);
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('sessionId', data.sessionId);
-                    // this.props.history.push("/");
+                    console.log(localStorage.getItem('username'));
+                    this.props.history.push("/");
                 } else if (res.status === 204) {
                     console.log("email password do not match");
                     alert("email password do not match");

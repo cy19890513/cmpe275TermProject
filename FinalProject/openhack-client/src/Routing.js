@@ -7,10 +7,9 @@ import CreateHackathon from './createHackathon/CreateHackathon';
 import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
-import UserProfile from "./userProfile/userProfile";
+import UserProfile from "./userProfile/UserProfile";
 import CreateOrg from "./createOrg/createOrg";
 import Home from './Home/Home';
-
 function Routing() {
     return (
         <Router>
@@ -26,7 +25,7 @@ function Routing() {
                 <Route path={'/create_hackathon'} component={CreateHackathon}/>
                 <Route path={'/createOrg'} component={CreateOrg}/>
                 <Route path={'/submit/:uid'} component={Submission}/>
-                <Route path={'/user/:uid'} component={null} />
+                <Route path={'/user/:uid'} component={UserProfile} />
             </Switch>
         </Router>
     );
