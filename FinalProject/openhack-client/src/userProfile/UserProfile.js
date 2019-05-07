@@ -272,12 +272,12 @@ class UserProfile extends Component {
                 </div>
             )
         }
->>>>>>> cd305c52abb4b973c99ae2266b8e42bd7da85f42
+
     }
 
 
     render() {
-<<<<<<< HEAD
+
         return (
             <div className="container emp-profile">
                 <form method="post">
