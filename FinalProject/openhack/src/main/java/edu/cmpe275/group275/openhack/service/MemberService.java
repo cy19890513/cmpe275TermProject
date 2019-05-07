@@ -14,4 +14,6 @@ public interface MemberService {
     Team getTeam(long uid);
 
     Map<String, Object> convertToMap(Team t);
+
+    void update(Member m);
 }

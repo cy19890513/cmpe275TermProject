@@ -7,7 +7,6 @@ import java.util.List;
 
 
 @Entity
-@IdClass(TeamPK.class)
 public class Team{
 
     @Id
@@ -29,7 +28,8 @@ public class Team{
     private Boolean ifAllPaid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn (name="HACKTHON_ID", referencedColumnName = "Hack_Id")
+    @JoinColumn(name="HACKTHON_ID")
+    //@PrimaryKeyJoinColumn (name="HACKTHON_ID", referencedColumnName = "Hack_Id")
     private Hackathon hackathon;
 
     public Team(){}
@@ -107,6 +107,7 @@ public class Team{
     public void setHackathon(Hackathon hackathon) {
         this.hackathon = hackathon;
     }
+
 }
 
 

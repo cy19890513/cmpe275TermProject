@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
+import axios from 'axios';
 
 import Nav from 'react-bootstrap/Nav';
 import './Header.css';
@@ -9,11 +10,56 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginName: "",
+            loginName: null,
         };
     }
 
+    componentDidMount() {
+        if (localStorage.getItem('username') != undefined) {
+            this.setState({loginName: localStorage.getItem('username')});
+        }
+    }
+
+    handleSignout() {
+        axios.post('/logout')
+            .then(res => {
+                console.log("logout");
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        localStorage.clear();
+        this.setState({loginName: undefined});
+    }
+
     render() {
+        let userSession;
+        // console.log(localStorage.getItem('username'));
+        if (localStorage.getItem('username') == undefined) {
+            // console.log(localStorage.getItem('username'));
+            userSession = (
+                <div>
+                    <Navbar.Text>
+                        <a href="/login">Login</a>
+                    </Navbar.Text>
+                    <Navbar.Text style={{"marginLeft": "20px"}}>
+                        <a href="/signup">Sign up</a>
+                    </Navbar.Text>
+                </div>
+            );
+        } else {
+            const profileUrl = "/user/" + this.state.loginName;
+            userSession = (
+                <div>
+                    <Navbar.Text>
+                        <a href={profileUrl}>{this.state.loginName}</a>
+                    </Navbar.Text>
+                    <Navbar.Text style={{marginLeft: "20px"}}>
+                        <a href="/" onClick={this.handleSignout}>Log out</a>
+                    </Navbar.Text>
+                </div>
+            );
+        }
         return (
             <div>
                 <Navbar className={'head'}>
@@ -24,12 +70,7 @@ class Header extends Component {
                             <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link href="/hackathon">Hackathon</Nav.Link>
                         </Nav>
-                        <Navbar.Text>
-                            <a href="/login">Login</a>
-                        </Navbar.Text>
-                        <Navbar.Text style={{marginLeft: "20px"}}>
-                            <a href="/signup">Sign up</a>
-                        </Navbar.Text>
+                        {userSession}
                     </Navbar.Collapse>
                 </Navbar>
             </div>

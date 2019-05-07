@@ -21,7 +21,11 @@ function login(email, password) {
             console.log(res);
             if(res.status == 200){
                 console.log("Login successful");
-                localStorage.setItem('sessionId', res.data.body);
+                const data = res.data;
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('uid', data.uid);
+                localStorage.setItem('role', data.role);
+                localStorage.setItem('sessionId', data.sessionId);
             }else if(res.status == 204){
                 console.log("email password do not match");
                 alert("email password do not match");

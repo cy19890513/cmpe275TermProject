@@ -36,6 +36,11 @@ public class MemberServiceImpl implements MemberService{
         return m.getTeam();
     }
 
+    @Transactional
+    public void update(Member m){
+        memberRepository.save(m);
+    }
+
     public Map<String, Object> convertToMap(Team t){
         Map<String, Object> res = new LinkedHashMap<>();
         res.put("id", t.getId());
@@ -46,10 +51,13 @@ public class MemberServiceImpl implements MemberService{
             members.add(m.getHacker().getUsername());
         }
         res.put("members", members);
-        if(t.getHackathon().getFinalized()){
-            res.put("grade", t.getGrade());
-        }
+//        if(t.getHackathon() != null && t.getHackathon().getFinalized()){
+//            res.put("grade", t.getGrade());
+//        }
         res.put("url", t.getUrl());
+        if(t.getHackathon() != null){
+            res.put("hackathon", t.getHackathon().getName());
+        }
         return res;
     }
 }

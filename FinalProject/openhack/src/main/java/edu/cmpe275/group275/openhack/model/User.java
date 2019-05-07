@@ -94,11 +94,11 @@ public class User {
 
 
     public String getName() {
-        return username;
+        return name;
     }
 
     public void setName(String username) {
-        this.username = username;
+        this.name = username;
     }
 
 
