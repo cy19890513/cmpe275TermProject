@@ -13,4 +13,6 @@ public interface TeamService {
     void processPayment(long id, long teamId);
     void updateMembers(Team t);
     void join(Hackathon h, Team t);
+
+    void update(Team t);
 }

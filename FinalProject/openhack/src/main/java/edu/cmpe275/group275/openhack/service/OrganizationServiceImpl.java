@@ -95,14 +95,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         String text = "Dear " + owner.getUsername() + ", \n\n" +
                 "User " + hacker.getUsername() + " has requested to join your organization. " +
                 "Please click link below for approval. \n\n" +
-                "<a href='http://localhost:8080/approveJoinRequest?id="+uid+"&orgId="+orgId+ "'>" +
+                "<a href='http://localhost:8080/approveJoinRequest?uid="+uid+"&oid="+orgId+ "'>" +
                 "approvetheuserrequest</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);
         message.setSubject("Hackathon Management: Request Approval for Your Organization");
         message.setText(text);
         emailSender.send(message);
-        System.out.println("email sent out");
+        System.out.println("join Org email sent out");
     }
 
     public void leaveOrg(long id){

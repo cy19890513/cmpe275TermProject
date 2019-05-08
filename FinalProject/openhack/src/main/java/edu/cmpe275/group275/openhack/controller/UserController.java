@@ -163,6 +163,7 @@ public class UserController {
                 }
                 user.setVerified(false);
                 userService.createUser(user);
+                userService.verifyUser(user);
                 return new ResponseEntity<>("confirm by email", HttpStatus.OK);
             }
         }
@@ -170,13 +171,27 @@ public class UserController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/userProfile?id=7
+     * GET: http://localhost:8080/verifyUser?uid=7
+     * Description: get user info
+     */
+    @RequestMapping(value = "/verifyUser", method = RequestMethod.GET)
+    public ResponseEntity<?> verifyUser(@RequestParam long uid,
+                                        @RequestParam (required = false) String code) {
+        User user = userService.getUser(uid);
+        user.setVerified(true);
+        userService.updateUser(user);
+        return new ResponseEntity<>("User account has been verified.", HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * GET: http://localhost:8080/userProfile?uid=7
      * Description: get user info
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@RequestParam long id) {
-        if(userService.existId(id)) {
-            User user= userService.getUser(id);
+    public ResponseEntity<?> getUser(@RequestParam long uid) {
+        if(userService.existId(uid)) {
+            User user= userService.getUser(uid);
             System.out.println(user.toString());
             return new ResponseEntity<>(userService.convertuserToMap(user) , HttpStatus.OK);
         }
@@ -189,17 +204,22 @@ public class UserController {
     /**
      * Sample test
      * POST: http://localhost:8080/logout
+     * payload: {
+     *     uid: 9
+     * }
      * Description: logout
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<?> logout(@RequestParam long id){
+    public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload){
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * POST: http://localhost:8080/userProfile?id=XX
+     * POST: http://localhost:8080/userProfile
      * payload: {
+     *      "uid": 10,
      *      "name": "Alice",
      *      "businessTitle" : "Software Manager",
      *      "aboutMe": "love coding"
@@ -207,12 +227,12 @@ public class UserController {
      * Description: update a user profile
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestParam long id,
-                                        @RequestBody Map<String, Object> payload) {
-        if(!userService.existId(id)) {
+    public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        if(!userService.existId(uid)) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
-        User user = userService.getUser(id);
+        User user = userService.getUser(uid);
         if(payload.containsKey("aboutMe")){
             user.setAboutMe((String) payload.get("aboutMe"));
         }
@@ -249,26 +269,32 @@ public class UserController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/joinOrg?id=9&orgId=4
+     * POST: http://localhost:8080/joinOrg
+     * payload: {
+     *     uid: 9,
+     *     oid: 4
+     * }
      * Description: request to join an organization
      */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> joinOrg(@RequestParam long id, @RequestParam long orgId) {
-        HackerUser user = hackerUserService.getHackerUser(id);
-        Organization org = organizationService.getOrg(orgId);
+    public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        long oid = Long.valueOf(String.valueOf(payload.get("oid")));
+        HackerUser user = hackerUserService.getHackerUser(uid);
+        Organization org = organizationService.getOrg(oid);
         organizationService.joinOrg(org, user);
         return new ResponseEntity<>("Waiting for owner approval", HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * GET: http://localhost:8080/approveJoinRequest?id=&orgId=3
+     * GET: http://localhost:8080/approveJoinRequest?uid=&oid=3
      * Description: approve a join organization request
      */
     @RequestMapping(value = "/approveJoinRequest", method = RequestMethod.GET)
-    public ResponseEntity<?> approveJoinRequest(@RequestParam long id, @RequestParam long orgId) {
-        Organization org = organizationService.getOrg(orgId);
-        HackerUser hacker = hackerUserService.getHackerUser(id);
+    public ResponseEntity<?> approveJoinRequest(@RequestParam long uid, @RequestParam long oid) {
+        Organization org = organizationService.getOrg(oid);
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
         organizationService.approve(org, hacker);
         return new ResponseEntity<>(HttpStatus.OK);
 
@@ -276,23 +302,25 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/leaveOrg?id=6
+     * POST: http://localhost:8080/leaveOrg
+     * payload: {
+     *     uid: 9
+     * }
      * Description: leave org
      */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> leaveOrg(@RequestParam long id) {
-        organizationService.leaveOrg(id);
+    public ResponseEntity<?> leaveOrg(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        organizationService.leaveOrg(uid);
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public ResponseEntity<?> findAll() {
-        List<User> users = userService.getAll();
-        User user = users.get(0);
-        return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
-    }
-
+    /**
+     * Sample test
+     * GET: http://localhost:8080/get_all_users
+     * Description: return all users
+     */
     @RequestMapping(value="/get_all_users", method=RequestMethod.GET)
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAll();
@@ -303,6 +331,11 @@ public class UserController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/getHacker?email=join@gmail.com
+     * Description: get a hacker by email
+     */
     @RequestMapping(value = "/getHacker", method = RequestMethod.GET)
     public ResponseEntity<?> getHacker(@RequestParam String email) {
         if (email == null) {
