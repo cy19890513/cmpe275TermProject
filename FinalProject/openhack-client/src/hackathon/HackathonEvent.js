@@ -173,7 +173,7 @@ class HackathonEvent extends Component {
                                 <div className="col-md-10">
                                     <div className="post-meta">
                                         <a className="post-category cat-2" href="#">Open Register</a>
-                                        <span className="post-date">March 27, 2018</span>
+                                        <span className="post-date">{this.state.hkData.startDate}</span>
                                     </div>
                                     <h1>{this.state.hkData.name}</h1>
                                 </div>
@@ -189,9 +189,6 @@ class HackathonEvent extends Component {
                     <div className="container">
 
 
-
-
-
                         {/* row */}
                         <div className="row">
                             {/* Post content */}
@@ -201,147 +198,147 @@ class HackathonEvent extends Component {
                                         <h3> {this.state.hkData.name}</h3>
                                         <p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>
                                         <p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>
-                                        <figure className="figure-img">
-                                            <img className="img-responsive" src={require('./img/post-4.jpg')} alt />
-                                            <figcaption>Designer TOMPHSON</figcaption>
-                                        </figure>
-                                        <p>We're looking for contributions of original content in the form of a map, story map, app, or workflow using the Esri platform. Winners will be considered for the Living Atlas, Story Maps site, and even Maps we Love.</p>
-                                        <p>The event kicks off on Friday, May 3, and all submissions are due before noon on Monday, May 13.</p>
-                                        <blockquote className="blockquote">
-                                            I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it helps people focus on the actual layout, or color scheme, or whatever. What kills me here is that we’re talking about creating a user experience that will (whether we like it or not) be DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.
-                                        </blockquote>
-                                        <p>For important announcements and upcoming events, join e-bloc on Teams and subscribe to the Climate Change Challenge channel.</p>
-                                        <h3>Summing up, if the copy is diverting attention from the design it’s because it’s not up to task.</h3>
-                                        <p>Typographers of yore didn't come up with the concept of dummy copy because people thought that content is inconsequential window dressing, only there to be used by designers who can’t be bothered to read. Lorem Ipsum is needed because words matter, a lot. Just fill up a page with draft copy about the client’s business and they will actually read it and comment on it. They will be drawn to it, fiercely. Do it the wrong way and draft copy can derail your design review.</p>
+                                        {/*<figure className="figure-img">*/}
+                                        {/*    <img className="img-responsive" src={require('./img/post-4.jpg')} alt />*/}
+                                        {/*    <figcaption>Designer TOMPHSON</figcaption>*/}
+                                        {/*</figure>*/}
+                                        {/*<p>We're looking for contributions of original content in the form of a map, story map, app, or workflow using the Esri platform. Winners will be considered for the Living Atlas, Story Maps site, and even Maps we Love.</p>*/}
+                                        {/*<p>The event kicks off on Friday, May 3, and all submissions are due before noon on Monday, May 13.</p>*/}
+                                        {/*<blockquote className="blockquote">*/}
+                                        {/*    I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it helps people focus on the actual layout, or color scheme, or whatever. What kills me here is that we’re talking about creating a user experience that will (whether we like it or not) be DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.*/}
+                                        {/*</blockquote>*/}
+                                        {/*<p>For important announcements and upcoming events, join e-bloc on Teams and subscribe to the Climate Change Challenge channel.</p>*/}
+                                        {/*<h3>Summing up, if the copy is diverting attention from the design it’s because it’s not up to task.</h3>*/}
+                                        {/*<p>Typographers of yore didn't come up with the concept of dummy copy because people thought that content is inconsequential window dressing, only there to be used by designers who can’t be bothered to read. Lorem Ipsum is needed because words matter, a lot. Just fill up a page with draft copy about the client’s business and they will actually read it and comment on it. They will be drawn to it, fiercely. Do it the wrong way and draft copy can derail your design review.</p>*/}
                                     </div>
-                                    <div className="post-shares sticky-shares">
-                                        <a href="#" className="share-facebook"><i className="fa fa-facebook" /></a>
-                                        <a href="#" className="share-twitter"><i className="fa fa-twitter" /></a>
-                                        <a href="#" className="share-google-plus"><i className="fa fa-google-plus" /></a>
-                                        <a href="#" className="share-pinterest"><i className="fa fa-pinterest" /></a>
-                                        <a href="#" className="share-linkedin"><i className="fa fa-linkedin" /></a>
-                                        <a href="#"><i className="fa fa-envelope" /></a>
-                                    </div>
+                                    {/*<div className="post-shares sticky-shares">*/}
+                                    {/*    <a href="#" className="share-facebook"><i className="fa fa-facebook" /></a>*/}
+                                    {/*    <a href="#" className="share-twitter"><i className="fa fa-twitter" /></a>*/}
+                                    {/*    <a href="#" className="share-google-plus"><i className="fa fa-google-plus" /></a>*/}
+                                    {/*    <a href="#" className="share-pinterest"><i className="fa fa-pinterest" /></a>*/}
+                                    {/*    <a href="#" className="share-linkedin"><i className="fa fa-linkedin" /></a>*/}
+                                    {/*    <a href="#"><i className="fa fa-envelope" /></a>*/}
+                                    {/*</div>*/}
                                 </div>
                                 {/* ad */}
-                                <div className="section-row text-center">
-                                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>
-                                        <img className="img-responsive" src={require('./img/ad-2.jpg')} alt />
-                                    </a>
-                                </div>
+                                {/*<div className="section-row text-center">*/}
+                                {/*    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>*/}
+                                {/*        <img className="img-responsive" src={require('./img/ad-2.jpg')} alt />*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
                                 {/* ad */}
                                 {/* author */}
-                                <div className="section-row">
-                                    <div className="post-author">
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/author.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h3>John Doe</h3>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                <ul className="author-social">
-                                                    <li><a href="#"><i className="fa fa-facebook" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-twitter" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-instagram" /></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="section-row">*/}
+                                {/*    <div className="post-author">*/}
+                                {/*        <div className="media">*/}
+                                {/*            <div className="media-left">*/}
+                                {/*                <img className="media-object" src={require('./img/author.png')} alt />*/}
+                                {/*            </div>*/}
+                                {/*            <div className="media-body">*/}
+                                {/*                <div className="media-heading">*/}
+                                {/*                    <h3>John Doe</h3>*/}
+                                {/*                </div>*/}
+                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
+                                {/*                <ul className="author-social">*/}
+                                {/*                    <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
+                                {/*                    <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
+                                {/*                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
+                                {/*                    <li><a href="#"><i className="fa fa-instagram" /></a></li>*/}
+                                {/*                </ul>*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /author */}
                                 {/* comments */}
-                                <div className="section-row">
-                                    <div className="section-title">
-                                        <h2>3 Comments</h2>
-                                    </div>
-                                    <div className="post-comments">
-                                        {/* comment */}
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/avatar.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h4>John Doe</h4>
-                                                    <span className="time">March 27, 2018 at 8:00 am</span>
-                                                    <a href="#" className="reply">Reply</a>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                {/* comment */}
-                                                <div className="media">
-                                                    <div className="media-left">
-                                                        <img className="media-object" src={require('./img/avatar.png')} alt />
-                                                    </div>
-                                                    <div className="media-body">
-                                                        <div className="media-heading">
-                                                            <h4>John Doe</h4>
-                                                            <span className="time">March 27, 2018 at 8:00 am</span>
-                                                            <a href="#" className="reply">Reply</a>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                    </div>
-                                                </div>
-                                                {/* /comment */}
-                                            </div>
-                                        </div>
-                                        {/* /comment */}
-                                        {/* comment */}
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/avatar.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h4>John Doe</h4>
-                                                    <span className="time">March 27, 2018 at 8:00 am</span>
-                                                    <a href="#" className="reply">Reply</a>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </div>
-                                        {/* /comment */}
-                                    </div>
-                                </div>
+                                {/*<div className="section-row">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>3 Comments</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post-comments">*/}
+                                {/*        /!* comment *!/*/}
+                                {/*        <div className="media">*/}
+                                {/*            <div className="media-left">*/}
+                                {/*                <img className="media-object" src={require('./img/avatar.png')} alt />*/}
+                                {/*            </div>*/}
+                                {/*            <div className="media-body">*/}
+                                {/*                <div className="media-heading">*/}
+                                {/*                    <h4>John Doe</h4>*/}
+                                {/*                    <span className="time">March 27, 2018 at 8:00 am</span>*/}
+                                {/*                    <a href="#" className="reply">Reply</a>*/}
+                                {/*                </div>*/}
+                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
+                                {/*                /!* comment *!/*/}
+                                {/*                <div className="media">*/}
+                                {/*                    <div className="media-left">*/}
+                                {/*                        <img className="media-object" src={require('./img/avatar.png')} alt />*/}
+                                {/*                    </div>*/}
+                                {/*                    <div className="media-body">*/}
+                                {/*                        <div className="media-heading">*/}
+                                {/*                            <h4>John Doe</h4>*/}
+                                {/*                            <span className="time">March 27, 2018 at 8:00 am</span>*/}
+                                {/*                            <a href="#" className="reply">Reply</a>*/}
+                                {/*                        </div>*/}
+                                {/*                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
+                                {/*                    </div>*/}
+                                {/*                </div>*/}
+                                {/*                /!* /comment *!/*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*        /!* /comment *!/*/}
+                                {/*        /!* comment *!/*/}
+                                {/*        <div className="media">*/}
+                                {/*            <div className="media-left">*/}
+                                {/*                <img className="media-object" src={require('./img/avatar.png')} alt />*/}
+                                {/*            </div>*/}
+                                {/*            <div className="media-body">*/}
+                                {/*                <div className="media-heading">*/}
+                                {/*                    <h4>John Doe</h4>*/}
+                                {/*                    <span className="time">March 27, 2018 at 8:00 am</span>*/}
+                                {/*                    <a href="#" className="reply">Reply</a>*/}
+                                {/*                </div>*/}
+                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*        /!* /comment *!/*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /comments */}
                                 {/* reply */}
-                                <div className="section-row">
-                                    <div className="section-title">
-                                        <h2>Leave a reply</h2>
-                                        <p>your email address will not be published. required fields are marked *</p>
-                                    </div>
-                                    <form className="post-reply">
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Name *</span>
-                                                    <input className="input" type="text" name="name" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Email *</span>
-                                                    <input className="input" type="email" name="email" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Website</span>
-                                                    <input className="input" type="text" name="website" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <textarea className="input" name="message" placeholder="Message" defaultValue={""} />
-                                                </div>
-                                                <button className="primary-button">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                {/*<div className="section-row">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Leave a reply</h2>*/}
+                                {/*        <p>your email address will not be published. required fields are marked *</p>*/}
+                                {/*    </div>*/}
+                                {/*    <form className="post-reply">*/}
+                                {/*        <div className="row">*/}
+                                {/*            <div className="col-md-4">*/}
+                                {/*                <div className="form-group">*/}
+                                {/*                    <span>Name *</span>*/}
+                                {/*                    <input className="input" type="text" name="name" />*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
+                                {/*            <div className="col-md-4">*/}
+                                {/*                <div className="form-group">*/}
+                                {/*                    <span>Email *</span>*/}
+                                {/*                    <input className="input" type="email" name="email" />*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
+                                {/*            <div className="col-md-4">*/}
+                                {/*                <div className="form-group">*/}
+                                {/*                    <span>Website</span>*/}
+                                {/*                    <input className="input" type="text" name="website" />*/}
+                                {/*                </div>*/}
+                                {/*            </div>*/}
+                                {/*            <div className="col-md-12">*/}
+                                {/*                <div className="form-group">*/}
+                                {/*                    <textarea className="input" name="message" placeholder="Message" defaultValue={""} />*/}
+                                {/*                </div>*/}
+                                {/*                <button className="primary-button">Submit</button>*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*    </form>*/}
+                                {/*</div>*/}
                                 {/* /reply */}
                             </div>
                             {/* /Post content */}
@@ -370,9 +367,9 @@ class HackathonEvent extends Component {
 
                                         <section className="info">
                                             <p>
-                                                <strong><time className="value timeago" dateTime="2019-05-07T02:45:00-04:00" title="May 07 at 2:45am EDT">a day</time> to submit</strong>
+                                                <strong>Opening Time</strong>
                                             </p>
-                                            Mar 6 – May 6, 2019
+                                            {this.state.hkData.startDate} - {this.state.hkData.endDate}
                                             <p className="small">
                                                 <a className="view-all-dates-link" href="/details/dates">view all dates</a>
                                             </p>
@@ -409,12 +406,12 @@ class HackathonEvent extends Component {
                                         {/*        </li>*/}
                                         {/*    </ul>*/}
                                         {/*</section>*/}
-                                        <section>
-                                            <p>
-                                                Questions?
-                                                <a href="mailto:webpaige@google.com">Email the hackathon manager</a>
-                                            </p>
-                                        </section>
+                                        {/*<section>*/}
+                                        {/*    <p>*/}
+                                        {/*        Questions?*/}
+                                        {/*        <a href="mailto:webpaige@google.com">Email the hackathon manager</a>*/}
+                                        {/*    </p>*/}
+                                        {/*</section>*/}
 
 
 
@@ -426,117 +423,117 @@ class HackathonEvent extends Component {
 
 
 
-                                <div className="aside-widget text-center">
-                                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>
-                                        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />
-                                    </a>
-                                </div>
+                                {/*<div className="aside-widget text-center">*/}
+                                {/*    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>*/}
+                                {/*        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
                                 {/* /ad */}
                                 {/* post widget */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Most Read</h2>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-1.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Most Read</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-1.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /post widget */}
                                 {/* post widget */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Featured Hackathons</h2>
-                                    </div>
-                                    <div className="post post-thumb">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <div className="post-meta">
-                                                <a className="post-category cat-3" href="#">Jquery</a>
-                                                <span className="post-date">March 27, 2018</span>
-                                            </div>
-                                            <h3 className="post-title"><a href="/hackathonEvent">Ask HN: Does Anybody Still Use JQuery?</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-thumb">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <div className="post-meta">
-                                                <a className="post-category cat-2" href="#">JavaScript</a>
-                                                <span className="post-date">March 27, 2018</span>
-                                            </div>
-                                            <h3 className="post-title"><a href="/hackathonEvent">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Featured Hackathons</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-thumb">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <div className="post-meta">*/}
+                                {/*                <a className="post-category cat-3" href="#">Jquery</a>*/}
+                                {/*                <span className="post-date">March 27, 2018</span>*/}
+                                {/*            </div>*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Ask HN: Does Anybody Still Use JQuery?</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-thumb">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <div className="post-meta">*/}
+                                {/*                <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                                {/*                <span className="post-date">March 27, 2018</span>*/}
+                                {/*            </div>*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /post widget */}
                                 {/* catagories */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Catagories</h2>
-                                    </div>
-                                    <div className="category-widget">
-                                        <ul>
-                                            <ul>
-                                                <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>
-                                                <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>
-                                                <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>
-                                                <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Catagories</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="category-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <ul>*/}
+                                {/*                <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>*/}
+                                {/*            </ul>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /catagories */}
                                 {/* tags */}
-                                <div className="aside-widget">
-                                    <div className="tags-widget">
-                                        <ul>
-                                            <li><a href="#">Chrome</a></li>
-                                            <li><a href="#">CSS</a></li>
-                                            <li><a href="#">Tutorial</a></li>
-                                            <li><a href="#">Backend</a></li>
-                                            <li><a href="#">JQuery</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">JavaScript</a></li>
-                                            <li><a href="#">Website</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="tags-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <li><a href="#">Chrome</a></li>*/}
+                                {/*            <li><a href="#">CSS</a></li>*/}
+                                {/*            <li><a href="#">Tutorial</a></li>*/}
+                                {/*            <li><a href="#">Backend</a></li>*/}
+                                {/*            <li><a href="#">JQuery</a></li>*/}
+                                {/*            <li><a href="#">Design</a></li>*/}
+                                {/*            <li><a href="#">Development</a></li>*/}
+                                {/*            <li><a href="#">JavaScript</a></li>*/}
+                                {/*            <li><a href="#">Website</a></li>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /tags */}
                                 {/* archive */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Archive</h2>
-                                    </div>
-                                    <div className="archive-widget">
-                                        <ul>
-                                            <li><a href="#">January 2018</a></li>
-                                            <li><a href="#">Febuary 2018</a></li>
-                                            <li><a href="#">March 2018</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Archive</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="archive-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <li><a href="#">January 2018</a></li>*/}
+                                {/*            <li><a href="#">Febuary 2018</a></li>*/}
+                                {/*            <li><a href="#">March 2018</a></li>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /archive */}
                             </div>
                             {/* /aside */}
