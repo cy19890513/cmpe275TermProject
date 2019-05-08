@@ -150,14 +150,19 @@ public class HackathonController {
     @GetMapping(value="/hackathon/teamInfo")
     public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
         HackerUser hacker = hackerUserService.getHackerUser(uid);
+        System.out.println(hacker.toString());
         List<Team> t = memberService.getTeam(hacker);
-        List<Map<String, Object>> res = new ArrayList<>();
-        for(Team team: t){
-            res.add(memberService.convertToMap(team));
-        }
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        List<Map<String, Object>> res = new ArrayList<>();
+        for(Team team: t){
+            Map<String, Object> temp = memberService.convertToMap(team);
+            if(!temp.isEmpty()){
+                res.add(temp);
+            }
+        }
+
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -250,7 +255,7 @@ public class HackathonController {
 
     /**
      * Sample test
-     * GET: hackathon/search?hid=9
+     * GET: hackathon/search?hid=13
      * Description: get a hackathon info
      */
     @GetMapping(value="/hackathon/search")
