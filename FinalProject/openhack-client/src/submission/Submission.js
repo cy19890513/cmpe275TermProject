@@ -50,12 +50,13 @@ class Submission extends Component {
                 const teamInfo = res.data;
                 console.log(teamInfo);
                 teamInfo.forEach(team => {
-                    if (hid === team.hid) {
+                    if (hid == team.hid) {
+                        console.log(team);
                         this.setState({
                             tid: team.id,
                             teamName: team.teamName,
                             teamLead: team.teamLead,
-                            member: team.members
+                            members: team.members
                         })
                     }
                 })
@@ -67,10 +68,12 @@ class Submission extends Component {
 
     createTable() {
         return this.state.members.map(hacker => {
+            console.log(hacker);
             return (
                 <tr>
-                    <td>{hacker.name}</td>
+                    <td>{hacker}</td>
                     {/*<td>{hacker.email}</td>*/}
+                    {/*<td>sdfafdan</td>*/}
                 </tr>
             )
         });
@@ -83,14 +86,17 @@ class Submission extends Component {
             date: this.state.date,
             submitUrl: this.state.url,
         })
+            .then(res => {
+                alert("submitted");
+            })
             .catch(err => {
-                console.log(err)
+                console.log(err);
             });
     }
 
     handleChange(e) {
         this.setState(() => {
-            return {url: e.target.value};
+            return {url: e.value};
         });
     }
 
@@ -103,6 +109,9 @@ class Submission extends Component {
                     <h3>
                         Team: {this.state.teamName}
                     </h3>
+                    <h4>
+                        Team Lead: {this.state.teamLead}
+                    </h4>
                     <Table striped bordered hover size="sm">
                         <thead>
                         <tr>
@@ -111,10 +120,10 @@ class Submission extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.createTable()}
+                            {this.createTable()}
                         </tbody>
                     </Table>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit.bind(this)}>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
                                 <InputGroup.Text id="inputGroup-sizing-default">Submission</InputGroup.Text>
@@ -124,7 +133,7 @@ class Submission extends Component {
                                 aria-label="Default"
                                 aria-describedby="inputGroup-sizing-default"
                                 placeholder={"URL"}
-                                onChange={this.handleChange}
+                                onChange={this.handleChange.bind(this)}
                             />
                         </InputGroup>
                         <Button type={"submit"}>Submit</Button>
