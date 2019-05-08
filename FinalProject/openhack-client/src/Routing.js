@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from './login/Login';
 import Signup from './register/Signup';
-import UpdateUser from './updateUser/updateUser'
+import EditUser from './EditUser/EditUser'
 import CreateHackathon from './createHackathon/CreateHackathon';
 import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
@@ -18,7 +18,7 @@ function Routing() {
                 <Route path={'/hackathons'} component={HackathonList}/>
                 <Route path={'/hackathonEvent'} component={HackathonEvent}/>
                 <Route path={'/login'} component={Login}/>
-                <Route path={'/updateUser'} component={UpdateUser}/>
+                <Route path={'/edit_user'} component={EditUser}/>
                 <Route path={'/register'} component={Signup}/>
                 <Route path={'/signup'} component={Signup}/>
                 <Route path={'/userprofile'} component={UserProfile}/>
