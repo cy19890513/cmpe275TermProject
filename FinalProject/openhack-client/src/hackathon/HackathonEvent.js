@@ -82,12 +82,12 @@ class HackathonEvent extends Component {
                 {/*                /!* /logo *!/*/}
                 {/*                /!* nav *!/*/}
                 {/*                <ul className="nav-menu nav navbar-nav">*/}
-                {/*                    <li><a href="category.html">News</a></li>*/}
-                {/*                    <li><a href="category.html">Popular</a></li>*/}
-                {/*                    <li className="cat-1"><a href="category.html">Web Design</a></li>*/}
-                {/*                    <li className="cat-2"><a href="category.html">JavaScript</a></li>*/}
-                {/*                    <li className="cat-3"><a href="category.html">Css</a></li>*/}
-                {/*                    <li className="cat-4"><a href="category.html">Jquery</a></li>*/}
+                {/*                    <li><a href="#">News</a></li>*/}
+                {/*                    <li><a href="#">Popular</a></li>*/}
+                {/*                    <li className="cat-1"><a href="#">Web Design</a></li>*/}
+                {/*                    <li className="cat-2"><a href="#">JavaScript</a></li>*/}
+                {/*                    <li className="cat-3"><a href="#">Css</a></li>*/}
+                {/*                    <li className="cat-4"><a href="#">Jquery</a></li>*/}
                 {/*                </ul>*/}
                 {/*                /!* /nav *!/*/}
                 {/*                /!* search & aside toggle *!/*/}
@@ -120,21 +120,21 @@ class HackathonEvent extends Component {
                 {/*            <div className="section-row">*/}
                 {/*                <h3>Recent Posts</h3>*/}
                 {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="blog-post.html"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
                 {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="blog-post.html">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
                 {/*                    </div>*/}
                 {/*                </div>*/}
                 {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="blog-post.html"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
                 {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="blog-post.html">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
                 {/*                    </div>*/}
                 {/*                </div>*/}
                 {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="blog-post.html"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
                 {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
                 {/*                    </div>*/}
                 {/*                </div>*/}
                 {/*            </div>*/}
@@ -164,7 +164,7 @@ class HackathonEvent extends Component {
                             <div className="row">
                                 <div className="col-md-10">
                                     <div className="post-meta">
-                                        <a className="post-category cat-2" href="category.html">Open Register</a>
+                                        <a className="post-category cat-2" href="#">Open Register</a>
                                         <span className="post-date">March 27, 2018</span>
                                     </div>
                                     <h1>{this.state.hkData.name}</h1>
@@ -427,27 +427,27 @@ class HackathonEvent extends Component {
                                         <h2>Most Read</h2>
                                     </div>
                                     <div className="post post-widget">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/widget-1.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-1.jpg')} alt /></a>
                                         <div className="post-body">
-                                            <h3 className="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
                                         </div>
                                     </div>
                                     <div className="post post-widget">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/widget-2.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>
                                         <div className="post-body">
-                                            <h3 className="post-title"><a href="blog-post.html">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
                                         </div>
                                     </div>
                                     <div className="post post-widget">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/widget-3.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>
                                         <div className="post-body">
-                                            <h3 className="post-title"><a href="blog-post.html">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
                                         </div>
                                     </div>
                                     <div className="post post-widget">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/widget-4.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>
                                         <div className="post-body">
-                                            <h3 className="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -458,23 +458,23 @@ class HackathonEvent extends Component {
                                         <h2>Featured Hackathons</h2>
                                     </div>
                                     <div className="post post-thumb">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/post-2.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
                                         <div className="post-body">
                                             <div className="post-meta">
                                                 <a className="post-category cat-3" href="#">Jquery</a>
                                                 <span className="post-date">March 27, 2018</span>
                                             </div>
-                                            <h3 className="post-title"><a href="blog-post.html">Ask HN: Does Anybody Still Use JQuery?</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Ask HN: Does Anybody Still Use JQuery?</a></h3>
                                         </div>
                                     </div>
                                     <div className="post post-thumb">
-                                        <a className="post-img" href="blog-post.html"><img src={require('./img/post-1.jpg')} alt /></a>
+                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
                                         <div className="post-body">
                                             <div className="post-meta">
                                                 <a className="post-category cat-2" href="#">JavaScript</a>
                                                 <span className="post-date">March 27, 2018</span>
                                             </div>
-                                            <h3 className="post-title"><a href="blog-post.html">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
+                                            <h3 className="post-title"><a href="/hackathonEvent">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -573,10 +573,10 @@ class HackathonEvent extends Component {
                 {/*                        <div className="footer-widget">*/}
                 {/*                            <h3 className="footer-title">Catagories</h3>*/}
                 {/*                            <ul className="footer-links">*/}
-                {/*                                <li><a href="category.html">Web Design</a></li>*/}
-                {/*                                <li><a href="category.html">JavaScript</a></li>*/}
-                {/*                                <li><a href="category.html">Css</a></li>*/}
-                {/*                                <li><a href="category.html">Jquery</a></li>*/}
+                {/*                                <li><a href="#">Web Design</a></li>*/}
+                {/*                                <li><a href="#">JavaScript</a></li>*/}
+                {/*                                <li><a href="#">Css</a></li>*/}
+                {/*                                <li><a href="#">Jquery</a></li>*/}
                 {/*                            </ul>*/}
                 {/*                        </div>*/}
                 {/*                    </div>*/}
