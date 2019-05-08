@@ -75,6 +75,11 @@ public class TeamServiceImpl implements TeamService{
         teamRepository.save(t);
     }
 
+    @Transactional
+    public void update(Team t) {
+        teamRepository.save(t);
+    }
+
     private void sendEmailToLead(Member lead){
         SimpleMailMessage message = new SimpleMailMessage();
         // String to = email;

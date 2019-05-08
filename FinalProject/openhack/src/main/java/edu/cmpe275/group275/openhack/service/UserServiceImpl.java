@@ -103,4 +103,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    public void verifyUser(User user){
+        String email = user.getEmail();
+
+        //TODO
+    }
+
 }

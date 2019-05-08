@@ -96,35 +96,41 @@ public class HackathonController {
     }
     /**
      * Sample test
-     * GET: hackathon/payment?teamId=1&uid=9
+     * GET: hackathon/payment?tid=1&uid=9
      * Description: update payment
      */
     @GetMapping(value="/hackathon/payment")
-    public ResponseEntity<?> processPayment(@RequestParam long teamId,
+    public ResponseEntity<?> processPayment(@RequestParam long tid,
                                             @RequestParam long uid){
-        teamService.processPayment(teamId, uid);
+        teamService.processPayment(tid, uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * POST: hackathon/teamInfo/submit?hackathonId=1&teamId=XX&submitUrl=ZZ
+     * POST: hackathon/submit?tid=1&submitUrl=XX&date=2019-05-06
      * Description: code submit
      */
-    @PostMapping(value="/hackathon/teamInfo/submit")
-    public ResponseEntity<?> updateTeamInfo(@RequestParam long teamId,
-                                            @RequestParam long hackathonId,
-                                            @RequestParam(required = false) Double grade,
-                                            @RequestParam(required = false) String submitUrl){
+    @PostMapping(value="/hackathon/submit")
+    public ResponseEntity<?> submitCode(@RequestParam long tid,
+                                            @RequestParam String date,
+                                            @RequestParam String submitUrl){
 
-        //TODO
-//        Team t = teamService.getTeam(teamId);
-//        if(grade != null)
-//            t.setGrade(grade);
-//        if(submitUrl != null)
-//            t.setUrl(submitUrl);
-
-        return null;
+        Team team = teamService.getTeam(tid);
+        if(!team.getIfAllPaid()){
+            return new ResponseEntity<>("Please pay the registration fee first!", HttpStatus.BAD_REQUEST);
+        }
+        Hackathon h = team.getHackathon();
+        Date d = Date.valueOf(date);
+        if(d.before(h.getStartDate())){
+            return new ResponseEntity<>("The hackathon is not opened for submission", HttpStatus.BAD_REQUEST);
+        }
+        if(h.getClosed()){
+            return new ResponseEntity<>("The hackathon is closed for submission", HttpStatus.BAD_REQUEST);
+        }
+        team.setUrl(submitUrl);
+        teamService.update(team);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -144,12 +150,12 @@ public class HackathonController {
 
     /**
      * Sample test
-     * GET: hackathon/team?teamId=1
+     * GET: hackathon/team?tid=1
      * Description: get team info by team id
      */
     @GetMapping(value="/hackathon/team")
-    public ResponseEntity<?> getTeam(@RequestParam long teamId){
-        Team t = teamService.getTeam(teamId);
+    public ResponseEntity<?> getTeam(@RequestParam long tid){
+        Team t = teamService.getTeam(tid);
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -234,13 +240,13 @@ public class HackathonController {
 
     /**
      * Sample test
-     * GET: hackathon/search?id=9
+     * GET: hackathon/search?hid=9
      * Description: get a hackathon info
      */
     @GetMapping(value="/hackathon/search")
-    public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long id,
+    public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long hid,
                                               @RequestParam(required = false) String name) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
+        Hackathon hackathon = hackathonService.getHackathon(hid);
         if (hackathon != null) {
             return ResponseEntity.status(HttpStatus.OK).body(filterHackathon(hackathon));
         }
@@ -254,45 +260,77 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/join?id=1&teamId=1
+     * POST: hackathon/join?hid=1&teamId=1
      * Description: join a hackathon
      */
     @PostMapping(value="/hackathon/join")
-    public ResponseEntity<?> joinHackathon(@RequestParam Long id,
+    public ResponseEntity<?> joinHackathon(@RequestParam Long hid,
                                            @RequestParam long teamId) {
         Team team = teamService.getTeam(teamId);
-        hackathonService.joinHackathon(id, team);
+        hackathonService.joinHackathon(hid, team);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
     /**
      * Sample test
-     * POST: hackathon/close?id=1
+     * POST: hackathon/close?hid=1
      * Description: close a hackathon
      */
     @PostMapping(value="/hackathon/close")
-    public ResponseEntity<?> closeHackathon(@RequestParam Long id) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
+    public ResponseEntity<?> closeHackathon(@RequestParam Long hid) {
+        Hackathon hackathon = hackathonService.getHackathon(hid);
         hackathon.setClosed(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
     /**
      * Sample test
-     * POST: hackathon/close?id=1
-     * Description: finalize a hackathon
+     * POST: hackathon/open?hid=1
+     * Description: open a hackathon
      */
-    @PostMapping(value="/hackathon/finalize")
-    public ResponseEntity<?> finalizeHackathon(@RequestParam Long id) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
-        hackathon.setFinalized(true);
+    @PostMapping(value="/hackathon/open")
+    public ResponseEntity<?> openHackathon(@RequestParam Long hid, @RequestParam String date) {
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+        Date d = Date.valueOf(date);
+        if(d.before(hackathon.getStartDate())){
+            hackathon.setStartDate(d);
+        }
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
+    /**
+     * Sample test
+     * POST: hackathon/close?hid=1
+     * Description: finalize a hackathon
+     */
+    @PostMapping(value="/hackathon/finalize")
+    public ResponseEntity<?> finalizeHackathon(@RequestParam Long hid) {
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+        hackathon.setFinalized(true);
+        hackathonService.update(hackathon);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * POST: hackathon/grade?hid=1&tid=1&grade=80
+     * Description: grade a team submission
+     */
+    @PostMapping(value="/hackathon/grade")
+    public ResponseEntity<?> gradeHackathon(@RequestParam Long hid,
+                                            @RequestParam long tid,
+                                            @RequestParam double grade) {
+
+        Team team = teamService.getTeam(tid);
+        team.setGrade(grade);
+        teamService.update(team);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
     private Map<String, Object> filterHackathon(Hackathon h) {
@@ -318,9 +356,12 @@ public class HackathonController {
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
         if(h.getTeams() != null){
-            List<String> res = new ArrayList<>();
+            List<Map<String, Object>> res = new ArrayList<>();
             for(Team t: h.getTeams()){
-                res.add(t.getTeamName());
+                Map<String, Object> pair = new LinkedHashMap<>();
+                pair.put("id", t.getId());
+                pair.put("teamName", t.getTeamName());
+                res.add(pair);
             }
             map.put("teams", res);
         }

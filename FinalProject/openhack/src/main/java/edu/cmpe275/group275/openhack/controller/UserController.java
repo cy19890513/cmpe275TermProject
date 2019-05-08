@@ -163,6 +163,7 @@ public class UserController {
                 }
                 user.setVerified(false);
                 userService.createUser(user);
+                userService.verifyUser(user);
                 return new ResponseEntity<>("confirm by email", HttpStatus.OK);
             }
         }
