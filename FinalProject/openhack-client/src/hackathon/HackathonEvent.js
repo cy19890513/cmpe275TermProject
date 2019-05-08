@@ -1,11 +1,13 @@
 import React, {Component} from "react";
+//import ReactIntl from "react-intl";
 
 import './css/style.css';
 import PostHeader from './img/post-page.jpg';
 import axios from "axios";
 import Header from "../utils/Header";
 
-
+//var FormattedNumber = ReactIntl.FormattedNumber;
+//https://formatjs.io/react/v1/#formatted-number
 
 class HackathonEvent extends Component {
 
@@ -31,7 +33,11 @@ class HackathonEvent extends Component {
     }
 
     componentDidMount() {
-        //
+        // console.log(<FormattedNumber
+        //     value={99.95}
+        //     style="currency"
+        //     currency="USD" />);
+
         axios.get("/hackathon/search?id=2")
             .then(res => {
 
@@ -358,6 +364,10 @@ class HackathonEvent extends Component {
                                                 and submit your entry.
                                             </p>
                                         </section>
+                                        <section className="info">
+                                            <p><strong>Registration Team size:</strong>  {this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
+                                        </section>
+
                                         <section className="info">
                                             <p>
                                                 <strong><time className="value timeago" dateTime="2019-05-07T02:45:00-04:00" title="May 07 at 2:45am EDT">a day</time> to submit</strong>

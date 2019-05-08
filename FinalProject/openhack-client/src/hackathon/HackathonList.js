@@ -26,7 +26,7 @@ import './img/widget-3.jpg';
 import './img/widget-4.jpg';
 import Header from "../utils/Header";
 
-
+// TODO admin Edit, Create button on single event page
 
 
 class HackathonList extends Component{
