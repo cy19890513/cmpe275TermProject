@@ -33,7 +33,7 @@ class CreateHackathon extends Component {
     }
 
     componentDidMount() {
-        axios.get('/organization')
+        axios.get('/organizations')
             .then(res => {
                 const list = res.data;
                 // console.log(list);
