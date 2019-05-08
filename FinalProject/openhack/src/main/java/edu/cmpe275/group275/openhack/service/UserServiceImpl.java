@@ -5,6 +5,9 @@ import edu.cmpe275.group275.openhack.model.AdminUser;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.User;
 import edu.cmpe275.group275.openhack.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 
@@ -14,9 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    public JavaMailSender emailSender;
 
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -101,6 +108,27 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(User user) {
         userRepository.save(user);
+    }
+
+    public void verifyUser(User user){
+        String email = user.getEmail();
+        String code = UUID.randomUUID().toString();
+        SimpleMailMessage message = new SimpleMailMessage();
+        // String to = email;
+        String to = "verawang0112@gmail.com";
+        long uid = user.getId();
+        String text = "Dear " + user.getUsername() + ", \n\n" +
+                "Thank you for registering our hackathon system. " +
+                "Please click link below for account verification. \n\n" +
+                "<a href='http://localhost:8080/verifyUser?uid="+uid+"&code="+code+ "'>" +
+                "verifyyouremailaccount</a> \n\n" +
+                "Hackathon Management System";
+        message.setTo(to);
+        message.setSubject("Hackathon Management: Verify Your Account Registration");
+        message.setText(text);
+        emailSender.send(message);
+        System.out.println("verification email sent out");
+
     }
 
 }

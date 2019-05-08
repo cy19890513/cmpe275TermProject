@@ -75,6 +75,11 @@ public class TeamServiceImpl implements TeamService{
         teamRepository.save(t);
     }
 
+    @Transactional
+    public void update(Team t) {
+        teamRepository.save(t);
+    }
+
     private void sendEmailToLead(Member lead){
         SimpleMailMessage message = new SimpleMailMessage();
         // String to = email;
@@ -90,7 +95,7 @@ public class TeamServiceImpl implements TeamService{
         message.setSubject("Hackathon Management: All Members Have Been Paid");
         message.setText(text);
         emailSender.send(message);
-        System.out.println("email sent out");
+        System.out.println("all paid email sent out");
     }
 
 }
