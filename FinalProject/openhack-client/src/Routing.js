@@ -21,7 +21,7 @@ function Routing() {
             <Switch>
                 <Route exact path={'/'} component={Home}/>
                 <Route path={'/hackathons'} component={HackathonList}/>
-                <Route path={'/hackathonEvent'} component={HackathonEvent}/>
+                <Route path={'/hackathonEvent/:hid'} component={HackathonEvent}/>
                 <Route path={'/hackathon/update/:hid'} component={EditHackathon}/>
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
