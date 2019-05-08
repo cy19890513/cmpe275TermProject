@@ -185,12 +185,15 @@ public class HackathonController {
      * Description: create a hackathon event
      */
     @PostMapping(value="/hackathon")
-    public ResponseEntity<?> createHackathon(@RequestParam String uid,
-                                             @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> createHackathon(@RequestBody Map<String, Object> payload) {
         // AOP
-        if(uid == null){
+        if(!payload.containsKey("uid")){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        System.out.println(payload.get("uid"));
+        System.out.println(payload.get("uid").getClass().getName());
+        String uidStr = String.valueOf(payload.get("uid"));
+        Long uid = Long.parseLong(uidStr);
         if (!payload.containsKey("name")  || !payload.containsKey("startDate") || !payload.containsKey("endDate")
                 || !payload.containsKey("description") || !payload.containsKey("fee") ||
                 !payload.containsKey("judges") || !payload.containsKey("minSize") || !payload.containsKey("maxSize")
