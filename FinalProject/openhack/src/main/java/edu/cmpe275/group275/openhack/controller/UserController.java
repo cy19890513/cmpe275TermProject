@@ -94,6 +94,19 @@ public class UserController {
 
     }
 
+    /**
+     * Sample test
+     * POST: http://localhost:8080/registration
+     * payload: {
+     *      "username": "ABC",
+     *      "email": "xxx",
+     *      "password": "yyy",
+     *      "name": "Alice",
+     *      "businessTitle" : "Software Manager",
+     *      "aboutMe": "love coding"
+     * }
+     * Description: register a user
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity<?> registeration(@RequestBody Map<String, Object> registration) {
         System.out.println("enter registration.");

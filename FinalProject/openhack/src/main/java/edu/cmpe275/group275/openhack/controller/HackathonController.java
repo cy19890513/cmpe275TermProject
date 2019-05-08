@@ -385,6 +385,13 @@ public class HackathonController {
             }
             map.put("sponsors", sp);
         }
+        if(h.getJudges() != null){
+            List<String> judge = new ArrayList<>();
+            for(HackerUser j: h.getJudges()){
+                judge.add(j.getEmail());
+            }
+            map.put("judges", judge);
+        }
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
         if(h.getTeams() != null){
