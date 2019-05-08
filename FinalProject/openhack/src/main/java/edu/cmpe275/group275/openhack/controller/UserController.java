@@ -147,7 +147,7 @@ public class UserController {
                 }
                 if (registration.containsKey("aboutMe")) {
                     String aboutMe = (String) registration.get("aboutMe");
-                    user.setName(aboutMe);
+                    user.setAboutMe(aboutMe);
                 }
                 Address address = new Address();
                 if (registration.containsKey("street")) {
@@ -174,6 +174,7 @@ public class UserController {
                         address.setZip(zip);
                     }
                 }
+                user.setAddress(address);
                 user.setVerified(false);
                 userService.createUser(user);
                 userService.verifyUser(user);
@@ -266,13 +267,13 @@ public class UserController {
             address.setCity((String) payload.get("city"));
         }
         if(payload.containsKey("street")){
-            address.setCity((String) payload.get("street"));
+            address.setStreet((String) payload.get("street"));
         }
         if(payload.containsKey("state")){
-            address.setCity((String) payload.get("state"));
+            address.setState((String) payload.get("state"));
         }
         if(payload.containsKey("zip")){
-            address.setCity((String) payload.get("zip"));
+            address.setZip((String) payload.get("zip"));
         }
         user.setAddress(address);
         userService.updateUser(user);
