@@ -34,7 +34,17 @@ class HackathonList extends Component{
 
     constructor(props) {
         super(props);
+        this.state={
+            hkEventUrl : "/hackathonEvent"
+        }
         console.log(props);
+    }
+
+    updateHKEvtUrlForAdmin(){
+        const role = localStorage.getItem('role');
+        if (role === 'AdminUser') {
+            this.state.hkEventUrl = "/"
+        }
     }
 
     componentDidMount() {

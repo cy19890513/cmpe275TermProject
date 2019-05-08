@@ -10,13 +10,23 @@ import HackathonEvent from "./hackathon/HackathonEvent";
 import UserProfile from "./userProfile/UserProfile";
 import CreateOrg from "./createOrg/createOrg";
 import Home from './Home/Home';
+import EditHackathon from "./EditHackathon/EditHackathon";
+
+
 function Routing() {
+    var RegistHKEvent = null;
     return (
+
+
         <Router>
             <Switch>
                 <Route exact path={'/'} component={Home}/>
                 <Route path={'/hackathons'} component={HackathonList}/>
                 <Route path={'/hackathonEvent'} component={HackathonEvent}/>
+                {/*TODO Registration Hackathon*/}
+                <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
+                {/*TODO Edit Hackathon*/}
+                <Route path={'/edithackathon/:hid'} component={EditHackathon}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/updateUser'} component={UpdateUser}/>
                 <Route path={'/register'} component={Signup}/>
