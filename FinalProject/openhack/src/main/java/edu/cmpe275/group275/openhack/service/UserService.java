@@ -22,7 +22,7 @@ public interface UserService {
     Map<String, Object> convertuserToMap(User user);
     Map<String, Object> convertRoleToMap(long uid, String role, String sessionId, String username);
     User getUserByUsername(String username);
-
+    void verifyUser(User user);
 
     void updateUser(User user);
 }

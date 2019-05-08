@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -19,52 +19,63 @@ class EditHackathon extends Component {
         this.state = {
             organization: ["1", "2", "3", "4", "5"],
             hackers: [],
-            name: null,
-            startDate: null,
-            endDate: null,
-            description: null,
-            fee: null,
-            maxSize: null,
-            minSize: null,
-            discount: null,
-            sponsors: [],
-            judges: [],
+            hData: {},
+            hid: null,
         }
     }
 
     componentDidMount() {
-        axios.get('/organization')
+        const {match: {params}} = this.props;
+        const hid = params.hid;
+        this.setState({hid: hid});
+        axios.get('/organizations')
             .then(res => {
                 const list = res.data;
                 // console.log(list);
                 this.setState({organization: list});
+                this.setState({typeaheadOrg: list.map(org => org.name)});
             })
             .catch(err => {
                 console.log(err);
             });
-        axios.get("/findAll")
-            .then(res=>{
-                const list = res.data.map(e => {return e.email});
-                // console.log(list);
+        axios.get("/get_all_users")
+            .then(res => {
+                console.log(res.data);
+                const list = res.data.map(e => {
+                    return e.email
+                });
                 this.setState({hackers: list});
             })
             .catch(err => {
                 console.log(err);
+            });
+        axios.get('/hackathon/search', {
+            params: {
+                hid: hid,
+            }
+        })
+            .then(res => {
+                const data = res.data;
+                this.setState({hData: data});
+                console.log('hack', data);
             })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
         axios.post('http://localhost:8080/hackathon', {
-            name: data.name,
-            startDate: data.startDate,
-            endDate: data.endDate,
+            // name: data.name,
+            // startDate: data.startDate,
+            // endDate: data.endDate,
             description: data.description,
-            fee: data.fee,
-            maxSize: data.maxSize,
-            minSize: data.minSize,
-            discount: data.discount,
+            // fee: data.fee,
+            // maxSize: data.maxSize,
+            // minSize: data.minSize,
+            // discount: data.discount,
             sponsors: data.sponsors,
             judges: data.judges,
         })
@@ -74,19 +85,28 @@ class EditHackathon extends Component {
     }
 
 
-
     render() {
+        const data = this.state.hData;
         return (
             <div>
                 <Header/>
+<<<<<<< HEAD
                 <h1>Edit the Hackathon</h1>
+=======
+                <h1>Update Hackathon</h1>
+>>>>>>> 0ffd0fece1e388df811683478ff306c498d22b7c
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group as={Row} controlId="eventName">
                         <Form.Label column sm="2">
                             Event Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"} placeholder="Hackathon" onChange={e => {this.setState({name: e.target.value})}} required/>
+                            <Form.Control
+                                disabled
+                                value={data.name}
+                                type={"text"}
+                                placeholder="Hackathon"
+                            />
                         </Col>
                     </Form.Group>
 
@@ -95,7 +115,11 @@ class EditHackathon extends Component {
                             Start Date
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"date"} onChange={e => {this.setState({startDate: e.target.value})}} required />
+                            <Form.Control
+                                disabled
+                                value={data.startDate}
+                                type={"date"}
+                            />
                         </Col>
                     </Form.Group>
 
@@ -104,7 +128,11 @@ class EditHackathon extends Component {
                             End Date
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"date"} onChange={e => {this.setState({endDate: e.target.value})}} required/>
+                            <Form.Control
+                                disabled
+                                value={data.endDate}
+                                type={"date"}
+                            />
                         </Col>
                     </Form.Group>
 
@@ -113,7 +141,13 @@ class EditHackathon extends Component {
                             Description
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control as={"textarea"} onChange={e => {this.setState({description: e.target.value})}} required/>
+                            <Form.Control
+                                value={data.description}
+                                as={"textarea"}
+                                onChange={e => {
+                                this.setState({description: e.target.value})}}
+                                required
+                            />
                         </Col>
                     </Form.Group>
 
@@ -122,7 +156,11 @@ class EditHackathon extends Component {
                             Fee
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({fee: e.target.value})}} required/>
+                            <Form.Control
+                                disabled
+                                value={data.fee}
+                                type={"number"}
+                            />
                         </Col>
                     </Form.Group>
 
@@ -131,7 +169,11 @@ class EditHackathon extends Component {
                             Team Max Size
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({maxSize: e.target.value})}} required/>
+                            <Form.Control
+                                disabled
+                                value={data.maxSize}
+                                type={"number"}
+                            />
                         </Col>
                     </Form.Group>
 
@@ -140,7 +182,11 @@ class EditHackathon extends Component {
                             Team Min Size
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({minSize: e.target.value})}} required/>
+                            <Form.Control
+                                disabled
+                                value={data.minSize}
+                                type={"number"}
+                            />
                         </Col>
                     </Form.Group>
 
@@ -150,6 +196,7 @@ class EditHackathon extends Component {
                         </Form.Label>
                         <Col sm={"10"}>
                             <Typeahead
+                                defaultSelected={data.judges}
                                 clearButton
                                 // defaultSelected={this.state.organization.slice(0, 5)}
                                 labelKey="Judge"
@@ -157,7 +204,9 @@ class EditHackathon extends Component {
                                 multiple
                                 options={this.state.hackers}
                                 placeholder="Choose a hacker..."
-                                onChange={e => {this.setState({judges: e})}}
+                                onChange={e => {
+                                    this.setState({judges: e})
+                                }}
                             />
                         </Col>
                     </Form.Group>
@@ -168,6 +217,7 @@ class EditHackathon extends Component {
                         </Form.Label>
                         <Col sm={"10"}>
                             <Typeahead
+                                defaultSelected={data.sponsors}
                                 clearButton
                                 // defaultSelected={this.state.organization.slice(0, 5)}
                                 labelKey="organization"
@@ -175,7 +225,9 @@ class EditHackathon extends Component {
                                 multiple
                                 options={this.state.organization}
                                 placeholder="Choose a organization..."
-                                onChange={e => {this.setState({sponsors: e})}}
+                                onChange={e => {
+                                    this.setState({sponsors: e})
+                                }}
                             />
                         </Col>
                     </Form.Group>
@@ -185,7 +237,10 @@ class EditHackathon extends Component {
                             Discount
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({discount: e.target.value})}}/>
+                            <Form.Control
+                                disabled
+                                type={"number"}
+                            />
                         </Col>
                     </Form.Group>
                     <Button type="submit">Create Hackathon</Button>
