@@ -55,7 +55,7 @@ public class UserController {
                 String hashcode = user.getHashcode();
 
                 if (Bcrypt.checkPassword(password, hashcode)) {
-                    if (user.getVerified() == true) {
+                    if (!user.getVerified()) {
                         return new ResponseEntity<>("please confirm by email", HttpStatus.BAD_REQUEST);
                     }
                     String sessionId = UUID.randomUUID().toString();
