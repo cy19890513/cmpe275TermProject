@@ -34,7 +34,7 @@ function Routing() {
                 <Route path={'/userprofile'} component={UserProfile}/>
                 <Route path={'/create_hackathon'} component={CreateHackathon}/>
                 <Route path={'/createOrg'} component={CreateOrg}/>
-                <Route path={'/submit/:uid'} component={Submission}/>
+                <Route path={'/submit/:hid'} component={Submission}/>
                 <Route path={'/user/:uid'} component={UserProfile} />
             </Switch>
         </Router>
