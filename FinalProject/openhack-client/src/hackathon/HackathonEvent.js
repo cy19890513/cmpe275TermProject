@@ -27,9 +27,16 @@ class HackathonEvent extends Component {
             sponsors: [],
             isClosed: null,
             isFinalized: null,
+            sponsorList:[],
             hkData: []
         }
 
+    }
+
+    parseSponsorList(){
+        this.state.sponsorList = this.state.hkData.map(function(sponsor){
+            return <ul>{sponsor.name}</ul>
+        })
     }
 
     componentDidMount() {
@@ -230,7 +237,21 @@ class HackathonEvent extends Component {
                                 {/*</div>*/}
                                 {/* ad */}
                                 {/* author */}
-                                {/*<div className="section-row">*/}
+
+
+
+
+                                {/*TODO ADD SPONSORS*/}
+                                {/*<div className="section-row sticky-container">*/}
+                                {/*    <div className="main-post">*/}
+                                {/*    <p><strong>Sponsors:</strong></p>*/}
+
+                                {/*    </div>*/}
+                                {/*</div>*/}
+
+
+
+
                                 {/*    <div className="post-author">*/}
                                 {/*        <div className="media">*/}
                                 {/*            <div className="media-left">*/}
@@ -353,8 +374,6 @@ class HackathonEvent extends Component {
                                     <div id="challenge-information" className="panel">
 
 
-
-
                                         <section className="text-center">
                                             <a className="button radius expand large secondary" href="/create_hackathon">Register for this hackathon</a>
                                             <p/><p/><p/><p/><p/>
@@ -364,7 +383,12 @@ class HackathonEvent extends Component {
                                             </p>
                                         </section>
                                         <section className="info">
-                                            <p><strong>Registration Team size:</strong>  {this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
+                                            <p><strong>Registration Fee Per Person:</strong> </p>
+                                            <p>${this.state.hkData.fee}</p>
+                                        </section>
+                                        <section className="info">
+                                            <p><strong>Registration Team size:</strong> </p>
+                                            <p>{this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
                                         </section>
 
                                         <section className="info">
