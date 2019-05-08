@@ -312,6 +312,21 @@ public class UserController {
 
     /**
      * Sample test
+     * GET: http://localhost:8080/get_all_users
+     * Description: return all users
+     */
+    @RequestMapping(value="/get_all_users", method=RequestMethod.GET)
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userService.getAll();
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (User user : users) {
+            list.add(userService.convertuserToMap(user));
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
      * GET: http://localhost:8080/getHacker?email=join@gmail.com
      * Description: get a hacker by email
      */
