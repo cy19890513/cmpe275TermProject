@@ -17,10 +17,7 @@ class UserProfile extends Component {
             user: {},
             error: false,
             organization: {
-                id: null,
                 name: null,
-                owner: null,
-                address: {},
                 description: null,
             },
             orgs: [],
@@ -43,7 +40,17 @@ class UserProfile extends Component {
         })
             .then(res => {
                 const data = res.data;
-                this.setState({user: data, organization: data.organization});
+                this.setState(() => {
+                    let org = {name: null, description: null};
+                    if (data.organization.name !== undefined) {
+                        org = data.organization;
+                    }
+                    return {
+                        user: data,
+                        organization: org,
+                    }
+                });
+
             })
             .catch(err => {
                 this.setState(() => {
