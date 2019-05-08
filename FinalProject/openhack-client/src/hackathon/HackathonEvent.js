@@ -14,9 +14,13 @@ class HackathonEvent extends Component {
 
     constructor(props) {
         super(props);
-        //console.log(props);
+        console.log(props.match.params.hid);
         this.state = {
-            eventId: null,
+            eventId: props.match.params.hid,
+            status:null,
+            ifDisableRegist:false,
+            registHref:"/create_hackathon",
+            registText:"Register for this hackathon",
             eventName: null,
             startDate: null,
             endDate: null,
@@ -27,9 +31,31 @@ class HackathonEvent extends Component {
             sponsors: [],
             isClosed: null,
             isFinalized: null,
+            sponsorList:[],
             hkData: []
         }
 
+    }
+
+    // parseSponsorList(){
+    //     this.state.sponsorList = this.state.hkData.sponsors.map(function(sponsor){
+    //         return <ul>{sponsor}</ul>;
+    //     })
+    // }
+
+    parseStatus(){
+        if(this.state.hkData.isFinalized){
+            this.state.status = "Finalized";
+            this.state.registHref = "#";
+            this.state.registText="Event have finalized";
+        }else if(this.state.hkData.isClosed){
+            this.state.status = "Closed";
+            this.state.registHref = "#";
+            this.state.registText="Closed for registration";
+        }else{
+            this.state.status = "Open Registration";
+
+        }
     }
 
     componentDidMount() {
@@ -37,8 +63,8 @@ class HackathonEvent extends Component {
         //     value={99.95}
         //     style="currency"
         //     currency="USD" />);
-        //console.log("hid",this.state.hid);
-        var url = "/hackathon/search?id=2";
+        console.log("hid", this.state.eventId)
+        var url = `/hackathon/search?hid=${this.state.eventId}`;
         axios.get(url)
             .then(res => {
 
@@ -54,118 +80,15 @@ class HackathonEvent extends Component {
     }
     render(){
         console.log("hkData ",this.state.hkData);
+        this.parseStatus();
+        // this.parseSponsorList();
         return(
             <div>
                 <Header/>
                 {}
-                {/*<meta charSet="utf-8" />*/}
-                {/*<meta httpEquiv="X-UA-Compatible" content="IE=edge" />*/}
-                {/*<meta name="viewport" content="width=device-width, initial-scale=1" />*/}
-                {/*/!* The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags *!/*/}
-                {/*<title>WebMag HTML Template</title>*/}
-                {/*/!* Google font *!/*/}
-                {/*<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet" />*/}
-                {/*/!* Bootstrap *!/*/}
-                {/*<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />*/}
-                {/*/!* Font Awesome Icon *!/*/}
-                {/*<link rel="stylesheet" href="css/font-awesome.min.css" />*/}
-                {/*/!* Custom stlylesheet *!/*/}
-                {/*<link type="text/css" rel="stylesheet" href="css/style.css" />*/}
-                {/* HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries */}
-                {/* WARNING: Respond.js doesn't work if you view the page via file:// */}
-                {/*[if lt IE 9]>
 
-
-		<![endif]*/}
                 {/* Header */}
-                {/*<header id="header">*/}
-                {/*    /!* Nav *!/*/}
-                {/*    <div id="nav">*/}
-                {/*        /!* Main Nav *!/*/}
-                {/*        <div id="nav-fixed">*/}
-                {/*            <div className="container">*/}
-                {/*                /!* logo *!/*/}
-                {/*                <div className="nav-logo">*/}
-                {/*                    <a href="index.html" className="logo"><img src={require('./img/logo.png')} alt /></a>*/}
-                {/*                </div>*/}
-                {/*                /!* /logo *!/*/}
-                {/*                /!* nav *!/*/}
-                {/*                <ul className="nav-menu nav navbar-nav">*/}
-                {/*                    <li><a href="#">News</a></li>*/}
-                {/*                    <li><a href="#">Popular</a></li>*/}
-                {/*                    <li className="cat-1"><a href="#">Web Design</a></li>*/}
-                {/*                    <li className="cat-2"><a href="#">JavaScript</a></li>*/}
-                {/*                    <li className="cat-3"><a href="#">Css</a></li>*/}
-                {/*                    <li className="cat-4"><a href="#">Jquery</a></li>*/}
-                {/*                </ul>*/}
-                {/*                /!* /nav *!/*/}
-                {/*                /!* search & aside toggle *!/*/}
-                {/*                <div className="nav-btns">*/}
-                {/*                    <button className="aside-btn"><i className="fa fa-bars" /></button>*/}
-                {/*                    <button className="search-btn"><i className="fa fa-search" /></button>*/}
-                {/*                    <div className="search-form">*/}
-                {/*                        <input className="search-input" type="text" name="search" placeholder="Enter Your Search ..." />*/}
-                {/*                        <button className="search-close"><i className="fa fa-times" /></button>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                /!* /search & aside toggle *!/*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*        /!* /Main Nav *!/*/}
-                {/*        /!* Aside Nav *!/*/}
-                {/*        <div id="nav-aside">*/}
-                {/*            /!* nav *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <ul className="nav-aside-menu">*/}
-                {/*                    <li><a href="index.html">Home</a></li>*/}
-                {/*                    <li><a href="about.html">About Us</a></li>*/}
-                {/*                    <li><a href="#">Join Us</a></li>*/}
-                {/*                    <li><a href="#">Advertisement</a></li>*/}
-                {/*                    <li><a href="contact.html">Contacts</a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /nav *!/*/}
-                {/*            /!* widget posts *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Recent Posts</h3>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*            /!* /widget posts *!/*/}
-                {/*            /!* social links *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Follow us</h3>*/}
-                {/*                <ul className="nav-aside-social">*/}
-                {/*                    <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-pinterest" /></a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /social links *!/*/}
-                {/*            /!* aside nav close *!/*/}
-                {/*            <button className="nav-aside-close"><i className="fa fa-times" /></button>*/}
-                {/*            /!* /aside nav close *!/*/}
-                {/*        </div>*/}
-                {/*        /!* Aside Nav *!/*/}
-                {/*    </div>*/}
-                {/*    /!* /Nav *!/*/}
+
                 {/*    /!* Page Header *!/*/}
                     <div id="post-header" className="page-header">
                         <div className="background-img" style={{backgroundImage: `url(${PostHeader})`}} />
@@ -173,7 +96,7 @@ class HackathonEvent extends Component {
                             <div className="row">
                                 <div className="col-md-10">
                                     <div className="post-meta">
-                                        <a className="post-category cat-2" href="#">Open Register</a>
+                                        <a className="post-category cat-2" href="#">{this.state.status}</a>
                                         <span className="post-date">{this.state.hkData.startDate}</span>
                                     </div>
                                     <h1>{this.state.hkData.name}</h1>
@@ -230,117 +153,19 @@ class HackathonEvent extends Component {
                                 {/*</div>*/}
                                 {/* ad */}
                                 {/* author */}
-                                {/*<div className="section-row">*/}
-                                {/*    <div className="post-author">*/}
-                                {/*        <div className="media">*/}
-                                {/*            <div className="media-left">*/}
-                                {/*                <img className="media-object" src={require('./img/author.png')} alt />*/}
-                                {/*            </div>*/}
-                                {/*            <div className="media-body">*/}
-                                {/*                <div className="media-heading">*/}
-                                {/*                    <h3>John Doe</h3>*/}
-                                {/*                </div>*/}
-                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
-                                {/*                <ul className="author-social">*/}
-                                {/*                    <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
-                                {/*                    <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
-                                {/*                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
-                                {/*                    <li><a href="#"><i className="fa fa-instagram" /></a></li>*/}
-                                {/*                </ul>*/}
-                                {/*            </div>*/}
-                                {/*        </div>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                {/* /author */}
-                                {/* comments */}
-                                {/*<div className="section-row">*/}
-                                {/*    <div className="section-title">*/}
-                                {/*        <h2>3 Comments</h2>*/}
-                                {/*    </div>*/}
-                                {/*    <div className="post-comments">*/}
-                                {/*        /!* comment *!/*/}
-                                {/*        <div className="media">*/}
-                                {/*            <div className="media-left">*/}
-                                {/*                <img className="media-object" src={require('./img/avatar.png')} alt />*/}
-                                {/*            </div>*/}
-                                {/*            <div className="media-body">*/}
-                                {/*                <div className="media-heading">*/}
-                                {/*                    <h4>John Doe</h4>*/}
-                                {/*                    <span className="time">March 27, 2018 at 8:00 am</span>*/}
-                                {/*                    <a href="#" className="reply">Reply</a>*/}
-                                {/*                </div>*/}
-                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
-                                {/*                /!* comment *!/*/}
-                                {/*                <div className="media">*/}
-                                {/*                    <div className="media-left">*/}
-                                {/*                        <img className="media-object" src={require('./img/avatar.png')} alt />*/}
-                                {/*                    </div>*/}
-                                {/*                    <div className="media-body">*/}
-                                {/*                        <div className="media-heading">*/}
-                                {/*                            <h4>John Doe</h4>*/}
-                                {/*                            <span className="time">March 27, 2018 at 8:00 am</span>*/}
-                                {/*                            <a href="#" className="reply">Reply</a>*/}
-                                {/*                        </div>*/}
-                                {/*                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
-                                {/*                    </div>*/}
-                                {/*                </div>*/}
-                                {/*                /!* /comment *!/*/}
-                                {/*            </div>*/}
-                                {/*        </div>*/}
-                                {/*        /!* /comment *!/*/}
-                                {/*        /!* comment *!/*/}
-                                {/*        <div className="media">*/}
-                                {/*            <div className="media-left">*/}
-                                {/*                <img className="media-object" src={require('./img/avatar.png')} alt />*/}
-                                {/*            </div>*/}
-                                {/*            <div className="media-body">*/}
-                                {/*                <div className="media-heading">*/}
-                                {/*                    <h4>John Doe</h4>*/}
-                                {/*                    <span className="time">March 27, 2018 at 8:00 am</span>*/}
-                                {/*                    <a href="#" className="reply">Reply</a>*/}
-                                {/*                </div>*/}
-                                {/*                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*/}
-                                {/*            </div>*/}
-                                {/*        </div>*/}
-                                {/*        /!* /comment *!/*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                {/* /comments */}
-                                {/* reply */}
-                                {/*<div className="section-row">*/}
-                                {/*    <div className="section-title">*/}
-                                {/*        <h2>Leave a reply</h2>*/}
-                                {/*        <p>your email address will not be published. required fields are marked *</p>*/}
-                                {/*    </div>*/}
-                                {/*    <form className="post-reply">*/}
-                                {/*        <div className="row">*/}
-                                {/*            <div className="col-md-4">*/}
-                                {/*                <div className="form-group">*/}
-                                {/*                    <span>Name *</span>*/}
-                                {/*                    <input className="input" type="text" name="name" />*/}
-                                {/*                </div>*/}
-                                {/*            </div>*/}
-                                {/*            <div className="col-md-4">*/}
-                                {/*                <div className="form-group">*/}
-                                {/*                    <span>Email *</span>*/}
-                                {/*                    <input className="input" type="email" name="email" />*/}
-                                {/*                </div>*/}
-                                {/*            </div>*/}
-                                {/*            <div className="col-md-4">*/}
-                                {/*                <div className="form-group">*/}
-                                {/*                    <span>Website</span>*/}
-                                {/*                    <input className="input" type="text" name="website" />*/}
-                                {/*                </div>*/}
-                                {/*            </div>*/}
-                                {/*            <div className="col-md-12">*/}
-                                {/*                <div className="form-group">*/}
-                                {/*                    <textarea className="input" name="message" placeholder="Message" defaultValue={""} />*/}
-                                {/*                </div>*/}
-                                {/*                <button className="primary-button">Submit</button>*/}
-                                {/*            </div>*/}
-                                {/*        </div>*/}
-                                {/*    </form>*/}
-                                {/*</div>*/}
+
+
+
+
+
+                                <div className="section-row sticky-container">
+                                    <div className="main-post">
+                                        <p><strong>Sponsors:</strong></p>
+                                        <p>{this.state.hkData.sponsors}</p>
+                                    </div>
+                                </div>
+
+
                                 {/* /reply */}
                             </div>
                             {/* /Post content */}
@@ -353,10 +178,11 @@ class HackathonEvent extends Component {
                                     <div id="challenge-information" className="panel">
 
 
-
-
                                         <section className="text-center">
-                                            <a className="button radius expand large secondary" href="/create_hackathon">Register for this hackathon</a>
+                                            <a className="button radius expand large secondary" href={this.state.registHref}
+                                               disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
+
+
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">
                                                 Register to receive important hackathon updates, find teammates,
@@ -364,7 +190,12 @@ class HackathonEvent extends Component {
                                             </p>
                                         </section>
                                         <section className="info">
-                                            <p><strong>Registration Team size:</strong>  {this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
+                                            <p><strong>Registration Fee Per Person:</strong> </p>
+                                            <p>${this.state.hkData.fee}</p>
+                                        </section>
+                                        <section className="info">
+                                            <p><strong>Registration Team size:</strong> </p>
+                                            <p>{this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
                                         </section>
 
                                         <section className="info">
