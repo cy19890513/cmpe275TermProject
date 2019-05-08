@@ -25,6 +25,9 @@ class EditHackathon extends Component {
     }
 
     componentDidMount() {
+        const {match: {params}} = this.props;
+        const hid = params.hid;
+        this.setState({hid: hid});
         axios.get('/organization')
             .then(res => {
                 const list = res.data;
@@ -45,9 +48,16 @@ class EditHackathon extends Component {
             })
         axios.get('/hackathon', {
             params: {
-                id: this.state.uid,
+                id: hid,
             }
         })
+            .then(res => {
+                const data = res.data;
+                this.setState({hData: data});
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     handleSubmit(e) {
