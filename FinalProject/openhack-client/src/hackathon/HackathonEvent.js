@@ -33,11 +33,11 @@ class HackathonEvent extends Component {
 
     }
 
-    parseSponsorList(){
-        this.state.sponsorList = this.state.hkData.map(function(sponsor){
-            return <ul>{sponsor.name}</ul>
-        })
-    }
+    // parseSponsorList(){
+    //     this.state.sponsorList = this.state.hkData.sponsors.map(function(sponsor){
+    //         return <ul>{sponsor}</ul>;
+    //     })
+    // }
 
     componentDidMount() {
         // console.log(<FormattedNumber
@@ -45,7 +45,7 @@ class HackathonEvent extends Component {
         //     style="currency"
         //     currency="USD" />);
         //console.log("hid",this.state.hid);
-        var url = "/hackathon/search?id=2";
+        var url = "/hackathon/search?hid=2";
         axios.get(url)
             .then(res => {
 
@@ -61,6 +61,7 @@ class HackathonEvent extends Component {
     }
     render(){
         console.log("hkData ",this.state.hkData);
+        // this.parseSponsorList();
         return(
             <div>
                 <Header/>
@@ -241,13 +242,13 @@ class HackathonEvent extends Component {
 
 
 
-                                {/*TODO ADD SPONSORS*/}
-                                {/*<div className="section-row sticky-container">*/}
-                                {/*    <div className="main-post">*/}
-                                {/*    <p><strong>Sponsors:</strong></p>*/}
 
-                                {/*    </div>*/}
-                                {/*</div>*/}
+                                <div className="section-row sticky-container">
+                                    <div className="main-post">
+                                        <p><strong>Sponsors:</strong></p>
+                                        <p>{this.state.hkData.sponsors}</p>
+                                    </div>
+                                </div>
 
 
 
