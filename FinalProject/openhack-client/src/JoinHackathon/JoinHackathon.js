@@ -63,7 +63,7 @@ class JoinHackathon extends Component {
     }
 
     handleTeamName(e) {
-        const name = e.value;
+        const name = e.target.value;
         this.setState({teamName: name});
     }
 

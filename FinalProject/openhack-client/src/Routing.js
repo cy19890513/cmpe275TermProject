@@ -8,7 +8,7 @@ import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
 import UserProfile from "./userProfile/UserProfile";
-import CreateOrg from "./CreateOrg/createOrg";
+import CreateOrg from "./createOrg/createOrg";
 import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";

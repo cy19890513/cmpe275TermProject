@@ -251,7 +251,7 @@ public class HackathonController {
             }
         }
         if(payload.containsKey("discount")){
-            h.setDiscount((double) payload.get("discount"));
+            h.setDiscount(Double.valueOf(String.valueOf(payload.get("discount"))));
         }
         hackathonService.createHackathon(h);
         return new ResponseEntity<>(filterHackathon(h), HttpStatus.CREATED);
