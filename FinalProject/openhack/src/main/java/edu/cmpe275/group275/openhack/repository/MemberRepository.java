@@ -6,7 +6,9 @@ import edu.cmpe275.group275.openhack.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByHacker(HackerUser hacker);
+    List<Member> findByHacker(HackerUser hacker);
 }

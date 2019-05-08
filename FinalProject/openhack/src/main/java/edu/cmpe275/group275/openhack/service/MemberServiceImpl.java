@@ -32,12 +32,16 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Transactional
-    public Team getTeam(HackerUser hacker){
+    public List<Team> getTeam(HackerUser hacker){
 
-        Member m = memberRepository.findByHacker(hacker);
-        System.out.println(m.toString());
-        System.out.println(m.getTeam().toString());
-        return m.getTeam();
+        List<Member> list = memberRepository.findByHacker(hacker);
+        List<Team> res = new ArrayList<>();
+        for(Member m: list){
+            res.add(m.getTeam());
+        }
+//        System.out.println(m.toString());
+//        System.out.println(m.getTeam().toString());
+        return res;
     }
 
     @Transactional
