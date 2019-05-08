@@ -123,9 +123,9 @@ class UserProfile extends Component {
     handleClose(hid) {
         const state = this.state;
         console.log('hid', hid);
-        const url = '/hackathon/close?id=' + hid;
+        const url = '/hackathon/close';
         axios.post(url, {
-            id: hid,
+            hid: hid,
         })
             .then(res => {
                 state.hackathons = state.hackathons.map(h => {
@@ -143,9 +143,9 @@ class UserProfile extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
-        const url = '/hackathon/finalize?id=' + hid;
+        const url = '/hackathon/finalize';
         axios.post(url, {
-            id: 100,
+            hid: hid,
         })
             .then(res => {
                 if (res.status === 200) {
@@ -172,14 +172,14 @@ class UserProfile extends Component {
     createOrgButton() {
         const role = localStorage.getItem('role');
         if (role === 'hackerUser'){
-           return <a href='/createOrg'>CREATE ORGANIZATION</a>
+            return <a href='/createOrg'>CREATE ORGANIZATION</a>
         }
     }
 
     hackathonListButton(){
         return <a href='/hackathons'>Show hackations</a>
     }
-   
+
 
     // testClose(hid) {
     //     console.log(hid);

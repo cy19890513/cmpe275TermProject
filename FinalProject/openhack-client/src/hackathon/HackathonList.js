@@ -81,13 +81,13 @@ class HackathonList extends Component{
         this.state.eventList = this.state.hkData.map(function(event){
             return <div className="col-md-6">
                 <div className="post post-thumb">
-                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
+                    <a className="post-img" href="/hackathonEvent/1"><img src={require('./img/post-1.jpg')} alt /></a>
                     <div className="post-body">
                         <div className="post-meta">
-                            <a className="post-category cat-2" href="#">Judge</a>
+                            {/*<a className="post-category cat-2" href="#">Judge</a>*/}
                             <span className="post-date">{event.startDate}</span>
                         </div>
-                        <h3 className="post-title"><a href="/hackathonEvent">{event.name}</a></h3>
+                        <h3 className="post-title"><a href="/hackathonEvent/1">{event.name}</a></h3>
                     </div>
                 </div>
             </div>;
