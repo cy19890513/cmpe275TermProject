@@ -63,11 +63,10 @@ public class HackathonController {
      * Description: create an team
      */
     @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
-    public ResponseEntity<?> createTeam(
-                                        @RequestParam long uid,
-                                        @RequestBody Map<String, Object> payload){
+    public ResponseEntity<?> createTeam(@RequestBody Map<String, Object> payload){
 
         long hackathonId = Long.parseLong(String.valueOf(payload.get("hid")));
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         String teamName = (String) payload.get("teamName");
