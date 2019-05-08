@@ -10,10 +10,7 @@ import edu.cmpe275.group275.openhack.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +30,21 @@ public class OrganizationController {
     /**
      * Sample test
      * POST: http://localhost:8080/organization?uid=XX&name=AA&description=CC
+     * payload: {
+     *     uid: 10,
+     *     name: XX,
+     *     description: ABC,
+     *
+     * }
      * Description: create an organization
      */
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
-    public ResponseEntity<?> createOrganization(@RequestParam String name, @RequestParam long uid,
-                                                @RequestParam(required = false) String description,
-                                                @RequestParam(required = false) String street, @RequestParam(required = false) String city,
-                                                @RequestParam(required = false) String state, @RequestParam(required = false) String zip){
+    public ResponseEntity<?> createOrganization(@RequestBody Map<String, Object> payload){
 
         // AOP check required field
         // AOP check if owner is a verified hacker
-
+        String name = String.valueOf(payload.get("name"));
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         Organization org = new Organization();
         if(organizationService.exists(name)){
             return new ResponseEntity<>("Organization name exists", HttpStatus.BAD_REQUEST);
@@ -58,21 +59,21 @@ public class OrganizationController {
         }else{
             return new ResponseEntity<>("Owner is not a hacker", HttpStatus.BAD_REQUEST);
         }
-        if(description != null){
-            org.setDescription(description);
+        if(payload.containsKey("description")){
+            org.setDescription(String.valueOf(payload.containsKey("description")));
         }
         Address address = new Address();
-        if(street != null){
-            address.setStreet(street);
+        if(payload.containsKey("street")){
+            address.setStreet(String.valueOf(payload.containsKey("street")));
         }
-        if(city != null){
-            address.setCity(city);
+        if(payload.containsKey("city")){
+            address.setCity(String.valueOf(payload.containsKey("city")));
         }
-        if(state != null){
-            address.setState(state);
+        if(payload.containsKey("state")){
+            address.setState(String.valueOf(payload.containsKey("state")));
         }
-        if(zip != null){
-            address.setZip(zip);
+        if(payload.containsKey("zip")){
+            address.setZip(String.valueOf(payload.containsKey("zip")));
         }
         org.setAddress(address);
         organizationService.create(org);
@@ -81,7 +82,7 @@ public class OrganizationController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/organizations
+     * GET: http://localhost:8080/organizations
      * Description: get organization list
      */
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
@@ -114,15 +115,15 @@ public class OrganizationController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/organizationInfo?id=4
+     * GET: http://localhost:8080/organizationInfo?oid=4
      * Description: get an organization detail
      */
     @RequestMapping(value = "/organizationInfo", method = RequestMethod.GET)
-    public ResponseEntity<?> getOrganizationById(@RequestParam long id){
+    public ResponseEntity<?> getOrganizationById(@RequestParam long oid){
 //        if(id == null){
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
-        Organization org = organizationService.getOrg(id);
+        Organization org = organizationService.getOrg(oid);
         if(org == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

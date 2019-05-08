@@ -44,8 +44,10 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/team?hackathonId=1&uid=9
+     * POST: hackathon/team
      * payload: {
+     * "hid": 1,
+     * "uid": 9,
      *  "teamName": "Super",
      * 	"members": [
      *                {
@@ -61,10 +63,10 @@ public class HackathonController {
      * Description: create an team
      */
     @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
-    public ResponseEntity<?> createTeam(@RequestParam long hackathonId,
-                                        @RequestParam long uid,
-                                        @RequestBody Map<String, Object> payload){
+    public ResponseEntity<?> createTeam(@RequestBody Map<String, Object> payload){
 
+        long hackathonId = Long.parseLong(String.valueOf(payload.get("hid")));
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         String teamName = (String) payload.get("teamName");
@@ -96,35 +98,47 @@ public class HackathonController {
     }
     /**
      * Sample test
-     * GET: hackathon/payment?teamId=1&uid=9
+     * GET: hackathon/payment?tid=1&uid=9
      * Description: update payment
      */
     @GetMapping(value="/hackathon/payment")
-    public ResponseEntity<?> processPayment(@RequestParam long teamId,
+    public ResponseEntity<?> processPayment(@RequestParam long tid,
                                             @RequestParam long uid){
-        teamService.processPayment(teamId, uid);
-        return new ResponseEntity<>(HttpStatus.OK);
+        teamService.processPayment(tid, uid);
+        return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * POST: hackathon/teamInfo/submit?hackathonId=1&teamId=XX&submitUrl=ZZ
+     * POST: hackathon/submit
+     * payload: {
+     *     tid: 1,
+     *     date: 2019-05-06,
+     *     submitUrl: XX
+     * }
      * Description: code submit
      */
-    @PostMapping(value="/hackathon/teamInfo/submit")
-    public ResponseEntity<?> updateTeamInfo(@RequestParam long teamId,
-                                            @RequestParam long hackathonId,
-                                            @RequestParam(required = false) Double grade,
-                                            @RequestParam(required = false) String submitUrl){
+    @PostMapping(value="/hackathon/submit")
+    public ResponseEntity<?> submitCode(@RequestBody Map<String, Object> payload){
 
-        //TODO
-//        Team t = teamService.getTeam(teamId);
-//        if(grade != null)
-//            t.setGrade(grade);
-//        if(submitUrl != null)
-//            t.setUrl(submitUrl);
-
-        return null;
+        long tid = Long.valueOf(String.valueOf(payload.get("tid")));
+        String date = String.valueOf(payload.get("date"));
+        String submitUrl = String.valueOf(payload.get("submitUrl"));
+        Team team = teamService.getTeam(tid);
+        if(!team.getIfAllPaid()){
+            return new ResponseEntity<>("Please pay the registration fee first!", HttpStatus.BAD_REQUEST);
+        }
+        Hackathon h = team.getHackathon();
+        Date d = Date.valueOf(date);
+        if(d.before(h.getStartDate())){
+            return new ResponseEntity<>("The hackathon is not opened for submission", HttpStatus.BAD_REQUEST);
+        }
+        if(h.getClosed()){
+            return new ResponseEntity<>("The hackathon is closed for submission", HttpStatus.BAD_REQUEST);
+        }
+        team.setUrl(submitUrl);
+        teamService.update(team);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -144,12 +158,12 @@ public class HackathonController {
 
     /**
      * Sample test
-     * GET: hackathon/team?teamId=1
+     * GET: hackathon/team?tid=1
      * Description: get team info by team id
      */
     @GetMapping(value="/hackathon/team")
-    public ResponseEntity<?> getTeam(@RequestParam long teamId){
-        Team t = teamService.getTeam(teamId);
+    public ResponseEntity<?> getTeam(@RequestParam long tid){
+        Team t = teamService.getTeam(tid);
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -187,13 +201,7 @@ public class HackathonController {
     @PostMapping(value="/hackathon")
     public ResponseEntity<?> createHackathon(@RequestBody Map<String, Object> payload) {
         // AOP
-        if(!payload.containsKey("uid")){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        System.out.println(payload.get("uid"));
-        System.out.println(payload.get("uid").getClass().getName());
-        String uidStr = String.valueOf(payload.get("uid"));
-        Long uid = Long.parseLong(uidStr);
+
         if (!payload.containsKey("name")  || !payload.containsKey("startDate") || !payload.containsKey("endDate")
                 || !payload.containsKey("description") || !payload.containsKey("fee") ||
                 !payload.containsKey("judges") || !payload.containsKey("minSize") || !payload.containsKey("maxSize")
@@ -202,8 +210,8 @@ public class HackathonController {
         }
         Hackathon h = new Hackathon();
         h.setName(String.valueOf(payload.get("name")));
-        h.setStartDate(Date.valueOf((String)payload.get("startDate")));
-        h.setEndDate(Date.valueOf((String)payload.get("endDate")));
+        h.setStartDate(Date.valueOf(String.valueOf(payload.get("startDate"))));
+        h.setEndDate(Date.valueOf(String.valueOf(payload.get("endDate"))));
         h.setDescription(String.valueOf(payload.get("description")));
         List<String> list = (List<String>) payload.get("judges");
         List<HackerUser> judges = new ArrayList<>();
@@ -212,9 +220,9 @@ public class HackathonController {
                 judges.add(hackerUserService.getHackerByEmail(s));
         }
         h.setJudges(judges);
-        h.setMinSize((int) payload.get("minSize"));
-        h.setFee((double) payload.get("fee"));
-        h.setMaxSize((int) payload.get("maxSize"));
+        h.setMinSize((Integer.valueOf(String.valueOf(payload.get("minSize")))));
+        h.setFee((Double.valueOf(String.valueOf(payload.get("fee")))));
+        h.setMaxSize((Integer.valueOf(String.valueOf(payload.get("maxSize")))));
         h.setFinalized(false);
         h.setClosed(false);
 
@@ -237,13 +245,13 @@ public class HackathonController {
 
     /**
      * Sample test
-     * GET: hackathon/search?id=9
+     * GET: hackathon/search?hid=9
      * Description: get a hackathon info
      */
     @GetMapping(value="/hackathon/search")
-    public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long id,
+    public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long hid,
                                               @RequestParam(required = false) String name) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
+        Hackathon hackathon = hackathonService.getHackathon(hid);
         if (hackathon != null) {
             return ResponseEntity.status(HttpStatus.OK).body(filterHackathon(hackathon));
         }
@@ -257,43 +265,105 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/join?id=1&teamId=1
+     * POST: hackathon/join
+     * payload: {
+     *     hid: 1,
+     *     tid: 1
+     * }
      * Description: join a hackathon
      */
     @PostMapping(value="/hackathon/join")
-    public ResponseEntity<?> joinHackathon(@RequestParam Long id,
-                                           @RequestParam long teamId) {
+    public ResponseEntity<?> joinHackathon(@RequestBody Map<String, Object> payload) {
+
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
         Team team = teamService.getTeam(teamId);
-        hackathonService.joinHackathon(id, team);
+        hackathonService.joinHackathon(hid, team);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
     /**
      * Sample test
-     * POST: hackathon/close?id=1
+     * POST: hackathon/close
+     * payload: {
+     *     hid: 1
+     * }
      * Description: close a hackathon
      */
     @PostMapping(value="/hackathon/close")
-    public ResponseEntity<?> closeHackathon(@RequestParam Long id) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
+    public ResponseEntity<?> closeHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        Hackathon hackathon = hackathonService.getHackathon(hid);
         hackathon.setClosed(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
     /**
      * Sample test
-     * POST: hackathon/close?id=1
+     * POST: hackathon/open
+     *  payload: {
+     *          hid: 1,
+     *          date: 2019-05-06
+     *       }
+     * Description: open a hackathon
+     */
+    @PostMapping(value="/hackathon/open")
+    public ResponseEntity<?> openHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        String date = String.valueOf(payload.get("date"));
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+        Date d = Date.valueOf(date);
+        if(d.before(hackathon.getStartDate())){
+            hackathon.setStartDate(d);
+        }
+        hackathonService.update(hackathon);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    /**
+     * Sample test
+     * POST: hackathon/finalize
+     * payload: {
+     *                hid: 1,
+     *            }
      * Description: finalize a hackathon
      */
-    @PostMapping(value="/hackathon/finalize", consumes = "application/json")
-    public ResponseEntity<?> finalizeHackathon(@RequestParam Long id) {
-        Hackathon hackathon = hackathonService.getHackathon(id);
+
+    @PostMapping(value="/hackathon/finalize")
+    public ResponseEntity<?> finalizeHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        Hackathon hackathon = hackathonService.getHackathon(hid);
         hackathon.setFinalized(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
+    /**
+     * Sample test
+     * POST: hackathon/grade
+     * payload: {
+     *     tid: 1,
+     *     grade: 80
+     * }
+     * Description: grade a team submission
+     */
+    @PostMapping(value="/hackathon/grade")
+    public ResponseEntity<?> gradeHackathon(@RequestBody Map<String, Object> payload) {
+
+        long tid = Long.valueOf(String.valueOf(payload.get("tid")));
+        double grade = Double.valueOf(String.valueOf(payload.get("grade")));
+        Team team = teamService.getTeam(tid);
+        team.setGrade(grade);
+        teamService.update(team);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
 
     private Map<String, Object> filterHackathon(Hackathon h) {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -315,12 +385,22 @@ public class HackathonController {
             }
             map.put("sponsors", sp);
         }
+        if(h.getJudges() != null){
+            List<String> judge = new ArrayList<>();
+            for(HackerUser j: h.getJudges()){
+                judge.add(j.getEmail());
+            }
+            map.put("judges", judge);
+        }
         map.put("isClosed", h.getClosed());
         map.put("isFinalized", h.getFinalized());
         if(h.getTeams() != null){
-            List<String> res = new ArrayList<>();
+            List<Map<String, Object>> res = new ArrayList<>();
             for(Team t: h.getTeams()){
-                res.add(t.getTeamName());
+                Map<String, Object> pair = new LinkedHashMap<>();
+                pair.put("id", t.getId());
+                pair.put("teamName", t.getTeamName());
+                res.add(pair);
             }
             map.put("teams", res);
         }

@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import './css/style.css';
 import PostHeader from './img/post-page.jpg';
 import axios from "axios";
+import Header from "../utils/Header";
 
 
 
@@ -48,6 +49,7 @@ class HackathonEvent extends Component {
         console.log("hkData ",this.state.hkData);
         return(
             <div>
+                <Header/>
                 {}
                 {/*<meta charSet="utf-8" />*/}
                 {/*<meta httpEquiv="X-UA-Compatible" content="IE=edge" />*/}
@@ -191,19 +193,18 @@ class HackathonEvent extends Component {
                                 <div className="section-row sticky-container">
                                     <div className="main-post">
                                         <h3> {this.state.hkData.name}</h3>
-                                        <p>Do you like Cheese Whiz? Spray tan? Fake eyelashes? That's what is Lorem Ipsum to many—it rubs them the wrong way, all the way. It's unreal, uncanny, makes you wonder if something is wrong, it seems to seek your attention for all the wrong reasons. Usually, we prefer the real thing, wine without sulfur based preservatives, real butter, not margarine, and so we'd like our layouts and designs to be filled with real words, with thoughts that count, information that has value. </p>
-                                        <p>The toppings you may chose for that TV dinner pizza slice when you forgot to shop for foods, the paint you may slap on your face to impress the new boss is your business. But what about your daily bread? Design comps, layouts, wireframes—will your clients accept that you go about things the facile way? Authorities in our business will tell in no uncertain terms that Lorem Ipsum is that huge, huge no no to forswear forever. Not so fast, I'd say, there are some redeeming factors in favor of greeking text, as its use is merely the symptom of a worse problem to take into consideration.</p>
+                                        <p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>
+                                        <p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>
                                         <figure className="figure-img">
                                             <img className="img-responsive" src={require('./img/post-4.jpg')} alt />
-                                            <figcaption>So Lorem Ipsum is bad (not necessarily)</figcaption>
+                                            <figcaption>Designer TOMPHSON</figcaption>
                                         </figure>
-                                        <p>You begin with a text, you sculpt information, you chisel away what's not needed, you come to the point, make things clear, add value, you're a content person, you like words. Design is no afterthought, far from it, but it comes in a deserved second. Anyway, you still use Lorem Ipsum and rightly so, as it will always have a place in the web workers toolbox, as things happen, not always the way you like it, not always in the preferred order. Even if your less into design and more into content strategy you may find some redeeming value with, wait for it, dummy copy, no less.</p>
-                                        <p>There's lot of hate out there for a text that amounts to little more than garbled words in an old language. The villagers are out there with a vengeance to get that Frankenstein, wielding torches and pitchforks, wanting to tar and feather it at the least, running it out of town in shame.</p>
-                                        <p>One of the villagers, Kristina Halvorson from Adaptive Path, holds steadfastly to the notion that design can’t be tested without real content:</p>
+                                        <p>We're looking for contributions of original content in the form of a map, story map, app, or workflow using the Esri platform. Winners will be considered for the Living Atlas, Story Maps site, and even Maps we Love.</p>
+                                        <p>The event kicks off on Friday, May 3, and all submissions are due before noon on Monday, May 13.</p>
                                         <blockquote className="blockquote">
                                             I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it helps people focus on the actual layout, or color scheme, or whatever. What kills me here is that we’re talking about creating a user experience that will (whether we like it or not) be DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.
                                         </blockquote>
-                                        <p>If that's what you think how bout the other way around? How can you evaluate content without design? No typography, no colors, no layout, no styles, all those things that convey the important signals that go beyond the mere textual, hierarchies of information, weight, emphasis, oblique stresses, priorities, all those subtle cues that also have visual and emotional appeal to the reader. Rigid proponents of content strategy may shun the use of dummy copy but then designers might want to ask them to provide style sheets with the copy decks they supply that are in tune with the design direction they require.</p>
+                                        <p>For important announcements and upcoming events, join e-bloc on Teams and subscribe to the Climate Change Challenge channel.</p>
                                         <h3>Summing up, if the copy is diverting attention from the design it’s because it’s not up to task.</h3>
                                         <p>Typographers of yore didn't come up with the concept of dummy copy because people thought that content is inconsequential window dressing, only there to be used by designers who can’t be bothered to read. Lorem Ipsum is needed because words matter, a lot. Just fill up a page with draft copy about the client’s business and they will actually read it and comment on it. They will be drawn to it, fiercely. Do it the wrong way and draft copy can derail your design review.</p>
                                     </div>
@@ -350,7 +351,7 @@ class HackathonEvent extends Component {
 
 
                                         <section className="text-center">
-                                            <a className="button radius expand large secondary" href="/register?flow%5Bdata%5D%5Bchallenge_id%5D=7769&flow%5Bname%5D=register_for_challenge">Register for this hackathon</a>
+                                            <a className="button radius expand large secondary" href="/create_hackathon">Register for this hackathon</a>
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">
                                                 Register to receive important hackathon updates, find teammates,
