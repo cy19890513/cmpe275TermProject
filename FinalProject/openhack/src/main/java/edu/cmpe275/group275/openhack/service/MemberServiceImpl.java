@@ -36,8 +36,10 @@ public class MemberServiceImpl implements MemberService{
 
         List<Member> list = memberRepository.findByHacker(hacker);
         List<Team> res = new ArrayList<>();
-        for(Member m: list){
-            res.add(m.getTeam());
+        if(list != null) {
+            for (Member m : list) {
+                res.add(m.getTeam());
+            }
         }
 //        System.out.println(m.toString());
 //        System.out.println(m.getTeam().toString());
@@ -51,20 +53,23 @@ public class MemberServiceImpl implements MemberService{
 
     public Map<String, Object> convertToMap(Team t){
         Map<String, Object> res = new LinkedHashMap<>();
-        res.put("id", t.getId());
-        res.put("teamName", t.getTeamName());
-        res.put("teamLead", t.getTeamLead().getHacker().getUsername());
-        List<String> members = new ArrayList<>();
-        for(Member m: t.getMembers()){
-            members.add(m.getHacker().getUsername());
-        }
-        res.put("members", members);
-        if(t.getHackathon() != null && t.getHackathon().getFinalized()){
-            res.put("grade", t.getGrade());
-        }
-        res.put("url", t.getUrl());
-        if(t.getHackathon() != null){
-            res.put("hackathon", t.getHackathon().getName());
+        if(t != null) {
+            res.put("id", t.getId());
+            res.put("teamName", t.getTeamName());
+            res.put("teamLead", t.getTeamLead().getHacker().getUsername());
+            List<String> members = new ArrayList<>();
+            for (Member m : t.getMembers()) {
+                members.add(m.getHacker().getUsername());
+            }
+            res.put("members", members);
+            if (t.getHackathon() != null && t.getHackathon().getFinalized()) {
+                res.put("grade", t.getGrade());
+            }
+            res.put("url", t.getUrl());
+            if (t.getHackathon() != null) {
+                res.put("hid", t.getHackathon().getId());
+                res.put("hackathon", t.getHackathon().getName());
+            }
         }
         return res;
     }

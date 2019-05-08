@@ -1,20 +1,26 @@
 import React, {Component} from "react";
+//import ReactIntl from "react-intl";
 
 import './css/style.css';
 import PostHeader from './img/post-page.jpg';
 import axios from "axios";
 import Header from "../utils/Header";
 
-
+//var FormattedNumber = ReactIntl.FormattedNumber;
+//https://formatjs.io/react/v1/#formatted-number
 
 class HackathonEvent extends Component {
 
 
     constructor(props) {
         super(props);
-        //console.log(props);
+        console.log(props.match.params.hid);
         this.state = {
-            eventId: null,
+            eventId: props.match.params.hid,
+            status:null,
+            ifDisableRegist:false,
+            registHref:"/create_hackathon",
+            registText:"Register for this hackathon",
             eventName: null,
             startDate: null,
             endDate: null,
@@ -25,14 +31,41 @@ class HackathonEvent extends Component {
             sponsors: [],
             isClosed: null,
             isFinalized: null,
+            sponsorList:[],
             hkData: []
         }
 
     }
 
+    // parseSponsorList(){
+    //     this.state.sponsorList = this.state.hkData.sponsors.map(function(sponsor){
+    //         return <ul>{sponsor}</ul>;
+    //     })
+    // }
+
+    parseStatus(){
+        if(this.state.hkData.isFinalized){
+            this.state.status = "Finalized";
+            this.state.registHref = "#";
+            this.state.registText="Event have finalized";
+        }else if(this.state.hkData.isClosed){
+            this.state.status = "Closed";
+            this.state.registHref = "#";
+            this.state.registText="Closed for registration";
+        }else{
+            this.state.status = "Open Registration";
+
+        }
+    }
+
     componentDidMount() {
-        //
-        axios.get("/hackathon/search?id=2")
+        // console.log(<FormattedNumber
+        //     value={99.95}
+        //     style="currency"
+        //     currency="USD" />);
+        console.log("hid", this.state.eventId)
+        var url = `/hackathon/search?hid=${this.state.eventId}`;
+        axios.get(url)
             .then(res => {
 
                 //res.data.results.map()
@@ -47,118 +80,15 @@ class HackathonEvent extends Component {
     }
     render(){
         console.log("hkData ",this.state.hkData);
+        this.parseStatus();
+        // this.parseSponsorList();
         return(
             <div>
                 <Header/>
                 {}
-                {/*<meta charSet="utf-8" />*/}
-                {/*<meta httpEquiv="X-UA-Compatible" content="IE=edge" />*/}
-                {/*<meta name="viewport" content="width=device-width, initial-scale=1" />*/}
-                {/*/!* The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags *!/*/}
-                {/*<title>WebMag HTML Template</title>*/}
-                {/*/!* Google font *!/*/}
-                {/*<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet" />*/}
-                {/*/!* Bootstrap *!/*/}
-                {/*<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />*/}
-                {/*/!* Font Awesome Icon *!/*/}
-                {/*<link rel="stylesheet" href="css/font-awesome.min.css" />*/}
-                {/*/!* Custom stlylesheet *!/*/}
-                {/*<link type="text/css" rel="stylesheet" href="css/style.css" />*/}
-                {/* HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries */}
-                {/* WARNING: Respond.js doesn't work if you view the page via file:// */}
-                {/*[if lt IE 9]>
 
-
-		<![endif]*/}
                 {/* Header */}
-                {/*<header id="header">*/}
-                {/*    /!* Nav *!/*/}
-                {/*    <div id="nav">*/}
-                {/*        /!* Main Nav *!/*/}
-                {/*        <div id="nav-fixed">*/}
-                {/*            <div className="container">*/}
-                {/*                /!* logo *!/*/}
-                {/*                <div className="nav-logo">*/}
-                {/*                    <a href="index.html" className="logo"><img src={require('./img/logo.png')} alt /></a>*/}
-                {/*                </div>*/}
-                {/*                /!* /logo *!/*/}
-                {/*                /!* nav *!/*/}
-                {/*                <ul className="nav-menu nav navbar-nav">*/}
-                {/*                    <li><a href="#">News</a></li>*/}
-                {/*                    <li><a href="#">Popular</a></li>*/}
-                {/*                    <li className="cat-1"><a href="#">Web Design</a></li>*/}
-                {/*                    <li className="cat-2"><a href="#">JavaScript</a></li>*/}
-                {/*                    <li className="cat-3"><a href="#">Css</a></li>*/}
-                {/*                    <li className="cat-4"><a href="#">Jquery</a></li>*/}
-                {/*                </ul>*/}
-                {/*                /!* /nav *!/*/}
-                {/*                /!* search & aside toggle *!/*/}
-                {/*                <div className="nav-btns">*/}
-                {/*                    <button className="aside-btn"><i className="fa fa-bars" /></button>*/}
-                {/*                    <button className="search-btn"><i className="fa fa-search" /></button>*/}
-                {/*                    <div className="search-form">*/}
-                {/*                        <input className="search-input" type="text" name="search" placeholder="Enter Your Search ..." />*/}
-                {/*                        <button className="search-close"><i className="fa fa-times" /></button>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                /!* /search & aside toggle *!/*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*        /!* /Main Nav *!/*/}
-                {/*        /!* Aside Nav *!/*/}
-                {/*        <div id="nav-aside">*/}
-                {/*            /!* nav *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <ul className="nav-aside-menu">*/}
-                {/*                    <li><a href="index.html">Home</a></li>*/}
-                {/*                    <li><a href="about.html">About Us</a></li>*/}
-                {/*                    <li><a href="#">Join Us</a></li>*/}
-                {/*                    <li><a href="#">Advertisement</a></li>*/}
-                {/*                    <li><a href="contact.html">Contacts</a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /nav *!/*/}
-                {/*            /!* widget posts *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Recent Posts</h3>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*            /!* /widget posts *!/*/}
-                {/*            /!* social links *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Follow us</h3>*/}
-                {/*                <ul className="nav-aside-social">*/}
-                {/*                    <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-pinterest" /></a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /social links *!/*/}
-                {/*            /!* aside nav close *!/*/}
-                {/*            <button className="nav-aside-close"><i className="fa fa-times" /></button>*/}
-                {/*            /!* /aside nav close *!/*/}
-                {/*        </div>*/}
-                {/*        /!* Aside Nav *!/*/}
-                {/*    </div>*/}
-                {/*    /!* /Nav *!/*/}
+
                 {/*    /!* Page Header *!/*/}
                     <div id="post-header" className="page-header">
                         <div className="background-img" style={{backgroundImage: `url(${PostHeader})`}} />
@@ -166,8 +96,8 @@ class HackathonEvent extends Component {
                             <div className="row">
                                 <div className="col-md-10">
                                     <div className="post-meta">
-                                        <a className="post-category cat-2" href="#">Open Register</a>
-                                        <span className="post-date">March 27, 2018</span>
+                                        <a className="post-category cat-2" href="#">{this.state.status}</a>
+                                        <span className="post-date">{this.state.hkData.startDate}</span>
                                     </div>
                                     <h1>{this.state.hkData.name}</h1>
                                 </div>
@@ -183,9 +113,6 @@ class HackathonEvent extends Component {
                     <div className="container">
 
 
-
-
-
                         {/* row */}
                         <div className="row">
                             {/* Post content */}
@@ -193,149 +120,52 @@ class HackathonEvent extends Component {
                                 <div className="section-row sticky-container">
                                     <div className="main-post">
                                         <h3> {this.state.hkData.name}</h3>
-                                        <p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>
-                                        <p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>
-                                        <figure className="figure-img">
-                                            <img className="img-responsive" src={require('./img/post-4.jpg')} alt />
-                                            <figcaption>Designer TOMPHSON</figcaption>
-                                        </figure>
-                                        <p>We're looking for contributions of original content in the form of a map, story map, app, or workflow using the Esri platform. Winners will be considered for the Living Atlas, Story Maps site, and even Maps we Love.</p>
-                                        <p>The event kicks off on Friday, May 3, and all submissions are due before noon on Monday, May 13.</p>
-                                        <blockquote className="blockquote">
-                                            I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it helps people focus on the actual layout, or color scheme, or whatever. What kills me here is that we’re talking about creating a user experience that will (whether we like it or not) be DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.
-                                        </blockquote>
-                                        <p>For important announcements and upcoming events, join e-bloc on Teams and subscribe to the Climate Change Challenge channel.</p>
-                                        <h3>Summing up, if the copy is diverting attention from the design it’s because it’s not up to task.</h3>
-                                        <p>Typographers of yore didn't come up with the concept of dummy copy because people thought that content is inconsequential window dressing, only there to be used by designers who can’t be bothered to read. Lorem Ipsum is needed because words matter, a lot. Just fill up a page with draft copy about the client’s business and they will actually read it and comment on it. They will be drawn to it, fiercely. Do it the wrong way and draft copy can derail your design review.</p>
+                                        <p>{this.state.hkData.description}</p>
+                                        {/*<p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>*/}
+                                        {/*<p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>*/}
+                                        {/*<figure className="figure-img">*/}
+                                        {/*    <img className="img-responsive" src={require('./img/post-4.jpg')} alt />*/}
+                                        {/*    <figcaption>Designer TOMPHSON</figcaption>*/}
+                                        {/*</figure>*/}
+                                        {/*<p>We're looking for contributions of original content in the form of a map, story map, app, or workflow using the Esri platform. Winners will be considered for the Living Atlas, Story Maps site, and even Maps we Love.</p>*/}
+                                        {/*<p>The event kicks off on Friday, May 3, and all submissions are due before noon on Monday, May 13.</p>*/}
+                                        {/*<blockquote className="blockquote">*/}
+                                        {/*    I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it helps people focus on the actual layout, or color scheme, or whatever. What kills me here is that we’re talking about creating a user experience that will (whether we like it or not) be DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.*/}
+                                        {/*</blockquote>*/}
+                                        {/*<p>For important announcements and upcoming events, join e-bloc on Teams and subscribe to the Climate Change Challenge channel.</p>*/}
+                                        {/*<h3>Summing up, if the copy is diverting attention from the design it’s because it’s not up to task.</h3>*/}
+                                        {/*<p>Typographers of yore didn't come up with the concept of dummy copy because people thought that content is inconsequential window dressing, only there to be used by designers who can’t be bothered to read. Lorem Ipsum is needed because words matter, a lot. Just fill up a page with draft copy about the client’s business and they will actually read it and comment on it. They will be drawn to it, fiercely. Do it the wrong way and draft copy can derail your design review.</p>*/}
                                     </div>
-                                    <div className="post-shares sticky-shares">
-                                        <a href="#" className="share-facebook"><i className="fa fa-facebook" /></a>
-                                        <a href="#" className="share-twitter"><i className="fa fa-twitter" /></a>
-                                        <a href="#" className="share-google-plus"><i className="fa fa-google-plus" /></a>
-                                        <a href="#" className="share-pinterest"><i className="fa fa-pinterest" /></a>
-                                        <a href="#" className="share-linkedin"><i className="fa fa-linkedin" /></a>
-                                        <a href="#"><i className="fa fa-envelope" /></a>
-                                    </div>
+                                    {/*<div className="post-shares sticky-shares">*/}
+                                    {/*    <a href="#" className="share-facebook"><i className="fa fa-facebook" /></a>*/}
+                                    {/*    <a href="#" className="share-twitter"><i className="fa fa-twitter" /></a>*/}
+                                    {/*    <a href="#" className="share-google-plus"><i className="fa fa-google-plus" /></a>*/}
+                                    {/*    <a href="#" className="share-pinterest"><i className="fa fa-pinterest" /></a>*/}
+                                    {/*    <a href="#" className="share-linkedin"><i className="fa fa-linkedin" /></a>*/}
+                                    {/*    <a href="#"><i className="fa fa-envelope" /></a>*/}
+                                    {/*</div>*/}
                                 </div>
                                 {/* ad */}
-                                <div className="section-row text-center">
-                                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>
-                                        <img className="img-responsive" src={require('./img/ad-2.jpg')} alt />
-                                    </a>
-                                </div>
+                                {/*<div className="section-row text-center">*/}
+                                {/*    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>*/}
+                                {/*        <img className="img-responsive" src={require('./img/ad-2.jpg')} alt />*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
                                 {/* ad */}
                                 {/* author */}
-                                <div className="section-row">
-                                    <div className="post-author">
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/author.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h3>John Doe</h3>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                <ul className="author-social">
-                                                    <li><a href="#"><i className="fa fa-facebook" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-twitter" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-instagram" /></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+
+
+
+
+
+                                <div className="section-row sticky-container">
+                                    <div className="main-post">
+                                        <p><strong>Sponsors:</strong></p>
+                                        <p>{this.state.hkData.sponsors}</p>
                                     </div>
                                 </div>
-                                {/* /author */}
-                                {/* comments */}
-                                <div className="section-row">
-                                    <div className="section-title">
-                                        <h2>3 Comments</h2>
-                                    </div>
-                                    <div className="post-comments">
-                                        {/* comment */}
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/avatar.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h4>John Doe</h4>
-                                                    <span className="time">March 27, 2018 at 8:00 am</span>
-                                                    <a href="#" className="reply">Reply</a>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                {/* comment */}
-                                                <div className="media">
-                                                    <div className="media-left">
-                                                        <img className="media-object" src={require('./img/avatar.png')} alt />
-                                                    </div>
-                                                    <div className="media-body">
-                                                        <div className="media-heading">
-                                                            <h4>John Doe</h4>
-                                                            <span className="time">March 27, 2018 at 8:00 am</span>
-                                                            <a href="#" className="reply">Reply</a>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                                    </div>
-                                                </div>
-                                                {/* /comment */}
-                                            </div>
-                                        </div>
-                                        {/* /comment */}
-                                        {/* comment */}
-                                        <div className="media">
-                                            <div className="media-left">
-                                                <img className="media-object" src={require('./img/avatar.png')} alt />
-                                            </div>
-                                            <div className="media-body">
-                                                <div className="media-heading">
-                                                    <h4>John Doe</h4>
-                                                    <span className="time">March 27, 2018 at 8:00 am</span>
-                                                    <a href="#" className="reply">Reply</a>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                            </div>
-                                        </div>
-                                        {/* /comment */}
-                                    </div>
-                                </div>
-                                {/* /comments */}
-                                {/* reply */}
-                                <div className="section-row">
-                                    <div className="section-title">
-                                        <h2>Leave a reply</h2>
-                                        <p>your email address will not be published. required fields are marked *</p>
-                                    </div>
-                                    <form className="post-reply">
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Name *</span>
-                                                    <input className="input" type="text" name="name" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Email *</span>
-                                                    <input className="input" type="email" name="email" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <span>Website</span>
-                                                    <input className="input" type="text" name="website" />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <textarea className="input" name="message" placeholder="Message" defaultValue={""} />
-                                                </div>
-                                                <button className="primary-button">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+
+
                                 {/* /reply */}
                             </div>
                             {/* /Post content */}
@@ -348,10 +178,11 @@ class HackathonEvent extends Component {
                                     <div id="challenge-information" className="panel">
 
 
-
-
                                         <section className="text-center">
-                                            <a className="button radius expand large secondary" href="/create_hackathon">Register for this hackathon</a>
+                                            <a className="button radius expand large secondary" href={this.state.registHref}
+                                               disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
+
+
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">
                                                 Register to receive important hackathon updates, find teammates,
@@ -359,10 +190,19 @@ class HackathonEvent extends Component {
                                             </p>
                                         </section>
                                         <section className="info">
+                                            <p><strong>Registration Fee Per Person:</strong> </p>
+                                            <p>${this.state.hkData.fee}</p>
+                                        </section>
+                                        <section className="info">
+                                            <p><strong>Registration Team size:</strong> </p>
+                                            <p>{this.state.hkData.minSize} - {this.state.hkData.maxSize}</p>
+                                        </section>
+
+                                        <section className="info">
                                             <p>
-                                                <strong><time className="value timeago" dateTime="2019-05-07T02:45:00-04:00" title="May 07 at 2:45am EDT">a day</time> to submit</strong>
+                                                <strong>Opening Time</strong>
                                             </p>
-                                            Mar 6 – May 6, 2019
+                                            {this.state.hkData.startDate} - {this.state.hkData.endDate}
                                             <p className="small">
                                                 <a className="view-all-dates-link" href="/details/dates">view all dates</a>
                                             </p>
@@ -399,12 +239,12 @@ class HackathonEvent extends Component {
                                         {/*        </li>*/}
                                         {/*    </ul>*/}
                                         {/*</section>*/}
-                                        <section>
-                                            <p>
-                                                Questions?
-                                                <a href="mailto:webpaige@google.com">Email the hackathon manager</a>
-                                            </p>
-                                        </section>
+                                        {/*<section>*/}
+                                        {/*    <p>*/}
+                                        {/*        Questions?*/}
+                                        {/*        <a href="mailto:webpaige@google.com">Email the hackathon manager</a>*/}
+                                        {/*    </p>*/}
+                                        {/*</section>*/}
 
 
 
@@ -416,117 +256,117 @@ class HackathonEvent extends Component {
 
 
 
-                                <div className="aside-widget text-center">
-                                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>
-                                        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />
-                                    </a>
-                                </div>
+                                {/*<div className="aside-widget text-center">*/}
+                                {/*    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>*/}
+                                {/*        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
                                 {/* /ad */}
                                 {/* post widget */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Most Read</h2>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-1.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-widget">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Most Read</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-1.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-widget">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /post widget */}
                                 {/* post widget */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Featured Hackathons</h2>
-                                    </div>
-                                    <div className="post post-thumb">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <div className="post-meta">
-                                                <a className="post-category cat-3" href="#">Jquery</a>
-                                                <span className="post-date">March 27, 2018</span>
-                                            </div>
-                                            <h3 className="post-title"><a href="/hackathonEvent">Ask HN: Does Anybody Still Use JQuery?</a></h3>
-                                        </div>
-                                    </div>
-                                    <div className="post post-thumb">
-                                        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                        <div className="post-body">
-                                            <div className="post-meta">
-                                                <a className="post-category cat-2" href="#">JavaScript</a>
-                                                <span className="post-date">March 27, 2018</span>
-                                            </div>
-                                            <h3 className="post-title"><a href="/hackathonEvent">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Featured Hackathons</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-thumb">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <div className="post-meta">*/}
+                                {/*                <a className="post-category cat-3" href="#">Jquery</a>*/}
+                                {/*                <span className="post-date">March 27, 2018</span>*/}
+                                {/*            </div>*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Ask HN: Does Anybody Still Use JQuery?</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="post post-thumb">*/}
+                                {/*        <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                                {/*        <div className="post-body">*/}
+                                {/*            <div className="post-meta">*/}
+                                {/*                <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                                {/*                <span className="post-date">March 27, 2018</span>*/}
+                                {/*            </div>*/}
+                                {/*            <h3 className="post-title"><a href="/hackathonEvent">Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks</a></h3>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /post widget */}
                                 {/* catagories */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Catagories</h2>
-                                    </div>
-                                    <div className="category-widget">
-                                        <ul>
-                                            <ul>
-                                                <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>
-                                                <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>
-                                                <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>
-                                                <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>
-                                            </ul>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Catagories</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="category-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <ul>*/}
+                                {/*                <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>*/}
+                                {/*                <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>*/}
+                                {/*            </ul>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /catagories */}
                                 {/* tags */}
-                                <div className="aside-widget">
-                                    <div className="tags-widget">
-                                        <ul>
-                                            <li><a href="#">Chrome</a></li>
-                                            <li><a href="#">CSS</a></li>
-                                            <li><a href="#">Tutorial</a></li>
-                                            <li><a href="#">Backend</a></li>
-                                            <li><a href="#">JQuery</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">JavaScript</a></li>
-                                            <li><a href="#">Website</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="tags-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <li><a href="#">Chrome</a></li>*/}
+                                {/*            <li><a href="#">CSS</a></li>*/}
+                                {/*            <li><a href="#">Tutorial</a></li>*/}
+                                {/*            <li><a href="#">Backend</a></li>*/}
+                                {/*            <li><a href="#">JQuery</a></li>*/}
+                                {/*            <li><a href="#">Design</a></li>*/}
+                                {/*            <li><a href="#">Development</a></li>*/}
+                                {/*            <li><a href="#">JavaScript</a></li>*/}
+                                {/*            <li><a href="#">Website</a></li>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /tags */}
                                 {/* archive */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Archive</h2>
-                                    </div>
-                                    <div className="archive-widget">
-                                        <ul>
-                                            <li><a href="#">January 2018</a></li>
-                                            <li><a href="#">Febuary 2018</a></li>
-                                            <li><a href="#">March 2018</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                {/*<div className="aside-widget">*/}
+                                {/*    <div className="section-title">*/}
+                                {/*        <h2>Archive</h2>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="archive-widget">*/}
+                                {/*        <ul>*/}
+                                {/*            <li><a href="#">January 2018</a></li>*/}
+                                {/*            <li><a href="#">Febuary 2018</a></li>*/}
+                                {/*            <li><a href="#">March 2018</a></li>*/}
+                                {/*        </ul>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/* /archive */}
                             </div>
                             {/* /aside */}

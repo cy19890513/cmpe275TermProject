@@ -24,7 +24,7 @@ class EditUser extends Component {
             state: null,
             zip: null,
             aboutMe: null,
-          
+
         };
         this.handleSubmit.bind(this);
     }
@@ -54,7 +54,7 @@ class EditUser extends Component {
                 });
             });
 
-       
+
     }
 
 
@@ -73,7 +73,7 @@ class EditUser extends Component {
             state: data.state,
             zip: data.zip,
             aboutMe: data.aboutMe,
-          
+
         })
             .catch(err => {
                 console.log(err);
@@ -130,21 +130,21 @@ class EditUser extends Component {
                             <Form.Control type={"text"}   value={data.city} onChange={e => {this.setState({city: e.target.value})}} required/>
                         </Col>
                     </Form.Group><Form.Group as={Row} controlId="state">
-                        <Form.Label column sm="2">
-                            State
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group><Form.Group as={Row} controlId="zip">
-                        <Form.Label column sm="2">
-                            Zip
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group>
-                   
+                    <Form.Label column sm="2">
+                        State
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} required/>
+                    </Col>
+                </Form.Group><Form.Group as={Row} controlId="zip">
+                    <Form.Label column sm="2">
+                        Zip
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} required/>
+                    </Col>
+                </Form.Group>
+
                     <Button type="submit">Edit User</Button>
                 </Form>
             </div>

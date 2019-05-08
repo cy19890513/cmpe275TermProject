@@ -159,6 +159,23 @@ public class User {
     public VerificationToken getToken(){return token;}
 
     public void setToken(VerificationToken token){this.token = token;}
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", portrait='" + portrait + '\'' +
+                ", businessTitle='" + businessTitle + '\'' +
+                ", aboutMe='" + aboutMe + '\'' +
+                ", isVerified=" + isVerified +
+                ", hashcode='" + hashcode + '\'' +
+                ", token=" + token +
+                ", address=" + address +
+                '}';
+    }
 }
 
 
