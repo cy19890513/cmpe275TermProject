@@ -16,14 +16,16 @@ public class HackerUserServiceImpl implements HackerUserService {
 
     public Map<String, Object> convertuserToMap(HackerUser user) {
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("id", user.getId());
-        map.put("ScreenName", user.getUsername());
-        map.put("email", user.getEmail());
-        map.put("name", user.getName());
-        map.put("BusinessTitle", user.getBusinessTitle());
-        map.put("Address", user.getAddress());
-        map.put("Description", user.getAboutMe());
-        map.put("portrait", user.getPortrait());
+        if(user != null) {
+            map.put("id", user.getId());
+            map.put("ScreenName", user.getUsername());
+            map.put("email", user.getEmail());
+            map.put("name", user.getName());
+            map.put("BusinessTitle", user.getBusinessTitle());
+            map.put("Address", user.getAddress());
+            map.put("Description", user.getAboutMe());
+            map.put("portrait", user.getPortrait());
+        }
         return map;
     }
 

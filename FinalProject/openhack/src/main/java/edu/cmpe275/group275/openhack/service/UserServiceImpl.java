@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
+        if(user == null){
+            return map;
+        }
         map.put("id", user.getId());
         map.put("username", user.getUsername());
         map.put("email", user.getEmail());
