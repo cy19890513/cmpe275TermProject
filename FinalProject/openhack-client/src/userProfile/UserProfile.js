@@ -42,9 +42,10 @@ class UserProfile extends Component {
                 const data = res.data;
                 this.setState(() => {
                     let org = {name: null, description: null};
-                    if (data.organization.name !== undefined) {
+                    if (data.organization !== undefined) {
                         org = data.organization;
                     }
+                    console.log(data);
                     return {
                         user: data,
                         organization: org,
@@ -297,6 +298,7 @@ class UserProfile extends Component {
                     <ol>
                         {hackathonList}
                     </ol>
+                    <div><a href={"/create_hackathon"}>Create new hackathon</a></div>
                 </div>
             )
         }
@@ -337,7 +339,7 @@ class UserProfile extends Component {
                         <Button variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                         {/*<a href="/updateUser">edit</a>*/}
                         {this.showOrganization()}
-                        {this.hackathonListButton()}
+                        <div>{this.hackathonListButton()}</div>
                     </div>
                 </div>
             );

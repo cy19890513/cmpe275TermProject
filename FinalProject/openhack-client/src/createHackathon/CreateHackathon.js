@@ -74,6 +74,9 @@ class CreateHackathon extends Component {
             sponsors: data.sponsors,
             judges: data.judges,
         })
+            .then(res => {
+                this.props.history.push('/userprofile');
+            })
             .catch(err => {
                 console.log(err);
             });
