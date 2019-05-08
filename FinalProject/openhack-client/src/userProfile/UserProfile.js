@@ -16,7 +16,13 @@ class UserProfile extends Component {
         this.state = {
             user: {},
             error: false,
-            organization: {},
+            organization: {
+                id: null,
+                name: null,
+                owner: null,
+                address: {},
+                description: null,
+            },
             orgs: [],
             selectedOrg: [],
             role: "",
@@ -37,7 +43,7 @@ class UserProfile extends Component {
         })
             .then(res => {
                 const data = res.data;
-                this.setState({user: data});
+                this.setState({user: data, organization: data.organization});
             })
             .catch(err => {
                 this.setState(() => {

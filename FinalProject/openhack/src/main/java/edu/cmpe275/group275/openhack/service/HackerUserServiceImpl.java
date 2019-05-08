@@ -3,6 +3,7 @@ package edu.cmpe275.group275.openhack.service;
 import edu.cmpe275.group275.openhack.model.Hackathon;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.repository.HackerUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,8 @@ import java.util.Map;
 @Service
 public class HackerUserServiceImpl implements HackerUserService {
 
+    @Autowired
+    private OrganizationService organizationService;
 
     public Map<String, Object> convertuserToMap(HackerUser user) {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -25,6 +28,7 @@ public class HackerUserServiceImpl implements HackerUserService {
             map.put("Address", user.getAddress());
             map.put("Description", user.getAboutMe());
             map.put("portrait", user.getPortrait());
+            map.put("orgization", organizationService.convertOrgToMap(user.getOrganization()));
         }
         return map;
     }

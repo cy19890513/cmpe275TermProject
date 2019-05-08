@@ -94,7 +94,7 @@ public class HackathonController {
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
-
+        System.out.println(team.toString());
         return new ResponseEntity<>(memberService.convertToMap(team), HttpStatus.OK);
     }
     /**
