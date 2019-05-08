@@ -14,9 +14,9 @@ class HackathonEvent extends Component {
 
     constructor(props) {
         super(props);
-        //console.log(props);
+        console.log(props.match.params.hid);
         this.state = {
-            eventId: null,
+            eventId: props.match.params.hid,
             eventName: null,
             startDate: null,
             endDate: null,
@@ -44,8 +44,8 @@ class HackathonEvent extends Component {
         //     value={99.95}
         //     style="currency"
         //     currency="USD" />);
-        //console.log("hid",this.state.hid);
-        var url = "/hackathon/search?hid=2";
+        console.log("hid", this.state.eventId)
+        var url = `/hackathon/search?hid=${this.state.eventId}`;
         axios.get(url)
             .then(res => {
 
