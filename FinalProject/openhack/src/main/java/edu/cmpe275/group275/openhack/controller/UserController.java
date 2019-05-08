@@ -180,7 +180,7 @@ public class UserController {
         User user = userService.getUser(uid);
         user.setVerified(true);
         userService.updateUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("User account has been verified.", HttpStatus.OK);
     }
 
     /**
