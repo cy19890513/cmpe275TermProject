@@ -25,8 +25,6 @@ function Routing() {
                 <Route path={'/hackathonEvent'} component={HackathonEvent}/>
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
-                {/*TODO Edit Hackathon*/}
-                <Route path={'/edithackathon/:hid'} component={EditHackathon}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/updateUser'} component={UpdateUser}/>
                 <Route path={'/register'} component={Signup}/>
