@@ -292,6 +292,12 @@ public class HackathonController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> parent of cd305c5... profile axios url error
     private Map<String, Object> filterHackathon(Hackathon h) {
         Map<String, Object> map = new LinkedHashMap<>();
         if (h == null) {

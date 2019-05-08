@@ -124,8 +124,7 @@ class UserProfile extends Component {
     handleClose(hid) {
         const state = this.state;
         console.log('hid', hid);
-        const url = '/hackathon/close?id=' + hid;
-        axios.post(url, {
+        axios.post('/hackathon/close', {
             id: hid,
         })
             .then(res => {
@@ -144,11 +143,18 @@ class UserProfile extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
+<<<<<<< HEAD
         const url = '/hackathon/finalize?id=' + hid;
         // const url = '/hackathon/finalize';
         axios.post(url, {
             id: hid,
         })
+=======
+        const data = {
+            id: hid,
+        };
+        axios.post('/hackathon/finalize', data)
+>>>>>>> parent of cd305c5... profile axios url error
             .then(res => {
                 if (res.status === 200) {
                     state.hackathons = state.hackathons.map(h => {
