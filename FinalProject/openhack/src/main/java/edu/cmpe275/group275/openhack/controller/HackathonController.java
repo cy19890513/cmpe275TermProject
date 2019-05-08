@@ -69,7 +69,7 @@ public class HackathonController {
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
-        String teamName = (String) payload.get("teamName");
+        String teamName = String.valueOf(payload.get("teamName"));
         Member lead = new Member();
         lead.setHacker(hacker);
         lead.setRole("Team Lead");
@@ -94,7 +94,7 @@ public class HackathonController {
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
-
+        System.out.println(team.toString());
         return new ResponseEntity<>(memberService.convertToMap(team), HttpStatus.OK);
     }
     /**

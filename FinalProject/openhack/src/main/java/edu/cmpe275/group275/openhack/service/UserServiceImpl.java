@@ -25,8 +25,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public JavaMailSender emailSender;
 
+    @Autowired
+    private HackerUserService hackerUserService;
+
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
+        if(user == null){
+            return map;
+        }
+        if(hackerUserService.eixtId(user.getId())){
+            HackerUser hacker = hackerUserService.getHackerUser(user.getId());
+            return hackerUserService.convertuserToMap(hacker);
+        }
         map.put("id", user.getId());
         map.put("username", user.getUsername());
         map.put("email", user.getEmail());
@@ -36,6 +46,7 @@ public class UserServiceImpl implements UserService {
       //  map.put("Address", convertAddress(user.getAddress()));
         map.put("aboutMe", user.getAboutMe());
         map.put("portrait", user.getPortrait());
+
         return map;
     }
 

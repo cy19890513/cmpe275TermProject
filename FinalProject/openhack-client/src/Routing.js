@@ -11,6 +11,7 @@ import UserProfile from "./userProfile/UserProfile";
 import CreateOrg from "./CreateOrg/createOrg";
 import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
+import JoinHackathon from "./JoinHackathon/JoinHackathon";
 
 
 function Routing() {
@@ -37,6 +38,7 @@ function Routing() {
                 <Route path={'/createOrg'} component={CreateOrg}/>
                 <Route path={'/submit/:hid'} component={Submission}/>
                 <Route path={'/user/:uid'} component={UserProfile} />
+                <Route path={'/hackathon/:hid/join'} component={JoinHackathon}/>
             </Switch>
         </Router>
     );

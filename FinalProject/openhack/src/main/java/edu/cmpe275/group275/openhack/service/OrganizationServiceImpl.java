@@ -33,6 +33,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public Map<String, Object> convertOrgToMap(Organization org) {
         Map<String, Object> map = new LinkedHashMap<>();
+        if(org == null){
+            return map;
+        }
         map.put("id", org.getId());
         map.put("name", org.getName());
         map.put("owner", org.getOwner().getUsername());
