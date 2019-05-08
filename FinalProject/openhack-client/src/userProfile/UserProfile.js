@@ -90,7 +90,7 @@ class UserProfile extends Component {
         console.log(uid);
         console.log(orgId);
         console.log(this.state.selectedOrg);
-        axios.post('/joinOrg', {id: uid, orgId: orgId})
+        axios.post('/joinOrg', {uid: uid, oid: orgId})
             .then(res => {
                 if (res.status === 200) {
                     this.setState(() => {
