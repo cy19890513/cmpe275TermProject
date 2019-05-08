@@ -32,7 +32,7 @@ class UserProfile extends Component {
         this.setState({role: localStorage.getItem('role')});
         axios.get('/userProfile', {
             params: {
-                id: uid
+                uid: uid
             }
         })
             .then(res => {
@@ -169,6 +169,18 @@ class UserProfile extends Component {
         }
     }
 
+    createOrgButton() {
+        const role = localStorage.getItem('role');
+        if (role === 'hackerUser'){
+           return <a href='/createOrg'>CREATE ORGANIZATION</a>
+        }
+    }
+
+    hackathonListButton(){
+        return <a href='/hackathons'>Show hackations</a>
+    }
+   
+
     // testClose(hid) {
     //     console.log(hid);
     //     const state = this.state;
@@ -180,6 +192,7 @@ class UserProfile extends Component {
     //     });
     //     this.setState(state);
     // }
+
 
     showOrganization() {
         const role = localStorage.getItem('role');
@@ -196,7 +209,7 @@ class UserProfile extends Component {
                             {this.leaveButton()}
                             <Form onSubmit={this.handleSubmit.bind(this)}>
                                 <Form.Group as={Row}>
-                                    <Col sm={8}>
+                                    <Col sm={4}>
                                         <Typeahead
                                             bsSize={"default"}
                                             clearButton
@@ -212,7 +225,10 @@ class UserProfile extends Component {
                                         />
                                     </Col>
                                     <Col sm={4}>
-                                        <Button type={"submit"}>Request to Join</Button>
+                                        <Button variant="secondary" type={"submit"}>Request to Join</Button>
+                                    </Col>
+                                    <Col sm={4}>
+                                        {this.createOrgButton()}
                                     </Col>
                                 </Form.Group>
                             </Form>
@@ -305,8 +321,10 @@ class UserProfile extends Component {
                             <ListGroup.Item>Address: {address}</ListGroup.Item>
                             <ListGroup.Item>Description: {user.discription}</ListGroup.Item>
                         </ListGroup>
+                        <Button variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                         {/*<a href="/updateUser">edit</a>*/}
                         {this.showOrganization()}
+                        {this.hackathonListButton()}
                     </div>
                 </div>
             );

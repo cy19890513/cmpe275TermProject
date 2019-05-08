@@ -149,11 +149,16 @@ public class HackathonController {
      */
     @GetMapping(value="/hackathon/teamInfo")
     public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
-        Team t = teamService.getTeam(uid);
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
+        List<Team> t = memberService.getTeam(hacker);
+        List<Map<String, Object>> res = new ArrayList<>();
+        for(Team team: t){
+            res.add(memberService.convertToMap(team));
+        }
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(memberService.convertToMap(t), HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     /**
@@ -278,6 +283,9 @@ public class HackathonController {
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
         Team team = teamService.getTeam(teamId);
+        if(team.getHackathon().getId() != hid){
+            return new ResponseEntity<>("Team has joined other hackathon event.", HttpStatus.BAD_REQUEST);
+        }
         hackathonService.joinHackathon(hid, team);
         return new ResponseEntity(HttpStatus.OK);
     }

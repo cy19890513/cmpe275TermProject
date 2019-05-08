@@ -90,7 +90,7 @@ class EditHackathon extends Component {
         return (
             <div>
                 <Header/>
-                <h1>Update Hackathon</h1>
+                <h1>Edit the Hackathon</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Group as={Row} controlId="eventName">
                         <Form.Label column sm="2">
