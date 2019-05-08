@@ -91,6 +91,7 @@ public class HackathonController {
         team.setTeamLead(lead);
         team.setMembers(members);
         team.setHackathon(h);
+        team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
 
@@ -125,7 +126,10 @@ public class HackathonController {
         String date = String.valueOf(payload.get("date"));
         String submitUrl = String.valueOf(payload.get("submitUrl"));
         Team team = teamService.getTeam(tid);
-        if(!team.getIfAllPaid()){
+        if(team == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(team.getIfAllPaid() != null && !team.getIfAllPaid()){
             return new ResponseEntity<>("Please pay the registration fee first!", HttpStatus.BAD_REQUEST);
         }
         Hackathon h = team.getHackathon();
