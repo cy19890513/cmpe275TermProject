@@ -1,86 +1,113 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, FormlLabel } from "react-bootstrap";
-import { userService } from '../_services/user.service';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
+import {Typeahead} from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+import axios from 'axios';
+
 import Header from '../utils/Header';
+import './CreateOrg.css';
 
 
 class CreateOrg extends Component {
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
-            isLoaded:false,
-            user:[],
-            error: null
+            name: null,
+            description: null,
+            street: null,
+            city: null,
+            state: null,
+            zip: null
         };
+        this.handleSubmit.bind(this);
     }
 
 
-  
-    
-      componentDidMount(){
-        fetch('urlfdfs',{
-            method: 'POST',
-            headers:{
-                'Content-Type':'application/json'
-            }})
-            .then(response => response.json())
-            .then(data=>
-                this.setState({
-                    user:data,
-                    isLoaded: true
-                })
-            )
-            .catch(error => this.setState({error, isLoaded: false}));
-      }    
 
-      render() {
-         var {isLoaded, user} = this.state;
-        if(!isLoaded){
-            return <div> Loading...</div>;
-        }
-        else{
-            return (
-                
-                 <div className="CreateOrg">
-                     <Header/>
-                     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css" />
-        {/*---- Include the above in your HEAD tag --------*/}
-        <div className="well">
-          <ul className="nav nav-tabs">
-            <li className="active"><a href="#home" data-toggle="tab">Organization</a></li>
-           
-          </ul>
-          <div id="myTabContent" className="tab-content">
-            <div className="tab-pane active in" id="home">
-              <form id="tab">
-                <label>Name</label>
-                <input type="text" defaultValue="jsmith" className="input-xlarge" />
-                <label>Description</label>
-                <input type="text" defaultValue="John" className="input-xlarge" />
-                <label>Street</label>
-                <input type="text" defaultValue="street" className="input-xlarge" />
-                <label>City</label>
-                <input type="text" defaultValue="street" className="input-xlarge" />
-                <label>State</label>
-                <input type="text" defaultValue="street" className="input-xlarge" />
-                <label>Zip</label>
-                <input type="text" defaultValue="street" className="input-xlarge" />
-               
-               
-                <div>
-                  <button className="btn btn-primary">Create</button>
-                </div>
-              </form>
+    handleSubmit(e) {
+        e.preventDefault();
+        const data = this.state;
+        const id = localStorage.getItem('uid');
+        console.log(data);
+        axios.post('/organization', {
+            uid: parseInt(id),
+            name: data.name,
+            description: data.description,
+            street: data.street,
+            city: data.city,
+            state: data.state,
+            zip: data.zip
+        })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                <h1>Create a New Organization</h1>
+                <Form onSubmit={this.handleSubmit.bind(this)}>
+                    <Form.Group as={Row} controlId="name">
+                        <Form.Label column sm="2">
+                            Name
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control type={"text"} placeholder="Organization" onChange={e => {this.setState({name: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId={"description"}>
+                        <Form.Label column sm={"2"}>
+                            Description
+                        </Form.Label>
+                        <Col sm={"10"}>
+                            <Form.Control as={"textarea"} onChange={e => {this.setState({description: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} controlId="street">
+                        <Form.Label column sm="2">
+                            Street
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control type={"text"} onChange={e => {this.setState({street: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="city">
+                        <Form.Label column sm="2">
+                            City
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control type={"text"} onChange={e => {this.setState({city: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group><Form.Group as={Row} controlId="state">
+                        <Form.Label column sm="2">
+                            State
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control type={"text"} onChange={e => {this.setState({state: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group><Form.Group as={Row} controlId="zip">
+                        <Form.Label column sm="2">
+                            Zip
+                        </Form.Label>
+                        <Col sm="10">
+                            <Form.Control type={"text"} onChange={e => {this.setState({zip: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+                    <Button type="submit">Create Organization</Button>
+                </Form>
             </div>
-          </div>
-        </div>
-                    
-                </div>
-            );
-        }
-      }
-
+        );
+    }
 }
-
 
 export default CreateOrg;
