@@ -11,7 +11,7 @@ public interface MemberService {
 
     Member getMember(long id);
 
-    Team getTeam(long uid);
+    Team getTeam(HackerUser hacker);
 
     Map<String, Object> convertToMap(Team t);
 

@@ -149,7 +149,8 @@ public class HackathonController {
      */
     @GetMapping(value="/hackathon/teamInfo")
     public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
-        Team t = teamService.getTeam(uid);
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
+        Team t = memberService.getTeam(hacker);
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
