@@ -78,7 +78,13 @@ class CreateHackathon extends Component {
                 console.log(err);
             });
     }
-
+    
+    back() {
+    
+       
+            return <a href='/userprofile'>BACk</a>
+    }
+        
 
 
     render() {
@@ -194,7 +200,11 @@ class CreateHackathon extends Component {
                             <Form.Control type={"number"} onChange={e => {this.setState({discount: e.target.value})}}/>
                         </Col>
                     </Form.Group>
+                    
                     <Button type="submit">Create Hackathon</Button>
+                    
+
+                   
                 </Form>
             </div>
         );

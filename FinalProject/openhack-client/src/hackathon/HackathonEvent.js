@@ -179,7 +179,7 @@ class HackathonEvent extends Component {
 
 
                                         <section className="text-center">
-                                            <a className="button radius expand large secondary" href={this.state.registHref}
+                                            <a className="button radius expand large secondary" href='/hackathon/:hid/join'
                                                disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
 
 

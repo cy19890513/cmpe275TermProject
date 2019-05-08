@@ -274,11 +274,17 @@ class UserProfile extends Component {
                                         />
                                     </Col>
                                 </Row>
+                               
                             </Card.Body>
                         </Card>
                     </li>
+                   
+                    
                 )
-            });
+                
+            }
+           
+            );
             return (
                 <div className={"orgSession"}>
                     <ol>
