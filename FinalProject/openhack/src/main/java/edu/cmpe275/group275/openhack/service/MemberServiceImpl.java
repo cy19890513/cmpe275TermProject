@@ -1,6 +1,7 @@
 package edu.cmpe275.group275.openhack.service;
 
 
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Member;
 import edu.cmpe275.group275.openhack.model.Team;
 import edu.cmpe275.group275.openhack.repository.MemberRepository;
@@ -31,9 +32,16 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Transactional
-    public Team getTeam(long uid){
-        Member m = memberRepository.findByHacker(uid);
-        return m.getTeam();
+    public List<Team> getTeam(HackerUser hacker){
+
+        List<Member> list = memberRepository.findByHacker(hacker);
+        List<Team> res = new ArrayList<>();
+        for(Member m: list){
+            res.add(m.getTeam());
+        }
+//        System.out.println(m.toString());
+//        System.out.println(m.getTeam().toString());
+        return res;
     }
 
     @Transactional

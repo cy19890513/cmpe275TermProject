@@ -4,6 +4,7 @@ import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Member;
 import edu.cmpe275.group275.openhack.model.Team;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
@@ -11,7 +12,7 @@ public interface MemberService {
 
     Member getMember(long id);
 
-    Team getTeam(long uid);
+    List<Team> getTeam(HackerUser hacker);
 
     Map<String, Object> convertToMap(Team t);
 
