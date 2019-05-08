@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-@XmlRootElement
+//@XmlRootElement
 @RestController
 public class HackathonController {
     private final MemberService memberService;
@@ -284,14 +284,14 @@ public class HackathonController {
      * POST: hackathon/close?id=1
      * Description: finalize a hackathon
      */
-    @PostMapping(value="/hackathon/finalize")
+    @PostMapping(value="/hackathon/finalize", consumes = "application/json")
     public ResponseEntity<?> finalizeHackathon(@RequestParam Long id) {
         Hackathon hackathon = hackathonService.getHackathon(id);
         hackathon.setFinalized(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
-    
+
     private Map<String, Object> filterHackathon(Hackathon h) {
         Map<String, Object> map = new LinkedHashMap<>();
         if (h == null) {

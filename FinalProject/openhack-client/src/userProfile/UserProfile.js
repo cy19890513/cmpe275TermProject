@@ -144,8 +144,9 @@ class UserProfile extends Component {
     handleFinalize(hid) {
         const state = this.state;
         const url = '/hackathon/finalize?id=' + hid;
+        // const url = '/hackathon/finalize';
         axios.post(url, {
-            id: 100,
+            id: hid,
         })
             .then(res => {
                 if (res.status === 200) {
