@@ -17,7 +17,8 @@ class CreateHackathon extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            organization: ["1", "2", "3", "4", "5"],
+            organization: [],
+            typeaheadOrg: [],
             hackers: [],
             name: null,
             startDate: null,
@@ -29,23 +30,25 @@ class CreateHackathon extends Component {
             discount: null,
             sponsors: [],
             judges: [],
-        }
+        };
+        this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        axios.get('/organization')
+        axios.get('/organizations')
             .then(res => {
                 const list = res.data;
                 // console.log(list);
                 this.setState({organization: list});
+                this.setState({typeaheadOrg: list.map(org => org.name)});
             })
             .catch(err => {
                 console.log(err);
             });
-        axios.get("/findAll")
+        axios.get("/get_all_users")
             .then(res=>{
+                console.log(res.data);
                 const list = res.data.map(e => {return e.email});
-                // console.log(list);
                 this.setState({hackers: list});
             })
             .catch(err => {
@@ -56,15 +59,18 @@ class CreateHackathon extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
-        axios.post('http://localhost:8080/hackathon', {
+        const id = localStorage.getItem('uid');
+        console.log(data);
+        axios.post('/hackathon', {
+            uid: parseInt(id),
             name: data.name,
             startDate: data.startDate,
             endDate: data.endDate,
             description: data.description,
-            fee: data.fee,
-            maxSize: data.maxSize,
-            minSize: data.minSize,
-            discount: data.discount,
+            fee: parseFloat(data.fee),
+            maxSize: parseInt(data.maxSize),
+            minSize: parseInt(data.minSize),
+            discount: parseFloat(data.discount),
             sponsors: data.sponsors,
             judges: data.judges,
         })
@@ -80,7 +86,7 @@ class CreateHackathon extends Component {
             <div>
                 <Header/>
                 <h1>Create a New Hackathon</h1>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit.bind(this)}>
                     <Form.Group as={Row} controlId="eventName">
                         <Form.Label column sm="2">
                             Event Name
@@ -173,7 +179,7 @@ class CreateHackathon extends Component {
                                 labelKey="organization"
                                 id={1}
                                 multiple
-                                options={this.state.organization}
+                                options={this.state.typeaheadOrg}
                                 placeholder="Choose a organization..."
                                 onChange={e => {this.setState({sponsors: e})}}
                             />

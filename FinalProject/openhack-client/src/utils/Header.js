@@ -68,7 +68,7 @@ class Header extends Component {
                     <Navbar.Collapse className="justify-content-end">
                         <Nav className="mr-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="/hackathon">Hackathon</Nav.Link>
+                            <Nav.Link href="/hackathons">Hackathons</Nav.Link>
                         </Nav>
                         {userSession}
                     </Navbar.Collapse>

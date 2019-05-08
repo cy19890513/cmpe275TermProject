@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-@XmlRootElement
+//@XmlRootElement
 @RestController
 public class HackathonController {
     private final MemberService memberService;
@@ -332,6 +332,7 @@ public class HackathonController {
      *            }
      * Description: finalize a hackathon
      */
+
     @PostMapping(value="/hackathon/finalize")
     public ResponseEntity<?> finalizeHackathon(@RequestBody Map<String, Object> payload) {
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
@@ -340,6 +341,7 @@ public class HackathonController {
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
     /**
      * Sample test
@@ -360,6 +362,7 @@ public class HackathonController {
         teamService.update(team);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
 
     private Map<String, Object> filterHackathon(Hackathon h) {

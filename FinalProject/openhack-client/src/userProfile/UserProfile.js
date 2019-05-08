@@ -46,7 +46,6 @@ class UserProfile extends Component {
             });
 
         this.getData();
-
     }
 
     getData() {
@@ -121,21 +120,47 @@ class UserProfile extends Component {
             });
     }
 
-    handleClose(e) {
-        const orgId = e.id;
+    handleClose(hid) {
         const state = this.state;
-        axios.post('/hachathon/close')
+        console.log('hid', hid);
+        const url = '/hackathon/close?id=' + hid;
+        axios.post(url, {
+            id: hid,
+        })
             .then(res => {
                 state.hackathons = state.hackathons.map(h => {
-                    if (h.id === orgId) {
+                    if (h.id === hid) {
                         h.isClosed = true;
                     }
+                    return h;
                 });
                 this.setState(state);
             })
             .catch(err => {
                 console.log(err);
+            });
+    }
+
+    handleFinalize(hid) {
+        const state = this.state;
+        const url = '/hackathon/finalize?id=' + hid;
+        axios.post(url, {
+            id: 100,
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    state.hackathons = state.hackathons.map(h => {
+                        if (h.id === hid) {
+                            h.isFinalized = true;
+                        }
+                        return h;
+                    });
+                    this.setState(state);
+                }
             })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     leaveButton() {
@@ -143,6 +168,18 @@ class UserProfile extends Component {
             return <Button type="button" variant="danger" onClick={this.handleLeave}>Leave</Button>
         }
     }
+
+    // testClose(hid) {
+    //     console.log(hid);
+    //     const state = this.state;
+    //     state.hackathons = state.hackathons.map(h => {
+    //         if (h.id === hid) {
+    //             h.isClosed = true;
+    //         }
+    //         return h;
+    //     });
+    //     this.setState(state);
+    // }
 
     showOrganization() {
         const role = localStorage.getItem('role');
@@ -185,31 +222,52 @@ class UserProfile extends Component {
             );
         }
 
+        console.log(this.state);
         if (role === 'AdminUser') {
             const hackathonList = this.state.hackathons.map(h => {
-                const isClosed = h.isClosed == null;
-                const isFinalized = h.isFinalized == null;
+                const isClosed = h.isClosed;
+                const isFinalized = h.isFinalized;
                 return (
-                    <Card>
-                        <Card.Body>
-                            <Row>
-                                <Col sm={8}>
-                                    <Card.Title>{h.name}</Card.Title>
-                                    <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
-                                    <Card.Text>{h.description}</Card.Text>
-                                </Col>
-                                <Col sm={4}>
-                                    <Button variant="warning" className={"buttons"} disabled={isClosed}>Close</Button>
-                                    <Button variant="warning" className={"buttons"} disabled={isFinalized}>Finalized</Button>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
+                    <li key={h.id}>
+                        <Card>
+                            <Card.Body>
+                                <Row>
+                                    <Col sm={8}>
+                                        <Card.Title>{h.name}</Card.Title>
+                                        <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
+                                        <Card.Text>{h.description}</Card.Text>
+                                    </Col>
+                                    <Col sm={4}>
+                                        <Button
+                                            type={"button"}
+                                            as={"input"}
+                                            variant="warning"
+                                            className={"buttons"}
+                                            disabled={isClosed}
+                                            onClick={this.handleClose.bind(this, h.id)}
+                                            value={"Close"}
+                                        />
+                                        <Button
+                                            type={"button"}
+                                            as={"input"}
+                                            variant="warning"
+                                            className={"buttons"}
+                                            disabled={isFinalized}
+                                            onClick={this.handleFinalize.bind(this, h.id)}
+                                            value={"Finalize"}
+                                        />
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </li>
                 )
             });
             return (
                 <div className={"orgSession"}>
-                    {hackathonList}
+                    <ol>
+                        {hackathonList}
+                    </ol>
                 </div>
             )
         }
