@@ -34,10 +34,22 @@ class HackathonList extends Component{
 
     constructor(props) {
         super(props);
+        this.state={
+            hkEventUrl : "/hackathonEvent"
+        }
         console.log(props);
     }
 
+    updateHKEvtUrlForAdmin(){
+        const role = localStorage.getItem('role');
+        if (role === 'AdminUser') {
+            this.state.hkEventUrl = "/hackathon/update/1"
+        }
+    }
+
     componentDidMount() {
+
+        this.updateHKEvtUrlForAdmin();
         //
         axios.get("http://localhost:8080/api/all_hackathons")
             .then(res => {

@@ -53,7 +53,7 @@ class CreateHackathon extends Component {
             })
             .catch(err => {
                 console.log(err);
-            })
+            });
     }
 
     handleSubmit(e) {
