@@ -35,7 +35,9 @@ class HackathonList extends Component{
     constructor(props) {
         super(props);
         this.state={
-            hkEventUrl : "/hackathonEvent"
+            hkEventUrl : "/hackathonEvent",
+            hkData:[],
+            eventList:[]
         }
         console.log(props);
     }
@@ -51,14 +53,11 @@ class HackathonList extends Component{
 
         this.updateHKEvtUrlForAdmin();
         //
-        axios.get("http://localhost:8080/api/all_hackathons")
+        axios.get("/hackathon")
             .then(res => {
-                const hackathons = res.data;
-                // const suggestions = hackathons.map(suggestion => ({
-                //     value: suggestion._id,
-                //     label: suggestion._id
-                //}));
-               // this.setState({ suggestions: suggestions.sort((a, b) => (a.value > b.value) ? 1 : -1) });
+                const hkData = res.data;
+
+                this.setState({hkData} );
             })
             .catch(err => {
                 console.error("err");
@@ -78,11 +77,27 @@ class HackathonList extends Component{
 
     //loop an array
     // https://thinkster.io/tutorials/iterating-and-rendering-loops-in-react
-    // var namesList = names.map(function(name){
-    //     return <li>{name}</li>;
-    // })
+    parseDataEventList(){
+        this.state.eventList = this.state.hkData.map(function(event){
+            return <div className="col-md-6">
+                <div className="post post-thumb">
+                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
+                    <div className="post-body">
+                        <div className="post-meta">
+                            <a className="post-category cat-2" href="#">Judge</a>
+                            <span className="post-date">{event.startDate}</span>
+                        </div>
+                        <h3 className="post-title"><a href="/hackathonEvent">{event.name}</a></h3>
+                    </div>
+                </div>
+            </div>;
+        })
+    }
+
 
     render(){
+        console.log("hkData ",this.state.hkData);
+        this.parseDataEventList();
         return(
             <div>
                 <Header/>
@@ -106,99 +121,7 @@ class HackathonList extends Component{
 
 		<![endif]*/}
 
-                {/*<header id="header">*/}
-                {/*    /!* Nav *!/*/}
-                {/*    <div id="nav">*/}
-                {/*        /!* Main Nav *!/*/}
-                {/*        <div id="nav-fixed">*/}
-                {/*            <div className="container">*/}
-                {/*                /!* logo *!/*/}
-                {/*                <div className="nav-logo">*/}
-                {/*                    <a href="index.html" className="logo"><img src={require('./img/logo.png')} alt /></a>*/}
-                {/*                </div>*/}
-                {/*                /!* /logo *!/*/}
-                {/*                /!* nav *!/*/}
-                {/*                <ul className="nav-menu nav navbar-nav">*/}
-                {/*                    <li class="nav-item"><a href="#">News</a></li>*/}
-                {/*                    <li class="nav-item"><a href="#">Popular</a></li>*/}
-                {/*                    <li className="nav-item cat-1 "><a href="#">Web Design</a></li>*/}
-                {/*                    <li className="nav-item cat-2"><a href="#">JavaScript</a></li>*/}
-                {/*                    <li className="nav-item cat-3"><a href="#">Css</a></li>*/}
-                {/*                    <li className="nav-item cat-4"><a href="#">Jquery</a></li>*/}
-                {/*                </ul>*/}
-                {/*                /!* /nav *!/*/}
-                {/*                /!* search & aside toggle *!/*/}
-                {/*                <div className="nav-btns">*/}
-                {/*                    <button className="aside-btn"><i className="fa fa-bars" /></button>*/}
-                {/*                    <button className="search-btn"><i className="fa fa-search" /></button>*/}
-                {/*                    <div className="search-form">*/}
-                {/*                        <input className="search-input" type="text" name="search" placeholder="Enter Your Search ..." />*/}
-                {/*                        <button className="search-close"><i className="fa fa-times" /></button>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                /!* /search & aside toggle *!/*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*        /!* /Main Nav *!/*/}
 
-
-                {/*        */}
-
-                {/*        /!* Aside Nav *!/*/}
-                {/*        <div id="nav-aside">*/}
-                {/*            /!* nav *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <ul className="nav-aside-menu">*/}
-                {/*                    <li><a href="index.html">Home</a></li>*/}
-                {/*                    <li><a href="about.html">About Us</a></li>*/}
-                {/*                    <li><a href="#">Join Us</a></li>*/}
-                {/*                    <li><a href="#">Advertisement</a></li>*/}
-                {/*                    <li><a href="contact.html">Contacts</a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /nav *!/*/}
-                {/*            /!* widget posts *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Recent Posts</h3>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-2.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-3.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*                <div className="post post-widget">*/}
-                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/widget-4.jpg')} alt /></a>*/}
-                {/*                    <div className="post-body">*/}
-                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*            /!* /widget posts *!/*/}
-                {/*            /!* social links *!/*/}
-                {/*            <div className="section-row">*/}
-                {/*                <h3>Follow us</h3>*/}
-                {/*                <ul className="nav-aside-social">*/}
-                {/*                    <li><a href="#"><i className="fa fa-facebook" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-twitter" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-google-plus" /></a></li>*/}
-                {/*                    <li><a href="#"><i className="fa fa-pinterest" /></a></li>*/}
-                {/*                </ul>*/}
-                {/*            </div>*/}
-                {/*            /!* /social links *!/*/}
-                {/*            /!* aside nav close *!/*/}
-                {/*            <button className="nav-aside-close"><i className="fa fa-times" /></button>*/}
-                {/*            /!* /aside nav close *!/*/}
-                {/*        </div>*/}
-                {/*        /!* Aside Nav *!/*/}
-                {/*    </div>*/}
-                {/*    /!* /Nav *!/*/}
-                {/*</header>*/}
 
                 {/* section */}
                 <div className="section">
@@ -206,161 +129,167 @@ class HackathonList extends Component{
                     <div className="container">
                         {/* row */}
                         <div className="row">
+
+                            {console.log("hkdata ",this.state.hkData,"eventlist", this.state.eventList)}
+                            {this.state.eventList}
+
+
+
                             {/* post */}
-                            <div className="col-md-6">
-                                <div className="post post-thumb">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-2" href="#">Judge</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">Hacktival 2019</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-6">
-                                <div className="post post-thumb">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-3" href="#">Open</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">New Futures Hackathon for Disaster Resilience</a></h3>
-                                    </div>
-                                </div>
-                            </div>
+                        {/*    <div className="col-md-6">*/}
+                        {/*        <div className="post post-thumb">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-2" href="#">Judge</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">Hacktival 2019</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-6">*/}
+                        {/*        <div className="post post-thumb">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-3" href="#">Open</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">New Futures Hackathon for Disaster Resilience</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*</div>*/}
+                        {/*/!* /row *!/*/}
+                        {/*/!* row *!/*/}
+                        {/*<div className="row">*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-6">*/}
+                        {/*        <div className="post post-thumb">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-2" href="#">Judge</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">Copernicus Hackathon Ireland</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-6">*/}
+                        {/*        <div className="post post-thumb">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-3" href="#">Finalized</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">HackDelft 2019</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
                             {/* /post */}
                         </div>
                         {/* /row */}
                         {/* row */}
-                        <div className="row">
-                            {/* post */}
-                            <div className="col-md-6">
-                                <div className="post post-thumb">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-2" href="#">Judge</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">Copernicus Hackathon Ireland</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-6">
-                                <div className="post post-thumb">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-3" href="#">Finalized</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">HackDelft 2019</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                        </div>
-                        {/* /row */}
-                        {/* row */}
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="section-title">
-                                    <h2>Recent Hackathons</h2>
-                                </div>
-                            </div>
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-3.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-1" href="#">Web Design</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">BUIDL - Boston Blockchain Week Hackathon</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-2" href="#">JavaScript</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">E-bloc Climate Change Challenge</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-5.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-3" href="#">Jquery</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">SunCode 2019</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            <div className="clearfix visible-md visible-lg" />
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-6.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-2" href="#">JavaScript</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">Loki Hackathon @ NY Blockchain Week</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-4" href="#">Css</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">OmniHacks</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-1" href="#">Web Design</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">Open Source ERP Hackathon</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                        </div>
+                        {/*<div className="row">*/}
+                        {/*    <div className="col-md-12">*/}
+                        {/*        <div className="section-title">*/}
+                        {/*            <h2>Recent Hackathons</h2>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-3.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-1" href="#">Web Design</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">BUIDL - Boston Blockchain Week Hackathon</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">E-bloc Climate Change Challenge</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-5.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-3" href="#">Jquery</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">SunCode 2019</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    <div className="clearfix visible-md visible-lg" />*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-6.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">Loki Hackathon @ NY Blockchain Week</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-4" href="#">Css</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">OmniHacks</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*    /!* post *!/*/}
+                        {/*    <div className="col-md-4">*/}
+                        {/*        <div className="post">*/}
+                        {/*            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                        {/*            <div className="post-body">*/}
+                        {/*                <div className="post-meta">*/}
+                        {/*                    <a className="post-category cat-1" href="#">Web Design</a>*/}
+                        {/*                    <span className="post-date">March 27, 2018</span>*/}
+                        {/*                </div>*/}
+                        {/*                <h3 className="post-title"><a href="/hackathonEvent">Open Source ERP Hackathon</a></h3>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    /!* /post *!/*/}
+                        {/*</div>*/}
                         {/* /row */}
                         {/* row */}
                         {/*<div className="row">*/}
@@ -542,190 +471,190 @@ class HackathonList extends Component{
                 </div>
                 {/* /section */}
                 {/* section */}
-                <div className="section section-grey">
-                    {/* container */}
-                    <div className="container">
-                        {/* row */}
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="section-title text-center">
-                                    <h2>Featured Hackathons</h2>
-                                </div>
-                            </div>
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-2" href="#">JavaScript</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">Fast&Hack</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-5.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-3" href="#">Jquery</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">[Online] BUIDL - Boston Blockchain Week Hackathon</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                            {/* post */}
-                            <div className="col-md-4">
-                                <div className="post">
-                                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-3.jpg')} alt /></a>
-                                    <div className="post-body">
-                                        <div className="post-meta">
-                                            <a className="post-category cat-1" href="#">Web Design</a>
-                                            <span className="post-date">March 27, 2018</span>
-                                        </div>
-                                        <h3 className="post-title"><a href="/hackathonEvent">qchack</a></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* /post */}
-                        </div>
-                        {/* /row */}
-                    </div>
-                    {/* /container */}
-                </div>
+                {/*<div className="section section-grey">*/}
+                {/*    /!* container *!/*/}
+                {/*    <div className="container">*/}
+                {/*        /!* row *!/*/}
+                {/*        <div className="row">*/}
+                {/*            <div className="col-md-12">*/}
+                {/*                <div className="section-title text-center">*/}
+                {/*                    <h2>Featured Hackathons</h2>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            /!* post *!/*/}
+                {/*            <div className="col-md-4">*/}
+                {/*                <div className="post">*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>*/}
+                {/*                    <div className="post-body">*/}
+                {/*                        <div className="post-meta">*/}
+                {/*                            <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                {/*                            <span className="post-date">March 27, 2018</span>*/}
+                {/*                        </div>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">Fast&Hack</a></h3>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            /!* /post *!/*/}
+                {/*            /!* post *!/*/}
+                {/*            <div className="col-md-4">*/}
+                {/*                <div className="post">*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-5.jpg')} alt /></a>*/}
+                {/*                    <div className="post-body">*/}
+                {/*                        <div className="post-meta">*/}
+                {/*                            <a className="post-category cat-3" href="#">Jquery</a>*/}
+                {/*                            <span className="post-date">March 27, 2018</span>*/}
+                {/*                        </div>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">[Online] BUIDL - Boston Blockchain Week Hackathon</a></h3>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            /!* /post *!/*/}
+                {/*            /!* post *!/*/}
+                {/*            <div className="col-md-4">*/}
+                {/*                <div className="post">*/}
+                {/*                    <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-3.jpg')} alt /></a>*/}
+                {/*                    <div className="post-body">*/}
+                {/*                        <div className="post-meta">*/}
+                {/*                            <a className="post-category cat-1" href="#">Web Design</a>*/}
+                {/*                            <span className="post-date">March 27, 2018</span>*/}
+                {/*                        </div>*/}
+                {/*                        <h3 className="post-title"><a href="/hackathonEvent">qchack</a></h3>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            /!* /post *!/*/}
+                {/*        </div>*/}
+                {/*        /!* /row *!/*/}
+                {/*    </div>*/}
+                {/*    /!* /container *!/*/}
+                {/*</div>*/}
                 {/* /section */}
                 {/* section */}
-                <div className="section">
-                    {/* container */}
-                    <div className="container">
-                        {/* row */}
-                        <div className="row">
-                            <div className="col-md-8">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="section-title">
-                                            <h2>Most Read</h2>
-                                        </div>
-                                    </div>
-                                    {/* post */}
-                                    <div className="col-md-12">
-                                        <div className="post post-row">
-                                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>
-                                            <div className="post-body">
-                                                <div className="post-meta">
-                                                    <a className="post-category cat-2" href="#">JavaScript</a>
-                                                    <span className="post-date">March 27, 2018</span>
-                                                </div>
-                                                <h3 className="post-title"><a href="/hackathonEvent">Hacktival 2019</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* /post */}
-                                    {/* post */}
-                                    <div className="col-md-12">
-                                        <div className="post post-row">
-                                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-6.jpg')} alt /></a>
-                                            <div className="post-body">
-                                                <div className="post-meta">
-                                                    <a className="post-category cat-2" href="#">JavaScript</a>
-                                                    <span className="post-date">March 27, 2018</span>
-                                                </div>
-                                                <h3 className="post-title"><a href="/hackathonEvent">New Futures Hackathon for Disaster Resilience</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* /post */}
-                                    {/* post */}
-                                    <div className="col-md-12">
-                                        <div className="post post-row">
-                                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>
-                                            <div className="post-body">
-                                                <div className="post-meta">
-                                                    <a className="post-category cat-4" href="#">Css</a>
-                                                    <span className="post-date">March 27, 2018</span>
-                                                </div>
-                                                <h3 className="post-title"><a href="/hackathonEvent">Copernicus Hackathon Ireland</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* /post */}
-                                    {/* post */}
-                                    <div className="col-md-12">
-                                        <div className="post post-row">
-                                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>
-                                            <div className="post-body">
-                                                <div className="post-meta">
-                                                    <a className="post-category cat-3" href="#">Jquery</a>
-                                                    <span className="post-date">March 27, 2018</span>
-                                                </div>
-                                                <h3 className="post-title"><a href="/hackathonEvent">HackDelft 2019</a></h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* /post */}
-                                    <div className="col-md-12">
-                                        <div className="section-row">
-                                            <button className="primary-button center-block">Load More</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                {/* ad */}
-                                <div className="aside-widget text-center">
-                                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>
-                                        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />
-                                    </a>
-                                </div>
-                                {/* /ad */}
-                                {/* catagories */}
-                                <div className="aside-widget">
-                                    <div className="section-title">
-                                        <h2>Catagories</h2>
-                                    </div>
-                                    <div className="category-widget">
-                                        <ul>
-                                            <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>
-                                            <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>
-                                            <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>
-                                            <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                {/* /catagories */}
-                                {/* tags */}
-                                <div className="aside-widget">
-                                    <div className="tags-widget">
-                                        <ul>
-                                            <li><a href="#">Chrome</a></li>
-                                            <li><a href="#">CSS</a></li>
-                                            <li><a href="#">Tutorial</a></li>
-                                            <li><a href="#">Backend</a></li>
-                                            <li><a href="#">JQuery</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">JavaScript</a></li>
-                                            <li><a href="#">Website</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                {/* /tags */}
-                            </div>
-                        </div>
-                        {/* /row */}
-                    </div>
-                    {/* /container */}
-                </div>
+                {/*<div className="section">*/}
+                {/*    /!* container *!/*/}
+                {/*    <div className="container">*/}
+                {/*        /!* row *!/*/}
+                {/*        <div className="row">*/}
+                {/*            <div className="col-md-8">*/}
+                {/*                <div className="row">*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="section-title">*/}
+                {/*                            <h2>Most Read</h2>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    /!* post *!/*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="post post-row">*/}
+                {/*                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-4.jpg')} alt /></a>*/}
+                {/*                            <div className="post-body">*/}
+                {/*                                <div className="post-meta">*/}
+                {/*                                    <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                {/*                                    <span className="post-date">March 27, 2018</span>*/}
+                {/*                                </div>*/}
+                {/*                                <h3 className="post-title"><a href="/hackathonEvent">Hacktival 2019</a></h3>*/}
+                {/*                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>*/}
+                {/*                            </div>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    /!* /post *!/*/}
+                {/*                    /!* post *!/*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="post post-row">*/}
+                {/*                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-6.jpg')} alt /></a>*/}
+                {/*                            <div className="post-body">*/}
+                {/*                                <div className="post-meta">*/}
+                {/*                                    <a className="post-category cat-2" href="#">JavaScript</a>*/}
+                {/*                                    <span className="post-date">March 27, 2018</span>*/}
+                {/*                                </div>*/}
+                {/*                                <h3 className="post-title"><a href="/hackathonEvent">New Futures Hackathon for Disaster Resilience</a></h3>*/}
+                {/*                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>*/}
+                {/*                            </div>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    /!* /post *!/*/}
+                {/*                    /!* post *!/*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="post post-row">*/}
+                {/*                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-1.jpg')} alt /></a>*/}
+                {/*                            <div className="post-body">*/}
+                {/*                                <div className="post-meta">*/}
+                {/*                                    <a className="post-category cat-4" href="#">Css</a>*/}
+                {/*                                    <span className="post-date">March 27, 2018</span>*/}
+                {/*                                </div>*/}
+                {/*                                <h3 className="post-title"><a href="/hackathonEvent">Copernicus Hackathon Ireland</a></h3>*/}
+                {/*                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>*/}
+                {/*                            </div>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    /!* /post *!/*/}
+                {/*                    /!* post *!/*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="post post-row">*/}
+                {/*                            <a className="post-img" href="/hackathonEvent"><img src={require('./img/post-2.jpg')} alt /></a>*/}
+                {/*                            <div className="post-body">*/}
+                {/*                                <div className="post-meta">*/}
+                {/*                                    <a className="post-category cat-3" href="#">Jquery</a>*/}
+                {/*                                    <span className="post-date">March 27, 2018</span>*/}
+                {/*                                </div>*/}
+                {/*                                <h3 className="post-title"><a href="/hackathonEvent">HackDelft 2019</a></h3>*/}
+                {/*                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>*/}
+                {/*                            </div>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    /!* /post *!/*/}
+                {/*                    <div className="col-md-12">*/}
+                {/*                        <div className="section-row">*/}
+                {/*                            <button className="primary-button center-block">Load More</button>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            <div className="col-md-4">*/}
+                {/*                /!* ad *!/*/}
+                {/*                <div className="aside-widget text-center">*/}
+                {/*                    <a href="#" style={{display: 'inline-block', margin: 'auto'}}>*/}
+                {/*                        <img className="img-responsive" src={require('./img/ad-1.jpg')} alt />*/}
+                {/*                    </a>*/}
+                {/*                </div>*/}
+                {/*                /!* /ad *!/*/}
+                {/*                /!* catagories *!/*/}
+                {/*                <div className="aside-widget">*/}
+                {/*                    <div className="section-title">*/}
+                {/*                        <h2>Catagories</h2>*/}
+                {/*                    </div>*/}
+                {/*                    <div className="category-widget">*/}
+                {/*                        <ul>*/}
+                {/*                            <li><a href="#" className="cat-1">Online hackathons<span>340</span></a></li>*/}
+                {/*                            <li><a href="#" className="cat-2">Offline hackathons<span>74</span></a></li>*/}
+                {/*                            <li><a href="#" className="cat-4">Application-based hackathons<span>41</span></a></li>*/}
+                {/*                            <li><a href="#" className="cat-3">Code Sprint<span>35</span></a></li>*/}
+                {/*                        </ul>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*                /!* /catagories *!/*/}
+                {/*                /!* tags *!/*/}
+                {/*                <div className="aside-widget">*/}
+                {/*                    <div className="tags-widget">*/}
+                {/*                        <ul>*/}
+                {/*                            <li><a href="#">Chrome</a></li>*/}
+                {/*                            <li><a href="#">CSS</a></li>*/}
+                {/*                            <li><a href="#">Tutorial</a></li>*/}
+                {/*                            <li><a href="#">Backend</a></li>*/}
+                {/*                            <li><a href="#">JQuery</a></li>*/}
+                {/*                            <li><a href="#">Design</a></li>*/}
+                {/*                            <li><a href="#">Development</a></li>*/}
+                {/*                            <li><a href="#">JavaScript</a></li>*/}
+                {/*                            <li><a href="#">Website</a></li>*/}
+                {/*                        </ul>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*                /!* /tags *!/*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*        /!* /row *!/*/}
+                {/*    </div>*/}
+                {/*    /!* /container *!/*/}
+                {/*</div>*/}
                 {/* /section */}
                 {/*/!* Footer *!/*/}
                 {/*<footer id="footer">*/}
