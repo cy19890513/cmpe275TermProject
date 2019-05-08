@@ -8,7 +8,7 @@ import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
 import UserProfile from "./userProfile/UserProfile";
-import CreateOrg from "./CreateOrg/CreateOrg";
+import CreateOrg from "./createOrg/createOrg";
 import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
 
@@ -32,7 +32,7 @@ function Routing() {
                 <Route path={'/userprofile'} component={UserProfile}/>
                 <Route path={'/create_hackathon'} component={CreateHackathon}/>
                 <Route path={'/createOrg'} component={CreateOrg}/>
-                <Route path={'/submit/:uid'} component={Submission}/>
+                <Route path={'/submit/:hid'} component={Submission}/>
                 <Route path={'/user/:uid'} component={UserProfile} />
             </Switch>
         </Router>

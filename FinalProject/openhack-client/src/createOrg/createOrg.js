@@ -89,20 +89,20 @@ class CreateOrg extends Component {
                             <Form.Control type={"text"} onChange={e => {this.setState({city: e.target.value})}} required/>
                         </Col>
                     </Form.Group><Form.Group as={Row} controlId="state">
-                        <Form.Label column sm="2">
-                            State
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control type={"text"} onChange={e => {this.setState({state: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group><Form.Group as={Row} controlId="zip">
-                        <Form.Label column sm="2">
-                            Zip
-                        </Form.Label>
-                        <Col sm="10">
-                            <Form.Control type={"text"} onChange={e => {this.setState({zip: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group>
+                    <Form.Label column sm="2">
+                        State
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"} onChange={e => {this.setState({state: e.target.value})}} required/>
+                    </Col>
+                </Form.Group><Form.Group as={Row} controlId="zip">
+                    <Form.Label column sm="2">
+                        Zip
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"} onChange={e => {this.setState({zip: e.target.value})}} required/>
+                    </Col>
+                </Form.Group>
                     <Button type="submit">Create Organization</Button>
                 </Form>
             </div>
