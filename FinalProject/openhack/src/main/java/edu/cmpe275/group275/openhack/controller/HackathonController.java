@@ -103,7 +103,7 @@ public class HackathonController {
     public ResponseEntity<?> processPayment(@RequestParam long tid,
                                             @RequestParam long uid){
         teamService.processPayment(tid, uid);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }
 
     /**
@@ -318,12 +318,11 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/grade?hid=1&tid=1&grade=80
+     * POST: hackathon/grade?tid=1&grade=80
      * Description: grade a team submission
      */
     @PostMapping(value="/hackathon/grade")
-    public ResponseEntity<?> gradeHackathon(@RequestParam Long hid,
-                                            @RequestParam long tid,
+    public ResponseEntity<?> gradeHackathon(@RequestParam long tid,
                                             @RequestParam double grade) {
 
         Team team = teamService.getTeam(tid);

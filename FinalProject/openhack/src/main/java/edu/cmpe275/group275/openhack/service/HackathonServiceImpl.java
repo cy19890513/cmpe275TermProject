@@ -88,14 +88,14 @@ public class HackathonServiceImpl implements HackathonService{
         String text = "Dear " + member.getHacker().getUsername() + ", \n\n" +
                 "You have successfully joined the hackathon event " + h.getName() +
                 ". The registration fee is $" + h.getFee() + ". Please process your payment below. \n\n" +
-                "<a href='http://localhost:8080/hackathon/payment?id="+id+"&teamId="+teamId+ "'>" +
+                "<a href='http://localhost:8080/hackathon/payment?uid="+id+"&tid="+teamId+ "'>" +
                 "payyourfee</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);
         message.setSubject("Hackathon Confirmation: Your Hackathon Event and Payment");
         message.setText(text);
         emailSender.send(message);
-        System.out.println("email sent out");
+        System.out.println("hackathon confirm email sent out");
     }
 
 

@@ -95,7 +95,7 @@ public class TeamServiceImpl implements TeamService{
         message.setSubject("Hackathon Management: All Members Have Been Paid");
         message.setText(text);
         emailSender.send(message);
-        System.out.println("email sent out");
+        System.out.println("all paid email sent out");
     }
 
 }

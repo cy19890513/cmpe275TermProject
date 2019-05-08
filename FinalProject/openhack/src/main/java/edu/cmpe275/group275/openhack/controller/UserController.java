@@ -171,13 +171,27 @@ public class UserController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/userProfile?id=7
+     * GET: http://localhost:8080/verifyUser?uid=7
+     * Description: get user info
+     */
+    @RequestMapping(value = "/verifyUser", method = RequestMethod.GET)
+    public ResponseEntity<?> verifyUser(@RequestParam long uid,
+                                        @RequestParam (required = false) String code) {
+        User user = userService.getUser(uid);
+        user.setVerified(true);
+        userService.updateUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
+     * GET: http://localhost:8080/userProfile?uid=7
      * Description: get user info
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@RequestParam long id) {
-        if(userService.existId(id)) {
-            User user= userService.getUser(id);
+    public ResponseEntity<?> getUser(@RequestParam long uid) {
+        if(userService.existId(uid)) {
+            User user= userService.getUser(uid);
             System.out.println(user.toString());
             return new ResponseEntity<>(userService.convertuserToMap(user) , HttpStatus.OK);
         }
@@ -189,17 +203,17 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/logout
+     * POST: http://localhost:8080/logout?uid=10
      * Description: logout
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<?> logout(@RequestParam long id){
+    public ResponseEntity<?> logout(@RequestParam long uid){
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * POST: http://localhost:8080/userProfile?id=XX
+     * POST: http://localhost:8080/userProfile?uid=XX
      * payload: {
      *      "name": "Alice",
      *      "businessTitle" : "Software Manager",
@@ -208,12 +222,12 @@ public class UserController {
      * Description: update a user profile
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestParam long id,
+    public ResponseEntity<?> updateUser(@RequestParam long uid,
                                         @RequestBody Map<String, Object> payload) {
-        if(!userService.existId(id)) {
+        if(!userService.existId(uid)) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
-        User user = userService.getUser(id);
+        User user = userService.getUser(uid);
         if(payload.containsKey("aboutMe")){
             user.setAboutMe((String) payload.get("aboutMe"));
         }
@@ -250,26 +264,26 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/joinOrg?id=9&orgId=4
+     * POST: http://localhost:8080/joinOrg?uid=9&oid=4
      * Description: request to join an organization
      */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> joinOrg(@RequestParam long id, @RequestParam long orgId) {
-        HackerUser user = hackerUserService.getHackerUser(id);
-        Organization org = organizationService.getOrg(orgId);
+    public ResponseEntity<?> joinOrg(@RequestParam long uid, @RequestParam long oid) {
+        HackerUser user = hackerUserService.getHackerUser(uid);
+        Organization org = organizationService.getOrg(oid);
         organizationService.joinOrg(org, user);
         return new ResponseEntity<>("Waiting for owner approval", HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * GET: http://localhost:8080/approveJoinRequest?id=&orgId=3
+     * GET: http://localhost:8080/approveJoinRequest?uid=&oid=3
      * Description: approve a join organization request
      */
     @RequestMapping(value = "/approveJoinRequest", method = RequestMethod.GET)
-    public ResponseEntity<?> approveJoinRequest(@RequestParam long id, @RequestParam long orgId) {
-        Organization org = organizationService.getOrg(orgId);
-        HackerUser hacker = hackerUserService.getHackerUser(id);
+    public ResponseEntity<?> approveJoinRequest(@RequestParam long uid, @RequestParam long oid) {
+        Organization org = organizationService.getOrg(oid);
+        HackerUser hacker = hackerUserService.getHackerUser(uid);
         organizationService.approve(org, hacker);
         return new ResponseEntity<>(HttpStatus.OK);
 
@@ -277,12 +291,12 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/leaveOrg?id=6
+     * POST: http://localhost:8080/leaveOrg?uid=6
      * Description: leave org
      */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> leaveOrg(@RequestParam long id) {
-        organizationService.leaveOrg(id);
+    public ResponseEntity<?> leaveOrg(@RequestParam long uid) {
+        organizationService.leaveOrg(uid);
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
@@ -296,6 +310,11 @@ public class UserController {
 
     }
 
+    /**
+     * Sample test
+     * GET: http://localhost:8080/getHacker?email=join@gmail.com
+     * Description: get a hacker by email
+     */
     @RequestMapping(value = "/getHacker", method = RequestMethod.GET)
     public ResponseEntity<?> getHacker(@RequestParam String email) {
         if (email == null) {

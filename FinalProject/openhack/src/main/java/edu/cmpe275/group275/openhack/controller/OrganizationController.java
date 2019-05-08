@@ -114,15 +114,15 @@ public class OrganizationController {
 
     /**
      * Sample test
-     * GET: http://localhost:8080/organizationInfo?id=4
+     * GET: http://localhost:8080/organizationInfo?oid=4
      * Description: get an organization detail
      */
     @RequestMapping(value = "/organizationInfo", method = RequestMethod.GET)
-    public ResponseEntity<?> getOrganizationById(@RequestParam long id){
+    public ResponseEntity<?> getOrganizationById(@RequestParam long oid){
 //        if(id == null){
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
-        Organization org = organizationService.getOrg(id);
+        Organization org = organizationService.getOrg(oid);
         if(org == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
