@@ -60,20 +60,20 @@ public class OrganizationController {
             return new ResponseEntity<>("Owner is not a hacker", HttpStatus.BAD_REQUEST);
         }
         if(payload.containsKey("description")){
-            org.setDescription(String.valueOf(payload.containsKey("description")));
+            org.setDescription(String.valueOf(payload.get("description")));
         }
         Address address = new Address();
         if(payload.containsKey("street")){
-            address.setStreet(String.valueOf(payload.containsKey("street")));
+            address.setStreet(String.valueOf(payload.get("street")));
         }
         if(payload.containsKey("city")){
-            address.setCity(String.valueOf(payload.containsKey("city")));
+            address.setCity(String.valueOf(payload.get("city")));
         }
         if(payload.containsKey("state")){
-            address.setState(String.valueOf(payload.containsKey("state")));
+            address.setState(String.valueOf(payload.get("state")));
         }
         if(payload.containsKey("zip")){
-            address.setZip(String.valueOf(payload.containsKey("zip")));
+            address.setZip(String.valueOf(payload.get("zip")));
         }
         org.setAddress(address);
         organizationService.create(org);
