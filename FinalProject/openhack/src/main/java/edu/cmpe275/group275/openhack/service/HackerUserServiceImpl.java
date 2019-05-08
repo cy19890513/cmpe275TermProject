@@ -28,7 +28,7 @@ public class HackerUserServiceImpl implements HackerUserService {
             map.put("Address", user.getAddress());
             map.put("Description", user.getAboutMe());
             map.put("portrait", user.getPortrait());
-            map.put("orgization", organizationService.convertOrgToMap(user.getOrganization()));
+            map.put("organization", organizationService.convertOrgToMap(user.getOrganization()));
         }
         return map;
     }

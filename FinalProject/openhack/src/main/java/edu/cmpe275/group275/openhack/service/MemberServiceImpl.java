@@ -8,10 +8,7 @@ import edu.cmpe275.group275.openhack.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -35,15 +32,14 @@ public class MemberServiceImpl implements MemberService{
     public List<Team> getTeam(HackerUser hacker){
 
         List<Member> list = memberRepository.findByHacker(hacker);
-        List<Team> res = new ArrayList<>();
+        HashSet<Team> res = new HashSet<>();
         if(list != null) {
             for (Member m : list) {
                 res.add(m.getTeam());
             }
         }
-//        System.out.println(m.toString());
-//        System.out.println(m.getTeam().toString());
-        return res;
+        List<Team> teamList = new ArrayList<>(res);
+        return teamList;
     }
 
     @Transactional
@@ -60,7 +56,9 @@ public class MemberServiceImpl implements MemberService{
             List<String> members = new ArrayList<>();
             if(t.getMembers() != null && !t.getMembers().isEmpty()) {
                 for (Member m : t.getMembers()) {
-                    members.add(m.getHacker().getUsername());
+                    if(m.getHacker() != null) {
+                        members.add(m.getHacker().getUsername());
+                    }
                 }
             }
             res.put("members", members);
