@@ -17,7 +17,7 @@ class CreateHackathon extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            organization: ["1", "2", "3", "4", "5"],
+            organization: [],
             hackers: [],
             name: null,
             startDate: null,

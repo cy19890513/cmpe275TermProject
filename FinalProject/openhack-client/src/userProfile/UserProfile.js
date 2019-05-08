@@ -143,24 +143,15 @@ class UserProfile extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
-<<<<<<< HEAD
-<<<<<<< HEAD
         const url = '/hackathon/finalize?id=' + hid;
         // const url = '/hackathon/finalize';
         axios.post(url, {
             id: hid,
         })
-=======
-=======
->>>>>>> parent of cd305c5... profile axios url error
         const data = {
             id: hid,
         };
         axios.post('/hackathon/finalize', data)
-<<<<<<< HEAD
->>>>>>> parent of cd305c5... profile axios url error
-=======
->>>>>>> parent of cd305c5... profile axios url error
             .then(res => {
                 if (res.status === 200) {
                     state.hackathons = state.hackathons.map(h => {
