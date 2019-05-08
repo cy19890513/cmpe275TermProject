@@ -306,8 +306,6 @@ public class UserController {
         List<User> users = userService.getAll();
         User user = users.get(0);
         return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
-
-
     }
 
     /**

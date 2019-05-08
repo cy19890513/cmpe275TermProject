@@ -44,8 +44,10 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/team?hackathonId=1&uid=9
+     * POST: hackathon/team
      * payload: {
+     * "hid": 1,
+     * "uid": 9,
      *  "teamName": "Super",
      * 	"members": [
      *                {
@@ -61,10 +63,11 @@ public class HackathonController {
      * Description: create an team
      */
     @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
-    public ResponseEntity<?> createTeam(@RequestParam long hackathonId,
+    public ResponseEntity<?> createTeam(
                                         @RequestParam long uid,
                                         @RequestBody Map<String, Object> payload){
 
+        long hackathonId = Long.parseLong(String.valueOf(payload.get("hid")));
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         String teamName = (String) payload.get("teamName");
@@ -108,14 +111,20 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/submit?tid=1&submitUrl=XX&date=2019-05-06
+     * POST: hackathon/submit
+     * payload: {
+     *     tid: 1,
+     *     date: 2019-05-06,
+     *     submitUrl: XX
+     * }
      * Description: code submit
      */
     @PostMapping(value="/hackathon/submit")
-    public ResponseEntity<?> submitCode(@RequestParam long tid,
-                                            @RequestParam String date,
-                                            @RequestParam String submitUrl){
+    public ResponseEntity<?> submitCode(@RequestBody Map<String, Object> payload){
 
+        long tid = Long.valueOf(String.valueOf(payload.get("tid")));
+        String date = String.valueOf(payload.get("date"));
+        String submitUrl = String.valueOf(payload.get("submitUrl"));
         Team team = teamService.getTeam(tid);
         if(!team.getIfAllPaid()){
             return new ResponseEntity<>("Please pay the registration fee first!", HttpStatus.BAD_REQUEST);
@@ -191,12 +200,9 @@ public class HackathonController {
      * Description: create a hackathon event
      */
     @PostMapping(value="/hackathon")
-    public ResponseEntity<?> createHackathon(@RequestParam String uid,
-                                             @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> createHackathon(@RequestBody Map<String, Object> payload) {
         // AOP
-        if(uid == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
         if (!payload.containsKey("name")  || !payload.containsKey("startDate") || !payload.containsKey("endDate")
                 || !payload.containsKey("description") || !payload.containsKey("fee") ||
                 !payload.containsKey("judges") || !payload.containsKey("minSize") || !payload.containsKey("maxSize")
@@ -205,8 +211,8 @@ public class HackathonController {
         }
         Hackathon h = new Hackathon();
         h.setName(String.valueOf(payload.get("name")));
-        h.setStartDate(Date.valueOf((String)payload.get("startDate")));
-        h.setEndDate(Date.valueOf((String)payload.get("endDate")));
+        h.setStartDate(Date.valueOf(String.valueOf(payload.get("startDate"))));
+        h.setEndDate(Date.valueOf(String.valueOf(payload.get("endDate"))));
         h.setDescription(String.valueOf(payload.get("description")));
         List<String> list = (List<String>) payload.get("judges");
         List<HackerUser> judges = new ArrayList<>();
@@ -215,9 +221,9 @@ public class HackathonController {
                 judges.add(hackerUserService.getHackerByEmail(s));
         }
         h.setJudges(judges);
-        h.setMinSize((int) payload.get("minSize"));
-        h.setFee((double) payload.get("fee"));
-        h.setMaxSize((int) payload.get("maxSize"));
+        h.setMinSize((Integer.valueOf(String.valueOf(payload.get("minSize")))));
+        h.setFee((Double.valueOf(String.valueOf(payload.get("fee")))));
+        h.setMaxSize((Integer.valueOf(String.valueOf(payload.get("maxSize")))));
         h.setFinalized(false);
         h.setClosed(false);
 
@@ -260,12 +266,18 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/join?hid=1&teamId=1
+     * POST: hackathon/join
+     * payload: {
+     *     hid: 1,
+     *     tid: 1
+     * }
      * Description: join a hackathon
      */
     @PostMapping(value="/hackathon/join")
-    public ResponseEntity<?> joinHackathon(@RequestParam Long hid,
-                                           @RequestParam long teamId) {
+    public ResponseEntity<?> joinHackathon(@RequestBody Map<String, Object> payload) {
+
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
         Team team = teamService.getTeam(teamId);
         hackathonService.joinHackathon(hid, team);
         return new ResponseEntity(HttpStatus.OK);
@@ -274,11 +286,15 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/close?hid=1
+     * POST: hackathon/close
+     * payload: {
+     *     hid: 1
+     * }
      * Description: close a hackathon
      */
     @PostMapping(value="/hackathon/close")
-    public ResponseEntity<?> closeHackathon(@RequestParam Long hid) {
+    public ResponseEntity<?> closeHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         Hackathon hackathon = hackathonService.getHackathon(hid);
         hackathon.setClosed(true);
         hackathonService.update(hackathon);
@@ -288,11 +304,17 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/open?hid=1
+     * POST: hackathon/open
+     *  payload: {
+     *          hid: 1,
+     *          date: 2019-05-06
+     *       }
      * Description: open a hackathon
      */
     @PostMapping(value="/hackathon/open")
-    public ResponseEntity<?> openHackathon(@RequestParam Long hid, @RequestParam String date) {
+    public ResponseEntity<?> openHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        String date = String.valueOf(payload.get("date"));
         Hackathon hackathon = hackathonService.getHackathon(hid);
         Date d = Date.valueOf(date);
         if(d.before(hackathon.getStartDate())){
@@ -305,11 +327,15 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/close?hid=1
+     * POST: hackathon/finalize
+     * payload: {
+     *                hid: 1,
+     *            }
      * Description: finalize a hackathon
      */
     @PostMapping(value="/hackathon/finalize")
-    public ResponseEntity<?> finalizeHackathon(@RequestParam Long hid) {
+    public ResponseEntity<?> finalizeHackathon(@RequestBody Map<String, Object> payload) {
+        long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         Hackathon hackathon = hackathonService.getHackathon(hid);
         hackathon.setFinalized(true);
         hackathonService.update(hackathon);
@@ -318,13 +344,18 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/grade?tid=1&grade=80
+     * POST: hackathon/grade
+     * payload: {
+     *     tid: 1,
+     *     grade: 80
+     * }
      * Description: grade a team submission
      */
     @PostMapping(value="/hackathon/grade")
-    public ResponseEntity<?> gradeHackathon(@RequestParam long tid,
-                                            @RequestParam double grade) {
+    public ResponseEntity<?> gradeHackathon(@RequestBody Map<String, Object> payload) {
 
+        long tid = Long.valueOf(String.valueOf(payload.get("tid")));
+        double grade = Double.valueOf(String.valueOf(payload.get("grade")));
         Team team = teamService.getTeam(tid);
         team.setGrade(grade);
         teamService.update(team);
