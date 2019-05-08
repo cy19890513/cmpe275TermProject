@@ -37,8 +37,9 @@ class HackathonEvent extends Component {
         //     value={99.95}
         //     style="currency"
         //     currency="USD" />);
-
-        axios.get("/hackathon/search?id=2")
+        //console.log("hid",this.state.hid);
+        var url = "/hackathon/search?id=2";
+        axios.get(url)
             .then(res => {
 
                 //res.data.results.map()
