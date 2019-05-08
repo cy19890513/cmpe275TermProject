@@ -197,8 +197,9 @@ class HackathonEvent extends Component {
                                 <div className="section-row sticky-container">
                                     <div className="main-post">
                                         <h3> {this.state.hkData.name}</h3>
-                                        <p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>
-                                        <p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>
+                                        <p>{this.state.hkData.description}</p>
+                                        {/*<p>Climate change has a PR problem. It's stalled between a political issue and scientific one at a time when we can't afford to hesitate. And we know why; it's easier to stand in the middle of the latest polar vortex and scoff at a trend of global warming than it is to stand in front of people and explain scientific fact.</p>*/}
+                                        {/*<p>But if there's anything we know, it's how powerful a good map can be. In this challenge, all Esri employees are invited to help us communicate the Science of Where climate change is affecting us most and how sustainability can be used to mitigate the threat. Working alone or in a group of up to four, you'll have 10 days to tell the story of climate change and sustainability through the medium of your choice. </p>*/}
                                         {/*<figure className="figure-img">*/}
                                         {/*    <img className="img-responsive" src={require('./img/post-4.jpg')} alt />*/}
                                         {/*    <figcaption>Designer TOMPHSON</figcaption>*/}
