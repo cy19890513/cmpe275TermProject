@@ -203,18 +203,23 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/logout?uid=10
+     * POST: http://localhost:8080/logout
+     * payload: {
+     *     uid: 9
+     * }
      * Description: logout
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<?> logout(@RequestParam long uid){
+    public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload){
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
      * Sample test
-     * POST: http://localhost:8080/userProfile?uid=XX
+     * POST: http://localhost:8080/userProfile
      * payload: {
+     *      "uid": 10,
      *      "name": "Alice",
      *      "businessTitle" : "Software Manager",
      *      "aboutMe": "love coding"
@@ -222,8 +227,8 @@ public class UserController {
      * Description: update a user profile
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestParam long uid,
-                                        @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         if(!userService.existId(uid)) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
         }
@@ -264,11 +269,17 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/joinOrg?uid=9&oid=4
+     * POST: http://localhost:8080/joinOrg
+     * payload: {
+     *     uid: 9,
+     *     oid: 4
+     * }
      * Description: request to join an organization
      */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> joinOrg(@RequestParam long uid, @RequestParam long oid) {
+    public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        long oid = Long.valueOf(String.valueOf(payload.get("oid")));
         HackerUser user = hackerUserService.getHackerUser(uid);
         Organization org = organizationService.getOrg(oid);
         organizationService.joinOrg(org, user);
@@ -291,22 +302,19 @@ public class UserController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/leaveOrg?uid=6
+     * POST: http://localhost:8080/leaveOrg
+     * payload: {
+     *     uid: 9
+     * }
      * Description: leave org
      */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> leaveOrg(@RequestParam long uid) {
+    public ResponseEntity<?> leaveOrg(@RequestBody Map<String, Object> payload) {
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         organizationService.leaveOrg(uid);
         return new ResponseEntity<>( HttpStatus.OK);
     }
 
-
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public ResponseEntity<?> findAll() {
-        List<User> users = userService.getAll();
-        User user = users.get(0);
-        return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
-    }
 
     /**
      * Sample test
