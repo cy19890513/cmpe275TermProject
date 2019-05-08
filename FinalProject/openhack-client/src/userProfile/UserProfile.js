@@ -39,6 +39,7 @@ class UserProfile extends Component {
             .then(res => {
                 const data = res.data;
                 this.setState({user: data});
+
             })
             .catch(err => {
                 this.setState(() => {
@@ -50,7 +51,6 @@ class UserProfile extends Component {
     }
 
     getData() {
-        console.log(this.state.role);
         const role = localStorage.getItem('role');
         if (role === 'hackerUser') {
             axios.get('/organizations')
