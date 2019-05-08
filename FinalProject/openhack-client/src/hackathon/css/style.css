@@ -1094,3 +1094,21 @@ p {
          display:none;
     }
 }
+
+/*
+* registration page
+ */
+@media all and (min-width: 480px) {
+
+
+    form {
+        margin: 0 auto;
+        max-width: 900px;
+    }
+
+    h1 {
+        text-align: center;
+        padding: 10px;
+    }
+}
+
