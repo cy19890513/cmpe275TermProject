@@ -58,8 +58,10 @@ public class MemberServiceImpl implements MemberService{
             res.put("teamName", t.getTeamName());
             res.put("teamLead", t.getTeamLead().getHacker().getUsername());
             List<String> members = new ArrayList<>();
-            for (Member m : t.getMembers()) {
-                members.add(m.getHacker().getUsername());
+            if(t.getMembers() != null && !t.getMembers().isEmpty()) {
+                for (Member m : t.getMembers()) {
+                    members.add(m.getHacker().getUsername());
+                }
             }
             res.put("members", members);
             if (t.getHackathon() != null && t.getHackathon().getFinalized()) {
