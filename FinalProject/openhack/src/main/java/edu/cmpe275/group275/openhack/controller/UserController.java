@@ -291,8 +291,16 @@ public class UserController {
         List<User> users = userService.getAll();
         User user = users.get(0);
         return new ResponseEntity<>(userService.convertuserToMap(user), HttpStatus.OK);
+    }
 
-
+    @RequestMapping(value="/get_all_users", method=RequestMethod.GET)
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userService.getAll();
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (User user : users) {
+            list.add(userService.convertuserToMap(user));
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getHacker", method = RequestMethod.GET)

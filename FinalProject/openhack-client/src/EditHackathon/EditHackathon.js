@@ -19,16 +19,8 @@ class EditHackathon extends Component {
         this.state = {
             organization: ["1", "2", "3", "4", "5"],
             hackers: [],
-            name: null,
-            startDate: null,
-            endDate: null,
-            description: null,
-            fee: null,
-            maxSize: null,
-            minSize: null,
-            discount: null,
-            sponsors: [],
-            judges: [],
+            hData: {},
+            hid: null,
         }
     }
 
@@ -51,6 +43,11 @@ class EditHackathon extends Component {
             .catch(err => {
                 console.log(err);
             })
+        axios.get('/hackathon', {
+            params: {
+                id: this.state.uid,
+            }
+        })
     }
 
     handleSubmit(e) {
