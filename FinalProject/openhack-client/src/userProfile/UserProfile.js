@@ -214,7 +214,9 @@ class UserProfile extends Component {
             hid: hid,
             date: this.today(),
         })
-            .then(res => {})
+            .then(res => {
+                alert("Now open for submission");
+            })
             .catch(err => {console.log(err)});
     }
 

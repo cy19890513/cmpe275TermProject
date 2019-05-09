@@ -93,7 +93,8 @@ class Submission extends Component {
                 this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                console.log(err);
+                alert("Submitted");
+                this.props.history.push('/');
             });
     }
 
