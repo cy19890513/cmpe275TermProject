@@ -183,6 +183,10 @@ class HackathonEvent extends Component {
                                                disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
 
 
+
+                                            <a className="button radius expand large secondary" href={'/hackathon/' + this.state.eventId + '/submit'}
+                                               disabled={this.state.ifDisableRegist}>Submission</a>
+
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">
                                                 Register to receive important hackathon updates, find teammates,
