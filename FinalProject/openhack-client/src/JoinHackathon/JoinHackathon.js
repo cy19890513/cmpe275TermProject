@@ -87,9 +87,7 @@ class JoinHackathon extends Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                this.joinHack(data.tid);
-                alert('Team created');
-                this.props.history.push('/hackathonEvent/' + this.state.hid);
+                this.joinHack(data.id);
             })
             .catch(err => {
                 console.log(err);
@@ -101,7 +99,11 @@ class JoinHackathon extends Component {
             tid: tid,
             hid: this.state.hid,
         })
-            .then()
+            .then(res => {
+                alert('Team Joined Hackathon');
+                console.log(res);
+                this.props.history.push('/hackathonEvent/' + this.state.hid);
+            })
             .catch(err => {console.log(err)});
     }
 
