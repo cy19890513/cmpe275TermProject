@@ -19,7 +19,7 @@ class HackathonEvent extends Component {
             eventId: props.match.params.hid,
             status:null,
             ifDisableRegist:false,
-            registHref:"/create_hackathon",
+            registHref: '/hackathon/' + props.match.params.hid + '/join',
             registText:"Register for this hackathon",
             eventName: null,
             startDate: null,
@@ -179,7 +179,7 @@ class HackathonEvent extends Component {
 
 
                                         <section className="text-center">
-                                            <a className="button radius expand large secondary" href='/hackathon/:hid/join'
+                                            <a className="button radius expand large secondary" href={this.state.registHref}
                                                disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
 
 
