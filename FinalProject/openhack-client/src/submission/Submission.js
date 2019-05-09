@@ -18,6 +18,7 @@ class Submission extends Component {
             tid: null,
             teamLead: "",
             date: this.today(),
+            hid: null,
         }
     }
 
@@ -40,6 +41,7 @@ class Submission extends Component {
     componentDidMount() {
         const {match: {params}} = this.props;
         const hid = params.hid;
+        this.setState({hid: hid});
         const uid = localStorage.getItem('uid');
         axios.get('/hackathon/teamInfo', {
             params: {
@@ -88,6 +90,7 @@ class Submission extends Component {
         })
             .then(res => {
                 alert("submitted");
+                this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
                 console.log(err);
