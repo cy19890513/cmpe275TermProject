@@ -85,12 +85,24 @@ class JoinHackathon extends Component {
         console.log(payload);
         axios.post('/hackathon/team', payload)
             .then(res => {
+                const data = res.data;
+                console.log(data);
+                this.joinHack(data.tid);
                 alert('Team created');
                 this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    joinHack(tid) {
+        axios.post('/hackathon/join', {
+            tid: tid,
+            hid: this.state.hid,
+        })
+            .then()
+            .catch(err => {console.log(err)});
     }
 
     inputGroup() {
@@ -153,7 +165,7 @@ class JoinHackathon extends Component {
                             </li>
                             {this.inputGroup()}
                         </ol>
-                        <Button type={"submit"}>Submit</Button>
+                        <Button type={"submit"}>Join Hackathon</Button>
                     </Form>
                 </div>
             </div>
