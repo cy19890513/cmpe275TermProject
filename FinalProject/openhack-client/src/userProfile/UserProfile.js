@@ -273,7 +273,7 @@ class UserProfile extends Component {
                             <Card.Body>
                                 <Row>
                                     <Col sm={8}>
-                                        <Card.Title>{h.name}</Card.Title>
+                                        <Card.Title><a href={"/hackathonEvent/" + h.id}>{h.name}</a></Card.Title>
                                         <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
                                         <Card.Text>{h.description}</Card.Text>
                                     </Col>
@@ -350,7 +350,7 @@ class UserProfile extends Component {
                             <ListGroup.Item>Email: {user.email}</ListGroup.Item>
                             <ListGroup.Item>BusinessTitle: {user.businessTitle}</ListGroup.Item>
                             <ListGroup.Item>Address: {address}</ListGroup.Item>
-                            <ListGroup.Item>Description: {user.discription}</ListGroup.Item>
+                            <ListGroup.Item>Description: {user.aboutMe}</ListGroup.Item>
                         </ListGroup>
                         <Button variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                         {/*<a href="/updateUser">edit</a>*/}

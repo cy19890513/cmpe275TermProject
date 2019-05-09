@@ -43,6 +43,9 @@ class CreateOrg extends Component {
             state: data.state,
             zip: data.zip
         })
+            .then(res=> {
+                this.props.history.push('/userprofile');
+            })
             .catch(err => {
                 console.log(err);
             });

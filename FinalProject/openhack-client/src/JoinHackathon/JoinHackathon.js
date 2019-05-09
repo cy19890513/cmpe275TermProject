@@ -98,8 +98,8 @@ class JoinHackathon extends Component {
         const max = this.state.hackathon.maxSize;
         const inputs = [];
         let require = true;
-        for (let i = 0; i < max; i++) {
-            if (i >= min) {
+        for (let i = 0; i < max - 1; i++) {
+            if (i >= min - 1) {
                 require = false;
             }
             inputs.push(

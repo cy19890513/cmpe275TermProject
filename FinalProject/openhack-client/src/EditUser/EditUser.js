@@ -75,6 +75,9 @@ class EditUser extends Component {
             aboutMe: data.aboutMe,
 
         })
+            .then(res => {
+                this.props.history.push('/userprofile');
+            })
             .catch(err => {
                 console.log(err);
             });
