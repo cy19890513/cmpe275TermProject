@@ -185,12 +185,14 @@ class UserProfile extends Component {
 
     createOrgButton() {
         const role = localStorage.getItem('role');
-        if (role === 'hackerUser'){
-            return <a href='/createOrg'>CREATE ORGANIZATION</a>
+        if (role === 'hackerUser') {
+            // return <a href='/createOrg'>CREATE ORGANIZATION</a>
+            return <Button href={'/createOrg'}>CREATE</Button>
         }
+
     }
 
-    hackathonListButton(){
+    hackathonListButton() {
         return <a href='/hackathons'>Show hackations</a>
     }
 
@@ -216,11 +218,19 @@ class UserProfile extends Component {
                     <Card>
                         <Card.Header as="h5">Organization</Card.Header>
                         <Card.Body>
-                            <Card.Title>{this.state.organization.name}</Card.Title>
-                            <Card.Text>
-                                {this.state.organization.description}
-                            </Card.Text>
-                            {this.leaveButton()}
+                            <div className={"org"}>
+                                <Row>
+                                    <Col sm={8}>
+                                        <Card.Title>{this.state.organization.name}</Card.Title>
+                                        <Card.Text>
+                                            {this.state.organization.description}
+                                        </Card.Text>
+                                    </Col>
+                                    <Col sm={4}>
+                                        {this.leaveButton()}
+                                    </Col>
+                                </Row>
+                            </div>
                             <Form onSubmit={this.handleSubmit.bind(this)}>
                                 <Form.Group as={Row}>
                                     <Col sm={4}>

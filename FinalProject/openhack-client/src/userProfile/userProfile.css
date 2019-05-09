@@ -11,3 +11,9 @@
     margin: 8px;
     width: 100px;
 }
+
+.org {
+    margin-bottom: 20px;
+    border-bottom: #afafaf solid 1px;
+    padding-bottom: 10px;
+}
