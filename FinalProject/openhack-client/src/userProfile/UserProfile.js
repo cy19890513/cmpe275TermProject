@@ -209,6 +209,31 @@ class UserProfile extends Component {
     //     this.setState(state);
     // }
 
+    handleOpen(hid) {
+        axios.post('/hackathon/open', {
+            hid: hid,
+            date: this.today(),
+        })
+            .then(res => {})
+            .catch(err => {console.log(err)});
+    }
+
+
+    today() {
+        const today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!
+        let yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        return yyyy + '-' + mm + '-' + dd;
+    }
 
     showOrganization() {
         const role = localStorage.getItem('role');
@@ -272,12 +297,21 @@ class UserProfile extends Component {
                         <Card>
                             <Card.Body>
                                 <Row>
-                                    <Col sm={8}>
+                                    <Col sm={6}>
                                         <Card.Title><a href={"/hackathonEvent/" + h.id}>{h.name}</a></Card.Title>
                                         <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
                                         <Card.Text>{h.description}</Card.Text>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
+                                        <Button
+                                            type={"button"}
+                                            as={"input"}
+                                            variant="warning"
+                                            className={"buttons"}
+                                            // disabled={isOpened}
+                                            onClick={this.handleOpen.bind(this, h.id)}
+                                            value={"Open"}
+                                        />
                                         <Button
                                             type={"button"}
                                             as={"input"}
