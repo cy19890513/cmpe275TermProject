@@ -70,6 +70,7 @@ public class HackathonServiceImpl implements HackathonService{
         h.setTeams(teamList);
         hackathonRepository.save(h);
     //    teamService.join(h, team);
+        System.out.println("join team get here");
         sendConfirmation(team.getTeamLead(), h);
         for(Member m: team.getMembers()){
             sendConfirmation(m, h);
@@ -79,6 +80,7 @@ public class HackathonServiceImpl implements HackathonService{
 
 
     private void sendConfirmation(Member member, Hackathon h){
+        System.out.println("inside email function");
         SimpleMailMessage message = new SimpleMailMessage();
         // String to = email;
         String to = "verawang0112@gmail.com";
