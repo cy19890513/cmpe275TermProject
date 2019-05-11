@@ -1,7 +1,7 @@
 package edu.cmpe275.group275.openhack.service;
 
-
 import edu.cmpe275.group275.openhack.model.Hackathon;
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Team;
 import edu.cmpe275.group275.openhack.model.Member;
 
@@ -96,6 +96,27 @@ public class HackathonServiceImpl implements HackathonService{
         message.setText(text);
         emailSender.send(message);
         System.out.println("hackathon confirm email sent out");
+    }
+
+    
+    @Transactional
+    public void informClose(Hackathon h, HackerUser judge){
+        String email = judge.getEmail();
+        SimpleMailMessage message = new SimpleMailMessage();
+        // String to = email;
+        String to = "jiehanyao0918" +"+"+judge.getUsername()+"@gmail.com";
+        long uid = judge.getId();
+        System.out.println("judge uid: "+uid);
+        String text = "Dear " + judge.getUsername() + ", \n\n" +
+                "The hackton event: "+ h.getName() +"  has been closed  " +
+                "Please start Evaluation \n\n" +
+                "Hackathon Management System";
+        message.setTo(to);
+        message.setSubject("Hackathon Management: Start Evaluation");
+        message.setText(text);
+        emailSender.send(message);
+        System.out.println("evaluation notice email sent out");
+
     }
 
 
