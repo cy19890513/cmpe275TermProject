@@ -55,9 +55,10 @@ class Payment extends Component {
 
     render() {
         return (
-            <div>
+            <div className="payment">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
             <Header/>
-            <div className="row" style={{width: '80%', textAlign: 'center', margin: '10%'}}>
+            <div className="row" style={{width: '80%', margin: '10%'}}>
         <div className="col-75">
           <div className="container">
             <form action="/action_page.php">
