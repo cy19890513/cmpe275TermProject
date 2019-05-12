@@ -12,7 +12,7 @@ import CreateOrg from "./createOrg/createOrg";
 import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
-
+import Payment from "./payment/payment";
 
 function Routing() {
     var RegistHKEvent = null;
@@ -27,7 +27,7 @@ function Routing() {
                 <Route path={'/hackathon/update/:hid'} component={EditHackathon}/>
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
-                
+                <Route path={'/payment'} component={Payment}/>
                 <Route path={'/hackathon/:hid/submit'} component={Submission}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/edit_user'} component={EditUser}/>

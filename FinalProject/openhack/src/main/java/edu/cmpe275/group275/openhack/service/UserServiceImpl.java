@@ -125,8 +125,8 @@ public class UserServiceImpl implements UserService {
         String email = user.getEmail();
         String code = UUID.randomUUID().toString();
         SimpleMailMessage message = new SimpleMailMessage();
-        // String to = email;
-        String to = "verawang0112@gmail.com";
+        String to = email;
+     //   String to = "verawang0112@gmail.com";
         long uid = user.getId();
         String text = "Dear " + user.getUsername() + ", \n\n" +
                 "Thank you for registering our hackathon system. " +

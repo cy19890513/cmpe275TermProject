@@ -84,7 +84,7 @@ public class TeamServiceImpl implements TeamService{
 
     private void sendEmailToLead(Member lead){
         SimpleMailMessage message = new SimpleMailMessage();
-        // String to = email;
+     //   String to = email;
         String to = "verawang0112@gmail.com";
         long id = lead.getHacker().getId();
 

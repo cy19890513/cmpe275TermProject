@@ -313,6 +313,10 @@ public class HackathonController {
     public ResponseEntity<?> closeHackathon(@RequestBody Map<String, Object> payload) {
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         Hackathon hackathon = hackathonService.getHackathon(hid);
+        List<HackerUser> judges= hackathon.getJudges();
+        for(HackerUser judge: judges){
+            hackathonService.informClose(hackathon, judge);
+        }
         hackathon.setClosed(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
@@ -353,8 +357,18 @@ public class HackathonController {
 
     @PostMapping(value="/hackathon/finalize")
     public ResponseEntity<?> finalizeHackathon(@RequestBody Map<String, Object> payload) {
+        boolean isAllGradeDone = true;
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         Hackathon hackathon = hackathonService.getHackathon(hid);
+        List<Team> teams = hackathon.getTeams();
+        for(Team team: teams){
+            if(team.getGrade() == null) {
+                isAllGradeDone = false;
+            }
+        }
+        if(!isAllGradeDone){
+            return new ResponseEntity("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
+        }
         hackathon.setFinalized(true);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);

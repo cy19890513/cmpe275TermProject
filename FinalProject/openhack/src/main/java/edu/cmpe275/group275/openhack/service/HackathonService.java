@@ -2,6 +2,7 @@
 package edu.cmpe275.group275.openhack.service;
 
 import edu.cmpe275.group275.openhack.model.Hackathon;
+import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Member;
 import edu.cmpe275.group275.openhack.model.Team;
 
@@ -22,5 +23,7 @@ public interface HackathonService {
     void update(Hackathon h);
 
     void joinHackathon(long id, Team team);
+
+    void informClose(Hackathon h, HackerUser judge);
 
 }
