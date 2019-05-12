@@ -18,7 +18,11 @@ public interface HackerUserService {
     boolean eixtId(long id);
     HackerUser getUserByUsername(String username);
 
-    Map<String, Object> convertuserToMap(HackerUser heaker);
+    Map<String, Object> convertuserToMap(HackerUser hacker);
    // Map<String, Object> convertRoleToMap(long uid, String role, String sessionId);
     void update(HackerUser hacker);
+
+    boolean joinedHackathon(HackerUser hacker, long hid);
+
+
 }

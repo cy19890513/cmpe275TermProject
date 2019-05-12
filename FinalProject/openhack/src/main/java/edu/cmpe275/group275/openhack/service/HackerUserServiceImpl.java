@@ -81,6 +81,13 @@ public class HackerUserServiceImpl implements HackerUserService {
         hackerUserRepository.save(hacker);
     }
 
+    public boolean joinedHackathon(HackerUser hacker, long hid){
+        List<Hackathon> hList = hacker.getJoinedHacks();
+        for(Hackathon h: hList){
+            
+        }
+    }
+
 }
 
 

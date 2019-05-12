@@ -26,4 +26,6 @@ public interface HackathonService {
 
     void informClose(Hackathon h, HackerUser judge);
 
+
+
 }
