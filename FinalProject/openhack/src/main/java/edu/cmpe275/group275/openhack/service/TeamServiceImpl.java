@@ -46,16 +46,18 @@ public class TeamServiceImpl implements TeamService{
         Member m = memberService.getMember(id);
         m.setIfPaid(true);
         memberService.update(m);
-        System.out.println(id+ " paid");
-        int count = 0;
-        for(Member member: t.getMembers()){
-            if(member.getIfPaid()){
-                count++;
-            }
-        }
-        if(t.getTeamLead().getIfPaid() && count == t.getMembers().size()){
-            sendEmailToLead(t.getTeamLead());
-        }
+        t.setIfAllPaid(true);
+        teamRepository.save(t);
+//        System.out.println(id+ " paid");
+//        int count = 0;
+//        for(Member member: t.getMembers()){
+//            if(member.getIfPaid()){
+//                count++;
+//            }
+//        }
+//        if(t.getTeamLead().getIfPaid() && count == t.getMembers().size()){
+//            sendEmailToLead(t.getTeamLead());
+//        }
     }
 
     @Transactional
