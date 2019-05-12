@@ -1,0 +1,49 @@
+-- MySQL dump 10.13  Distrib 8.0.16, for macos10.14 (x86_64)
+--
+-- Host: cmpe275.codlxlrv7a29.us-west-1.rds.amazonaws.com    Database: openhack
+-- ------------------------------------------------------
+-- Server version	5.6.40-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ SET NAMES utf8mb4 ;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `hackathon`
+--
+
+DROP TABLE IF EXISTS `hackathon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `hackathon` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `discount` double DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `fee` double DEFAULT NULL,
+  `is_closed` bit(1) DEFAULT NULL,
+  `is_finalized` bit(1) DEFAULT NULL,
+  `max_size` int(11) NOT NULL,
+  `min_size` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hackathon`
+--
+
+LOCK TABLES `hackathon` WRITE;
+/*!40000 ALTER TABLE `hackathon` DISABLE KEYS */;
+INSERT INTO `hackathon` VALUES (1,'hackathon event',NULL,'2019-06-30',20,_binary '',_binary '',5,3,'FakeHackathon','2019-04-30'),(2,'big hackathon event in SJ',NULL,'2019-08-30',10,_binary '',_binary '',5,2,'Hackathon AA 2019','2019-05-08'),(3,'One of the biggest hackathon event holding in Summer 2019. All programmars are welcome to participate in this event. The first prize for the event will be a reward of $1000 dollars. This hackathon is mainly about hackers design IoT products.',NULL,'2019-09-20',10,_binary '',_binary '\0',5,1,'SJ Hackathon event 2019','2019-05-08'),(4,'This hackathon is one of the biggest hackathon events in the bay area. It is held every year with an average of 4000 hackers participating. The final reward is $10,000! Participate soon for this event!',80,'2019-09-01',30,_binary '\0',_binary '\0',4,1,'Best Hackathon in Bay area','2019-05-08'),(5,'a new hackerthon',3,'2019-05-05',13,_binary '\0',_binary '\0',5,2,'new hack','2019-04-30'),(6,'Best Hackathon in US!',70,'2019-12-10',20,_binary '\0',_binary '\0',10,2,'Test Hackathon ','2019-05-10'),(7,'test',10,'2019-06-13',100,_binary '\0',_binary '\0',5,1,'HappyHack','2019-05-08');
+/*!40000 ALTER TABLE `hackathon` ENABLE KEYS */;
+UNLOCK TABLES;
