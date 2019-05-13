@@ -310,6 +310,7 @@ public class HackathonController {
 
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
+        System.out.println(teamId);
         Team team = teamService.getTeam(teamId);
         if(team.getHackathon().getId() != hid){
             return new ResponseEntity<>("Team has joined other hackathon event.", HttpStatus.BAD_REQUEST);

@@ -92,8 +92,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     private void sendRequest(HackerUser hacker, HackerUser owner, long orgId){
         String email = owner.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
-       // String to = email;
-        String to = "verawang0112@gmail.com";
+        String to = email;
+      //  String to = "verawang0112@gmail.com";
         long uid = hacker.getId();
         String text = "Dear " + owner.getUsername() + ", \n\n" +
                 "User " + hacker.getUsername() + " has requested to join your organization. " +

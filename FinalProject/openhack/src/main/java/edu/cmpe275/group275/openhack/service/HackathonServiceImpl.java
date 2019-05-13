@@ -70,6 +70,7 @@ public class HackathonServiceImpl implements HackathonService{
         h.setTeams(teamList);
         hackathonRepository.save(h);
     //    teamService.join(h, team);
+        System.out.println("join team get here");
         sendConfirmation(team.getTeamLead(), h);
         for(Member m: team.getMembers()){
             sendConfirmation(m, h);
@@ -79,15 +80,18 @@ public class HackathonServiceImpl implements HackathonService{
 
 
     private void sendConfirmation(Member member, Hackathon h){
+        System.out.println("inside email function");
         SimpleMailMessage message = new SimpleMailMessage();
         // String to = email;
         String to = "verawang0112@gmail.com";
         long id = member.getHacker().getId();
         long teamId = member.getTeam().getId();
         System.out.println("member id: "+id);
+        double fee = h.getFee();
+       // fee *= 0.9;
         String text = "Dear " + member.getHacker().getUsername() + ", \n\n" +
                 "You have successfully joined the hackathon event " + h.getName() +
-                ". The registration fee is $" + h.getFee() + ". Please process your payment below. \n\n" +
+                ". The registration fee is $" + fee + ". Please process your payment below. \n\n" +
                 "<a href='http://localhost:8080/hackathon/payment?uid="+id+"&tid="+teamId+ "'>" +
                 "payyourfee</a> \n\n" +
                 "Hackathon Management System";
