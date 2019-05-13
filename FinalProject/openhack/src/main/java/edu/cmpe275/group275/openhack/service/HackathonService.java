@@ -7,6 +7,7 @@ import edu.cmpe275.group275.openhack.model.Member;
 import edu.cmpe275.group275.openhack.model.Team;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HackathonService {
 
@@ -26,6 +27,8 @@ public interface HackathonService {
 
     void informClose(Hackathon h, HackerUser judge);
 
+    boolean existName(Hackathon h, String name);
 
+    Map<String, Object> convert(Hackathon h, HackerUser hacker);
 
 }

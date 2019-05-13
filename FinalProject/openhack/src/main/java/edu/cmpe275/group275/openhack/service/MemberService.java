@@ -17,4 +17,5 @@ public interface MemberService {
     Map<String, Object> convertToMap(Team t);
 
     void update(Member m);
+    void addMemberList(List<Member> list);
 }

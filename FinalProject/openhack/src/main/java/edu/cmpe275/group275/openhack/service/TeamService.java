@@ -15,4 +15,5 @@ public interface TeamService {
     void join(Hackathon h, Team t);
 
     void update(Team t);
+
 }

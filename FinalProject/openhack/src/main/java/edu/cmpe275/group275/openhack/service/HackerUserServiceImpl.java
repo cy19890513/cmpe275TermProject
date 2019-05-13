@@ -84,8 +84,11 @@ public class HackerUserServiceImpl implements HackerUserService {
     public boolean joinedHackathon(HackerUser hacker, long hid){
         List<Hackathon> hList = hacker.getJoinedHacks();
         for(Hackathon h: hList){
-            
+            if(h.getId() == hid){
+                return true;
+            }
         }
+        return false;
     }
 
 }

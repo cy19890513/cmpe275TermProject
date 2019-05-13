@@ -70,24 +70,43 @@ public class HackathonController {
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         //check if member joins the hackathon already
-
-        String teamName = String.valueOf(payload.get("teamName"));
-        Member lead = new Member();
-        lead.setHacker(hacker);
-        lead.setRole("Team Lead");
-        memberService.createMember(lead);
+        if(hackerUserService.joinedHackathon(hacker, hackathonId)){
+            return new ResponseEntity<>("Member has joined the hackathon", HttpStatus.BAD_REQUEST);
+        }
         List<Map<String, String>> list = (List<Map<String, String>>) payload.get("members");
         List<Member> members = new ArrayList<>();
         for(Map<String, String> entry: list){
             String email = entry.get("email");
             String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
+            //check hacker exists
+            if(hackerUser == null){
+                return new ResponseEntity<>("Member not exist", HttpStatus.NOT_FOUND);
+            }
+            //check member joined hackathon
+            if(hackerUserService.joinedHackathon(hackerUser, hackathonId)){
+                return new ResponseEntity<>("Member has joined the hackathon", HttpStatus.BAD_REQUEST);
+            }
+            if(hackerUser.getId() == hacker.getId()){
+                return new ResponseEntity<>("Team member is the same as team lead", HttpStatus.BAD_REQUEST);
+            }
             Member member = new Member();
             member.setHacker(hackerUser);
             member.setRole(role);
-            memberService.createMember(member);
             members.add(member);
         }
+        //check teamName unique
+        String teamName = String.valueOf(payload.get("teamName"));
+        if(hackathonService.existName(h, teamName)){
+            return new ResponseEntity<>("Team name not unique", HttpStatus.BAD_REQUEST);
+        }
+        Member lead = new Member();
+        lead.setHacker(hacker);
+        lead.setRole("Team Lead");
+        memberService.createMember(lead);
+        //add members to database
+        memberService.addMemberList(members);
+        //create team
         Team team = new Team();
         team.setTeamName(teamName);
         team.setTeamLead(lead);
@@ -107,6 +126,7 @@ public class HackathonController {
     @GetMapping(value="/hackathon/payment")
     public ResponseEntity<?> processPayment(@RequestParam long tid,
                                             @RequestParam long uid){
+        //aop tid and uid
         teamService.processPayment(tid, uid);
         return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }
@@ -198,6 +218,23 @@ public class HackathonController {
 
     /**
      * Sample test
+     * GET: http://localhost:8080/hackathons?uid=1
+     * Description: get list of hackathons by uid
+     */
+    @GetMapping(value="/hackathons")
+    public ResponseEntity<?> getHackathonListById(@RequestParam long uid){
+        //aop check uid
+        HackerUser hackerUser = hackerUserService.getHackerUser(uid);
+        List<Hackathon> hList = hackerUser.getJoinedHacks();
+        List<Map<String, Object>> res = new ArrayList<>();
+        for(Hackathon h: hList){
+            res.add(hackathonService.convert(h, hackerUser));
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    /**
+     * Sample test
      * POST: http://localhost:8080/hackathon?uid=8
      * payload: {
      *  "name": "FakeHackathon",
@@ -231,9 +268,11 @@ public class HackathonController {
         h.setDescription(String.valueOf(payload.get("description")));
         List<String> list = (List<String>) payload.get("judges");
         List<HackerUser> judges = new ArrayList<>();
-        for(String s: list){
-            if(hackerUserService.getHackerByEmail(s) != null)
-                judges.add(hackerUserService.getHackerByEmail(s));
+        if(list != null && !list.isEmpty()) {
+            for (String s : list) {
+                if (hackerUserService.getHackerByEmail(s) != null)
+                    judges.add(hackerUserService.getHackerByEmail(s));
+            }
         }
         h.setJudges(judges);
         h.setMinSize((Integer.valueOf(String.valueOf(payload.get("minSize")))));
@@ -245,16 +284,19 @@ public class HackathonController {
         if(payload.containsKey("sponsors")){
             List<String> sList = (List<String>) payload.get("sponsors");
             List<Organization> sponsorsList = new ArrayList<>();
-            for(String org: sList){
-                if(organizationService.getByName(org) != null){
-                    sponsorsList.add(organizationService.getByName(org));
-                    h.setSponsors(sponsorsList);
+            if(sList != null && !sList.isEmpty()) {
+                for (String org : sList) {
+                    if (organizationService.getByName(org) != null) {
+                        sponsorsList.add(organizationService.getByName(org));
+                    }
                 }
+                h.setSponsors(sponsorsList);
             }
         }
         if(payload.containsKey("discount")){
             h.setDiscount(Double.valueOf(String.valueOf(payload.get("discount"))));
         }
+        System.out.println(h.toString());
         hackathonService.createHackathon(h);
         return new ResponseEntity<>(filterHackathon(h), HttpStatus.CREATED);
     }
@@ -293,9 +335,9 @@ public class HackathonController {
 
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
-        System.out.println(teamId);
+        System.out.println("tid: "+teamId);
         Team team = teamService.getTeam(teamId);
-        if(team.getHackathon().getId() != hid){
+        if(team.getHackathon() != null && team.getHackathon().getId() != hid){
             return new ResponseEntity<>("Team has joined other hackathon event.", HttpStatus.BAD_REQUEST);
         }
         hackathonService.joinHackathon(hid, team);

@@ -47,6 +47,13 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(m);
     }
 
+    @Transactional
+    public void addMemberList(List<Member> list){
+        for(Member m: list){
+            createMember(m);
+        }
+    }
+
     public Map<String, Object> convertToMap(Team t){
         Map<String, Object> res = new LinkedHashMap<>();
         if(t != null) {

@@ -1,9 +1,6 @@
 package edu.cmpe275.group275.openhack.service;
 
-import edu.cmpe275.group275.openhack.model.Hackathon;
-import edu.cmpe275.group275.openhack.model.HackerUser;
-import edu.cmpe275.group275.openhack.model.Team;
-import edu.cmpe275.group275.openhack.model.Member;
+import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.repository.HackathonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -53,6 +52,18 @@ public class HackathonServiceImpl implements HackathonService{
         return hackathonRepository.findHackathonsByNameIgnoreCase(name);
     }
 
+    public boolean existName(Hackathon h, String name){
+        List<Team> teamList = h.getTeams();
+        if(teamList != null) {
+            for (Team t : teamList) {
+                if(t.getTeamName().equals(name)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Transactional
     public void update(Hackathon h){
         hackathonRepository.save(h);
@@ -77,18 +88,37 @@ public class HackathonServiceImpl implements HackathonService{
         }
     }
 
-
+    private boolean matchOrg(long oid, Hackathon h){
+        List<Organization> sponsors = h.getSponsors();
+        if(sponsors != null){
+            for(Organization org: sponsors){
+                if(org.getId() == oid){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private void sendConfirmation(Member member, Hackathon h){
         System.out.println("inside email function");
+        double fee = h.getFee();
+        //check member discount
+        if(member.getHacker().getOrganization() != null){
+            long oid = member.getHacker().getOrganization().getId();
+            if(matchOrg(oid, h)){
+                fee *= h.getDiscount()*0.01;
+                System.out.println("fee: "+fee);
+            }
+        }
+        String email = member.getHacker().getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
-        // String to = email;
-        String to = "verawang0112@gmail.com";
+        String to = email;
+     //   String to = "verawang0112@gmail.com";
         long id = member.getHacker().getId();
         long teamId = member.getTeam().getId();
         System.out.println("member id: "+id);
-        double fee = h.getFee();
-       // fee *= 0.9;
+
         String text = "Dear " + member.getHacker().getUsername() + ", \n\n" +
                 "You have successfully joined the hackathon event " + h.getName() +
                 ". The registration fee is $" + fee + ". Please process your payment below. \n\n" +
@@ -102,8 +132,7 @@ public class HackathonServiceImpl implements HackathonService{
         System.out.println("hackathon confirm email sent out");
     }
 
-    
-    @Transactional
+
     public void informClose(Hackathon h, HackerUser judge){
         String email = judge.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
@@ -123,6 +152,52 @@ public class HackathonServiceImpl implements HackathonService{
 
     }
 
+    public Map<String, Object> convert(Hackathon h, HackerUser hacker){
+        Map<String, Object> map = new LinkedHashMap<>();
+        if (h == null) {
+            return map;
+        }
+        map.put("id", h.getId());
+        map.put("name", h.getName());
+        map.put("startDate", h.getStartDate());
+        map.put("endDate", h.getEndDate());
+        map.put("description", h.getDescription());
+        map.put("fee", h.getFee());
+        map.put("minSize", h.getMinSize());
+        map.put("maxSize", h.getMaxSize());
+        map.put("isJudge", false);
+
+        if(h.getSponsors() != null){
+            List<String> sp = new ArrayList<>();
+            for(Organization org: h.getSponsors()){
+                sp.add(org.getName());
+            }
+            map.put("sponsors", sp);
+        }
+        if(h.getJudges() != null){
+            List<String> judge = new ArrayList<>();
+            for(HackerUser j: h.getJudges()){
+                judge.add(j.getEmail());
+                if(j.getId() == hacker.getId()){
+                    map.put("isJudge", true);
+                }
+            }
+            map.put("judges", judge);
+        }
+        map.put("isClosed", h.getClosed());
+        map.put("isFinalized", h.getFinalized());
+        if(h.getTeams() != null){
+            List<Map<String, Object>> res = new ArrayList<>();
+            for(Team t: h.getTeams()){
+                Map<String, Object> pair = new LinkedHashMap<>();
+                pair.put("id", t.getId());
+                pair.put("teamName", t.getTeamName());
+                res.add(pair);
+            }
+            map.put("teams", res);
+        }
+        return map;
+    }
 
 
 }
