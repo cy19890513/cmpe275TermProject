@@ -137,7 +137,7 @@ public class HackathonServiceImpl implements HackathonService{
         String email = judge.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
         // String to = email;
-        String to = "jiehanyao0918" +"+"+judge.getUsername()+"@gmail.com";
+        String to = "jiehanyao0918" +"+"+judge.getEmail()+"@gmail.com";
         long uid = judge.getId();
         System.out.println("judge uid: "+uid);
         String text = "Dear " + judge.getUsername() + ", \n\n" +
