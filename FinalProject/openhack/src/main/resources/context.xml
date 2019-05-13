@@ -21,8 +21,6 @@
     <aop:aspectj-autoproxy />
 
 
-
-
     <bean name="accessControlAspect" class="edu.cmpe275.group275.openhack.aspect.AccessControlAspect" scope="singleton"/>
     <bean name="validationAspect" class="edu.cmpe275.group275.openhack.aspect.ValidationAspect" scope="singleton"/>
 

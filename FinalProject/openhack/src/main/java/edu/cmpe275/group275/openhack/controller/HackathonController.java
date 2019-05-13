@@ -170,6 +170,25 @@ public class HackathonController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping(value="/hackathon/evaluation")
+    public ResponseEntity<?> getEvaluation(@RequestParam long uid, @RequestParam long hid){
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+
+        List<Team> t = hackathon.getTeams();
+        if(t == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<Map<String, Object>> res = new ArrayList<>();
+        for(Team team: t){
+            Map<String, Object> temp = memberService.convertToMap(team);
+            if(!temp.isEmpty()){
+                res.add(temp);
+            }
+        }
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
     /**
      * Sample test
      * GET: hackathon/team?tid=1
