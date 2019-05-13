@@ -26,6 +26,7 @@ public class Hackathon {
             joinColumns = {@JoinColumn(name = "HACKATHON_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "JDG_HACKER_ID", referencedColumnName = "ID")})
     private List<HackerUser> judges;
+
     private int minSize;
     private int maxSize;
 
@@ -197,5 +198,34 @@ public class Hackathon {
 
     public void setFinalized(Boolean finalized) {
         isFinalized = finalized;
+    }
+
+    public List<HackerUser> getHackers() {
+        return hackers;
+    }
+
+    public void setHackers(List<HackerUser> hackers) {
+        this.hackers = hackers;
+    }
+
+    @Override
+    public String toString() {
+        return "Hackathon{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'' +
+                ", fee=" + fee +
+                ", judges=" + judges +
+                ", minSize=" + minSize +
+                ", maxSize=" + maxSize +
+                ", sponsors=" + sponsors +
+                ", hackers=" + hackers +
+                ", discount=" + discount +
+                ", teams=" + teams +
+                ", isClosed=" + isClosed +
+                ", isFinalized=" + isFinalized +
+                '}';
     }
 }

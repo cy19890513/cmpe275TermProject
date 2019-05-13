@@ -50,31 +50,36 @@ public class TeamServiceImpl implements TeamService{
         if(t == null){
             return;
         }
-        if(t.getTeamLead().getHacker().getId() == uid){
-            Member m = t.getTeamLead();
-            m.setIfPaid(true);
-            memberService.update(m);
-            t.setTeamLead(m);
-            System.out.println("team lead paid.");
-        }else{
+//        if(t.getTeamLead().getHacker().getId() == uid){
+//            Member m = t.getTeamLead();
+//            m.setIfPaid(true);
+//            memberService.update(m);
+//            t.setTeamLead(m);
+//            sendPaymentInvoice(m);
+//            System.out.println("team lead paid.");
+//        }else{
             List<Member> memberList = t.getMembers();
-            for(Member m: memberList){
-                if(m.getHacker().getId() == uid){
-                    m.setIfPaid(true);
-                    memberService.update(m);
-                    System.out.println("member " + uid+ " paid.");
+            if(memberList != null) {
+                for (Member m : memberList) {
+                    if (m.getHacker().getId() == uid) {
+                        m.setIfPaid(true);
+                        memberService.update(m);
+                        sendPaymentInvoice(m);
+                        System.out.println("member " + uid + " paid.");
+                    }
                 }
             }
             t.setMembers(memberList);
-        }
+    //    }
         teamRepository.save(t);
+
         int count = 0;
         for(Member member: t.getMembers()){
             if(member.getIfPaid()){
                 count++;
             }
         }
-        if(t.getTeamLead().getIfPaid() && count == t.getMembers().size()){
+        if(count == t.getMembers().size()){
             System.out.println("all paid set to true");
             t.setIfAllPaid(true);
             teamRepository.save(t);
@@ -112,7 +117,7 @@ public class TeamServiceImpl implements TeamService{
         long id = lead.getHacker().getId();
         System.out.println("member id: "+id);
         String text = "Dear " + lead.getHacker().getUsername() + ", \n\n" +
-                "All your team members have paid the registration fee successfully." +
+                "All your team members have paid the registration fee successfully. " +
                 "Please enjoy the event! \n\n" +
                 "Hackathon Management System";
         message.setTo(to);
@@ -120,6 +125,25 @@ public class TeamServiceImpl implements TeamService{
         message.setText(text);
         emailSender.send(message);
         System.out.println("all paid email sent out");
+    }
+
+    private void sendPaymentInvoice(Member m){
+        SimpleMailMessage message = new SimpleMailMessage();
+        String email = m.getHacker().getEmail();
+        String to = email;
+        //   String to = "verawang0112@gmail.com";
+        long id = m.getHacker().getId();
+
+        System.out.println("member id: "+id);
+        String text = "Dear " + m.getHacker().getUsername() + ", \n\n" +
+                "Your payment has been made successfully. " +
+                "Please enjoy the event! \n\n" +
+                "Hackathon Management System";
+        message.setTo(to);
+        message.setSubject("Hackathon Management: Payment Invoice");
+        message.setText(text);
+        emailSender.send(message);
+        System.out.println("payment invoice sent out");
     }
 
 }

@@ -310,7 +310,7 @@ public class UserController {
         Organization org = organizationService.getOrg(oid);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         organizationService.approve(org, hacker);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Request approved successfully", HttpStatus.OK);
 
     }
 

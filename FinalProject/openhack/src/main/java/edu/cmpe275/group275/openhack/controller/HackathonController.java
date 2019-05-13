@@ -47,7 +47,7 @@ public class HackathonController {
      * POST: hackathon/team
      * payload: {
      * "hid": 1,
-     * "uid": 9,
+     * "uid": 2,
      *  "teamName": "Super",
      * 	"members": [
      *                {
@@ -111,7 +111,7 @@ public class HackathonController {
         team.setTeamName(teamName);
         team.setTeamLead(lead);
         team.setMembers(members);
-        team.setHackathon(h);
+    //    team.setHackathon(h);
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
@@ -127,7 +127,7 @@ public class HackathonController {
     public ResponseEntity<?> processPayment(@RequestParam long tid,
                                             @RequestParam long uid){
         //aop tid and uid
-        teamService.processPayment(tid, uid);
+        teamService.processPayment(uid, tid);
         return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }
 
@@ -245,8 +245,12 @@ public class HackathonController {
         //aop check uid
         HackerUser hackerUser = hackerUserService.getHackerUser(uid);
         List<Hackathon> hList = hackerUser.getJoinedHacks();
+        List<Hackathon> judgeList = hackerUser.getJudgeLists();
         List<Map<String, Object>> res = new ArrayList<>();
         for(Hackathon h: hList){
+            res.add(hackathonService.convert(h, hackerUser));
+        }
+        for(Hackathon h: judgeList){
             res.add(hackathonService.convert(h, hackerUser));
         }
         return new ResponseEntity<>(res, HttpStatus.OK);
@@ -354,6 +358,9 @@ public class HackathonController {
 
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
+        if(hackathonService.existTeam(hid, teamId)){
+            return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.OK);
+        }
         System.out.println("tid: "+teamId);
         Team team = teamService.getTeam(teamId);
         if(team.getHackathon() != null && team.getHackathon().getId() != hid){
@@ -404,6 +411,7 @@ public class HackathonController {
         if(d.before(hackathon.getStartDate())){
             hackathon.setStartDate(d);
         }
+        hackathon.setClosed(false);
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }

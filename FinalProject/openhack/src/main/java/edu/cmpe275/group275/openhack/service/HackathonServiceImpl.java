@@ -69,23 +69,49 @@ public class HackathonServiceImpl implements HackathonService{
         hackathonRepository.save(h);
     }
 
+    public boolean existTeam(long hid, long tid){
+        Hackathon h = getHackathon(hid);
+        List<Team> teamList = h.getTeams();
+        if(teamList != null){
+            for(Team t : teamList){
+                if(t.getId() == tid){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Transactional
     public void joinHackathon(long id, Team team){
         System.out.println("team: " + team.toString());
         Hackathon h = getHackathon(id);
+        team.setHackathon(h);
+        teamService.update(team);
         List<Team> teamList = h.getTeams();
         if(teamList == null){
             teamList = new ArrayList<>();
         }
-        teamList.add(team);
+        if(!existTeam(id, team.getId())){
+            teamList.add(team);
+        }
         h.setTeams(teamList);
-        hackathonRepository.save(h);
-    //    teamService.join(h, team);
-        System.out.println("join team get here");
-        sendConfirmation(team.getTeamLead(), h);
+        List<HackerUser> hackerUserList = h.getHackers();
+        if(hackerUserList == null){
+            hackerUserList = new ArrayList<>();
+        }
+//        hackerUserList.add(team.getTeamLead().getHacker());
+//        sendConfirmation(team.getTeamLead(), h);
         for(Member m: team.getMembers()){
+            hackerUserList.add(m.getHacker());
             sendConfirmation(m, h);
         }
+        for(HackerUser hacker: hackerUserList){
+            System.out.println("hacker: "+ hacker.getUsername());
+        }
+        h.setHackers(hackerUserList);
+        hackathonRepository.save(h);
+        System.out.println("join team get here");
     }
 
     private boolean matchOrg(long oid, Hackathon h){
@@ -107,7 +133,7 @@ public class HackathonServiceImpl implements HackathonService{
         if(member.getHacker().getOrganization() != null){
             long oid = member.getHacker().getOrganization().getId();
             if(matchOrg(oid, h)){
-                fee *= h.getDiscount()*0.01;
+                fee *= (1 - h.getDiscount()*0.01);
                 System.out.println("fee: "+fee);
             }
         }
