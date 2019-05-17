@@ -64,6 +64,10 @@ public class HackathonServiceImpl implements HackathonService{
         return false;
     }
 
+    public boolean exist(long hid){
+        return hackathonRepository.existsById(hid);
+    }
+
     @Transactional
     public void update(Hackathon h){
         hackathonRepository.save(h);

@@ -191,6 +191,7 @@ public class UserController {
     @RequestMapping(value = "/verifyUser", method = RequestMethod.GET)
     public ResponseEntity<?> verifyUser(@RequestParam long uid,
                                         @RequestParam (required = false) String code) {
+        //aop uid
         User user = userService.getUser(uid);
         user.setVerified(true);
         userService.updateUser(user);
@@ -204,6 +205,7 @@ public class UserController {
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@RequestParam long uid) {
+        //aop uid
         if(userService.existId(uid)) {
             User user= userService.getUser(uid);
             System.out.println(user.toString());
@@ -225,6 +227,7 @@ public class UserController {
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload){
+        //aop uid
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -242,6 +245,10 @@ public class UserController {
      */
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
     public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
+        //aop uid
+        if(!payload.containsKey("uid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         if(!userService.existId(uid)) {
             return new ResponseEntity<>("id does not exist", HttpStatus.BAD_REQUEST);
@@ -292,8 +299,15 @@ public class UserController {
      */
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
     public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload) {
+        //aop uid, oid
+        if(!payload.containsKey("uid") || !payload.containsKey("oid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         long oid = Long.valueOf(String.valueOf(payload.get("oid")));
+        if(!hackerUserService.eixtId(uid) || organizationService.exist(oid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         HackerUser user = hackerUserService.getHackerUser(uid);
         Organization org = organizationService.getOrg(oid);
         organizationService.joinOrg(org, user);
@@ -306,7 +320,14 @@ public class UserController {
      * Description: approve a join organization request
      */
     @RequestMapping(value = "/approveJoinRequest", method = RequestMethod.GET)
-    public ResponseEntity<?> approveJoinRequest(@RequestParam long uid, @RequestParam long oid) {
+    public ResponseEntity<?> approveJoinRequest(@RequestParam Long uid, @RequestParam Long oid) {
+        //aop uid, oid
+        if(oid == null || uid == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(!hackerUserService.eixtId(uid) || !organizationService.exist(oid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Organization org = organizationService.getOrg(oid);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         organizationService.approve(org, hacker);
@@ -324,7 +345,11 @@ public class UserController {
      */
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
     public ResponseEntity<?> leaveOrg(@RequestBody Map<String, Object> payload) {
+        //aop uid
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        if(!hackerUserService.eixtId(uid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         organizationService.leaveOrg(uid);
         return new ResponseEntity<>( HttpStatus.OK);
     }

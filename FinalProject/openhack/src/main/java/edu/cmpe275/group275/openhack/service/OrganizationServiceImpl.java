@@ -64,6 +64,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findByName(name);
     }
 
+    public boolean exist(long oid){
+        return organizationRepository.existsById(oid);
+    }
     public boolean exists(String name){
         return organizationRepository.existsByName(name);
     }

@@ -65,8 +65,14 @@ public class HackathonController {
     @RequestMapping(value="/hackathon/team",method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestBody Map<String, Object> payload){
 
+        if(!payload.containsKey("hid") || !payload.containsKey("uid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long hackathonId = Long.valueOf(String.valueOf(payload.get("hid")));
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        if(!hackathonService.exist(hackathonId) || !hackerUserService.eixtId(uid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Hackathon h = hackathonService.getHackathon(hackathonId);
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         //check if member joins the hackathon already
@@ -124,9 +130,15 @@ public class HackathonController {
      * Description: update payment
      */
     @GetMapping(value="/hackathon/payment")
-    public ResponseEntity<?> processPayment(@RequestParam long tid,
-                                            @RequestParam long uid){
+    public ResponseEntity<?> processPayment(@RequestParam Long tid,
+                                            @RequestParam Long uid){
         //aop tid and uid
+        if(tid == null || uid == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(!teamService.exist(tid) || !hackerUserService.eixtId(uid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         teamService.processPayment(uid, tid);
         return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }
@@ -144,9 +156,15 @@ public class HackathonController {
     @PostMapping(value="/hackathon/submit")
     public ResponseEntity<?> submitCode(@RequestBody Map<String, Object> payload){
 
+        if(!payload.containsKey("tid") || !payload.containsKey("date") || !payload.containsKey("submitUrl")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long tid = Long.valueOf(String.valueOf(payload.get("tid")));
         String date = String.valueOf(payload.get("date"));
         String submitUrl = String.valueOf(payload.get("submitUrl"));
+        if(!teamService.exist(tid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Team team = teamService.getTeam(tid);
         if(team == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -174,7 +192,10 @@ public class HackathonController {
      * Description: get team info by hacker id
      */
     @GetMapping(value="/hackathon/teamInfo")
-    public ResponseEntity<?> getTeamInfo(@RequestParam long uid){
+    public ResponseEntity<?> getTeamInfo(@RequestParam Long uid){
+        if(uid == null || !hackerUserService.eixtId(uid)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         System.out.println(hacker.toString());
         List<Team> t = memberService.getTeam(hacker);
@@ -193,9 +214,11 @@ public class HackathonController {
     }
 
     @GetMapping(value="/hackathon/evaluation")
-    public ResponseEntity<?> getEvaluation(@RequestParam long uid, @RequestParam long hid){
+    public ResponseEntity<?> getEvaluation(@RequestParam Long uid, @RequestParam Long hid){
+        if(hid == null || !hackathonService.exist(hid)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Hackathon hackathon = hackathonService.getHackathon(hid);
-
         List<Team> t = hackathon.getTeams();
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -217,7 +240,10 @@ public class HackathonController {
      * Description: get team info by team id
      */
     @GetMapping(value="/hackathon/team")
-    public ResponseEntity<?> getTeam(@RequestParam long tid){
+    public ResponseEntity<?> getTeam(@RequestParam Long tid){
+        if(tid == null || !teamService.exist(tid)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Team t = teamService.getTeam(tid);
         if(t == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -258,7 +284,7 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: http://localhost:8080/hackathon?uid=8
+     * POST: http://localhost:8080/hackathon
      * payload: {
      *  "name": "FakeHackathon",
      * 	"startDate": "2019-04-30",
@@ -332,6 +358,7 @@ public class HackathonController {
     @GetMapping(value="/hackathon/search")
     public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long hid,
                                               @RequestParam(required = false) String name) {
+
         Hackathon hackathon = hackathonService.getHackathon(hid);
         if (hackathon != null) {
             return ResponseEntity.status(HttpStatus.OK).body(filterHackathon(hackathon));
@@ -355,7 +382,9 @@ public class HackathonController {
      */
     @PostMapping(value="/hackathon/join")
     public ResponseEntity<?> joinHackathon(@RequestBody Map<String, Object> payload) {
-
+        if(!payload.containsKey("hid") || !payload.containsKey("tid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
         if(hackathonService.existTeam(hid, teamId)){
@@ -381,6 +410,9 @@ public class HackathonController {
      */
     @PostMapping(value="/hackathon/close")
     public ResponseEntity<?> closeHackathon(@RequestBody Map<String, Object> payload) {
+        if(!payload.containsKey("hid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         Hackathon hackathon = hackathonService.getHackathon(hid);
         List<HackerUser> judges= hackathon.getJudges();
@@ -404,8 +436,14 @@ public class HackathonController {
      */
     @PostMapping(value="/hackathon/open")
     public ResponseEntity<?> openHackathon(@RequestBody Map<String, Object> payload) {
+        if(!payload.containsKey("hid") || !payload.containsKey("date")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         String date = String.valueOf(payload.get("date"));
+        if(!hackathonService.exist(hid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Hackathon hackathon = hackathonService.getHackathon(hid);
         Date d = Date.valueOf(date);
         if(d.before(hackathon.getStartDate())){
@@ -428,8 +466,14 @@ public class HackathonController {
 
     @PostMapping(value="/hackathon/finalize")
     public ResponseEntity<?> finalizeHackathon(@RequestBody Map<String, Object> payload) {
+        if(!payload.containsKey("hid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         boolean isAllGradeDone = true;
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
+        if(!hackathonService.exist(hid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Hackathon hackathon = hackathonService.getHackathon(hid);
         List<Team> teams = hackathon.getTeams();
         for(Team team: teams){
@@ -457,8 +501,13 @@ public class HackathonController {
      */
     @PostMapping(value="/hackathon/grade")
     public ResponseEntity<?> gradeHackathon(@RequestBody Map<String, Object> payload) {
-
+        if(!payload.containsKey("tid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         long tid = Long.valueOf(String.valueOf(payload.get("tid")));
+        if(!teamService.exist(tid)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         double grade = Double.valueOf(String.valueOf(payload.get("grade")));
         Team team = teamService.getTeam(tid);
         team.setGrade(grade);

@@ -14,6 +14,7 @@ public interface OrganizationService {
     Map<String, Object> convertOrgToMap(Organization org);
 
     boolean exists(String name);
+    boolean exist(long oid);
     void joinOrg(Organization org, HackerUser hacker);
     void approve(Organization org, HackerUser hackerUser);
     void leaveOrg(long id);

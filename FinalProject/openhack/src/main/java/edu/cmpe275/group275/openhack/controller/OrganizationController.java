@@ -43,6 +43,9 @@ public class OrganizationController {
 
         // AOP check required field
         // AOP check if owner is a verified hacker
+        if(!payload.containsKey("name") || !payload.containsKey("uid")){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String name = String.valueOf(payload.get("name"));
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         Organization org = new Organization();
@@ -119,10 +122,10 @@ public class OrganizationController {
      * Description: get an organization detail
      */
     @RequestMapping(value = "/organizationInfo", method = RequestMethod.GET)
-    public ResponseEntity<?> getOrganizationById(@RequestParam long oid){
-//        if(id == null){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
+    public ResponseEntity<?> getOrganizationById(@RequestParam Long oid){
+        if(oid == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Organization org = organizationService.getOrg(oid);
         if(org == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
