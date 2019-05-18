@@ -77,7 +77,7 @@ public class HackathonController {
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         //check if member joins the hackathon already
         if(hackerUserService.joinedHackathon(hacker, hackathonId)){
-            return new ResponseEntity<>("Member has joined the hackathon", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Member: " +hacker.getEmail()+ " has joined the hackathon", HttpStatus.BAD_REQUEST);
         }
         List<Map<String, String>> list = (List<Map<String, String>>) payload.get("members");
         List<Member> members = new ArrayList<>();
@@ -87,7 +87,7 @@ public class HackathonController {
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
             //check hacker exists
             if(hackerUser == null){
-                return new ResponseEntity<>("Member not exist", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Member: "+email+" not exist", HttpStatus.NOT_FOUND);
             }
             //check member joined hackathon
             if(hackerUserService.joinedHackathon(hackerUser, hackathonId)){
@@ -117,7 +117,7 @@ public class HackathonController {
         team.setTeamName(teamName);
         team.setTeamLead(lead);
         team.setMembers(members);
-    //    team.setHackathon(h);
+        team.setHackathon(h);
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
