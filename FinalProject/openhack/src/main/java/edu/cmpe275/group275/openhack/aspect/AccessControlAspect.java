@@ -32,8 +32,9 @@ public class AccessControlAspect {
         System.out.printf("Doing validation prior to the executuion of the metohd %s\n", joinPoint.getSignature().getName());
     }
 
-    @Around("execution(public * edu.cmpe275.group275.openhack.controller.HackathonController.*(..))")
+    @Before("execution(public * edu.cmpe275.group275.openhack.controller.HackathonController.*(..))")
     public Object access(JoinPoint joinPoint) {
+        System.out.println("sfdsfsafad");
         Object res = null;
         String methodName = joinPoint.getSignature().getName();
         if(methodName.equals("getEvaluation")){
