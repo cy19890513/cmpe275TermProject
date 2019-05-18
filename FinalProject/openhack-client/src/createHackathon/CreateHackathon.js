@@ -141,21 +141,21 @@ class CreateHackathon extends Component {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId={"maxSize"}>
-                        <Form.Label column sm={"2"}>
-                            Team Max Size
-                        </Form.Label>
-                        <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({maxSize: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group>
-
                     <Form.Group as={Row} controlId={"minSize"}>
                         <Form.Label column sm={"2"}>
                             Team Min Size
                         </Form.Label>
                         <Col sm={"10"}>
                             <Form.Control type={"number"} onChange={e => {this.setState({minSize: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+                    
+                    <Form.Group as={Row} controlId={"maxSize"}>
+                        <Form.Label column sm={"2"}>
+                            Team Max Size
+                        </Form.Label>
+                        <Col sm={"10"}>
+                            <Form.Control type={"number"} onChange={e => {this.setState({maxSize: e.target.value})}} required/>
                         </Col>
                     </Form.Group>
 

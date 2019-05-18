@@ -27,7 +27,7 @@ function Routing() {
                 <Route path={'/hackathon/update/:hid'} component={EditHackathon}/>
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
-                <Route path={'/payment'} component={Payment}/>
+                <Route path={'/hackathon/payment'} component={Payment}/>
                 <Route path={'/hackathon/:hid/submit'} component={Submission}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/edit_user'} component={EditUser}/>
