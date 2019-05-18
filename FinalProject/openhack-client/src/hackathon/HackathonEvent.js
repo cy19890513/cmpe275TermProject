@@ -20,6 +20,7 @@ class HackathonEvent extends Component {
             status:null,
             ifDisableRegist:false,
             registHref: '/hackathon/' + props.match.params.hid + '/join',
+            subHref: '/hackathon/' + props.match.params.hid + '/submit',
             registText:"Register for this hackathon",
             eventName: null,
             startDate: null,
@@ -47,10 +48,12 @@ class HackathonEvent extends Component {
         if(this.state.hkData.isFinalized){
             this.state.status = "Finalized";
             this.state.registHref = "#";
+            this.state.subHref = "#";
             this.state.registText="Event have finalized";
         }else if(this.state.hkData.isClosed){
             this.state.status = "Closed";
             this.state.registHref = "#";
+            this.state.subHref = "#";
             this.state.registText="Closed for registration";
         }else{
             this.state.status = "Open Registration";
@@ -184,7 +187,7 @@ class HackathonEvent extends Component {
 
 
 
-                                            <a className="button radius expand large secondary" href={'/hackathon/' + this.state.eventId + '/submit'}
+                                            <a className="button radius expand large secondary" href={this.state.subHref}
                                                disabled={this.state.ifDisableRegist}>Submission</a>
 
                                             <p/><p/><p/><p/><p/>
