@@ -30,6 +30,7 @@ public interface HackathonService {
     boolean existName(Hackathon h, String name);
 
     boolean existTeam(long hid, long tid);
+    boolean exist(long hid);
 
     Map<String, Object> convert(Hackathon h, HackerUser hacker);
 

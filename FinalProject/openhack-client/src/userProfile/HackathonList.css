@@ -1,0 +1,10 @@
+.hackathon-list > li {
+    padding-bottom: 15px;
+    border-bottom: rgba(175, 175, 175, 0.5) solid 1px;
+    margin-bottom: 15px;
+}
+
+/*.float-right {*/
+    /*float: right;*/
+    /*margin-right: 20px;*/
+/*}*/

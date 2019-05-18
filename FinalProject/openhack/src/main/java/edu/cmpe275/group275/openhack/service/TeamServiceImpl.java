@@ -42,7 +42,9 @@ public class TeamServiceImpl implements TeamService{
         return teamRepository.findByTeamName(name);
     }
 
-
+    public boolean exist(long tid){
+        return teamRepository.existsById(tid);
+    }
 
     @Transactional
     public void processPayment(long uid, long teamId){
