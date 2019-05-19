@@ -11,7 +11,7 @@ class AdminHackathonList extends Component {
 
         this.state = {
             hackathons: [],
-
+            uid: parseInt(localStorage.getItem('uid'))
         }
 
     }
@@ -46,6 +46,7 @@ class AdminHackathonList extends Component {
 
     handleOpen(hid) {
         axios.post('/hackathon/open', {
+            uid: this.state.uid,
             hid: hid,
             date: this.today(),
         })
@@ -61,6 +62,7 @@ class AdminHackathonList extends Component {
         console.log('hid', hid);
         const url = '/hackathon/close';
         axios.post(url, {
+            uid: this.state.uid,
             hid: hid,
         })
             .then(res => {
@@ -82,6 +84,7 @@ class AdminHackathonList extends Component {
         const state = this.state;
         const url = '/hackathon/finalize';
         axios.post(url, {
+            uid: this.state.uid,
             hid: hid,
         })
             .then(res => {

@@ -38,6 +38,10 @@ public class User {
     @Embedded
     private Address address;
 
+    @Column(name = "role", insertable = false, updatable = false)
+    private String role;
+
+
     public User(){};
 
     public User(String email, String username, String hashcode){
@@ -69,6 +73,11 @@ public class User {
 
 
     //auto getter and setter
+
+    public String getRole() {
+        return role;
+    }
+
     public long getId() {
         return id;
     }
