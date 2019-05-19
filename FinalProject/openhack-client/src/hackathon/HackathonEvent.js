@@ -5,6 +5,7 @@ import './css/style.css';
 import PostHeader from './img/post-page.jpg';
 import axios from "axios";
 import Header from "../utils/Header";
+import Helper from "../utils/Helper";
 
 //var FormattedNumber = ReactIntl.FormattedNumber;
 //https://formatjs.io/react/v1/#formatted-number
@@ -22,6 +23,8 @@ class HackathonEvent extends Component {
             registHref: '/hackathon/' + props.match.params.hid + '/join',
             subHref: '/hackathon/' + props.match.params.hid + '/submit',
             registText:"Register for this hackathon",
+            isJudge: false,
+            hackerEmail: null,
             eventName: null,
             startDate: null,
             endDate: null,
@@ -43,24 +46,7 @@ class HackathonEvent extends Component {
     //         return <ul>{sponsor}</ul>;
     //     })
     // }
-
-    parseStatus(){
-        if(this.state.hkData.isFinalized){
-            this.state.status = "Finalized";
-            this.state.registHref = "#";
-            this.state.subHref = "#";
-            this.state.registText="Event have finalized";
-        }else if(this.state.hkData.isClosed){
-            this.state.status = "Closed";
-            this.state.registHref = "#";
-            this.state.subHref = "#";
-            this.state.registText="Closed for registration";
-        }else{
-            this.state.status = "Open Registration";
-
-        }
-    }
-
+    
     componentDidMount() {
         // console.log(<FormattedNumber
         //     value={99.95}
@@ -74,17 +60,67 @@ class HackathonEvent extends Component {
                 //res.data.results.map()
                 const hkData = res.data;
                 this.setState({ hkData });
+//all running method is here.
+ console.log("hkData",this.state.hkData);
+                setTimeout(1000);
+                
 
             })
             .catch(err => {
                 alert(err);
                 console.error("line 45 err");
-            });
+            })
+        
     }
+    
+    checkIfJudge(){
+        var judges = this.state.hkData.judges;
+        var myEmail = localStorage.getItem('email');
+        console.log("checkIfJudge ", localStorage," ",this.state.hkData," ",this.state.hkData.judges);
+        if(judges == null || myEmail == null)
+            return;
+
+        if(judges.indexOf(myEmail) > -1){
+            var isJudge = true;
+            this.state.isJudge = true ;
+            console.log("is judge ",);
+        }
+    }
+
+    parseStatus(){
+        console.log("parseStatus ",this.state);
+        if(this.state.isJudge){
+            this.state.status = "Judge";
+            this.state.registHref = " /userprofile#event"+this.state.eventId;
+            this.state.subHref = "#";
+            this.state.registText="Evaluate";
+        }else if(this.state.hkData.isFinalized){
+            this.state.status = "Finalized";
+            this.state.registHref = "#";
+            this.state.subHref = "#";
+            this.state.registText="Event have finalized";
+        }else if(this.state.hkData.isClosed){
+            this.state.status = "Closed";
+            this.state.registHref = "#";
+            this.state.subHref = "#";
+            this.state.registText="Closed for registration";
+        }else{
+            this.state.status = "Open Registration";
+
+        }
+        //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
+    }
+
     render(){
         console.log("hkData ",this.state.hkData);
+        this.checkIfJudge();
+        setTimeout(10);
         this.parseStatus();
+        
         // this.parseSponsorList();
+        //Helper.executeAsynchronously([this.parseStatus,this.checkIfJudge],10);
+        // setTimeout(this.parseStatus, 10);
+        // setTimeout(this.checkIfJudge, 10);
         return(
             <div>
                 <Header/>
