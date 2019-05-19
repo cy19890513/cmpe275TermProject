@@ -255,13 +255,18 @@ class UserProfile extends Component {
         } else {
             const user = this.state.user;
             // console.log(user);
-            const addr = user.address;
+            const addr = user.Address;
             let address;
             if (addr != null) {
-                address = addr.street == null ? "" : (addr.street + ", ") +
-                addr.city == null ? "" : (addr.city + ", ") +
-                addr.state == null ? "" : (addr.state + " ") +
-                addr.zip == null ? "" : (addr.zip);
+                var street = addr.street == null ? "" : (addr.street);
+                var city = addr.city == null ? "" : (addr.city);
+                var state = addr.state == null ? "" : (addr.state);
+                var zip = addr.zip == null ? "" : (addr.zip);
+                address = street + ", "+ city+ ", "+ state+", "+ zip;
+            }
+            var portrait = this.state.user.portrait;
+            if(portrait == null){
+                portrait = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdddVm4g4gaYFb56WgKroI5kJ-H4ONMEvFbQqrd49FkGf7rrZSSA';
             }
 
             return (
@@ -274,15 +279,15 @@ class UserProfile extends Component {
                             <Col sm={3}>
                                 <div className={"user-info"}>
                                     <div className={"user-img"}>
-                                        <img
-                                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdddVm4g4gaYFb56WgKroI5kJ-H4ONMEvFbQqrd49FkGf7rrZSSA'/>
+                                        <img src= {portrait}/>
                                     </div>
                                     <div>
-                                        <div>{user.name}</div>
-                                        <div>{user.email}</div>
-                                        <div>{user.businessTitle}</div>
-                                        <div>{user.aboutMe}</div>
-                                        <div>{address}</div>
+                                        <div>Screen Name: {user.ScreenName}</div>
+                                        <div>Name: {user.name}</div>
+                                        <div>Email: {user.email}</div>
+                                        <div>BusinessTitle: {user.BusinessTitle}</div>
+                                        <div>Description: {user.Description}</div>
+                                        <div>Address :{address}</div>
                                     </div>
                                     <Button style={{width: "100%"}} variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                                 </div>

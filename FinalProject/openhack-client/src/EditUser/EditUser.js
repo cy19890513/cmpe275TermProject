@@ -24,6 +24,7 @@ class EditUser extends Component {
             state: null,
             zip: null,
             aboutMe: null,
+            portrait: null
 
         };
         this.handleSubmit.bind(this);
@@ -41,12 +42,13 @@ class EditUser extends Component {
             .then(res => {
                 const data = res.data;
                 this.setState({name: data.name});
-                this.setState({businessTitle: data.businessTitle});
-                this.setState({street: data.address.street});
-                this.setState({city: data.address.city});
-                this.setState({state: data.address.state});
-                this.setState({zip: data.address.zip});
-                this.setState({aboutMe: data.aboutMe});
+                this.setState({businessTitle: data.BusinessTitle});
+                this.setState({street: data.Address.street});
+                this.setState({city: data.Address.city});
+                this.setState({state: data.Address.state});
+                this.setState({zip: data.Address.zip});
+                this.setState({aboutMe: data.Description});
+                this.setState({portrait: data.portrait});
             })
             .catch(err => {
                 this.setState(() => {
@@ -73,6 +75,7 @@ class EditUser extends Component {
             state: data.state,
             zip: data.zip,
             aboutMe: data.aboutMe,
+            portrait: data.portrait
 
         })
             .then(res => {
@@ -139,7 +142,8 @@ class EditUser extends Component {
                     <Col sm="10">
                         <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} required/>
                     </Col>
-                </Form.Group><Form.Group as={Row} controlId="zip">
+                    </Form.Group>
+                <Form.Group as={Row} controlId="zip">
                     <Form.Label column sm="2">
                         Zip
                     </Form.Label>
@@ -147,6 +151,15 @@ class EditUser extends Component {
                         <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} required/>
                     </Col>
                 </Form.Group>
+                <Form.Group as={Row} controlId="portrait">
+                    <Form.Label column sm="2">
+                        Portrait
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"}   value={data.portrait} onChange={e => {this.setState({portrait: e.target.value})}} required/>
+                    </Col>
+                </Form.Group>
+                
 
                     <Button type="submit">Edit User</Button>
                 </Form>
