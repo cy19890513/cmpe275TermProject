@@ -25,17 +25,9 @@ import java.util.Map;
 @Order(2)
 public class UserRoleCheckAspect {
 
-<<<<<<< HEAD
-//    private AdminService adminService;
     private UserService userService;
 
     public UserRoleCheckAspect(UserService userService) {
-//        this.adminService = adminService;
-=======
-    private UserService userService;
-
-    public UserRoleCheckAspect(UserService userService) {
->>>>>>> a039ced36fde48df02e14f75124b41cc60ff9b10
         this.userService = userService;
     }
 
