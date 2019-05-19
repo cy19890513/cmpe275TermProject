@@ -36,6 +36,7 @@ class EditHackathon extends Component {
                 this.setState({typeaheadOrg: list.map(org => org.name)});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
         axios.get("/get_all_users")
@@ -47,6 +48,7 @@ class EditHackathon extends Component {
                 this.setState({hackers: list});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
         axios.get('/hackathon/search', {
@@ -60,6 +62,7 @@ class EditHackathon extends Component {
                 console.log('hack', data);
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -80,6 +83,7 @@ class EditHackathon extends Component {
             judges: data.judges,
         })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }

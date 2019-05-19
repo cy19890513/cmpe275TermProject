@@ -23,6 +23,7 @@ class AdminHackathonList extends Component {
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -72,6 +73,7 @@ class AdminHackathonList extends Component {
                 this.setState(state);
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -94,6 +96,7 @@ class AdminHackathonList extends Component {
                 }
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }

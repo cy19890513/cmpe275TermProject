@@ -26,6 +26,7 @@ class Header extends Component {
                 console.log("logout");
             })
             .catch(err => {
+                alert(err);
                 console.error(err);
             });
         localStorage.clear();

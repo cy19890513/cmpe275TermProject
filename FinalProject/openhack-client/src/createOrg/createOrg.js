@@ -47,6 +47,7 @@ class CreateOrg extends Component {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }

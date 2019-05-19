@@ -55,6 +55,7 @@ class UserProfile extends Component {
 
             })
             .catch(err => {
+                alert(err);
                 this.setState(() => {
                     return {error: false};
                 });
