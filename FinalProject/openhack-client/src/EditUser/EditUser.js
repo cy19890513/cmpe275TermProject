@@ -51,6 +51,7 @@ class EditUser extends Component {
                 this.setState({portrait: data.portrait});
             })
             .catch(err => {
+                alert(err);
                 this.setState(() => {
                     return {error: false};
                 });
@@ -82,6 +83,7 @@ class EditUser extends Component {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }

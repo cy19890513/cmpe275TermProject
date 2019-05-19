@@ -55,6 +55,7 @@ class UserProfile extends Component {
 
             })
             .catch(err => {
+                alert(err);
                 this.setState(() => {
                     return {error: false};
                 });
@@ -273,8 +274,7 @@ class UserProfile extends Component {
                 <div>
                     <Header/>
                     <div className="UserProfile">
-
-                        <h1> welcome {user.ScreenName}</h1>
+                        {/*<h1> welcome {user.ScreenName}</h1>*/}
                         <Row>
                             <Col sm={3}>
                                 <div className={"user-info"}>
@@ -282,12 +282,14 @@ class UserProfile extends Component {
                                         <img src= {portrait}/>
                                     </div>
                                     <div>
+
                                         <div>Screen Name: {user.ScreenName}</div>
                                         <div>Name: {user.name}</div>
                                         <div>Email: {user.email}</div>
                                         <div>BusinessTitle: {user.BusinessTitle}</div>
                                         <div>Description: {user.Description}</div>
                                         <div>Address :{address}</div>
+
                                     </div>
                                     <Button style={{width: "100%"}} variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                                 </div>

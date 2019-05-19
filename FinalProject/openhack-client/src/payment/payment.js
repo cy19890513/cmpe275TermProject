@@ -40,6 +40,7 @@ class Payment extends Component {
 
             })
             .catch(err => {
+                alert(err);
                 console.error("line 45 err");
             });
     }
@@ -54,6 +55,7 @@ class Payment extends Component {
                 this.setState({ hkData });
             })
             .catch(err => {
+                alert(err);
                 console.error("line 45 err");
             });
     }

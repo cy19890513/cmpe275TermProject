@@ -28,6 +28,7 @@ class Organization extends Component {
                 });
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -52,6 +53,7 @@ class Organization extends Component {
                 }
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }

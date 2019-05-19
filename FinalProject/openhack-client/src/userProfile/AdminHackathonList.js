@@ -23,6 +23,7 @@ class AdminHackathonList extends Component {
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -72,6 +73,7 @@ class AdminHackathonList extends Component {
                 this.setState(state);
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -94,6 +96,7 @@ class AdminHackathonList extends Component {
                 }
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -112,33 +115,33 @@ class AdminHackathonList extends Component {
                         </Col>
                         <Col sm={6}>
                             <div className={"float-right"}>
-                            <Button
-                                type={"button"}
-                                as={"input"}
-                                variant="warning"
-                                className={"buttons"}
-                                // disabled={isOpened}
-                                onClick={this.handleOpen.bind(this, h.id)}
-                                value={"Open"}
-                            />
-                            <Button
-                                type={"button"}
-                                as={"input"}
-                                variant="warning"
-                                className={"buttons"}
-                                disabled={isClosed}
-                                onClick={this.handleClose.bind(this, h.id)}
-                                value={"Close"}
-                            />
-                            <Button
-                                type={"button"}
-                                as={"input"}
-                                variant="warning"
-                                className={"buttons"}
-                                disabled={isFinalized}
-                                onClick={this.handleFinalize.bind(this, h.id)}
-                                value={"Finalize"}
-                            />
+                                <Button
+                                    type={"button"}
+                                    as={"input"}
+                                    variant="warning"
+                                    className={"buttons"}
+                                    // disabled={isOpened}
+                                    onClick={this.handleOpen.bind(this, h.id)}
+                                    value={"Open"}
+                                />
+                                <Button
+                                    type={"button"}
+                                    as={"input"}
+                                    variant="warning"
+                                    className={"buttons"}
+                                    disabled={isClosed}
+                                    onClick={this.handleClose.bind(this, h.id)}
+                                    value={"Close"}
+                                />
+                                <Button
+                                    type={"button"}
+                                    as={"input"}
+                                    variant="warning"
+                                    className={"buttons"}
+                                    disabled={isFinalized}
+                                    onClick={this.handleFinalize.bind(this, h.id)}
+                                    value={"Finalize"}
+                                />
                             </div>
                         </Col>
                     </Row>
