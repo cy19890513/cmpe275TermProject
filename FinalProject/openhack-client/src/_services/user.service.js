@@ -23,6 +23,7 @@ function login(email, password) {
                 console.log("Login successful");
                 const data = res.data;
                 localStorage.setItem('username', data.username);
+                localStorage.setItem('email', email);
                 localStorage.setItem('uid', data.uid);
                 localStorage.setItem('role', data.role);
                 localStorage.setItem('sessionId', data.sessionId);
