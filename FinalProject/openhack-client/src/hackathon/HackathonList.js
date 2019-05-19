@@ -60,7 +60,6 @@ class HackathonList extends Component{
                 this.setState({hkData} );
             })
             .catch(err => {
-                alert(err);
                 console.error("err");
             });
     }
