@@ -567,6 +567,7 @@ public class HackathonController {
      * Sample test
      * GET:http://localhost:8080/hackathon/result?hid=1
      * Description: result of a hackathon
+     */
     @GetMapping(value="/hackathon/result")
     public ResponseEntity<?> getResult(@RequestParam long hid) {
         Hackathon hackathon = hackathonService.getHackathon(hid);
