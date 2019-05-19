@@ -19,7 +19,8 @@ class Result extends Component {
             hid: hid,
             hackathon: {},
             status: "",
-            teams: [{teamName: "sss", members: ["sdfs", 'sda'], score: 100}],
+            // teams: [{teamName: "sss", members: ["sdfs", 'sda'], score: 100}],
+            teams: [],
         }
     }
 
@@ -32,11 +33,22 @@ class Result extends Component {
             .then(res => {
                 this.setState({hackathon: res.data});
                 this.parseStatus(res.data);
-                console.log(res.data);
             })
             .catch(err => {
                 console.log(err);
+            });
+
+        axios.get('/hackathon/result', {
+            params: {
+                hid: this.state.hid,
+            }
+        })
+            .then(res => {
+                this.setState({teams: res.data});
             })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     parseStatus(hk){
@@ -50,19 +62,21 @@ class Result extends Component {
     }
 
     createTableCell(rows) {
+        rows.sort((a, b) => b.grade - a.grade);
         return rows.map((row, index) => {
             let rank = <td>{index + 1}</td>;
             switch (index) {
                 case 0: rank = <td><img className={'medal-icon'} src={First} alt={"No.1"}/></td>; break;
                 case 1: rank = <td><img className={'medal-icon'} src={Second} alt={"No.2"}/></td>; break;
                 case 3: rank = <td><img className={'medal-icon'} src={Third} alt={"No.3"}/></td>; break;
+                default:
             }
             return (
-                <tr>
+                <tr key={index}>
                     {rank}
                     <td>{row.teamName}</td>
-                    <td>{row.members.map(m => <span className={"members"}>{m}</span>)}</td>
-                    <td>{row.score}</td>
+                    <td>{row.members.map(m => <span key={m.username} className={"members"}>{m.username}</span>)}</td>
+                    <td>{row.grade}</td>
                 </tr>
             );
         });
