@@ -24,6 +24,7 @@ class EditUser extends Component {
             state: null,
             zip: null,
             aboutMe: null,
+            portrait: null
 
         };
         this.handleSubmit.bind(this);
@@ -41,14 +42,16 @@ class EditUser extends Component {
             .then(res => {
                 const data = res.data;
                 this.setState({name: data.name});
-                this.setState({businessTitle: data.businessTitle});
-                this.setState({street: data.address.street});
-                this.setState({city: data.address.city});
-                this.setState({state: data.address.state});
-                this.setState({zip: data.address.zip});
-                this.setState({aboutMe: data.aboutMe});
+                this.setState({businessTitle: data.BusinessTitle});
+                this.setState({street: data.Address.street});
+                this.setState({city: data.Address.city});
+                this.setState({state: data.Address.state});
+                this.setState({zip: data.Address.zip});
+                this.setState({aboutMe: data.Description});
+                this.setState({portrait: data.portrait});
             })
             .catch(err => {
+                alert(err);
                 this.setState(() => {
                     return {error: false};
                 });
@@ -73,12 +76,14 @@ class EditUser extends Component {
             state: data.state,
             zip: data.zip,
             aboutMe: data.aboutMe,
+            portrait: data.portrait
 
         })
             .then(res => {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -97,7 +102,7 @@ class EditUser extends Component {
                             Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} required/>
+                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId={"aboutMe"}>
@@ -105,7 +110,7 @@ class EditUser extends Component {
                             AboutMe
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control as={"textarea"}   value={data.aboutMe} onChange={e => {this.setState({aboutMe: e.target.value})}} required/>
+                            <Form.Control as={"textarea"}   value={data.aboutMe} onChange={e => {this.setState({aboutMe: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="businessTitle">
@@ -113,7 +118,7 @@ class EditUser extends Component {
                             Business Title
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.businessTitle} onChange={e => {this.setState({businessTitle: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.businessTitle} onChange={e => {this.setState({businessTitle: e.target.value})}} />
                         </Col>
                     </Form.Group>
 
@@ -122,7 +127,7 @@ class EditUser extends Component {
                             Street
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.street} onChange={e => {this.setState({street: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.street} onChange={e => {this.setState({street: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="city">
@@ -130,23 +135,33 @@ class EditUser extends Component {
                             City
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.city} onChange={e => {this.setState({city: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.city} onChange={e => {this.setState({city: e.target.value})}} />
                         </Col>
                     </Form.Group><Form.Group as={Row} controlId="state">
                     <Form.Label column sm="2">
                         State
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} required/>
+                        <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} />
                     </Col>
-                </Form.Group><Form.Group as={Row} controlId="zip">
+                    </Form.Group>
+                <Form.Group as={Row} controlId="zip">
                     <Form.Label column sm="2">
                         Zip
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} required/>
+                        <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} />
                     </Col>
                 </Form.Group>
+                <Form.Group as={Row} controlId="portrait">
+                    <Form.Label column sm="2">
+                        Portrait
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control type={"text"}   value={data.portrait} onChange={e => {this.setState({portrait: e.target.value})}} />
+                    </Col>
+                </Form.Group>
+                
 
                     <Button type="submit">Edit User</Button>
                 </Form>

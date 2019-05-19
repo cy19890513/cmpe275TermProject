@@ -22,6 +22,7 @@ public class User {
 
     private String name;
 
+    @Column(columnDefinition="LONGVARCHAR")
     private String portrait;
     private String businessTitle;
     private String aboutMe;

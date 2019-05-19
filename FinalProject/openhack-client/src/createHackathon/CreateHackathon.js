@@ -43,6 +43,7 @@ class CreateHackathon extends Component {
                 this.setState({typeaheadOrg: list.map(org => org.name)});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
         axios.get("/get_all_users")
@@ -52,6 +53,7 @@ class CreateHackathon extends Component {
                 this.setState({hackers: list});
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -78,6 +80,7 @@ class CreateHackathon extends Component {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -128,7 +131,7 @@ class CreateHackathon extends Component {
                             Description
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control as={"textarea"} onChange={e => {this.setState({description: e.target.value})}} required/>
+                            <Form.Control as={"textarea"} rows={"8"} onChange={e => {this.setState({description: e.target.value})}} required/>
                         </Col>
                     </Form.Group>
 
@@ -141,21 +144,21 @@ class CreateHackathon extends Component {
                         </Col>
                     </Form.Group>
 
-                    <Form.Group as={Row} controlId={"maxSize"}>
-                        <Form.Label column sm={"2"}>
-                            Team Max Size
-                        </Form.Label>
-                        <Col sm={"10"}>
-                            <Form.Control type={"number"} onChange={e => {this.setState({maxSize: e.target.value})}} required/>
-                        </Col>
-                    </Form.Group>
-
                     <Form.Group as={Row} controlId={"minSize"}>
                         <Form.Label column sm={"2"}>
                             Team Min Size
                         </Form.Label>
                         <Col sm={"10"}>
                             <Form.Control type={"number"} onChange={e => {this.setState({minSize: e.target.value})}} required/>
+                        </Col>
+                    </Form.Group>
+                    
+                    <Form.Group as={Row} controlId={"maxSize"}>
+                        <Form.Label column sm={"2"}>
+                            Team Max Size
+                        </Form.Label>
+                        <Col sm={"10"}>
+                            <Form.Control type={"number"} onChange={e => {this.setState({maxSize: e.target.value})}} required/>
                         </Col>
                     </Form.Group>
 

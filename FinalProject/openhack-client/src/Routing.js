@@ -8,11 +8,12 @@ import Submission from './submission/Submission';
 import HackathonList from './hackathon/HackathonList';
 import HackathonEvent from "./hackathon/HackathonEvent";
 import UserProfile from "./userProfile/UserProfile";
-import CreateOrg from "./createOrg/createOrg";
+import CreateOrg from "./CreateOrg/createOrg";
 import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import Payment from "./payment/payment";
+import Evaluation from "./evaluation/Evaluation";
 
 function Routing() {
     var RegistHKEvent = null;
@@ -27,7 +28,7 @@ function Routing() {
                 <Route path={'/hackathon/update/:hid'} component={EditHackathon}/>
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
-                <Route path={'/payment'} component={Payment}/>
+                <Route path={'/hackathon/payment'} component={Payment}/>
                 <Route path={'/hackathon/:hid/submit'} component={Submission}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/edit_user'} component={EditUser}/>
@@ -36,9 +37,9 @@ function Routing() {
                 <Route path={'/userprofile'} component={UserProfile}/>
                 <Route path={'/create_hackathon'} component={CreateHackathon}/>
                 <Route path={'/createOrg'} component={CreateOrg}/>
-                <Route path={'/hackathon/:hid/submit'} component={Submission}/>
                 <Route path={'/user/:uid'} component={UserProfile} />
                 <Route path={'/hackathon/:hid/join'} component={JoinHackathon}/>
+                <Route path={'/hackathon/eval/:hid'} component={Evaluation}/>
             </Switch>
         </Router>
     );

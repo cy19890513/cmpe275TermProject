@@ -17,6 +17,8 @@ class Payment extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tid:props.match.params.tid,
+            uid:props.match.params.uid,
             name: null,
             description: null,
             street: null,
@@ -25,6 +27,37 @@ class Payment extends Component {
             zip: null
         };
         this.handleSubmit.bind(this);
+    }
+
+    //TODO update this
+    updatePaymentInfo(){
+        var url = `/hackathon/payment?tid=${this.state.tid}&uid=${this.state.uid}`;
+        axios.get(url)
+            .then(res => {
+                //res.data.results.map()
+                const hkData = res.data;
+                this.setState({ hkData });
+
+            })
+            .catch(err => {
+                alert(err);
+                console.error("line 45 err");
+            });
+    }
+    
+    //TODO update this
+    processPayment(){
+        var url = `/hackathon/payment?tid=${this.state.tid}&uid=${this.state.uid}`;
+        axios.post(url)
+            .then(res => {
+                //res.data.results.map()
+                const hkData = res.data;
+                this.setState({ hkData });
+            })
+            .catch(err => {
+                alert(err);
+                console.error("line 45 err");
+            });
     }
 
 
