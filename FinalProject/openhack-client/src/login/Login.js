@@ -40,6 +40,7 @@ class Login extends Component {
                     console.log(data);
                     localStorage.setItem('username', data.username);
                     localStorage.setItem('uid', data.uid);
+                    localStorage.setItem('email', this.state.email);
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('sessionId', data.sessionId);
                     console.log(localStorage.getItem('username'));
