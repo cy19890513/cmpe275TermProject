@@ -45,7 +45,8 @@ public class Hackathon {
 
 
     private Double discount;
-
+    @ElementCollection
+    @OrderBy("grade DESC")
     @OneToMany(mappedBy = "hackathon")
     private List<Team> teams;
 

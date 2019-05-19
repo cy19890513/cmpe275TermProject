@@ -561,4 +561,18 @@ public class HackathonController {
         }
         return map;
     }
+
+
+    /**
+     * Sample test
+     * GET:http://localhost:8080/hackathon/result?hid=1
+     * Description: result of a hackathon
+    @GetMapping(value="/hackathon/result")
+    public ResponseEntity<?> getResult(@RequestParam long hid) {
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+        List<Team> teams = hackathon.getTeams();
+        List<Map<String, Object>> res = teamService.converTeamsToMap(teams);
+        return new ResponseEntity(res, HttpStatus.OK);
+    }
+
 }

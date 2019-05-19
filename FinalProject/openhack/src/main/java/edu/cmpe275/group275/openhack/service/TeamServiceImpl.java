@@ -13,7 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TeamServiceImpl implements TeamService{
@@ -23,6 +25,15 @@ public class TeamServiceImpl implements TeamService{
     private MemberService memberService;
     @Autowired
     public JavaMailSender emailSender;
+
+    public List<Map<String, Object>> converTeamsToMap(List<Team> teams){
+        List<Map<String, Object>> res = new ArrayList<>();
+        for(Team team: teams){
+            Map<String, Object> map = memberService.convertToMap(team);
+            res.add(map);
+        }
+        return res;
+    }
 
     public TeamServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
@@ -127,6 +138,11 @@ public class TeamServiceImpl implements TeamService{
         message.setText(text);
         emailSender.send(message);
         System.out.println("all paid email sent out");
+    }
+
+    @Transactional
+    public List<Team> getTeams(Hackathon h){
+        return teamRepository.findTeamsByHackathon(h);
     }
 
     private void sendPaymentInvoice(Member m){
