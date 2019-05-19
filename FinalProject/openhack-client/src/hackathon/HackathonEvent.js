@@ -72,12 +72,12 @@ class HackathonEvent extends Component {
             .then(res => {
 
                 //res.data.results.map()
-
                 const hkData = res.data;
                 this.setState({ hkData });
 
             })
             .catch(err => {
+                alert(err);
                 console.error("line 45 err");
             });
     }

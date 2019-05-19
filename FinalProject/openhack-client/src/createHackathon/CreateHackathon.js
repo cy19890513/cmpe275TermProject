@@ -128,7 +128,7 @@ class CreateHackathon extends Component {
                             Description
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control as={"textarea"} onChange={e => {this.setState({description: e.target.value})}} required/>
+                            <Form.Control as={"textarea"} rows={"8"} onChange={e => {this.setState({description: e.target.value})}} required/>
                         </Col>
                     </Form.Group>
 
