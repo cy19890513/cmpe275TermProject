@@ -43,6 +43,7 @@ class JoinHackathon extends Component {
                 this.setState({hackathon: h, members: memberHolder});
             })
             .catch(err => {
+                alert(err);
                 console.log(err)
             });
         this.setState({hid: hid, uid: uid, teamLead: teamLead});
@@ -90,6 +91,7 @@ class JoinHackathon extends Component {
                 this.joinHack(data.id);
             })
             .catch(err => {
+                alert(err);
                 console.log(err);
             });
     }
@@ -104,7 +106,10 @@ class JoinHackathon extends Component {
                 console.log(res);
                 this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
-            .catch(err => {console.log(err)});
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
     }
 
     inputGroup() {

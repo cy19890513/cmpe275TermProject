@@ -64,6 +64,7 @@ class Submission extends Component {
                 })
             })
             .catch(err => {
+                alert(err);
                 console.error(err);
             });
     }
