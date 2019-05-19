@@ -25,11 +25,17 @@ import java.util.Map;
 @Order(2)
 public class UserRoleCheckAspect {
 
+<<<<<<< HEAD
 //    private AdminService adminService;
     private UserService userService;
 
     public UserRoleCheckAspect(UserService userService) {
 //        this.adminService = adminService;
+=======
+    private UserService userService;
+
+    public UserRoleCheckAspect(UserService userService) {
+>>>>>>> a039ced36fde48df02e14f75124b41cc60ff9b10
         this.userService = userService;
     }
 
@@ -41,16 +47,9 @@ public class UserRoleCheckAspect {
     // public void dummyAdvice(JoinPoint joinPoint) {
     //     System.out.printf("Doing validation prior to the executuion of the metohd %s\n", joinPoint.getSignature().getName());
     // }
+    
 
-
-
-
-    // //admin hackathon create edit judge assign
-    // public ResponseEntity<?> createHackathon
-    // public ResponseEntity<?> closeHackathon
-    // public ResponseEntity<?> openHackathon
-    // public ResponseEntity<?> finalizeHackathon
-
+    //check admin for hackathon create edit
 
     @Before("execution(public * edu.cmpe275.group275.openhack.controller.HackathonController.*(..))")
     public void checkIsAdmin(JoinPoint joinPoint) {

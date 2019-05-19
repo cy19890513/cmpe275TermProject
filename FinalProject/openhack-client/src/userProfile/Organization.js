@@ -56,10 +56,8 @@ class Organization extends Component {
 
     handleLeave(e) {
         const uid = localStorage.getItem("uid");
-        const orgId = this.state.orgs.find(org => {
-            return org.name === this.state.selectedOrg[0]
-        }).id;
-        axios.post('/leaveOrg', {id: uid, orgId: orgId})
+        
+        axios.post('/leaveOrg', {uid: uid})
             .then(res => {
                 this.setState(() => {
                     return {
