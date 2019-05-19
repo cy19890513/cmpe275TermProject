@@ -227,13 +227,17 @@ class UserProfile extends Component {
     //     return yyyy + '-' + mm + '-' + dd;
     // }
 
+    changeOrg(org) {
+        this.setState({organization: org})
+    }
+
     showList() {
         const role = localStorage.getItem('role');
         if (role === 'hackerUser') {
             console.log('state', this.state.organization);
             return (
                 <Accordion defaultActiveKey="0">
-                    <Organization organization={this.state.organization}/>
+                    <Organization organization={this.state.organization} change={this.changeOrg.bind(this)}/>
                     <HackerHackathonList email={this.state.user.email}/>
                 </Accordion>
             );
@@ -246,7 +250,6 @@ class UserProfile extends Component {
             );
         }
     }
-
 
     render() {
         if (this.state.error) {
@@ -282,14 +285,12 @@ class UserProfile extends Component {
                                         <img src= {portrait}/>
                                     </div>
                                     <div>
-
                                         <div>Screen Name: {user.ScreenName}</div>
                                         <div>Name: {user.name}</div>
                                         <div>Email: {user.email}</div>
                                         <div>BusinessTitle: {user.BusinessTitle}</div>
                                         <div>Description: {user.Description}</div>
                                         <div>Address :{address}</div>
-
                                     </div>
                                     <Button style={{width: "100%"}} variant="secondary" size="sm" href='/edit_user'>Edit</Button>
                                 </div>
