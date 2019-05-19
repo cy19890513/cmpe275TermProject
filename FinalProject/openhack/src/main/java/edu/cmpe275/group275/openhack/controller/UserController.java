@@ -305,7 +305,7 @@ public class UserController {
         }
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         long oid = Long.valueOf(String.valueOf(payload.get("oid")));
-        if(!hackerUserService.eixtId(uid) || organizationService.exist(oid)){
+        if(!hackerUserService.eixtId(uid) || !organizationService.exist(oid)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         HackerUser user = hackerUserService.getHackerUser(uid);
