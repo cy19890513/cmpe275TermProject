@@ -10,4 +10,5 @@ import java.util.List;
 public interface HackathonRepository extends JpaRepository<Hackathon, Long> {
 
     List<Hackathon> findHackathonsByNameIgnoreCase(String name);
+
 }

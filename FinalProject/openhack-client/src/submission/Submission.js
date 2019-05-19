@@ -98,7 +98,7 @@ class Submission extends Component {
         })
             .then(res => {
                 this.setState({submittedUrl: this.state.url});
-                alert("submitted");
+                // alert("submitted");
                 this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {

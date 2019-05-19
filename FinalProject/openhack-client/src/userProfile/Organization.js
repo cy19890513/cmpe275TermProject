@@ -13,7 +13,6 @@ class Organization extends Component {
         super(props);
 
         this.state = {
-            // organization: {},
             autoCmplOrgs: [],
             selectedOrg: "",
         }
@@ -38,19 +37,10 @@ class Organization extends Component {
         const uid = localStorage.getItem("uid");
         const orgs = this.state.autoCmplOrgs;
         const orgId = orgs.find(org => org.name === this.state.selectedOrg[0]).id;
-        // console.log('orgs', this.state.autoCmplOrgs);
-        // console.log(uid);
-        // console.log(orgId);
-        // console.log(this.state.selectedOrg);
+        console.log('orgs', this.state.autoCmplOrgs);
         axios.post('/joinOrg', {uid: uid, oid: orgId})
             .then(res => {
-                if (res.status === 200) {
-                    this.setState(() => {
-                        return {
-                            organization: {name: this.state.selectedOrg + " (Pending)"},
-                        }
-                    });
-                }
+                this.props.change({name: this.state.selectedOrg + " (Pending)"});
             })
             .catch(err => {
                 alert(err);
@@ -69,19 +59,10 @@ class Organization extends Component {
         
         axios.post('/leaveOrg', {uid: uid})
             .then(res => {
-                this.setState(() => {
-                    return {
-                        organization: {},
-                    }
-                });
+                this.props.change({});
             });
     }
 
-    // leaveButton() {
-    //     if (this.state.organization.name != null) {
-    //         return <Button type="button" variant="danger" onClick={this.handleLeave}>Leave</Button>
-    //     }
-    // }
 
     shouldDisplay() {
         // console.log(this.state.organization);
@@ -111,7 +92,7 @@ class Organization extends Component {
                                     </Card.Text>
                                 </Col>
                                 <Col sm={4}>
-                                    <Button className={'btn-size float-right'} type="button" variant="danger" onClick={this.handleLeave}>LEAVE</Button>
+                                    <Button className={'btn-size float-right'} type="button" variant="danger" onClick={this.handleLeave.bind(this)}>LEAVE</Button>
                                 </Col>
                             </Row>
                         </div>
