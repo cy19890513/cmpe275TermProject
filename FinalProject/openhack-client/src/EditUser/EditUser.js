@@ -102,7 +102,7 @@ class EditUser extends Component {
                             Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} required/>
+                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId={"aboutMe"}>
@@ -110,7 +110,7 @@ class EditUser extends Component {
                             AboutMe
                         </Form.Label>
                         <Col sm={"10"}>
-                            <Form.Control as={"textarea"}   value={data.aboutMe} onChange={e => {this.setState({aboutMe: e.target.value})}} required/>
+                            <Form.Control as={"textarea"}   value={data.aboutMe} onChange={e => {this.setState({aboutMe: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="businessTitle">
@@ -118,7 +118,7 @@ class EditUser extends Component {
                             Business Title
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.businessTitle} onChange={e => {this.setState({businessTitle: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.businessTitle} onChange={e => {this.setState({businessTitle: e.target.value})}} />
                         </Col>
                     </Form.Group>
 
@@ -127,7 +127,7 @@ class EditUser extends Component {
                             Street
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.street} onChange={e => {this.setState({street: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.street} onChange={e => {this.setState({street: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="city">
@@ -135,14 +135,14 @@ class EditUser extends Component {
                             City
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"}   value={data.city} onChange={e => {this.setState({city: e.target.value})}} required/>
+                            <Form.Control type={"text"}   value={data.city} onChange={e => {this.setState({city: e.target.value})}} />
                         </Col>
                     </Form.Group><Form.Group as={Row} controlId="state">
                     <Form.Label column sm="2">
                         State
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} required/>
+                        <Form.Control type={"text"}   value={data.state} onChange={e => {this.setState({state: e.target.value})}} />
                     </Col>
                     </Form.Group>
                 <Form.Group as={Row} controlId="zip">
@@ -150,7 +150,7 @@ class EditUser extends Component {
                         Zip
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} required/>
+                        <Form.Control type={"text"}   value={data.zip} onChange={e => {this.setState({zip: e.target.value})}} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} controlId="portrait">
@@ -158,7 +158,7 @@ class EditUser extends Component {
                         Portrait
                     </Form.Label>
                     <Col sm="10">
-                        <Form.Control type={"text"}   value={data.portrait} onChange={e => {this.setState({portrait: e.target.value})}} required/>
+                        <Form.Control type={"text"}   value={data.portrait} onChange={e => {this.setState({portrait: e.target.value})}} />
                     </Col>
                 </Form.Group>
                 
