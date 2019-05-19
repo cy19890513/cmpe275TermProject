@@ -145,7 +145,7 @@ public class HackathonController {
 
     /**
      * Sample test
-     * POST: hackathon/submit
+     * POST: "
      * payload: {
      *     tid: 1,
      *     date: 2019-05-06,
@@ -445,6 +445,9 @@ public class HackathonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Hackathon hackathon = hackathonService.getHackathon(hid);
+        if(hackathon.getFinalized()){
+            return new ResponseEntity<>("This hackathon is finalized already.", HttpStatus.BAD_REQUEST);
+        }
         Date d = Date.valueOf(date);
         if(d.before(hackathon.getStartDate())){
             hackathon.setStartDate(d);

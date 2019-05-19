@@ -1,4 +1,18 @@
-.container {
+.submit {
     margin: auto;
     max-width: 900px;
+    position: relative;
+    top: 50px;
+}
+
+.submitted {
+    padding: 15px 0;
+    border-top: rgba(175, 175, 175, 0.5) solid 1px;
+    border-bottom: rgba(175, 175, 175, 0.5) solid 1px;
+    margin-bottom: 15px;
+}
+
+.submitted > h5 {
+    margin: 0;
+    padding: 0;
 }

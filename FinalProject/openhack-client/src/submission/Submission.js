@@ -8,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 
 import axios from 'axios';
 
+import './Submission.css';
+
 class Submission extends Component {
     constructor(props) {
         super(props);
@@ -17,12 +19,13 @@ class Submission extends Component {
             url: "",
             tid: null,
             teamLead: "",
-            date: this.today(),
+            date: Submission.today(),
             hid: null,
+            submittedUrl: "",
         }
     }
 
-    today() {
+    static today() {
         const today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth() + 1; //January is 0!
@@ -40,7 +43,8 @@ class Submission extends Component {
 
     componentDidMount() {
         const {match: {params}} = this.props;
-        const hid = params.hid;
+        const hid = parseInt(params.hid);
+
         this.setState({hid: hid});
         const uid = localStorage.getItem('uid');
         axios.get('/hackathon/teamInfo', {
@@ -51,17 +55,15 @@ class Submission extends Component {
             .then(res => {
                 const teamInfo = res.data;
                 console.log(teamInfo);
-                teamInfo.forEach(team => {
-                    if (hid == team.hid) {
-                        console.log(team);
-                        this.setState({
-                            tid: team.id,
-                            teamName: team.teamName,
-                            teamLead: team.teamLead,
-                            members: team.members
-                        })
-                    }
-                })
+                const team = teamInfo.find(t => hid === t.hid);
+                this.setState({
+                    tid: team.id,
+                    teamName: team.teamName,
+                    teamLead: team.teamLead,
+                    members: team.members,
+                    url: team.url,
+                    submittedUrl: team.url,
+                });
             })
             .catch(err => {
                 alert(err);
@@ -71,12 +73,11 @@ class Submission extends Component {
 
     createTable() {
         return this.state.members.map(hacker => {
-            console.log(hacker);
+            // console.log(hacker);
             return (
-                <tr>
-                    <td>{hacker}</td>
-                    {/*<td>{hacker.email}</td>*/}
-                    {/*<td>sdfafdan</td>*/}
+                <tr key={hacker.username}>
+                    <td>{hacker.username}</td>
+                    <td>{hacker.role}</td>
                 </tr>
             )
         });
@@ -84,25 +85,32 @@ class Submission extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        axios.post('/hackathon/submit', {
+        const data = {
             tid: this.state.tid,
             date: this.state.date,
             submitUrl: this.state.url,
+        };
+        console.log(data);
+        axios.post('/hackathon/submit', {
+            tid: this.state.tid,
+            date: this.state.date,
+            submitUrl: this.state.url
         })
             .then(res => {
+                this.setState({submittedUrl: this.state.url});
                 alert("submitted");
                 this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                alert("Submitted");
-                this.props.history.push('/');
+                // alert("Submitted");
+                alert(err.response.data);
+                console.log(err.response.data);
+                // this.props.history.push('/');
             });
     }
 
     handleChange(e) {
-        this.setState(() => {
-            return {url: e.value};
-        });
+        this.setState({url: e.target.value});
     }
 
     render() {
@@ -110,24 +118,24 @@ class Submission extends Component {
             <div>
                 <Header/>
 
-                <div className={"container"}>
+                <div className={"submit"}>
                     <h3>
                         Team: {this.state.teamName}
                     </h3>
-                    <h4>
-                        Team Lead: {this.state.teamLead}
-                    </h4>
                     <Table striped bordered hover size="sm">
                         <thead>
                         <tr>
                             <th>Team Member</th>
-                            {/*<th>Email</th>*/}
+                            <th>Role</th>
                         </tr>
                         </thead>
                         <tbody>
                             {this.createTable()}
                         </tbody>
                     </Table>
+                    <div className={'submitted'}>
+                        <h5>Submitted: <a href={this.state.submittedUrl}>{this.state.submittedUrl}</a></h5>
+                    </div>
                     <Form onSubmit={this.handleSubmit.bind(this)}>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
@@ -135,10 +143,10 @@ class Submission extends Component {
                             </InputGroup.Prepend>
                             <FormControl
                                 type={"url"}
-                                aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default"
+                                aria-label="url"
                                 placeholder={"URL"}
                                 onChange={this.handleChange.bind(this)}
+                                required
                             />
                         </InputGroup>
                         <Button type={"submit"}>Submit</Button>

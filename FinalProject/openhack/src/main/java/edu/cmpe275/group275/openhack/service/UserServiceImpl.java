@@ -38,13 +38,13 @@ public class UserServiceImpl implements UserService {
             return hackerUserService.convertuserToMap(hacker);
         }
         map.put("id", user.getId());
-        map.put("username", user.getUsername());
+        map.put("Screename", user.getUsername());
         map.put("email", user.getEmail());
         map.put("name", user.getName());
-        map.put("businessTitle", user.getBusinessTitle());
-        map.put("address", user.getAddress());
+        map.put("BusinessTitle", user.getBusinessTitle());
+        map.put("Address", user.getAddress());
       //  map.put("Address", convertAddress(user.getAddress()));
-        map.put("aboutMe", user.getAboutMe());
+        map.put("Description", user.getAboutMe());
         map.put("portrait", user.getPortrait());
 
         return map;
