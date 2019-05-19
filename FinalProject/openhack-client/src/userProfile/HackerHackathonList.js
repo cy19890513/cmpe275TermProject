@@ -41,6 +41,11 @@ class HackerHackathonList extends Component {
                 </a>
             )
         }
+        return (
+            <a role={"button"} className={"btn btn-outline-primary"} href={'/hackathon/' + hid + '/submit'}>
+                Submit
+            </a>
+        )
     }
 
     showStatus(h) {
