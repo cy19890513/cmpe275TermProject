@@ -1,6 +1,8 @@
 .UserProfile {
     max-width: 1200px;
     margin: auto;
+    position: relative;
+    top: 50px;
 }
 
 .orgSession {
@@ -32,4 +34,5 @@
 .user-img > img {
     width: 100%;
     height: 100%;
+    margin-bottom: 15px;
 }

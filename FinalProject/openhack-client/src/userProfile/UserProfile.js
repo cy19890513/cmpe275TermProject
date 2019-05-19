@@ -268,8 +268,7 @@ class UserProfile extends Component {
                 <div>
                     <Header/>
                     <div className="UserProfile">
-
-                        <h1> welcome {user.ScreenName}</h1>
+                        {/*<h1> welcome {user.ScreenName}</h1>*/}
                         <Row>
                             <Col sm={3}>
                                 <div className={"user-info"}>
@@ -278,7 +277,7 @@ class UserProfile extends Component {
                                             src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdddVm4g4gaYFb56WgKroI5kJ-H4ONMEvFbQqrd49FkGf7rrZSSA'/>
                                     </div>
                                     <div>
-                                        <div>{user.name}</div>
+                                        <h5>{user.ScreenName}</h5>
                                         <div>{user.email}</div>
                                         <div>{user.businessTitle}</div>
                                         <div>{user.aboutMe}</div>
