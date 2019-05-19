@@ -59,11 +59,7 @@ class Organization extends Component {
         
         axios.post('/leaveOrg', {uid: uid})
             .then(res => {
-                this.setState(() => {
-                    return {
-                        organization: {},
-                    }
-                });
+                this.props.change({});
             });
     }
 
@@ -96,7 +92,7 @@ class Organization extends Component {
                                     </Card.Text>
                                 </Col>
                                 <Col sm={4}>
-                                    <Button className={'btn-size float-right'} type="button" variant="danger" onClick={this.handleLeave}>LEAVE</Button>
+                                    <Button className={'btn-size float-right'} type="button" variant="danger" onClick={this.handleLeave.bind(this)}>LEAVE</Button>
                                 </Col>
                             </Row>
                         </div>
