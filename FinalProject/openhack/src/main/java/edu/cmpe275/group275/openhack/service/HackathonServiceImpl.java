@@ -164,9 +164,9 @@ public class HackathonServiceImpl implements HackathonService{
 
 
     public void informClose(Hackathon h, HackerUser judge){
-        String email = judge.getEmail();
+       // String email = judge.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
-        // String to = email;
+        //String to = email;
         String to = judge.getEmail();
         long uid = judge.getId();
         System.out.println("judge uid: "+uid);
@@ -181,6 +181,32 @@ public class HackathonServiceImpl implements HackathonService{
         System.out.println("evaluation notice email sent out");
 
     }
+
+    public void sentResult(Team t, Hackathon h){
+        long  hid = h.getId();
+
+        List<Member> members = t.getMembers();
+        for(Member m: members) {
+
+
+            HackerUser hackerUser = m.getHacker();
+            SimpleMailMessage message = new SimpleMailMessage();
+            String to = hackerUser.getEmail();
+            String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
+                    "The hackton: " + h.getName() + " has been posted below \n\n  " +
+                    "<a href='http://localhost:8080/hackathon/result?hid="+hid+">" +
+                    "resulte</a> \n\n"+
+                    "Hackathon Management System";
+            message.setTo(to);
+            message.setSubject("Hackathon Management: Result Page");
+            message.setText(text);
+            emailSender.send(message);
+            System.out.println("sent result page");
+        }
+
+    }
+
+
 
     public Map<String, Object> convert(Hackathon h, HackerUser hacker){
         Map<String, Object> map = new LinkedHashMap<>();

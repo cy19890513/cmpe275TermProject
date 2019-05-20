@@ -14,6 +14,7 @@ import EditHackathon from "./EditHackathon/EditHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import Payment from "./payment/payment";
 import Evaluation from "./evaluation/Evaluation";
+import Result from "./result/Result";
 
 function Routing() {
     var RegistHKEvent = null;
@@ -40,6 +41,7 @@ function Routing() {
                 <Route path={'/user/:uid'} component={UserProfile} />
                 <Route path={'/hackathon/:hid/join'} component={JoinHackathon}/>
                 <Route path={'/hackathon/eval/:hid'} component={Evaluation}/>
+                <Route path={'/hackathon/:hid/result'} component={Result}/>
             </Switch>
         </Router>
     );

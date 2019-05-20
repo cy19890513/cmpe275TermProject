@@ -487,7 +487,11 @@ public class HackathonController {
         if(!isAllGradeDone){
             return new ResponseEntity("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
         }
+
         hackathon.setFinalized(true);
+        for(Team team: teams){
+            hackathonService.sentResult(team, hackathon);
+        }
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -572,8 +576,62 @@ public class HackathonController {
     public ResponseEntity<?> getResult(@RequestParam long hid) {
         Hackathon hackathon = hackathonService.getHackathon(hid);
         List<Team> teams = hackathon.getTeams();
+        for(Team team: teams){
+            if(team.getGrade() == null)
+                return new ResponseEntity("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
+        }
         List<Map<String, Object>> res = teamService.converTeamsToMap(teams);
         return new ResponseEntity(res, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/hackathon/earning")
+    public ResponseEntity<?> getearning(@RequestParam long hid) {
+        Map<String, Object> res = new LinkedHashMap<>();
+        Hackathon hackathon = hackathonService.getHackathon(hid);
+        double fee = hackathon.getFee();
+        double discount = hackathon.getDiscount();
+        double paid = 0;
+        double unpaid =0;
+        double expenses =0;
+        double sponsorsfee =0;
+
+        List<Organization> organizations = hackathon.getSponsors();
+        sponsorsfee = 1000*organizations.size();
+        List<Team> teams = hackathon.getTeams();
+        for(Team team: teams){
+            List<Member> members = team.getMembers();
+            for(Member m: members){
+
+                HackerUser hackerUser = m.getHacker();
+                Organization org = hackerUser.getOrganization();
+                if(m.getIfPaid()){
+
+                    if(org == null || !organizations.contains(org)){
+                        paid += fee;
+                    }
+                    else{
+                        paid += discount*fee;
+                    }
+                }
+                else{
+                    if(org == null || !organizations.contains(org)){
+                        unpaid += fee;
+                    }
+                    else{
+                        unpaid += discount*fee;
+                    }
+
+                }
+
+            }
+        }
+        res.put("revenue", paid);
+        res.put("unpaid", unpaid);
+        res.put("sponsorsfee", sponsorsfee);
+        res.put("expenses", expenses);
+        res.put("Profit", paid+sponsorsfee-expenses);
+        return new ResponseEntity(res, HttpStatus.OK);
+
     }
 
 }
