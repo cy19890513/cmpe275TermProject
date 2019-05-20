@@ -122,7 +122,7 @@ public class HackathonController {
         team.setTeamName(teamName);
         team.setTeamLead(lead);
         team.setMembers(members);
-        team.setHackathon(h);
+      //  team.setHackathon(h);
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
@@ -403,17 +403,14 @@ public class HackathonController {
         }
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
-<<<<<<< HEAD
         if (hackathonService.existTeam(hid, teamId)) {
             return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.BAD_REQUEST);
         }
         System.out.println("tid: " + teamId);
-=======
-//        if(hackathonService.existTeam(hid, teamId)){
-//            return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.OK);
-//        }
+        if(hackathonService.existTeam(hid, teamId)){
+            return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.BAD_REQUEST);
+        }
         System.out.println("tid: "+teamId);
->>>>>>> efb66e23982310b5a2062cd7181bcf49cbec28ab
         Team team = teamService.getTeam(teamId);
         if (team.getHackathon() != null && team.getHackathon().getId() != hid) {
             return new ResponseEntity<>("Team has joined other hackathon event.", HttpStatus.BAD_REQUEST);
@@ -604,28 +601,20 @@ public class HackathonController {
         }
         Hackathon hackathon = hackathonService.getHackathon(hid);
         List<Team> teams = hackathon.getTeams();
-<<<<<<< HEAD
         for (Team team : teams) {
             if (team.getGrade() == null)
                 return new ResponseEntity("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
         }
-=======
->>>>>>> efb66e23982310b5a2062cd7181bcf49cbec28ab
         List<Map<String, Object>> res = teamService.converTeamsToMap(teams);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
     @GetLoggedInRequired
     @GetMapping(value = "/hackathon/earning")
     public ResponseEntity<?> getearning(HttpSession session, @RequestParam long uid, @RequestParam long hid) {
-=======
-    @GetMapping(value="/hackathon/earning")
-    public ResponseEntity<?> getearning(@RequestParam long hid) {
         if(hackathonService.exist(hid)){
             return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
         }
->>>>>>> efb66e23982310b5a2062cd7181bcf49cbec28ab
         Map<String, Object> res = new LinkedHashMap<>();
         Hackathon hackathon = hackathonService.getHackathon(hid);
         double fee = hackathon.getFee();
@@ -666,14 +655,8 @@ public class HackathonController {
         res.put("unpaid", unpaid);
         res.put("sponsorsfee", sponsorsfee);
         res.put("expenses", expenses);
-<<<<<<< HEAD
         res.put("Profit", paid + sponsorsfee - expenses);
         return new ResponseEntity(res, HttpStatus.OK);
-=======
-        res.put("Profit", paid+sponsorsfee-expenses);
-        return new ResponseEntity<>(res, HttpStatus.OK);
->>>>>>> efb66e23982310b5a2062cd7181bcf49cbec28ab
-
     }
 
     /**

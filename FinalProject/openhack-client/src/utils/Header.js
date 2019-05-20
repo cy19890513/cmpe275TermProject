@@ -21,9 +21,12 @@ class Header extends Component {
     }
 
     handleSignout() {
-        axios.post('/logout')
+        const uid = localStorage.getItem("uid");
+        axios.post('/logout', {
+            uid: uid,
+        })
             .then(res => {
-                console.log("logout");
+                // console.log("logout");
             })
             .catch(err => {
                 alert(err);
