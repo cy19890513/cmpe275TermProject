@@ -21,4 +21,5 @@ public interface TeamService {
     boolean exist(long tid);
     List<Team> getTeams(Hackathon h);
     List<Map<String, Object>> converTeamsToMap(List<Team> teams);
+    Map<String, Object> paymentStatus(Team t);
 }

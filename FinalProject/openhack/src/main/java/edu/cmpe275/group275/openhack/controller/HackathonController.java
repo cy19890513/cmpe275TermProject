@@ -579,10 +579,10 @@ public class HackathonController {
         List<Team> teams = hackathon.getTeams();
         for(Team team: teams){
             if(team.getGrade() == null)
-                return new ResponseEntity("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
+                return new ResponseEntity<>("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
         }
         List<Map<String, Object>> res = teamService.converTeamsToMap(teams);
-        return new ResponseEntity(res, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value="/hackathon/earning")
@@ -631,8 +631,22 @@ public class HackathonController {
         res.put("sponsorsfee", sponsorsfee);
         res.put("expenses", expenses);
         res.put("Profit", paid+sponsorsfee-expenses);
-        return new ResponseEntity(res, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
 
+    }
+
+    /**
+     * Sample test
+     * GET: http://localhost:8080/hackathon/paymentStatus?hid=1
+     * Description: payment status of a hackathon
+     */
+    @GetMapping(value="/hackathon/paymentStatus")
+    public ResponseEntity<?> getPaymentStatus(@RequestParam Long hid) {
+        if(hid == null || !hackathonService.exist(hid)){
+            return new ResponseEntity<>("hid not valid.", HttpStatus.BAD_REQUEST);
+        }
+        Map<String, Object> res = hackathonService.getPaymentStatus(hid);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }

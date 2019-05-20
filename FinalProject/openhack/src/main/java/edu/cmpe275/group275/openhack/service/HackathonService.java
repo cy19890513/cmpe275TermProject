@@ -39,4 +39,5 @@ public interface HackathonService {
 
     Map<String, Object> convert(Hackathon h, HackerUser hacker);
 
+    Map<String, Object> getPaymentStatus(long hid);
 }

@@ -24,6 +24,8 @@ public class HackathonServiceImpl implements HackathonService{
 
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private MemberService memberService;
 
     public HackathonServiceImpl(HackathonRepository hackathonRepository) {
         this.hackathonRepository = hackathonRepository;
@@ -140,6 +142,7 @@ public class HackathonServiceImpl implements HackathonService{
             if(matchOrg(oid, h)){
                 fee *= (1 - h.getDiscount()*0.01);
                 member.setPayfee(fee);
+                memberService.update(member);
                 System.out.println("fee: "+fee);
             }
         }
@@ -255,6 +258,20 @@ public class HackathonServiceImpl implements HackathonService{
             map.put("teams", res);
         }
         return map;
+    }
+
+    public Map<String, Object> getPaymentStatus(long hid){
+        Hackathon h = getHackathon(hid);
+        Map<String, Object> res = new LinkedHashMap<>();
+        List<Team> teams = h.getTeams();
+        List<Map<String, Object>> list = new ArrayList<>();
+        if(teams != null) {
+            for (Team t : teams) {
+                list.add(teamService.paymentStatus(t));
+            }
+        }
+        res.put("allTeams", list);
+        return res;
     }
 
 

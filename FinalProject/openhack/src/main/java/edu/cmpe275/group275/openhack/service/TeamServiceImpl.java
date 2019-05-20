@@ -11,11 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 @Service
@@ -79,7 +75,6 @@ public class TeamServiceImpl implements TeamService{
             if(memberList != null) {
                 for (Member m : memberList) {
                     if (m.getHacker().getId() == uid) {
-
                         m.setIfPaid(true);
                         java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                         m.setPaytime(date);
@@ -171,4 +166,25 @@ public class TeamServiceImpl implements TeamService{
         System.out.println("payment invoice sent out");
     }
 
+
+    public Map<String, Object> paymentStatus(Team t){
+        Map<String, Object> res = new LinkedHashMap<>();
+        res.put("tid", t.getId());
+        res.put("teamName", t.getTeamName());
+        res.put("ifAllPaid", t.getIfAllPaid());
+        List<Map<String, Object>> list = new ArrayList<>();
+        List<Member> members = t.getMembers();
+        for(Member m: members){
+            Map<String, Object> temp = new LinkedHashMap<>();
+            temp.put("memberName", m.getHacker().getUsername());
+            temp.put("amount", m.getPayfee());
+            temp.put("paid", m.getIfPaid());
+            if(m.getIfPaid()){
+                temp.put("paidTime", m.getPaytime());
+            }
+            list.add(temp);
+        }
+        res.put("members", list);
+        return res;
+    }
 }
