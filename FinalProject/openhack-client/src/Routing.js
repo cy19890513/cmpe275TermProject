@@ -13,6 +13,7 @@ import Home from './Home/Home';
 import EditHackathon from "./EditHackathon/EditHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import Payment from "./payment/payment";
+import PReport from "./paymentReport/PReport";
 import Evaluation from "./evaluation/Evaluation";
 import Result from "./result/Result";
 import FinancialReport from "./FinancialReport/FinancialReport";
@@ -31,6 +32,7 @@ function Routing() {
                 {/*TODO Registration Hackathon*/}
                 <Route path={'/registhk/:hid'} component={RegistHKEvent}/>
                 <Route path={'/hackathon/payment'} component={Payment}/>
+                <Route path={'/hackathon/pReport/:hid'} component={PReport}/>
                 <Route path={'/hackathon/:hid/submit'} component={Submission}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/edit_user'} component={EditUser}/>

@@ -23,6 +23,7 @@ class HackathonEvent extends Component {
             registHref: '/hackathon/' + props.match.params.hid + '/join',
             subHref: '/hackathon/' + props.match.params.hid + '/submit',
             registText:"Register for this hackathon",
+            subText:"Submission",
             isJudge: false,
             hackerEmail: null,
             eventName: null,
@@ -87,19 +88,21 @@ class HackathonEvent extends Component {
         console.log("parseStatus ",this.state);
         if(this.state.isJudge){
             this.state.status = "Judge";
+            this.state.registText="Evaluate";
             this.state.registHref = " /userprofile#event"+this.state.eventId;
             this.state.subHref = "#";
-            this.state.registText="Evaluate";
         }else if(this.state.hkData.isFinalized){
             this.state.status = "Finalized";
-            this.state.registHref = "#";
-            this.state.subHref = "#";
             this.state.registText="Event have finalized";
+            this.state.registHref = "#";
+            this.state.subText="Results";
+            this.state.subHref = "/hackathon/"+this.state.eventId+"/result";
         }else if(this.state.hkData.isClosed){
             this.state.status = "Closed";
-            this.state.registHref = "#";
-            this.state.subHref = "#";
             this.state.registText="Closed for registration";
+            this.state.registHref = "#";
+            this.state.subText="Results";
+            this.state.subHref = "/hackathon/"+this.state.eventId+"/result";
         }else{
             this.state.status = "Open Registration";
 
@@ -233,7 +236,7 @@ class HackathonEvent extends Component {
 
 
                                             <a className="button radius expand large secondary" href={this.state.subHref}
-                                               disabled={this.state.ifDisableRegist}>Submission</a>
+                                               disabled={this.state.ifDisableRegist}>{this.state.subText}</a>
 
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">
@@ -255,9 +258,9 @@ class HackathonEvent extends Component {
                                                 <strong>Opening Time</strong>
                                             </p>
                                             {this.state.hkData.startDate} - {this.state.hkData.endDate}
-                                            <p className="small">
+                                            {/*<p className="small">
                                                 <a className="view-all-dates-link" href="/details/dates">view all dates</a>
-                                            </p>
+                                            </p>*/}
                                         </section>
                                         {/*<section className data-add-this-buttons="true">*/}
                                         {/*    <p>*/}
