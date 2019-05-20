@@ -117,7 +117,7 @@ public class HackathonController {
         team.setTeamName(teamName);
         team.setTeamLead(lead);
         team.setMembers(members);
-        team.setHackathon(h);
+      //  team.setHackathon(h);
         team.setIfAllPaid(false);
         teamService.createTeam(team);
         teamService.updateMembers(team);
@@ -388,9 +388,9 @@ public class HackathonController {
         }
         long hid = Long.valueOf(String.valueOf(payload.get("hid")));
         long teamId = Long.valueOf(String.valueOf(payload.get("tid")));
-//        if(hackathonService.existTeam(hid, teamId)){
-//            return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.OK);
-//        }
+        if(hackathonService.existTeam(hid, teamId)){
+            return new ResponseEntity<>("Team has joined hackathon already", HttpStatus.BAD_REQUEST);
+        }
         System.out.println("tid: "+teamId);
         Team team = teamService.getTeam(teamId);
         if(team.getHackathon() != null && team.getHackathon().getId() != hid){
