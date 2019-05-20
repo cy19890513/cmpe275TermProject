@@ -190,14 +190,13 @@ public class HackathonServiceImpl implements HackathonService{
         List<Member> members = t.getMembers();
         for(Member m: members) {
 
-
             HackerUser hackerUser = m.getHacker();
             SimpleMailMessage message = new SimpleMailMessage();
             String to = hackerUser.getEmail();
             String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
                     "The hackton: " + h.getName() + " has been posted below \n\n  " +
-                    "<a href='http://localhost:8080/hackathon/result?hid="+hid+">" +
-                    "resulte</a> \n\n"+
+                    "<a href='http://localhost:3000/hackathon/"+hid+"/result'>" +
+                    "Result</a> \n\n"+
                     "Hackathon Management System";
             message.setTo(to);
             message.setSubject("Hackathon Management: Result Page");
