@@ -589,7 +589,7 @@ public class HackathonController {
         Map<String, Object> res = new LinkedHashMap<>();
         Hackathon hackathon = hackathonService.getHackathon(hid);
         double fee = hackathon.getFee();
-        double discount = hackathon.getDiscount();
+        double discount = hackathon.getDiscount()*0.01;
         double paid = 0;
         double unpaid =0;
         double expenses =0;
@@ -606,11 +606,11 @@ public class HackathonController {
                 Organization org = hackerUser.getOrganization();
                 if(m.getIfPaid()){
 
-                    if(org == null || !organizations.contains(org)){
+                    if(org == null || !hackathonService.matchOrg(org.getId(), hackathon)){
                         paid += fee;
                     }
                     else{
-                        paid += discount*fee;
+                        paid += (1-discount)*fee;
                     }
                 }
                 else{

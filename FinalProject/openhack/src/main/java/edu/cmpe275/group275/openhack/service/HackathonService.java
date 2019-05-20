@@ -35,6 +35,8 @@ public interface HackathonService {
 
     void sentResult(Team t, Hackathon h);
 
+    boolean matchOrg(long oid, Hackathon h);
+
     Map<String, Object> convert(Hackathon h, HackerUser hacker);
 
 }
