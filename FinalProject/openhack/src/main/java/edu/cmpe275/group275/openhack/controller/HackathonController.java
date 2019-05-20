@@ -139,6 +139,7 @@ public class HackathonController {
         if(!teamService.exist(tid) || !hackerUserService.eixtId(uid)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         teamService.processPayment(uid, tid);
         return new ResponseEntity<>("Paid successfully.", HttpStatus.OK);
     }

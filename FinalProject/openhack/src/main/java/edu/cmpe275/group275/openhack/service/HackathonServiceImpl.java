@@ -133,11 +133,13 @@ public class HackathonServiceImpl implements HackathonService{
     private void sendConfirmation(Member member, Hackathon h){
         System.out.println("inside email function");
         double fee = h.getFee();
+
         //check member discount
         if(member.getHacker().getOrganization() != null){
             long oid = member.getHacker().getOrganization().getId();
             if(matchOrg(oid, h)){
                 fee *= (1 - h.getDiscount()*0.01);
+                member.setPayfee(fee);
                 System.out.println("fee: "+fee);
             }
         }
