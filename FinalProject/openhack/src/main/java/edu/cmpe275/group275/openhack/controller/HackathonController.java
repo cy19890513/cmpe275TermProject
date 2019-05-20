@@ -575,18 +575,20 @@ public class HackathonController {
      */
     @GetMapping(value="/hackathon/result")
     public ResponseEntity<?> getResult(@RequestParam long hid) {
+        if(hackathonService.exist(hid)){
+            return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
+        }
         Hackathon hackathon = hackathonService.getHackathon(hid);
         List<Team> teams = hackathon.getTeams();
-        for(Team team: teams){
-            if(team.getGrade() == null)
-                return new ResponseEntity<>("Some grades is null ", HttpStatus.NOT_ACCEPTABLE);
-        }
         List<Map<String, Object>> res = teamService.converTeamsToMap(teams);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value="/hackathon/earning")
     public ResponseEntity<?> getearning(@RequestParam long hid) {
+        if(hackathonService.exist(hid)){
+            return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
+        }
         Map<String, Object> res = new LinkedHashMap<>();
         Hackathon hackathon = hackathonService.getHackathon(hid);
         double fee = hackathon.getFee();
