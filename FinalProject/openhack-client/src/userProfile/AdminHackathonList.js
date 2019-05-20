@@ -153,6 +153,13 @@ class AdminHackathonList extends Component {
                                     <a
                                         role={"button"}
                                         className={"buttons btn btn-primary"}
+                                        href={"/hackathon/pReport/" + h.id}
+                                    >
+                                        Payments
+                                    </a>
+                                    <a
+                                        role={"button"}
+                                        className={"buttons btn btn-primary"}
                                         href={"/hackathon/" + h.id + "/report"}
                                     >
                                         Report
