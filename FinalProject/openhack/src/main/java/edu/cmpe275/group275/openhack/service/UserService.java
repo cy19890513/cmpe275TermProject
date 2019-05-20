@@ -25,4 +25,5 @@ public interface UserService {
     void verifyUser(User user);
 
     void updateUser(User user);
+    void invite(long uid, String email);
 }

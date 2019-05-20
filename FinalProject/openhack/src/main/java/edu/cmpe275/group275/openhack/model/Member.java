@@ -26,6 +26,10 @@ public class Member {
 
    private Boolean ifPaid = false;
 
+   private double payfee;
+
+   private java.sql.Date paytime;
+
 
    public Member(){
 
@@ -91,6 +95,14 @@ public class Member {
     public void setIfPaid(Boolean ifPaid) {
         this.ifPaid = ifPaid;
     }
+
+    public double getPayfee() {return payfee;}
+
+    public void setPayfee(double payfee) {this.payfee = payfee;}
+
+    public java.sql.Date getPaytime() {return paytime;}
+
+    public void setPaytime(java.sql.Date paytime) {this.paytime = paytime;}
 }
 //public class MemberBuilder(){
 //

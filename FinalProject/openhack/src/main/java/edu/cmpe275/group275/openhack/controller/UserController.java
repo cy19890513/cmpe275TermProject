@@ -386,5 +386,28 @@ public class UserController {
         return new ResponseEntity<>(hackerUserService.convertuserToMap(hacker), HttpStatus.OK);
     }
 
+    /**
+     * Sample test
+     * POST: http://localhost:8080/invite
+     * payload: {
+     *     uid: 1,
+     *     email: xxx@gmail.com
+     * }
+     * Description: get a hacker by email
+     */
+    @RequestMapping(value = "/invite", method = RequestMethod.POST)
+    public ResponseEntity<?> getHacker(@RequestBody Map<String, Object> payload) {
+        if(!payload.containsKey("uid") || !payload.containsKey("email")){
+            return new ResponseEntity<>("missing parameters.", HttpStatus.BAD_REQUEST);
+        }
+        long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        String email = String.valueOf(payload.get("email"));
+        if(userService.existUser(email)){
+            return new ResponseEntity<>("This email is already registered as a user.", HttpStatus.BAD_REQUEST);
+        }
+        userService.invite(uid, email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

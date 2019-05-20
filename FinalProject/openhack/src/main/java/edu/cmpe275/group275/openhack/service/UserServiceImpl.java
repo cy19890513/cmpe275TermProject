@@ -142,4 +142,23 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public void invite(long uid, String email){
+        User user = getUser(uid);
+        String to = email;
+        String text = "Dear customer, \n\n" +
+                "Your friend " + user.getUsername() +
+                " has invited you to join openhack to participate in hackathon events. \n\n" +
+                "Please click link below to check out our website. \n\n" +
+                "<a href='http://localhost:3000/'>" +
+                "joinopenhack</a> \n\n" +
+                "Thank you! \n\n" +
+                "Hackathon Management System";
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Openhack Invitation: Join to Participate Hackathon Events");
+        message.setText(text);
+        emailSender.send(message);
+        System.out.println("invitation email sent out");
+    }
+
 }
