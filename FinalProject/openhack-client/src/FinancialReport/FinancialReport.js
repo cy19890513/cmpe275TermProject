@@ -10,8 +10,9 @@ class FinancialReport extends Component {
     constructor(props) {
         super(props);
         const hid = props.match.params.hid;
-
+        const uid = localStorage.getItem("uid");
         this.state = {
+            uid: uid,
             hackathon: {},
             report: {},
             hid: hid,
@@ -31,6 +32,7 @@ class FinancialReport extends Component {
 
         axios.get('/hackathon/earning', {
             params: {
+                uid: this.state.uid,
                 hid: this.state.hid,
             }
         })

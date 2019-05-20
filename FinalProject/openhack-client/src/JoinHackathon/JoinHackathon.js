@@ -98,16 +98,17 @@ class JoinHackathon extends Component {
 
     joinHack(tid) {
         axios.post('/hackathon/join', {
+            uid: this.state.uid,
             tid: tid,
             hid: this.state.hid,
         })
             .then(res => {
                 alert('Team Joined Hackathon');
                 console.log(res);
-                this.props.history.push('/hackathonEvent/' + this.state.hid);
+                // this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                alert(err);
+                alert(err.response.data);
                 console.log(err);
             });
     }

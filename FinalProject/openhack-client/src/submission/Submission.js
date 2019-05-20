@@ -13,7 +13,9 @@ import './Submission.css';
 class Submission extends Component {
     constructor(props) {
         super(props);
+        const uid = localStorage.getItem("uid");
         this.state = {
+            uid: uid,
             members: [],
             teamName: "",
             url: "",
@@ -85,13 +87,9 @@ class Submission extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const data = {
-            tid: this.state.tid,
-            date: this.state.date,
-            submitUrl: this.state.url,
-        };
-        console.log(data);
+        // console.log(data);
         axios.post('/hackathon/submit', {
+            uid: this.state.uid,
             tid: this.state.tid,
             date: this.state.date,
             submitUrl: this.state.url

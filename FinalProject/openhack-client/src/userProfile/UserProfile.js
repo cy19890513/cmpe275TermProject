@@ -64,9 +64,9 @@ class UserProfile extends Component {
         // this.getData();
     }
 
-    getData() {
+    // getData() {
         // console.log(this.state.role);
-        const role = localStorage.getItem('role');
+        // const role = localStorage.getItem('role');
         // if (role === 'hackerUser') {
         //     axios.get('/organizations')
         //         .then(res => {
@@ -89,7 +89,7 @@ class UserProfile extends Component {
         //             console.log(err);
         //         });
         // }
-    }
+    // }
 
     // organizationNameList() {
     //     return this.state.orgs.map(org => {
@@ -236,10 +236,12 @@ class UserProfile extends Component {
         if (role === 'hackerUser') {
             console.log('state', this.state.organization);
             return (
-                <Accordion defaultActiveKey="0">
+                //{/*<Accordion defaultActiveKey="0">*/}
+                <div>
                     <Organization organization={this.state.organization} change={this.changeOrg.bind(this)}/>
                     <HackerHackathonList email={this.state.user.email}/>
-                </Accordion>
+                </div>
+                // </Accordion>
             );
         }
 

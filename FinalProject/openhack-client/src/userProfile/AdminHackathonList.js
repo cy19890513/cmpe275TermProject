@@ -85,6 +85,11 @@ class AdminHackathonList extends Component {
     handleFinalize(hid) {
         const state = this.state;
         const url = '/hackathon/finalize';
+        const data = {
+            uid: this.state.uid,
+            hid: hid,
+        };
+        console.log("data", data);
         axios.post(url, {
             uid: this.state.uid,
             hid: hid,
@@ -101,7 +106,7 @@ class AdminHackathonList extends Component {
                 }
             })
             .catch(err => {
-                alert(err);
+                alert(err.response.data);
                 console.log(err);
             });
     }

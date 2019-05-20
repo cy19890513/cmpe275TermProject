@@ -41,6 +41,7 @@ class EditUser extends Component {
         })
             .then(res => {
                 const data = res.data;
+                // console.log(data);
                 this.setState({name: data.name});
                 this.setState({businessTitle: data.BusinessTitle});
                 this.setState({street: data.Address.street});
@@ -51,7 +52,8 @@ class EditUser extends Component {
                 this.setState({portrait: data.portrait});
             })
             .catch(err => {
-                alert(err);
+                // alert(err);
+                // console.log(err);
                 this.setState(() => {
                     return {error: false};
                 });
@@ -102,7 +104,7 @@ class EditUser extends Component {
                             Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
+                            <Form.Control type={"text"} placeholder="User" value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId={"aboutMe"}>

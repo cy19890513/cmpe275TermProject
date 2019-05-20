@@ -34,7 +34,7 @@ class PReport extends Component {
             .then(res => {
                 const hackathon = res.data;
                 const teams = hackathon.teams;
-                teams.forEach(team => this.getTeams(team.id));
+                teams.forEach(team => this.getTeams(uid, team.id));
                 this.setState({hackathon: hackathon});
             })
             .catch(err => {
@@ -42,9 +42,10 @@ class PReport extends Component {
             });
     }
 
-    getTeams(tid) {
+    getTeams(uid, tid) {
         axios.get('/hackathon/team', {
             params: {
+                uid: uid,
                 tid: tid,
             }
         })
