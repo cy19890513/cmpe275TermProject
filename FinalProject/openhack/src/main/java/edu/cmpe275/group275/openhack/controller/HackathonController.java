@@ -84,6 +84,11 @@ public class HackathonController {
         if (hackerUserService.joinedHackathon(hacker, hackathonId)) {
             return new ResponseEntity<>("Member: " + hacker.getEmail() + " has joined the hackathon", HttpStatus.BAD_REQUEST);
         }
+        //check teamName unique
+        String teamName = String.valueOf(payload.get("teamName"));
+        if(hackathonService.existName(h, teamName)){
+            return new ResponseEntity<>("Team name not unique", HttpStatus.BAD_REQUEST);
+        }
         List<Map<String, String>> list = (List<Map<String, String>>) payload.get("members");
         List<Member> members = new ArrayList<>();
         for (Map<String, String> entry : list) {
@@ -105,11 +110,6 @@ public class HackathonController {
             member.setHacker(hackerUser);
             member.setRole(role);
             members.add(member);
-        }
-        //check teamName unique
-        String teamName = String.valueOf(payload.get("teamName"));
-        if (hackathonService.existName(h, teamName)) {
-            return new ResponseEntity<>("Team name not unique", HttpStatus.BAD_REQUEST);
         }
         Member lead = new Member();
         lead.setHacker(hacker);
