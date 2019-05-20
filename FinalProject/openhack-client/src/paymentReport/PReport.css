@@ -1,0 +1,11 @@
+.grade-content {
+    max-width: 1150px;
+    min-width: 1000px;
+    margin: auto;
+    position: relative;
+    top: 50px;
+}
+
+.h-info {
+    border-right: rgba(175, 175, 175, 0.5) solid 1px;
+}
