@@ -89,7 +89,7 @@ class HackathonEvent extends Component {
         if(this.state.isJudge){
             this.state.status = "Judge";
             this.state.registText="Evaluate";
-            this.state.registHref = " /userprofile#event"+this.state.eventId;
+            this.state.registHref = "/hackathon/eval/"+this.state.eventId;
             this.state.subHref = "#";
         }else if(this.state.hkData.isFinalized){
             this.state.status = "Finalized";
