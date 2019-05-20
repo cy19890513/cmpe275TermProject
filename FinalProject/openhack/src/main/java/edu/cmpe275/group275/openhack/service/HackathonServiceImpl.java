@@ -182,7 +182,7 @@ public class HackathonServiceImpl implements HackathonService{
 
     }
 
-   /* public void sentResult(Team t, Hackathon h){
+    public void sentResult(Team t, Hackathon h){
         long  hid = h.getId();
 
         List<Member> members = t.getMembers();
@@ -204,7 +204,7 @@ public class HackathonServiceImpl implements HackathonService{
             System.out.println("sent result page");
         }
 
-    }*/
+    }
 
 
 
