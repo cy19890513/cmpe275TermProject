@@ -51,6 +51,14 @@ class AdminHackathonList extends Component {
             date: this.today(),
         })
             .then(res => {
+                const h = this.state.hackathons.map(hack => {
+                    if (hack.id === hid) {
+                        hack.isClosed = false;
+                    }
+                    return hack;
+                });
+                this.setState({hackathons: h});
+
                 this.forceUpdate();
                 alert("Now open for submission");
             })

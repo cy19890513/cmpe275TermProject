@@ -76,6 +76,17 @@ class Organization extends Component {
 
     render() {
         const {open} = this.state;
+
+        const addr = this.props.organization.Address;
+        let address;
+        if (addr != null) {
+            var street = addr.street == null ? "" : (addr.street);
+            var city = addr.city == null ? "" : (addr.city);
+            var state = addr.state == null ? "" : (addr.state);
+            var zip = addr.zip == null ? "" : (addr.zip);
+            address = street + ", "+ city+ ", "+ state+", "+ zip;
+        }
+
         return (
             <Card>
                 {/*<Card.Header as="h5">Organization</Card.Header>*/}
@@ -94,8 +105,15 @@ class Organization extends Component {
                                 <Col sm={8}>
                                     <Card.Title>{this.props.organization.name}</Card.Title>
                                     <Card.Text>
-                                        {this.props.organization.description}
+                                        {this.props.organization.owner}
                                     </Card.Text>
+                                    <Card.Text>
+                                        {this.props.organization.Description}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        {address}
+                                    </Card.Text>
+                                    
                                 </Col>
                                 <Col sm={4}>
                                     <Button className={'btn-size float-right'} type="button" variant="danger"

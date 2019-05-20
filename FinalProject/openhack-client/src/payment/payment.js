@@ -19,74 +19,53 @@ class Payment extends Component {
         this.state = {
             tid:props.match.params.tid,
             uid:props.match.params.uid,
-            name: null,
-            description: null,
-            street: null,
-            city: null,
-            state: null,
-            zip: null
+            fee: props.match.params.payment
+            // name: null,
+            // description: null,
+            // street: null,
+            // city: null,
+            // state: null,
+            // zip: null
         };
         this.handleSubmit.bind(this);
-    }
+console.log("match ", props.match)
+        // if(props.match.params.tid != null)
+        //   this.setState(props.match.params.tid);
+        // if(props.match.params.uid != null)
+        //   this.state.uid=props.match.params.uid;
+        // if(props.match.params.payment != null)
+        //   this.state.fee=props.match.params.payment;
 
-    //TODO update this
-    updatePaymentInfo(){
-        var url = `/hackathon/payment?tid=${this.state.tid}&uid=${this.state.uid}`;
-        axios.get(url)
-            .then(res => {
-                //res.data.results.map()
-                const hkData = res.data;
-                this.setState({ hkData });
-
-            })
-            .catch(err => {
-                alert(err);
-                console.error("line 45 err");
-            });
     }
     
-    //TODO update this
-    processPayment(){
-        var url = `/hackathon/payment?tid=${this.state.tid}&uid=${this.state.uid}`;
-        axios.post(url)
-            .then(res => {
-                //res.data.results.map()
-                const hkData = res.data;
-                this.setState({ hkData });
-            })
-            .catch(err => {
-                alert(err);
-                console.error("line 45 err");
-            });
-    }
+    componentDidMount(props) {
+      
 
+    }
 
 
     handleSubmit(e) {
         e.preventDefault();
-        // const data = this.state;
-        // const id = localStorage.getItem('uid');
-        // console.log(data);
-        // axios.post('/organization', {
-        //     uid: parseInt(id),
-        //     name: data.name,
-        //     description: data.description,
-        //     street: data.street,
-        //     city: data.city,
-        //     state: data.state,
-        //     zip: data.zip
-        // })
-        //     .then(res=> {
+        alert("loading. Please be patient.");
+         const data = this.state;
+         const id = localStorage.getItem('uid');
+         console.log(data);
+         var url = '/hackathon/payment?tid='+this.state.tid+'&uid='+this.state.uid;
+         axios.get(url)
+             .then(res=> {
         //         this.props.history.push('/userprofile');
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+                  alert("payment sucessful!");
+             })
+             .catch(err => {
+                 alert(err);
+                 console.log(err);
+             });
     }
 
 
 
     render() {
+      console.log("state ",this.state)
         return (
             <div className="payment">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -94,7 +73,7 @@ class Payment extends Component {
             <div className="row" style={{width: '80%', margin: '10%'}}>
         <div className="col-75">
           <div className="container">
-            <form action="/action_page.php">
+            <form action="/" onSubmit={this.handleSubmit.bind(this)}>
               <div className="row">
                 <div className="col-50">
                   <h3>Billing Address</h3>
@@ -147,7 +126,7 @@ class Payment extends Component {
               <label>
                 <input type="checkbox" defaultChecked="checked" name="sameadr" /> Shipping address same as billing
               </label>
-              <input type="submit" defaultValue="Continue to checkout" className="btn" />
+              <input type="submit" defaultValue="checkout" className="btn" />
             </form>
           </div>
         </div>
@@ -156,15 +135,13 @@ class Payment extends Component {
             <h4>Cart 
               <span className="price" style={{color: 'black'}}>
                 <i className="fa fa-shopping-cart" /> 
-                <b>4</b>
+                <b>1</b>
               </span>
             </h4>
-            <p><a href="#">Product 1</a> <span className="price">$15</span></p>
-            <p><a href="#">Product 2</a> <span className="price">$5</span></p>
-            <p><a href="#">Product 3</a> <span className="price">$8</span></p>
-            <p><a href="#">Product 4</a> <span className="price">$2</span></p>
+            <p><a href="#">Hackathon Fee</a> <span className="price">${this.state.fee}</span></p>
+            
             <hr />
-            <p>Total <span className="price" style={{color: 'black'}}><b>$30</b></span></p>
+            <p>Total <span className="price" style={{color: 'black'}}><b>{this.state.fee}</b></span></p>
           </div>
         </div>
       </div>

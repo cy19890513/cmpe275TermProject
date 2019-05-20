@@ -24,6 +24,8 @@ public class HackathonServiceImpl implements HackathonService{
 
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private MemberService memberService;
 
     public HackathonServiceImpl(HackathonRepository hackathonRepository) {
         this.hackathonRepository = hackathonRepository;
@@ -140,6 +142,7 @@ public class HackathonServiceImpl implements HackathonService{
             if(matchOrg(oid, h)){
                 fee *= (1 - h.getDiscount()*0.01);
                 member.setPayfee(fee);
+                memberService.update(member);
                 System.out.println("fee: "+fee);
             }
         }
@@ -154,7 +157,7 @@ public class HackathonServiceImpl implements HackathonService{
         String text = "Dear " + member.getHacker().getUsername() + ", \n\n" +
                 "You have successfully joined the hackathon event " + h.getName() +
                 ". The registration fee is $" + fee + ". Please process your payment below. \n\n" +
-                "<a href='http://localhost:8080/hackathon/payment?uid="+id+"&tid="+teamId+ "'>" +
+                "<a href='http://localhost:3000/hackathon/payment/"+id+"/"+teamId+"/"+fee+"'>" +
                 "payyourfee</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);
@@ -190,14 +193,13 @@ public class HackathonServiceImpl implements HackathonService{
         List<Member> members = t.getMembers();
         for(Member m: members) {
 
-
             HackerUser hackerUser = m.getHacker();
             SimpleMailMessage message = new SimpleMailMessage();
             String to = hackerUser.getEmail();
             String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
                     "The hackton: " + h.getName() + " has been posted below \n\n  " +
-                    "<a href='http://localhost:8080/hackathon/result?hid="+hid+">" +
-                    "resulte</a> \n\n"+
+                    "<a href='http://localhost:3000/hackathon/"+hid+"/result'>" +
+                    "Result</a> \n\n"+
                     "Hackathon Management System";
             message.setTo(to);
             message.setSubject("Hackathon Management: Result Page");
@@ -255,6 +257,20 @@ public class HackathonServiceImpl implements HackathonService{
             map.put("teams", res);
         }
         return map;
+    }
+
+    public Map<String, Object> getPaymentStatus(long hid){
+        Hackathon h = getHackathon(hid);
+        Map<String, Object> res = new LinkedHashMap<>();
+        List<Team> teams = h.getTeams();
+        List<Map<String, Object>> list = new ArrayList<>();
+        if(teams != null) {
+            for (Team t : teams) {
+                list.add(teamService.paymentStatus(t));
+            }
+        }
+        res.put("allTeams", list);
+        return res;
     }
 
 
