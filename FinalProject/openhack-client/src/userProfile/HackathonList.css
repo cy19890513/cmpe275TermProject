@@ -4,7 +4,18 @@
     margin-bottom: 15px;
 }
 
-/*.float-right {*/
-    /*float: right;*/
-    /*margin-right: 20px;*/
-/*}*/
+.h-date {
+    padding-bottom: 10px;
+    border-bottom: rgba(175, 175, 175, 0.5) solid 1px;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.h-desc {
+    height: 70px;
+    width: 100%;
+    overflow: hidden;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    color: black;
+}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Button, Card, Col, Row} from "react-bootstrap";
 import axios from "axios";
 
@@ -54,7 +54,9 @@ class AdminHackathonList extends Component {
                 this.forceUpdate();
                 alert("Now open for submission");
             })
-            .catch(err => {console.log(err)});
+            .catch(err => {
+                console.log(err)
+            });
     }
 
     handleClose(hid) {
@@ -113,38 +115,56 @@ class AdminHackathonList extends Component {
                     <Row>
                         <Col sm={6}>
                             <Card.Title><a href={"/hackathonEvent/" + h.id}>{h.name}</a></Card.Title>
-                            <Card.Subtitle>{h.startDate} to {h.endDate}</Card.Subtitle>
-                            <Card.Text>{h.description}</Card.Text>
+                            <Card.Subtitle className={"h-date"}>{h.startDate} to {h.endDate}</Card.Subtitle>
+                            <Card.Text className={"h-desc"}>{h.description}</Card.Text>
                         </Col>
                         <Col sm={6}>
                             <div className={"float-right"}>
-                                <Button
-                                    type={"button"}
-                                    as={"input"}
-                                    variant="warning"
-                                    className={"buttons"}
-                                    // disabled={isOpened}
-                                    onClick={this.handleOpen.bind(this, h.id)}
-                                    value={"Open"}
-                                />
-                                <Button
-                                    type={"button"}
-                                    as={"input"}
-                                    variant="warning"
-                                    className={"buttons"}
-                                    disabled={isClosed}
-                                    onClick={this.handleClose.bind(this, h.id)}
-                                    value={"Close"}
-                                />
-                                <Button
-                                    type={"button"}
-                                    as={"input"}
-                                    variant="warning"
-                                    className={"buttons"}
-                                    disabled={isFinalized}
-                                    onClick={this.handleFinalize.bind(this, h.id)}
-                                    value={"Finalize"}
-                                />
+                                <div>
+                                    <Button
+                                        type={"button"}
+                                        as={"input"}
+                                        variant="warning"
+                                        className={"buttons"}
+                                        // disabled={isOpened}
+                                        onClick={this.handleOpen.bind(this, h.id)}
+                                        value={"Open"}
+                                    />
+                                    <Button
+                                        type={"button"}
+                                        as={"input"}
+                                        variant="warning"
+                                        className={"buttons"}
+                                        disabled={isClosed}
+                                        onClick={this.handleClose.bind(this, h.id)}
+                                        value={"Close"}
+                                    />
+                                    <Button
+                                        type={"button"}
+                                        as={"input"}
+                                        variant="warning"
+                                        className={"buttons"}
+                                        disabled={isFinalized}
+                                        onClick={this.handleFinalize.bind(this, h.id)}
+                                        value={"Finalize"}
+                                    />
+                                </div>
+                                <div className={"float-right"}>
+                                    <a
+                                        role={"button"}
+                                        className={"buttons btn btn-primary"}
+                                        href={"/hackathon/pReport/" + h.id}
+                                    >
+                                        Payments
+                                    </a>
+                                    <a
+                                        role={"button"}
+                                        className={"buttons btn btn-primary"}
+                                        href={"/hackathon/" + h.id + "/report"}
+                                    >
+                                        Report
+                                    </a>
+                                </div>
                             </div>
                         </Col>
                     </Row>
@@ -170,7 +190,7 @@ class AdminHackathonList extends Component {
                     </ol>
                 </Card.Body>
             </Card>
-                // <div><a href={"/create_hackathon"}>Create new hackathon</a></div>
+            // <div><a href={"/create_hackathon"}>Create new hackathon</a></div>
 
         );
     }

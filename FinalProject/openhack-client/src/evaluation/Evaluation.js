@@ -71,8 +71,8 @@ class Evaluation extends Component {
                     <Row>
                         <Col sm={"4"} className={"h-info"}>
                             <h3>{hackathon.name}</h3>
-                            <div>{hackathon.startDate} - {hackathon.endDate}</div>
-                            <div>{hackathon.description}</div>
+                            <div className={"h-date"}>{hackathon.startDate} to {hackathon.endDate}</div>
+                            <div className={"h-desc"}>{hackathon.description}</div>
                         </Col>
 
                         <Col sm={"8"}>
