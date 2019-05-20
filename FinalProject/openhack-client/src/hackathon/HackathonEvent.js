@@ -41,11 +41,7 @@ class HackathonEvent extends Component {
 
     }
 
-    // parseSponsorList(){
-    //     this.state.sponsorList = this.state.hkData.sponsors.map(function(sponsor){
-    //         return <ul>{sponsor}</ul>;
-    //     })
-    // }
+    
     
     componentDidMount() {
         // console.log(<FormattedNumber
@@ -63,8 +59,8 @@ class HackathonEvent extends Component {
 //all running method is here.
  console.log("hkData",this.state.hkData);
                 setTimeout(1000);
-                
-
+                //this.state.hkData.sponsorList = hkData.sponsors;
+                //this.parseSponsorList(hkData.sponsors);
             })
             .catch(err => {
                 alert(err);
@@ -110,13 +106,27 @@ class HackathonEvent extends Component {
         }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
     }
-
+    
+    parseSponsorList(sponsors){
+        console.log("parseSponsorList ",sponsors);
+           
+        if(sponsors == null){
+            console.log("sponsors empty ",this.state);
+            return
+        }
+         
+        return sponsors.map(sponsor =>{
+            return ( <span ><strong>{sponsor}&nbsp;&nbsp;&nbsp;&nbsp;</strong></span>);
+            });
+        console.log("parseSponsorList ",this.state.hkData);
+    }
     render(){
         console.log("hkData ",this.state.hkData);
         this.checkIfJudge();
         setTimeout(10);
         this.parseStatus();
-        
+        setTimeout(10);
+        //this.parseSponsorList();
         // this.parseSponsorList();
         //Helper.executeAsynchronously([this.parseStatus,this.checkIfJudge],10);
         // setTimeout(this.parseStatus, 10);
@@ -195,15 +205,14 @@ class HackathonEvent extends Component {
 
 
 
-
-
+                                {/*this.parseSponsorList()*/}
+                                
                                 <div className="section-row sticky-container">
                                     <div className="main-post">
                                         <p><strong>Sponsors:</strong></p>
-                                        <p>{this.state.hkData.sponsors}</p>
+                                        {this.parseSponsorList(this.state.hkData.sponsors)}
                                     </div>
-                                </div>
-
+                                </div>                              
 
                                 {/* /reply */}
                             </div>
