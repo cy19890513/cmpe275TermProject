@@ -33,7 +33,7 @@ class CreateOrg extends Component {
         e.preventDefault();
         const data = this.state;
         const id = localStorage.getItem('uid');
-        console.log(data);
+        // console.log(data);
         axios.post('/organization', {
             uid: id,
             name: data.name,

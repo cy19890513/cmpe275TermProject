@@ -24,7 +24,7 @@ class HackerHackathonList extends Component {
             }
         })
             .then(res => {
-                console.log("hack", res.data);
+                // console.log("hack", res.data);
                 this.setState({hackathons: res.data});
             })
             .catch(err => {

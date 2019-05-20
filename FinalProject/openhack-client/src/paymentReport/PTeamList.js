@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from "react-bootstrap/Card";
@@ -99,7 +99,8 @@ class PTeamList extends Component {
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Form>
-                                <div style={{display: PTeamList.showSubmit(team)}} className={"notify"}>Grade submitted for team {team.teamName}</div>
+                                <div style={{display: PTeamList.showSubmit(team)}} className={"notify"}>Grade submitted
+                                    for team {team.teamName}</div>
                             </div>
                         </Col>
                     </Row>

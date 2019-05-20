@@ -56,7 +56,7 @@ class Submission extends Component {
         })
             .then(res => {
                 const teamInfo = res.data;
-                console.log(teamInfo);
+                // console.log(teamInfo);
                 const team = teamInfo.find(t => hid === t.hid);
                 this.setState({
                     tid: team.id,

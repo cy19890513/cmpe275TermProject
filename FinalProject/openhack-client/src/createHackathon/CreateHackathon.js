@@ -48,7 +48,7 @@ class CreateHackathon extends Component {
             });
         axios.get("/get_all_users")
             .then(res=>{
-                console.log(res.data);
+                // console.log(res.data);
                 const list = res.data.map(e => {return e.email});
                 this.setState({hackers: list});
             })
@@ -62,7 +62,7 @@ class CreateHackathon extends Component {
         e.preventDefault();
         const data = this.state;
         const id = localStorage.getItem('uid');
-        console.log(data);
+        // console.log(data);
         axios.post('/hackathon', {
             uid: parseInt(id),
             name: data.name,

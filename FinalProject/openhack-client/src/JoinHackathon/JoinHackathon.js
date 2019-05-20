@@ -83,11 +83,11 @@ class JoinHackathon extends Component {
             teamName: this.state.teamName,
             members: members,
         };
-        console.log(payload);
+        // console.log(payload);
         axios.post('/hackathon/team', payload)
             .then(res => {
                 const data = res.data;
-                console.log(data);
+                // console.log(data);
                 this.joinHack(data.id);
             })
             .catch(err => {
@@ -104,7 +104,7 @@ class JoinHackathon extends Component {
         })
             .then(res => {
                 alert('Team Joined Hackathon');
-                console.log(res);
+                // console.log(res);
                 // this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {

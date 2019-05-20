@@ -33,17 +33,17 @@ class Login extends Component {
             "password": this.state.password
         };
         axios.post(serverUrl, payload).then(res => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
-                    console.log("Login successful");
+                    // console.log("Login successful");
                     const data = res.data;
-                    console.log(data);
+                    // console.log(data);
                     localStorage.setItem('username', data.username);
                     localStorage.setItem('uid', data.uid);
                     localStorage.setItem('email', this.state.email);
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('sessionId', data.sessionId);
-                    console.log(localStorage.getItem('username'));
+                    // console.log(localStorage.getItem('username'));
                     this.props.history.push("/");
                 } else if (res.status === 204) {
                     console.log("email password do not match");

@@ -38,8 +38,8 @@ class HackathonList extends Component{
             hkEventUrl : "/hackathonEvent",
             hkData:[],
             eventList:[]
-        }
-        console.log(props);
+        };
+        // console.log(props);
     }
 
     updateHKEvtUrlForAdmin(){
@@ -98,7 +98,7 @@ class HackathonList extends Component{
 
 
     render(){
-        console.log("hkData ",this.state.hkData);
+        // console.log("hkData ",this.state.hkData);
         this.parseDataEventList();
         return(
             <div>
@@ -132,7 +132,7 @@ class HackathonList extends Component{
                         {/* row */}
                         <div className="row">
 
-                            {console.log("hkdata ",this.state.hkData,"eventlist", this.state.eventList)}
+                            {/*{console.log("hkdata ",this.state.hkData,"eventlist", this.state.eventList)}*/}
                             {this.state.eventList}
 
 

@@ -19,7 +19,7 @@ class AdminHackathonList extends Component {
     componentDidMount() {
         axios.get('/hackathon')
             .then(res => {
-                console.log("hackathon", res);
+                // console.log("hackathon", res);
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
@@ -69,7 +69,7 @@ class AdminHackathonList extends Component {
 
     handleClose(hid) {
         const state = this.state;
-        console.log('hid', hid);
+        // console.log('hid', hid);
         const url = '/hackathon/close';
         axios.post(url, {
             uid: this.state.uid,
@@ -97,7 +97,7 @@ class AdminHackathonList extends Component {
             uid: this.state.uid,
             hid: hid,
         };
-        console.log("data", data);
+        // console.log("data", data);
         axios.post(url, {
             uid: this.state.uid,
             hid: hid,
