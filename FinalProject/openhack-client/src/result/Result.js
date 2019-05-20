@@ -68,7 +68,7 @@ class Result extends Component {
             switch (index) {
                 case 0: rank = <td><img className={'medal-icon'} src={First} alt={"No.1"}/></td>; break;
                 case 1: rank = <td><img className={'medal-icon'} src={Second} alt={"No.2"}/></td>; break;
-                case 3: rank = <td><img className={'medal-icon'} src={Third} alt={"No.3"}/></td>; break;
+                case 2: rank = <td><img className={'medal-icon'} src={Third} alt={"No.3"}/></td>; break;
                 default:
             }
             return (
