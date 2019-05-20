@@ -118,7 +118,7 @@ public class HackathonServiceImpl implements HackathonService{
         System.out.println("join team get here");
     }
 
-    private boolean matchOrg(long oid, Hackathon h){
+    public boolean matchOrg(long oid, Hackathon h){
         List<Organization> sponsors = h.getSponsors();
         if(sponsors != null){
             for(Organization org: sponsors){
