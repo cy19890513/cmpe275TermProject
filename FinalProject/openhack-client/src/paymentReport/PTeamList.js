@@ -89,7 +89,9 @@ console.log("allTeams ",allTeams);
                             <th scope="row">{index+1}</th>
                             <th >{team.teamName}</th>
                             <th ></th>
-                            <th >{team.ifAllPaid?"Yes":"No"}</th>
+                            <th class={team.ifAllPaid ?"text-success":"text-warning"}>
+                             {team.ifAllPaid ?"Yes":"No"}</th>
+                            <th ></th>
                         </tr>
                         {
                             this.parseMembers(team.members)
