@@ -1,5 +1,6 @@
 package edu.cmpe275.group275.openhack.controller;
 
+import edu.cmpe275.group275.openhack.aspect.PostLoggedInRequired;
 import edu.cmpe275.group275.openhack.model.Address;
 import edu.cmpe275.group275.openhack.model.HackerUser;
 import edu.cmpe275.group275.openhack.model.Organization;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class OrganizationController {
 
     private final OrganizationService organizationService;
     private final HackerUserService userService;
+
 
     public OrganizationController(OrganizationService organizationService, HackerUserService userService) {
         this.organizationService = organizationService;
@@ -38,8 +41,9 @@ public class OrganizationController {
      * }
      * Description: create an organization
      */
+    @PostLoggedInRequired
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
-    public ResponseEntity<?> createOrganization(@RequestBody Map<String, Object> payload){
+    public ResponseEntity<?> createOrganization(@RequestBody Map<String, Object> payload, HttpSession s){
 
         // AOP check required field
         // AOP check if owner is a verified hacker

@@ -17,9 +17,9 @@ class AdminHackathonList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/hackathon')
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon')
             .then(res => {
-                console.log("hackathon", res);
+                // console.log("hackathon", res);
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
@@ -45,12 +45,20 @@ class AdminHackathonList extends Component {
     }
 
     handleOpen(hid) {
-        axios.post('/hackathon/open', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/open', {
             uid: this.state.uid,
             hid: hid,
             date: this.today(),
         })
             .then(res => {
+                const h = this.state.hackathons.map(hack => {
+                    if (hack.id === hid) {
+                        hack.isClosed = false;
+                    }
+                    return hack;
+                });
+                this.setState({hackathons: h});
+
                 this.forceUpdate();
                 alert("Now open for submission");
             })
@@ -61,8 +69,8 @@ class AdminHackathonList extends Component {
 
     handleClose(hid) {
         const state = this.state;
-        console.log('hid', hid);
-        const url = '/hackathon/close';
+        // console.log('hid', hid);
+        const url = process.env.REACT_APP_API_URL + '/hackathon/close';
         axios.post(url, {
             uid: this.state.uid,
             hid: hid,
@@ -84,7 +92,12 @@ class AdminHackathonList extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
-        const url = '/hackathon/finalize';
+        const url = process.env.REACT_APP_API_URL + '/hackathon/finalize';
+        const data = {
+            uid: this.state.uid,
+            hid: hid,
+        };
+        // console.log("data", data);
         axios.post(url, {
             uid: this.state.uid,
             hid: hid,
@@ -101,7 +114,7 @@ class AdminHackathonList extends Component {
                 }
             })
             .catch(err => {
-                alert(err);
+                alert(err.response.data);
                 console.log(err);
             });
     }

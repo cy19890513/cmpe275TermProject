@@ -17,15 +17,17 @@ class PReport extends Component {
 
         this.state = {
             hackathon: {},
+            eventId: props.match.params.hid,
             teams: [],
+            pdata:[]
         }
     }
 
     componentDidMount() {
         const uid = localStorage.getItem('uid');
-        const hid = this.props.match.params.hid;
+        const hid = this.state.eventId;
 
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 uid: uid,
                 hid: hid,
@@ -34,17 +36,32 @@ class PReport extends Component {
             .then(res => {
                 const hackathon = res.data;
                 const teams = hackathon.teams;
-                teams.forEach(team => this.getTeams(team.id));
+                teams.forEach(team => this.getTeams(uid, team.id));
                 this.setState({hackathon: hackathon});
             })
             .catch(err => {
                 console.log(err);
             });
+        
+        var url = process.env.REACT_APP_API_URL + `/hackathon/paymentStatus?hid=${this.state.eventId}`;
+        axios.get(url)
+            .then(res => {
+
+                const pdata = res.data;
+                this.setState({ pdata });
+
+            })
+            .catch(err => {
+                alert(err);
+                console.error("line 45 err");
+            })
+        
     }
 
-    getTeams(tid) {
-        axios.get('/hackathon/team', {
+    getTeams(uid, tid) {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/team', {
             params: {
+                uid: uid,
                 tid: tid,
             }
         })
@@ -69,22 +86,27 @@ class PReport extends Component {
 
                 <div className={"grade-content"}>
                     <Row>
-                        <Col sm={"4"} className={"h-info"}>
+                        <Col sm={"3"} className={"h-info"}>
                             <h3>{hackathon.name}</h3>
                             <div>{hackathon.startDate} - {hackathon.endDate}</div>
                             <div>{hackathon.description}</div>
                         </Col>
-
+                       
                         <Col sm={"8"}>
+                        <h2>Team Payment Status Report</h2>
+                         {/*
                             <Card>
                                 <Card.Header>
                                     Teams
                                 </Card.Header>
-
+                        
                                 <Card.Body>
-                                    <PTeamList teams={teams}/>
+                        */}
+                                    <PTeamList pdata={this.state.pdata} hid={this.state.eventId}/>
+                        {/*        
                                 </Card.Body>
                             </Card>
+                        */}
                         </Col>
                     </Row>
                 </div>

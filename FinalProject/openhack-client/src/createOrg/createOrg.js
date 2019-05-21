@@ -33,9 +33,9 @@ class CreateOrg extends Component {
         e.preventDefault();
         const data = this.state;
         const id = localStorage.getItem('uid');
-        console.log(data);
-        axios.post('/organization', {
-            uid: parseInt(id),
+        // console.log(data);
+        axios.post(process.env.REACT_APP_API_URL + '/organization', {
+            uid: id,
             name: data.name,
             description: data.description,
             street: data.street,
@@ -44,6 +44,7 @@ class CreateOrg extends Component {
             zip: data.zip
         })
             .then(res=> {
+                alert("New organization created");
                 this.props.history.push('/userprofile');
             })
             .catch(err => {

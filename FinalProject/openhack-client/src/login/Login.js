@@ -27,23 +27,23 @@ class Login extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const serverUrl = "/login";
+        const serverUrl = process.env.REACT_APP_API_URL + "/login";
         const payload = {
             "email": this.state.email,
             "password": this.state.password
         };
         axios.post(serverUrl, payload).then(res => {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 200) {
-                    console.log("Login successful");
+                    // console.log("Login successful");
                     const data = res.data;
-                    console.log(data);
+                    // console.log(data);
                     localStorage.setItem('username', data.username);
                     localStorage.setItem('uid', data.uid);
                     localStorage.setItem('email', this.state.email);
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('sessionId', data.sessionId);
-                    console.log(localStorage.getItem('username'));
+                    // console.log(localStorage.getItem('username'));
                     this.props.history.push("/");
                 } else if (res.status === 204) {
                     console.log("email password do not match");
@@ -54,7 +54,7 @@ class Login extends Component {
                 }
             }
         ).catch(function (error) {
-            alert(error.response.data);
+            alert(error);
         });
     };
 

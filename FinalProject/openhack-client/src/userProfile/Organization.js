@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {Button, Card, Col, Form, Row} from "react-bootstrap";
+import React, {Component} from 'react';
+import {Button, Card, Col, Collapse, Form, Row} from "react-bootstrap";
 import {Typeahead} from "react-bootstrap-typeahead";
 import axios from "axios";
 
@@ -15,15 +15,16 @@ class Organization extends Component {
         this.state = {
             autoCmplOrgs: [],
             selectedOrg: "",
+            open: true,
         }
     }
 
     componentDidMount() {
         const role = localStorage.getItem('role');
-        axios.get('/organizations')
+        axios.get(process.env.REACT_APP_API_URL + '/organizations')
             .then(res => {
                 this.setState(() => {
-                    return { autoCmplOrgs: res.data };
+                    return {autoCmplOrgs: res.data};
                 });
             })
             .catch(err => {
@@ -37,8 +38,8 @@ class Organization extends Component {
         const uid = localStorage.getItem("uid");
         const orgs = this.state.autoCmplOrgs;
         const orgId = orgs.find(org => org.name === this.state.selectedOrg[0]).id;
-        console.log('orgs', this.state.autoCmplOrgs);
-        axios.post('/joinOrg', {uid: uid, oid: orgId})
+        // console.log('orgs', this.state.autoCmplOrgs);
+        axios.post(process.env.REACT_APP_API_URL + '/joinOrg', {uid: uid, oid: orgId})
             .then(res => {
                 this.props.change({name: this.state.selectedOrg + " (Pending)"});
             })
@@ -56,8 +57,8 @@ class Organization extends Component {
 
     handleLeave(e) {
         const uid = localStorage.getItem("uid");
-        
-        axios.post('/leaveOrg', {uid: uid})
+
+        axios.post(process.env.REACT_APP_API_URL + '/leaveOrg', {uid: uid})
             .then(res => {
                 this.props.change({});
             });
@@ -74,6 +75,8 @@ class Organization extends Component {
     }
 
     render() {
+        const {open} = this.state;
+
         const addr = this.props.organization.Address;
         let address;
         if (addr != null) {
@@ -87,12 +90,17 @@ class Organization extends Component {
         return (
             <Card>
                 {/*<Card.Header as="h5">Organization</Card.Header>*/}
-                <Accordion.Toggle as={Card.Header} eventKey={"0"}>
-                    Organization
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
+                {/*<Accordion>*/}
+
+                {/*<Accordion.Toggle as={Card.Header} eventKey={"0"}>*/}
+                <Card.Header onClick={() => this.setState({open: !open})}>Organization</Card.Header>
+
+                {/*</Accordion.Toggle>*/}
+                {/*<Accordion.Collapse eventKey="0">*/}
+                <Collapse in={this.state.open}>
+
                     <Card.Body>
-                        <div className={"org"} style={{display : this.shouldDisplay()}}>
+                        <div className={"org"} style={{display: this.shouldDisplay()}}>
                             <Row>
                                 <Col sm={8}>
                                     <Card.Title>{this.props.organization.name}</Card.Title>
@@ -108,14 +116,16 @@ class Organization extends Component {
                                     
                                 </Col>
                                 <Col sm={4}>
-                                    <Button className={'btn-size float-right'} type="button" variant="danger" onClick={this.handleLeave.bind(this)}>LEAVE</Button>
+                                    <Button className={'btn-size float-right'} type="button" variant="danger"
+                                            onClick={this.handleLeave.bind(this)}>LEAVE</Button>
                                 </Col>
                             </Row>
                         </div>
-                        <Form onSubmit={this.handleSubmit.bind(this)} >
+                        <Form onSubmit={this.handleSubmit.bind(this)}>
                             <Form.Group as={Row}>
                                 <Col sm={4}>
                                     <Typeahead
+                                        style={{zIndex: 10}}
                                         bsSize={"default"}
                                         clearButton
                                         labelKey="organization"
@@ -136,7 +146,9 @@ class Organization extends Component {
                             </Form.Group>
                         </Form>
                     </Card.Body>
-                </Accordion.Collapse>
+                </Collapse>
+                {/*</Accordion.Collapse>*/}
+                {/*</Accordion>*/}
             </Card>
         );
     }

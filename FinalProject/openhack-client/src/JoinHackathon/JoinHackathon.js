@@ -19,7 +19,10 @@ class JoinHackathon extends Component {
             members: [],
             teamLead: "",
             hackathon: {},
+            inviteEmail:""
         };
+        this.handleInviteChange = this.handleInviteChange.bind(this);
+        this.handleInvite = this.handleInvite.bind(this);
     }
 
     componentDidMount() {
@@ -28,7 +31,7 @@ class JoinHackathon extends Component {
         const uid = localStorage.getItem("uid");
         const teamLead = localStorage.getItem('username');
 
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 hid: hid,
             }
@@ -83,11 +86,11 @@ class JoinHackathon extends Component {
             teamName: this.state.teamName,
             members: members,
         };
-        console.log(payload);
-        axios.post('/hackathon/team', payload)
+        // console.log(payload);
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/team', payload)
             .then(res => {
                 const data = res.data;
-                console.log(data);
+                // console.log(data);
                 this.joinHack(data.id);
             })
             .catch(err => {
@@ -97,17 +100,18 @@ class JoinHackathon extends Component {
     }
 
     joinHack(tid) {
-        axios.post('/hackathon/join', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/join', {
+            uid: this.state.uid,
             tid: tid,
             hid: this.state.hid,
         })
             .then(res => {
                 alert('Team Joined Hackathon');
-                console.log(res);
-                this.props.history.push('/hackathonEvent/' + this.state.hid);
+                // console.log(res);
+                // this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                alert(err);
+                alert(err.response.data);
                 console.log(err);
             });
     }
@@ -139,11 +143,57 @@ class JoinHackathon extends Component {
         return inputs;
     }
 
+    handleInviteChange(e){
+console.log("e ",e);
+
+        this.setState({inviteEmail: e.target.value});
+    }
+
+    
+    handleInvite(e) {
+        e.preventDefault();
+        
+        alert("Invite sent");
+        const payload = {
+            
+            uid: this.state.uid,
+            email: this.state.inviteEmail
+        };
+        console.log("e ",e,"payload ",payload);
+        axios.post(process.env.REACT_APP_API_URL+'/invite', payload)
+            .then(res => {
+                alert("invite successful. Please check email to activate");
+                this.setState({inviteEmail:""});
+            })
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
+    }
 
     render() {
         return (
             <div>
                 <Header/>
+                
+                
+                <div>
+                    <Form>
+                        {/*<h2>Invite external user here</h2>*/}
+                        <form class="form-inline" onSubmit={this.handleInvite.bind(this)}>
+                          {<div class="form-group mb-2">
+                            <label for="staticEmail2" class="sr-only">Email</label>
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Invite external user here" />
+                          </div>}
+                          <div class="form-group mx-sm-3 mb-2 ">
+                            
+                            <input type="text" class="form-control" value={this.state.inviteEmail} placeholder="Email Address" onChange={this.handleInviteChange}/>
+                          </div>
+                          <button type="submit" class="btn btn-primary mb-2">Invite</button>
+                        </form>
+                        
+                    </Form>
+                </div>
 
                 <div>
                     <Form onSubmit={this.handleSubmit.bind(this)}>

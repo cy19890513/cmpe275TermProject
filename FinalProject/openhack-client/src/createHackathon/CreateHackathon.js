@@ -35,7 +35,7 @@ class CreateHackathon extends Component {
     }
 
     componentDidMount() {
-        axios.get('/organizations')
+        axios.get(process.env.REACT_APP_API_URL + '/organizations')
             .then(res => {
                 const list = res.data;
                 // console.log(list);
@@ -46,9 +46,9 @@ class CreateHackathon extends Component {
                 alert(err);
                 console.log(err);
             });
-        axios.get("/get_all_users")
+        axios.get(process.env.REACT_APP_API_URL + "/get_all_users")
             .then(res=>{
-                console.log(res.data);
+                // console.log(res.data);
                 const list = res.data.map(e => {return e.email});
                 this.setState({hackers: list});
             })
@@ -62,8 +62,8 @@ class CreateHackathon extends Component {
         e.preventDefault();
         const data = this.state;
         const id = localStorage.getItem('uid');
-        console.log(data);
-        axios.post('/hackathon', {
+        // console.log(data);
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon', {
             uid: parseInt(id),
             name: data.name,
             startDate: data.startDate,

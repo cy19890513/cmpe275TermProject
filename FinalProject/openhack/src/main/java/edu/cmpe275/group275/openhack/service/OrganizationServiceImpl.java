@@ -18,17 +18,50 @@ import java.util.Map;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 
-    private final OrganizationRepository organizationRepository;
-    private final UserService userService;
-    @Autowired
+    private OrganizationRepository organizationRepository;
+    private UserService userService;
     private HackerUserService hackerUserService;
+    private JavaMailSender emailSender;
+
+//    public OrganizationServiceImpl(OrganizationRepository organizationRepository, UserService userService) {
+//        this.organizationRepository = organizationRepository;
+//        this.userService = userService;
+//    }
+
+    public OrganizationRepository getOrganizationRepository() {
+        return organizationRepository;
+    }
 
     @Autowired
-    public JavaMailSender emailSender;
-
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, UserService userService) {
+    public void setOrganizationRepository(OrganizationRepository organizationRepository) {
         this.organizationRepository = organizationRepository;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public HackerUserService getHackerUserService() {
+        return hackerUserService;
+    }
+
+    @Autowired
+    public void setHackerUserService(HackerUserService hackerUserService) {
+        this.hackerUserService = hackerUserService;
+    }
+
+    public JavaMailSender getEmailSender() {
+        return emailSender;
+    }
+
+    @Autowired
+    public void setEmailSender(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
     }
 
     public Map<String, Object> convertOrgToMap(Organization org) {

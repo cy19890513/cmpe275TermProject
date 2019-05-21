@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from "react-bootstrap/Card";
@@ -17,60 +17,109 @@ class PTeamList extends Component {
 
         this.state = {
             teams: [],
+            eventId: 1,
+            pdata:[]
         }
+    }
+    
+    componentDidMount() {
+        
+        // var url = process.env.REACT_APP_API_URL + `/hackathon/paymentStatus?hid=${this.state.eventId}`;
+        // axios.get(url)
+        //     .then(res => {
+
+        //         const pdata = res.data;
+        //         this.setState({ pdata });
+
+        //     })
+        //     .catch(err => {
+        //         alert(err);
+        //         console.error("line 45 err");
+        //     })
+        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps !== this.props) {
-            const teams = this.props.teams;
-            const t = teams.map(team => {
-                team.isSubmitted = false;
-                return team;
-            });
-            this.setState({teams: t});
+            const pdata = this.props.pdata;
+            const hid = this.props.hid;
+            // const t = teams.map(team => {
+            //     team.isSubmitted = false;
+            //     return team;
+            // });
+            this.setState({eventId:hid,pdata: pdata});
         }
     }
 
-    handleSubmit(tid, e) {
-        e.preventDefault();
-        const grade = this.state.teams.find(t => t.id === tid).grade;
 
-        axios.post('/hackathon/grade', {
-            tid: tid,
-            grade: grade,
-        })
-            .then(res => {
-                const newTeams = this.state.teams.map(t => {
-                    if (t.id === tid) {
-                        t.isSubmitted = true;
-                    }
-                    return t;
-                });
-                this.setState({teams: newTeams});
-            })
-            .catch(err => {
-                console.log(err);
-            });
-        // console.log(this.state.teams);
+
+    buildTable(){
+        console.log("pdata ",this.state.pdata);
+        return(
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Paid Amount</th>
+                  <th scope="col">ifAllPaid</th>
+                  <th scope="col">Paid time</th>
+                </tr>
+              </thead>
+              
+                {
+
+                    this.parseTeams(this.state.pdata.allTeams)
+                }
+              
+            </table>
+              );
     }
+    
+    parseTeams(allTeams){
+console.log("allTeams ",allTeams);        
+        if(allTeams == null){
+            return
+        }
 
-    handleChange(tid, e) {
-        const teams = this.state.teams.map(t => {
-            if (t.id === tid) {
-                t.grade = parseFloat(e.target.value);
-            }
-            return t;
+        return allTeams.map((team,index)=>{
+                    return(
+                        <tbody>
+                        <tr>
+                            <th scope="row">{index+1}</th>
+                            <th >{team.teamName}</th>
+                            <th ></th>
+                            <th class={team.ifAllPaid ?"text-success":"text-warning"}>
+                             {team.ifAllPaid ?"Yes":"No"}</th>
+                            <th ></th>
+                        </tr>
+                        {
+                            this.parseMembers(team.members)
+                        }
+                        </tbody>
+                    );
+                    
+                  });
+
+    }
+ 
+    parseMembers(members){
+console.log("members ",members);        
+        if(members == null){  return  }
+        return members.map( member =>{
+                return(
+                    <tr>
+                        <th scope="row"></th>
+                        <th >{member.memberName}</th>
+                        <th >{member.amount}</th>
+                        
+                        <th >{member.paid?"Yes":"No"}</th>
+                        <th >{member.paidTime}</th>
+                    </tr>
+                );
+        
         });
-        this.setState({teams: teams});
     }
-
-    static showSubmit(team) {
-        if (team.grade === undefined || !team.isSubmitted) {
-            return "none";
-        }
-        return "block";
-    }
-
 
     createList() {
         const teams = this.state.teams;
@@ -99,7 +148,8 @@ class PTeamList extends Component {
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Form>
-                                <div style={{display: PTeamList.showSubmit(team)}} className={"notify"}>Grade submitted for team {team.teamName}</div>
+                                <div style={{display: PTeamList.showSubmit(team)}} className={"notify"}>Grade submitted
+                                    for team {team.teamName}</div>
                             </div>
                         </Col>
                     </Row>
@@ -108,13 +158,24 @@ class PTeamList extends Component {
         });
     }
 
+    createTable(){
+        
+
+    }
+
+
+
 
     render() {
 
         return (
-            <ol>
-                {this.createList()}
-            </ol>
+            <div>
+                {this.buildTable()}
+             
+            
+
+            
+            </div>
         )
     }
 }

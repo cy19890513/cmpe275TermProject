@@ -34,13 +34,14 @@ class EditUser extends Component {
         // console.log(localStorage.getItem('uid'));
         const uid = localStorage.getItem('uid');
 
-        axios.get('/userProfile', {
+        axios.get(process.env.REACT_APP_API_URL + '/userProfile', {
             params: {
                 uid: uid
             }
         })
             .then(res => {
                 const data = res.data;
+                // console.log(data);
                 this.setState({name: data.name});
                 this.setState({businessTitle: data.BusinessTitle});
                 this.setState({street: data.Address.street});
@@ -51,7 +52,8 @@ class EditUser extends Component {
                 this.setState({portrait: data.portrait});
             })
             .catch(err => {
-                alert(err);
+                // alert(err);
+                // console.log(err);
                 this.setState(() => {
                     return {error: false};
                 });
@@ -66,8 +68,8 @@ class EditUser extends Component {
         e.preventDefault();
         const data = this.state;
         const id = localStorage.getItem('uid');
-        console.log(data);
-        axios.post('/userProfile', {
+        // console.log(data);
+        axios.post(process.env.REACT_APP_API_URL + '/userProfile', {
             uid: parseInt(id),
             name: data.name,
             businessTitle: data.businessTitle,
@@ -102,7 +104,7 @@ class EditUser extends Component {
                             Name
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control type={"text"} placeholder="User"   value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
+                            <Form.Control type={"text"} placeholder="User" value={data.name} onChange={e => {this.setState({name: e.target.value})}} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId={"aboutMe"}>

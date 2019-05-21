@@ -1,6 +1,8 @@
 package edu.cmpe275.group275.openhack.controller;
 
 
+import edu.cmpe275.group275.openhack.aspect.GetLoggedInRequired;
+import edu.cmpe275.group275.openhack.aspect.PostLoggedInRequired;
 import edu.cmpe275.group275.openhack.model.*;
 
 import edu.cmpe275.group275.openhack.repository.UserRepository;
@@ -19,10 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,14 +29,12 @@ import java.util.regex.Pattern;
 public class UserController {
     private final UserService userService;
     private final HackerUserService hackerUserService;
+    private final OrganizationService organizationService;
 
-
-    @Autowired
-    private OrganizationService organizationService;
-
-    public UserController(UserService userService, HackerUserService hackerUserService) {
+    public UserController(UserService userService, HackerUserService hackerUserService, OrganizationService organizationService) {
         this.userService = userService;
         this.hackerUserService = hackerUserService;
+        this.organizationService = organizationService;
     }
 
     @RequestMapping(value = "/__health", method = RequestMethod.GET)
@@ -64,8 +61,15 @@ public class UserController {
                 /*    VerificationToken token = new VerificationToken();
                     token.setT(UUID.randomUUID().toString());
                     user.setToken(token);*/
-                    session.setAttribute("sessionId", sessionId);
+//                    session.setAttribute("sessionId", sessionId);
+//                    Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
+//                    if (uidSet == null) {
+//                        uidSet = new HashSet<>();
+//                    }
+//                    uidSet.add(uid);
                     session.setAttribute("uid", uid);
+                    System.out.println(session.getId());
+//                    session.setAttribute("uid", uid);
                     String regex = "^(.+)@sjsu.edu$";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(email);
@@ -203,8 +207,9 @@ public class UserController {
      * GET: http://localhost:8080/userProfile?uid=7
      * Description: get user info
      */
+    @GetLoggedInRequired
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@RequestParam long uid) {
+    public ResponseEntity<?> getUser(HttpSession session, @RequestParam long uid) {
         //aop uid
         if(userService.existId(uid)) {
             User user= userService.getUser(uid);
@@ -225,10 +230,12 @@ public class UserController {
      * }
      * Description: logout
      */
+    @PostLoggedInRequired
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload){
+    public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload, HttpSession session){
         //aop uid
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
+        session.removeAttribute("uid");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -243,8 +250,9 @@ public class UserController {
      * }
      * Description: update a user profile
      */
+    @PostLoggedInRequired
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
-    public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload, HttpSession session) {
         //aop uid
         if(!payload.containsKey("uid")){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -297,8 +305,9 @@ public class UserController {
      * }
      * Description: request to join an organization
      */
+    @PostLoggedInRequired
     @RequestMapping(value = "/joinOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload, HttpSession s) {
         //aop uid, oid
         if(!payload.containsKey("uid") || !payload.containsKey("oid")){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -345,8 +354,9 @@ public class UserController {
      * }
      * Description: leave org
      */
+    @PostLoggedInRequired
     @RequestMapping(value = "/leaveOrg", method = RequestMethod.POST)
-    public ResponseEntity<?> leaveOrg(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> leaveOrg(@RequestBody Map<String, Object> payload, HttpSession s) {
         //aop uid
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         if(!hackerUserService.eixtId(uid)){

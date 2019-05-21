@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Card from "react-bootstrap/Card";
-import {Button, Col, Row} from "react-bootstrap";
+import {Button, Col, Row, Collapse} from "react-bootstrap";
 
 import Accordion from 'react-bootstrap/Accordion';
 
@@ -13,18 +13,18 @@ class HackerHackathonList extends Component {
         this.state = {
             hackathons: [],
             uid: localStorage.getItem('uid'),
-            // email: "",
+            open: false,
         }
     }
 
     componentDidMount() {
-        axios.get('/hackathons', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathons', {
             params: {
                 uid: this.state.uid,
             }
         })
             .then(res => {
-                console.log("hack", res.data);
+                // console.log("hack", res.data);
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
@@ -64,7 +64,7 @@ class HackerHackathonList extends Component {
                     <Row>
                         <Col sm={6}>
                             <Card.Title><a href={"/hackathonEvent/" + h.id}>{h.name}</a></Card.Title>
-                            <Card.Subtitle>{h.startDate} to {h.endDate}  {this.showStatus(h)}</Card.Subtitle>
+                            <Card.Subtitle>{h.startDate} to {h.endDate} {this.showStatus(h)}</Card.Subtitle>
                             <Card.Text>{h.description}</Card.Text>
                         </Col>
                         <Col sm={6}>
@@ -79,18 +79,24 @@ class HackerHackathonList extends Component {
     }
 
     render() {
+        const { open } = this.state;
+
         return (
             <Card>
-                <Accordion.Toggle as={Card.Header} eventKey="1">
-                    Your Hackathons
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="1">
-                    <Card.Body>
-                        <ol className={"hackathon-list"}>
-                            {this.hackathonList()}
-                        </ol>
-                    </Card.Body>
-                </Accordion.Collapse>
+                {/*<Accordion>*/}
+                    {/*<Accordion.Toggle as={Card.Header} eventKey="1">*/}
+                <Card.Header onClick={() => this.setState({ open: !open })}>My Hackathons</Card.Header>
+                    {/*</Accordion.Toggle>*/}
+                    {/*<Accordion.Collapse eventKey="1">*/}
+                <Collapse in={this.state.open}>
+                        <Card.Body>
+                            <ol className={"hackathon-list"}>
+                                {this.hackathonList()}
+                            </ol>
+                        </Card.Body>
+                </Collapse>
+                    {/*</Accordion.Collapse>*/}
+                {/*</Accordion>*/}
             </Card>
         )
     }

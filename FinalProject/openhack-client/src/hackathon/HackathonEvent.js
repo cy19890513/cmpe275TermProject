@@ -15,7 +15,7 @@ class HackathonEvent extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.match.params.hid);
+        // console.log(props.match.params.hid);
         this.state = {
             eventId: props.match.params.hid,
             status:null,
@@ -49,8 +49,8 @@ class HackathonEvent extends Component {
         //     value={99.95}
         //     style="currency"
         //     currency="USD" />);
-        console.log("hid", this.state.eventId)
-        var url = `/hackathon/search?hid=${this.state.eventId}`;
+        // console.log("hid", this.state.eventId)
+        var url = process.env.REACT_APP_API_URL + `/hackathon/search?hid=${this.state.eventId}`;
         axios.get(url)
             .then(res => {
 
@@ -58,7 +58,7 @@ class HackathonEvent extends Component {
                 const hkData = res.data;
                 this.setState({ hkData });
 //all running method is here.
- console.log("hkData",this.state.hkData);
+//  console.log("hkData",this.state.hkData);
                 setTimeout(1000);
                 //this.state.hkData.sponsorList = hkData.sponsors;
                 //this.parseSponsorList(hkData.sponsors);
@@ -73,19 +73,19 @@ class HackathonEvent extends Component {
     checkIfJudge(){
         var judges = this.state.hkData.judges;
         var myEmail = localStorage.getItem('email');
-        console.log("checkIfJudge ", localStorage," ",this.state.hkData," ",this.state.hkData.judges);
+        // console.log("checkIfJudge ", localStorage," ",this.state.hkData," ",this.state.hkData.judges);
         if(judges == null || myEmail == null)
             return;
 
         if(judges.indexOf(myEmail) > -1){
             var isJudge = true;
             this.state.isJudge = true ;
-            console.log("is judge ",);
+            // console.log("is judge ",);
         }
     }
 
     parseStatus(){
-        console.log("parseStatus ",this.state);
+        // console.log("parseStatus ",this.state);
         if(this.state.isJudge){
             this.state.status = "Judge";
             this.state.registText="Evaluate";
@@ -111,20 +111,20 @@ class HackathonEvent extends Component {
     }
     
     parseSponsorList(sponsors){
-        console.log("parseSponsorList ",sponsors);
+        // console.log("parseSponsorList ",sponsors);
            
         if(sponsors == null){
-            console.log("sponsors empty ",this.state);
+            // console.log("sponsors empty ",this.state);
             return
         }
          
         return sponsors.map(sponsor =>{
             return ( <span ><strong>{sponsor}&nbsp;&nbsp;&nbsp;&nbsp;</strong></span>);
             });
-        console.log("parseSponsorList ",this.state.hkData);
+        // console.log("parseSponsorList ",this.state.hkData);
     }
     render(){
-        console.log("hkData ",this.state.hkData);
+        // console.log("hkData ",this.state.hkData);
         this.checkIfJudge();
         setTimeout(10);
         this.parseStatus();
