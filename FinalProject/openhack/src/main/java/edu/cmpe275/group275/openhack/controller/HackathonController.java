@@ -139,9 +139,9 @@ public class HackathonController {
             String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
             Long oid = hackerUser.getOrganization().getId();
-
+            double pay =0;
             if(hackathonService.matchOrg(oid, h)){
-                fee = fee *(1-0.01*discount) ;
+                pay = fee *(1-0.01*discount) ;
             }
             //check hacker exists
             if (hackerUser == null) {
@@ -157,12 +157,20 @@ public class HackathonController {
             Member member = new Member();
             member.setHacker(hackerUser);
             member.setRole(role);
-            member.setPayfee(fee);
+            member.setPayfee(pay);
             members.add(member);
         }
         Member lead = new Member();
+        HackerUser hacklead= lead.getHacker();
+        Long oid = hacklead.getOrganization().getId();
+        double pay = 0;
+        if(hackathonService.matchOrg(oid, h)){
+            pay = fee *(1-0.01*discount) ;
+        }
+
         lead.setHacker(hacker);
         lead.setRole("Team Lead");
+        lead.setPayfee(pay);
         memberService.createMember(lead);
         //add members to database
         memberService.addMemberList(members);
