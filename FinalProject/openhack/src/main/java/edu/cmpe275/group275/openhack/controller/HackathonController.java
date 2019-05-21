@@ -120,6 +120,8 @@ public class HackathonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Hackathon h = hackathonService.getHackathon(hackathonId);
+        double fee = h.getFee();
+        double discount = h.getDiscount();
         HackerUser hacker = hackerUserService.getHackerUser(uid);
         //check if member joins the hackathon already
         if (hackerUserService.joinedHackathon(hacker, hackathonId)) {
@@ -136,6 +138,11 @@ public class HackathonController {
             String email = entry.get("email");
             String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
+            Long oid = hackerUser.getOrganization().getId();
+
+            if(hackathonService.matchOrg(oid, h)){
+                fee = fee *(1-0.01*discount) ;
+            }
             //check hacker exists
             if (hackerUser == null) {
                 return new ResponseEntity<>("Member: " + email + " not exist", HttpStatus.NOT_FOUND);
@@ -150,6 +157,7 @@ public class HackathonController {
             Member member = new Member();
             member.setHacker(hackerUser);
             member.setRole(role);
+            member.setPayfee(fee);
             members.add(member);
         }
         Member lead = new Member();

@@ -177,8 +177,8 @@ public class HackathonServiceImpl implements HackathonService{
                // memberService.update(member);
                 System.out.println("fee: "+fee);
             }
-            member.setPayfee(fee);
-            memberService.update(member);
+          //  member.setPayfee(fee);
+           // memberService.update(member);
         }
         String email = member.getHacker().getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
