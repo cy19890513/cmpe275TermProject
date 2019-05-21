@@ -427,7 +427,7 @@ public class HackathonController {
                 }
             }
 
-            map.put("isJoined", true);
+            map.put("isJoined", isJoined);
             return ResponseEntity.status(HttpStatus.OK).body(map);
         }
         List<Hackathon> hackathons = hackathonService.getHackathonsByName(name);
