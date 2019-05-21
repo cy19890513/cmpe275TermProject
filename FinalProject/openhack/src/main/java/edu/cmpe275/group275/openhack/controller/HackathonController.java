@@ -413,17 +413,29 @@ public class HackathonController {
      */
     @GetMapping(value = "/hackathon/search")
     public ResponseEntity<?> getHackathonById(@RequestParam(required = false) Long hid,
-                                              @RequestParam(required = false) String name) {
+                                              @RequestParam(required = false) String name,
+                                              @RequestParam(required = false) Long uid) {
 
         Hackathon hackathon = hackathonService.getHackathon(hid);
         if (hackathon != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(filterHackathon(hackathon));
+            Map<String, Object> map = filterHackathon(hackathon);
+            boolean isJoined = false;
+            List<HackerUser> joined = hackathon.getHackers();
+            for(HackerUser hackerUser: joined){
+                if(hackerUser.getId()== uid){
+                    isJoined = true;
+                }
+            }
+
+            map.put("isJoined", true);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
         }
         List<Hackathon> hackathons = hackathonService.getHackathonsByName(name);
         List<Map<String, Object>> res = new ArrayList<>();
         for (Hackathon h : hackathons) {
             res.add(filterHackathon(h));
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
