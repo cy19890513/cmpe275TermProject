@@ -17,12 +17,11 @@ import PReport from "./paymentReport/PReport";
 import Evaluation from "./evaluation/Evaluation";
 import Result from "./result/Result";
 import FinancialReport from "./FinancialReport/FinancialReport";
+import NotFound from './NotFound/NotFound';
 
 function Routing() {
     var RegistHKEvent = null;
     return (
-
-
         <Router>
             <Switch>
                 <Route exact path={'/'} component={Home}/>
@@ -46,7 +45,7 @@ function Routing() {
                 <Route path={'/hackathon/eval/:hid'} component={Evaluation}/>
                 <Route path={'/hackathon/:hid/result'} component={Result}/>
                 <Route path={'/hackathon/:hid/report'} component={FinancialReport}/>
-                <Route
+                <Route component={NotFound}/>
             </Switch>
         </Router>
     );
