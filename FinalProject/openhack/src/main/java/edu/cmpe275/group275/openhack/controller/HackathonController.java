@@ -650,16 +650,13 @@ public class HackathonController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
-    @GetMapping(value="/hackathon/earning")
-    public ResponseEntity<?> getearning(@RequestParam long hid) {
-        if(!hackathonService.exist(hid)){
-=======
+
+
     @GetLoggedInRequired
     @GetMapping(value = "/hackathon/earning")
     public ResponseEntity<?> getearning(HttpSession session, @RequestParam long uid, @RequestParam long hid) {
         if(hackathonService.exist(hid)){
->>>>>>> e904f88e1f1b52d7968fe260b51cee5adbd70605
+
             return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
         }
         Map<String, Object> res = new LinkedHashMap<>();
