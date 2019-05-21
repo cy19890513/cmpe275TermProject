@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Form, Col, Row, FormGroup, FormControl, FormlLabel, Card} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import Header from '../utils/Header';
 import axios from 'axios';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import Accordion from 'react-bootstrap/Accordion';
 
 import './userProfile.css';
 
@@ -33,7 +32,7 @@ class UserProfile extends Component {
         const uid = localStorage.getItem('uid');
 
         this.setState({role: localStorage.getItem('role')});
-        axios.get('/userProfile', {
+        axios.get(process.env.REACT_APP_API_URL + '/userProfile', {
             params: {
                 uid: uid
             }

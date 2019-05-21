@@ -25,26 +25,67 @@ import java.util.Map;
 //@XmlRootElement
 @RestController
 public class HackathonController {
-    private final MemberService memberService;
-    private final TeamService teamService;
-    private final HackathonService hackathonService;
-    private final UserService userService;
+    private MemberService memberService;
+    private TeamService teamService;
+    private HackathonService hackathonService;
+    private UserService userService;
 
-    @Autowired
-    private HackerUserService hackerUserService;
-    @Autowired
     private OrganizationService organizationService;
+    private HackerUserService hackerUserService;
 
-    //@Autowired
-    //MemberService memberService;
-
-    public HackathonController(MemberService memberService, TeamService teamService,
-                               HackathonService hackathonService, UserService userService) {
+    public HackathonController(MemberService memberService, TeamService teamService, HackathonService hackathonService, UserService userService, OrganizationService organizationService, HackerUserService hackerUserService) {
         this.memberService = memberService;
         this.teamService = teamService;
         this.hackathonService = hackathonService;
         this.userService = userService;
+        this.organizationService = organizationService;
+        this.hackerUserService = hackerUserService;
     }
+//
+//    public HackathonController(MemberService memberService, TeamService teamService,
+//                               HackathonService hackathonService, UserService userService) {
+//        this.memberService = memberService;
+//        this.teamService = teamService;
+//        this.hackathonService = hackathonService;
+//        this.userService = userService;
+//    }
+
+    public MemberService getMemberService() {
+        return memberService;
+    }
+
+    public TeamService getTeamService() {
+        return teamService;
+    }
+
+    public HackathonService getHackathonService() {
+        return hackathonService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public HackerUserService getHackerUserService() {
+        return hackerUserService;
+    }
+
+    public void setHackerUserService(HackerUserService hackerUserService) {
+        this.hackerUserService = hackerUserService;
+    }
+
+    public OrganizationService getOrganizationService() {
+        return organizationService;
+    }
+
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
+
+
+
+    //@Autowired
+    //MemberService memberService;
 
     /**
      * Sample test

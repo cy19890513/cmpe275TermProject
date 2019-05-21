@@ -22,7 +22,7 @@ class Header extends Component {
 
     handleSignout() {
         const uid = localStorage.getItem("uid");
-        axios.post('/logout', {
+        axios.post(process.env.REACT_APP_API_URL + '/logout', {
             uid: uid,
         })
             .then(res => {

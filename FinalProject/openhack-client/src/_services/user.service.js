@@ -11,7 +11,7 @@ function login(email, password) {
     localStorage.setItem("sessionId", "12345");
    // console.log(localStorage.getItem("sessionId"));
    // return;
-    var serverUrl = "http://localhost:8080/login";
+    var serverUrl = process.env.REACT_APP_API_URL + "/login";
     var self = this;
     var payload = {
         "email": email,
@@ -46,9 +46,9 @@ function logout() {
 }
 
 function register(email, password, username){
-    console.log("inside register service function");
+    // console.log("inside register service function");
    // return;
-    const serverUrl = "/registration";
+    const serverUrl = process.env.REACT_APP_API_URL + "/registration";
     const payload = {
         "email": email,
         "password": password,

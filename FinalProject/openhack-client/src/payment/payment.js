@@ -50,7 +50,7 @@ class Payment extends Component {
         const data = this.state;
         const id = localStorage.getItem('uid');
         // console.log(data);
-        var url = '/hackathon/payment?tid=' + this.state.tid + '&uid=' + this.state.uid;
+        var url = process.env.REACT_APP_API_URL + '/hackathon/payment?tid=' + this.state.tid + '&uid=' + this.state.uid;
         axios.get(url)
             .then(res => {
                 //         this.props.history.push('/userprofile');

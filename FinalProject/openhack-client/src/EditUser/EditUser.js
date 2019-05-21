@@ -34,7 +34,7 @@ class EditUser extends Component {
         // console.log(localStorage.getItem('uid'));
         const uid = localStorage.getItem('uid');
 
-        axios.get('/userProfile', {
+        axios.get(process.env.REACT_APP_API_URL + '/userProfile', {
             params: {
                 uid: uid
             }
@@ -69,7 +69,7 @@ class EditUser extends Component {
         const data = this.state;
         const id = localStorage.getItem('uid');
         // console.log(data);
-        axios.post('/userProfile', {
+        axios.post(process.env.REACT_APP_API_URL + '/userProfile', {
             uid: parseInt(id),
             name: data.name,
             businessTitle: data.businessTitle,

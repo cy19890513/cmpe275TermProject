@@ -53,7 +53,7 @@ class HackathonList extends Component{
 
         this.updateHKEvtUrlForAdmin();
         //
-        axios.get("/hackathon")
+        axios.get(process.env.REACT_APP_API_URL + "/hackathon")
             .then(res => {
                 const hkData = res.data;
 

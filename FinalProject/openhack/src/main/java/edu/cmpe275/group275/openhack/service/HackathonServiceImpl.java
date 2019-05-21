@@ -17,18 +17,50 @@ import java.util.Map;
 
 @Service
 public class HackathonServiceImpl implements HackathonService{
-    private final HackathonRepository hackathonRepository;
+    private HackathonRepository hackathonRepository;
 
-    @Autowired
-    public JavaMailSender emailSender;
-
-    @Autowired
+    private JavaMailSender emailSender;
     private TeamService teamService;
-    @Autowired
     private MemberService memberService;
+//
+//    public HackathonServiceImpl(HackathonRepository hackathonRepository) {
+//        this.hackathonRepository = hackathonRepository;
+//    }
 
-    public HackathonServiceImpl(HackathonRepository hackathonRepository) {
+    public HackathonRepository getHackathonRepository() {
+        return hackathonRepository;
+    }
+
+    @Autowired
+    public void setHackathonRepository(HackathonRepository hackathonRepository) {
         this.hackathonRepository = hackathonRepository;
+    }
+
+    public JavaMailSender getEmailSender() {
+        return emailSender;
+    }
+
+    @Autowired
+    public void setEmailSender(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
+    public TeamService getTeamService() {
+        return teamService;
+    }
+
+    @Autowired
+    public void setTeamService(TeamService teamService) {
+        this.teamService = teamService;
+    }
+
+    public MemberService getMemberService() {
+        return memberService;
+    }
+
+    @Autowired
+    public void setMemberService(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @Transactional

@@ -27,7 +27,7 @@ class Login extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const serverUrl = "/login";
+        const serverUrl = process.env.REACT_APP_API_URL + "/login";
         const payload = {
             "email": this.state.email,
             "password": this.state.password
@@ -54,7 +54,7 @@ class Login extends Component {
                 }
             }
         ).catch(function (error) {
-            alert(error.response.data);
+            alert(error);
         });
     };
 

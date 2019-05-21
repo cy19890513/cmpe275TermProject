@@ -49,7 +49,7 @@ class Submission extends Component {
 
         this.setState({hid: hid});
         const uid = localStorage.getItem('uid');
-        axios.get('/hackathon/teamInfo', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/teamInfo', {
             params: {
                 uid: uid,
             }
@@ -88,7 +88,7 @@ class Submission extends Component {
     handleSubmit(event) {
         event.preventDefault();
         // console.log(data);
-        axios.post('/hackathon/submit', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/submit', {
             uid: this.state.uid,
             tid: this.state.tid,
             date: this.state.date,

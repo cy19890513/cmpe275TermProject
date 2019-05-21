@@ -24,6 +24,7 @@ public class OrganizationController {
     private final OrganizationService organizationService;
     private final HackerUserService userService;
 
+
     public OrganizationController(OrganizationService organizationService, HackerUserService userService) {
         this.organizationService = organizationService;
         this.userService = userService;

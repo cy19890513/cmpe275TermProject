@@ -17,7 +17,7 @@ class AdminHackathonList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/hackathon')
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon')
             .then(res => {
                 // console.log("hackathon", res);
                 this.setState({hackathons: res.data});
@@ -45,7 +45,7 @@ class AdminHackathonList extends Component {
     }
 
     handleOpen(hid) {
-        axios.post('/hackathon/open', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/open', {
             uid: this.state.uid,
             hid: hid,
             date: this.today(),
@@ -70,7 +70,7 @@ class AdminHackathonList extends Component {
     handleClose(hid) {
         const state = this.state;
         // console.log('hid', hid);
-        const url = '/hackathon/close';
+        const url = process.env.REACT_APP_API_URL + '/hackathon/close';
         axios.post(url, {
             uid: this.state.uid,
             hid: hid,
@@ -92,7 +92,7 @@ class AdminHackathonList extends Component {
 
     handleFinalize(hid) {
         const state = this.state;
-        const url = '/hackathon/finalize';
+        const url = process.env.REACT_APP_API_URL + '/hackathon/finalize';
         const data = {
             uid: this.state.uid,
             hid: hid,
