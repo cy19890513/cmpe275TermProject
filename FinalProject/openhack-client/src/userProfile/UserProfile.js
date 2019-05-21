@@ -3,7 +3,11 @@ import {Button, Col, Row} from "react-bootstrap";
 import Header from '../utils/Header';
 import axios from 'axios';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+<<<<<<< HEAD
+import Accordion from 'react-bootstrap/Accordion';
+=======
 
+>>>>>>> e904f88e1f1b52d7968fe260b51cee5adbd70605
 import './userProfile.css';
 
 import Organization from './Organization';
@@ -71,7 +75,13 @@ class UserProfile extends Component {
                 <div>
                     <Organization organization={this.state.organization} change={this.changeOrg.bind(this)}/>
                     <HackerHackathonList email={this.state.user.email}/>
+<<<<<<< HEAD
+                </Accordion>
+               
+
+=======
                 </div>
+>>>>>>> e904f88e1f1b52d7968fe260b51cee5adbd70605
             );
         }
 
