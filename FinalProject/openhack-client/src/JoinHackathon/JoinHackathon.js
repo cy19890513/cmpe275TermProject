@@ -160,7 +160,7 @@ console.log("e ",e);
             email: this.state.inviteEmail
         };
         console.log("e ",e,"payload ",payload);
-        axios.post('/invite', payload)
+        axios.post(process.env.REACT_APP_API_URL+'/invite', payload)
             .then(res => {
                 alert("invite successful. Please check email to activate");
                 this.setState({inviteEmail:""});
