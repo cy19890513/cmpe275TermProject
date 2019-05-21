@@ -107,7 +107,7 @@ public class HackathonController {
      * }
      * Description: create an team
      */
-    @PostLoggedInRequired
+   // @PostLoggedInRequired
     @RequestMapping(value = "/hackathon/team", method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestBody Map<String, Object> payload, HttpSession s) {
 
@@ -138,11 +138,7 @@ public class HackathonController {
             String email = entry.get("email");
             String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
-            Long oid = hackerUser.getOrganization().getId();
-            double pay =fee;
-            if(hackathonService.matchOrg(oid, h)){
-                pay = fee *(1-0.01*discount) ;
-            }
+
             //check hacker exists
             if (hackerUser == null) {
                 return new ResponseEntity<>("Member: " + email + " not exist", HttpStatus.NOT_FOUND);
@@ -154,6 +150,13 @@ public class HackathonController {
             if (hackerUser.getId() == hacker.getId()) {
                 return new ResponseEntity<>("Team member is the same as team lead", HttpStatus.BAD_REQUEST);
             }
+            double pay =fee;
+            if(hackerUser != null && hackerUser.getOrganization() != null){
+                long oid = hackerUser.getOrganization().getId();
+                if( hackathonService.matchOrg(oid, h)){
+                pay = fee *(1-0.01*discount) ;
+                }
+            }
             Member member = new Member();
             member.setHacker(hackerUser);
             member.setRole(role);
@@ -161,11 +164,12 @@ public class HackathonController {
             members.add(member);
         }
         Member lead = new Member();
-        HackerUser hacklead= lead.getHacker();
-        Long oid = hacklead.getOrganization().getId();
+
         double pay = fee;
-        if(hackathonService.matchOrg(oid, h)){
-            pay = fee *(1-0.01*discount) ;
+        if(hacker.getOrganization() != null ){
+            long oid = hacker.getOrganization().getId();
+            if(hackathonService.matchOrg(oid, h))
+                     pay = fee *(1-0.01*discount);
         }
 
         lead.setHacker(hacker);
