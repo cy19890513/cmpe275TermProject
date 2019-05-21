@@ -107,7 +107,7 @@ public class HackathonController {
      * }
      * Description: create an team
      */
-   // @PostLoggedInRequired
+    @PostLoggedInRequired
     @RequestMapping(value = "/hackathon/team", method = RequestMethod.POST)
     public ResponseEntity<?> createTeam(@RequestBody Map<String, Object> payload, HttpSession s) {
 
