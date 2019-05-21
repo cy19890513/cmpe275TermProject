@@ -4,7 +4,6 @@ import Header from '../utils/Header';
 import axios from 'axios';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Accordion from 'react-bootstrap/Accordion';
-
 import './userProfile.css';
 
 import Organization from './Organization';
@@ -240,6 +239,8 @@ class UserProfile extends Component {
                     <Organization organization={this.state.organization} change={this.changeOrg.bind(this)}/>
                     <HackerHackathonList email={this.state.user.email}/>
                 </Accordion>
+               
+
             );
         }
 

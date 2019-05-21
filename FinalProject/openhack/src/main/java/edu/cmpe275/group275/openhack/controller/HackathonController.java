@@ -586,7 +586,7 @@ public class HackathonController {
 
     @GetMapping(value="/hackathon/earning")
     public ResponseEntity<?> getearning(@RequestParam long hid) {
-        if(hackathonService.exist(hid)){
+        if(!hackathonService.exist(hid)){
             return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
         }
         Map<String, Object> res = new LinkedHashMap<>();

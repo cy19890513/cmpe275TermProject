@@ -141,10 +141,12 @@ public class HackathonServiceImpl implements HackathonService{
             long oid = member.getHacker().getOrganization().getId();
             if(matchOrg(oid, h)){
                 fee *= (1 - h.getDiscount()*0.01);
-                member.setPayfee(fee);
-                memberService.update(member);
+               // member.setPayfee(fee);
+               // memberService.update(member);
                 System.out.println("fee: "+fee);
             }
+            member.setPayfee(fee);
+            memberService.update(member);
         }
         String email = member.getHacker().getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
