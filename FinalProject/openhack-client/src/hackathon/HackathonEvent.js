@@ -24,7 +24,9 @@ class HackathonEvent extends Component {
             subHref: '/hackathon/' + props.match.params.hid + '/submit',
             registText:"Register for this hackathon",
             subText:"Submission",
+            submitButton: null,
             isJudge: false,
+            isJoined: false,
             hackerEmail: null,
             eventName: null,
             startDate: null,
@@ -51,6 +53,8 @@ class HackathonEvent extends Component {
         //     currency="USD" />);
         // console.log("hid", this.state.eventId)
         var url = process.env.REACT_APP_API_URL + `/hackathon/search?hid=${this.state.eventId}`;
+        if(localStorage.getItem('uid')!= null) url += '&uid='+parseInt(localStorage.getItem('uid'));
+console.log("url ",url);
         axios.get(url)
             .then(res => {
 
@@ -60,8 +64,8 @@ class HackathonEvent extends Component {
 //all running method is here.
 //  console.log("hkData",this.state.hkData);
                 setTimeout(1000);
-                //this.state.hkData.sponsorList = hkData.sponsors;
-                //this.parseSponsorList(hkData.sponsors);
+                if(hkData.isJoined != null && hkData.isJoined)
+                    this.setState({isJoined: hkData.isJoined});
             })
             .catch(err => {
                 alert(err);
@@ -91,25 +95,36 @@ class HackathonEvent extends Component {
             this.state.registText="Evaluate";
             this.state.registHref = "/hackathon/eval/"+this.state.eventId;
             this.state.subHref = "#";
+            this.state.submitButton ="";
         }else if(this.state.hkData.isFinalized){
             this.state.status = "Finalized";
             this.state.registText="Event have finalized";
             this.state.registHref = "#";
             this.state.subText="Results";
             this.state.subHref = "/hackathon/"+this.state.eventId+"/result";
+            this.state.submitButton = this.createSubmit();
         }else if(this.state.hkData.isClosed){
             this.state.status = "Closed";
             this.state.registText="Closed for registration";
             this.state.registHref = "#";
             this.state.subText="Results";
             this.state.subHref = "/hackathon/"+this.state.eventId+"/result";
+            this.state.submitButton = this.createSubmit();
+        }else if(this.state.isJoined){
+            this.state.status = "Open Registration";
+            this.state.submitButton = this.createSubmit();
         }else{
             this.state.status = "Open Registration";
-
+            this.state.submitButton = ""
         }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
     }
     
+    createSubmit(){
+        return (<a className="button radius expand large secondary" href={this.state.subHref}
+                                               disabled={this.state.ifDisableRegist}>{this.state.subText}</a>
+                                               );
+    }
     parseSponsorList(sponsors){
         // console.log("parseSponsorList ",sponsors);
            
@@ -234,9 +249,8 @@ class HackathonEvent extends Component {
                                                disabled={this.state.ifDisableRegist}>{this.state.registText}</a>
 
 
-
-                                            <a className="button radius expand large secondary" href={this.state.subHref}
-                                               disabled={this.state.ifDisableRegist}>{this.state.subText}</a>
+                                            {this.state.submitButton}
+                                            
 
                                             <p/><p/><p/><p/><p/>
                                             <p className="text-left small">

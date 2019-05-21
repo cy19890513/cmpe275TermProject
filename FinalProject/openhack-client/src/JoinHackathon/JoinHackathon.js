@@ -45,9 +45,9 @@ class JoinHackathon extends Component {
                 }
                 this.setState({hackathon: h, members: memberHolder});
             })
-            .catch(err => {
-                alert(err);
-                console.log(err)
+            .catch( err => {
+                alert(err+"\n"+err.response.data);
+                console.log(err);
             });
         this.setState({hid: hid, uid: uid, teamLead: teamLead});
     }
@@ -90,11 +90,11 @@ class JoinHackathon extends Component {
         axios.post(process.env.REACT_APP_API_URL + '/hackathon/team', payload)
             .then(res => {
                 const data = res.data;
-                // console.log(data);
+                 console.log("data ",data);
                 this.joinHack(data.id);
             })
             .catch(err => {
-                alert(err);
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
     }
@@ -111,7 +111,7 @@ class JoinHackathon extends Component {
                 // this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                alert(err.response.data);
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
     }
@@ -166,7 +166,7 @@ console.log("e ",e);
                 this.setState({inviteEmail:""});
             })
             .catch(err => {
-                alert(err);
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
     }
