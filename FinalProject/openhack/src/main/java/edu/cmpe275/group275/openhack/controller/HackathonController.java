@@ -422,8 +422,10 @@ public class HackathonController {
             boolean isJoined = false;
             List<HackerUser> joined = hackathon.getHackers();
             for(HackerUser hackerUser: joined){
-                if(hackerUser.getId()== uid){
-                    isJoined = true;
+                if(uid != null) {
+                    if (hackerUser.getId() == uid) {
+                        isJoined = true;
+                    }
                 }
             }
 
@@ -667,7 +669,7 @@ public class HackathonController {
     @GetLoggedInRequired
     @GetMapping(value = "/hackathon/earning")
     public ResponseEntity<?> getearning(HttpSession session, @RequestParam long uid, @RequestParam long hid) {
-        if(hackathonService.exist(hid)){
+        if(!hackathonService.exist(hid)){
 
             return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
         }
