@@ -25,7 +25,7 @@ class Result extends Component {
     }
 
     componentDidMount() {
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 hid: this.state.hid,
             }
@@ -38,7 +38,7 @@ class Result extends Component {
                 console.log(err);
             });
 
-        axios.get('/hackathon/result', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/result', {
             params: {
                 hid: this.state.hid,
             }

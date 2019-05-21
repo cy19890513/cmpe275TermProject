@@ -28,7 +28,7 @@ class EditHackathon extends Component {
         const {match: {params}} = this.props;
         const hid = params.hid;
         this.setState({hid: hid});
-        axios.get('/organizations')
+        axios.get(process.env.REACT_APP_API_URL + '/organizations')
             .then(res => {
                 const list = res.data;
                 // console.log(list);
@@ -39,7 +39,7 @@ class EditHackathon extends Component {
                 // alert(err);
                 console.log(err);
             });
-        axios.get("/get_all_users")
+        axios.get(process.env.REACT_APP_API_URL + "/get_all_users")
             .then(res => {
                 // console.log(res.data);
                 const list = res.data.map(e => {
@@ -51,7 +51,7 @@ class EditHackathon extends Component {
                 // alert(err);
                 console.log(err);
             });
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 hid: hid,
             }
@@ -70,7 +70,7 @@ class EditHackathon extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
-        axios.post('http://localhost:8080/hackathon', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon', {
             // name: data.name,
             // startDate: data.startDate,
             // endDate: data.endDate,

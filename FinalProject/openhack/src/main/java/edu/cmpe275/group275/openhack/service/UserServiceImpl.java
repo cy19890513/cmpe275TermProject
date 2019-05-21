@@ -22,11 +22,42 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    public JavaMailSender emailSender;
+    private JavaMailSender emailSender;
+    private HackerUserService hackerUserService;
+
+    private UserRepository userRepository;
+
+//    public UserServiceImpl(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
+
+
+    public JavaMailSender getEmailSender() {
+        return emailSender;
+    }
 
     @Autowired
-    private HackerUserService hackerUserService;
+    public void setEmailSender(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
+    public HackerUserService getHackerUserService() {
+        return hackerUserService;
+    }
+
+    @Autowired
+    public void setHackerUserService(HackerUserService hackerUserService) {
+        this.hackerUserService = hackerUserService;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public Map<String, Object> convertuserToMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -72,11 +103,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Transactional
     public User createUser(User user) {

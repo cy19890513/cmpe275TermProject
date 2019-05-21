@@ -50,7 +50,7 @@ class HackathonEvent extends Component {
         //     style="currency"
         //     currency="USD" />);
         // console.log("hid", this.state.eventId)
-        var url = `/hackathon/search?hid=${this.state.eventId}`;
+        var url = process.env.REACT_APP_API_URL + `/hackathon/search?hid=${this.state.eventId}`;
         axios.get(url)
             .then(res => {
 

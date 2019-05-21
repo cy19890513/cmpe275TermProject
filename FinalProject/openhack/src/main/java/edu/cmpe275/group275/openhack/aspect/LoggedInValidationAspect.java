@@ -22,11 +22,10 @@ public class LoggedInValidationAspect {
         Object[] args = pjp.getArgs();
         Map<String, Object> payload = (Map<String, Object>) args[0];
         HttpSession session = (HttpSession) args[1];
-        Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
 
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
 
-        if (uidSet == null || !uidSet.contains(uid)) {
+        if (session.getAttribute("uid") == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Logged in required");
         }
         ResponseEntity res = null;
@@ -45,9 +44,13 @@ public class LoggedInValidationAspect {
         Object[] args = pjp.getArgs();
         HttpSession session = (HttpSession) args[0];
         Long uid = (Long) args[1];
-        Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
 
-        if (uidSet == null || !uidSet.contains(uid)) {
+        System.out.println(session.getId());
+        if (session.getAttribute("uid") == null) {
+            System.out.println("null");
+        }
+
+        if (session.getAttribute("uid") == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Logged in required");
         }
         ResponseEntity res = null;

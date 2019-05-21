@@ -29,14 +29,12 @@ import java.util.regex.Pattern;
 public class UserController {
     private final UserService userService;
     private final HackerUserService hackerUserService;
+    private final OrganizationService organizationService;
 
-
-    @Autowired
-    private OrganizationService organizationService;
-
-    public UserController(UserService userService, HackerUserService hackerUserService) {
+    public UserController(UserService userService, HackerUserService hackerUserService, OrganizationService organizationService) {
         this.userService = userService;
         this.hackerUserService = hackerUserService;
+        this.organizationService = organizationService;
     }
 
     @RequestMapping(value = "/__health", method = RequestMethod.GET)
@@ -64,13 +62,13 @@ public class UserController {
                     token.setT(UUID.randomUUID().toString());
                     user.setToken(token);*/
 //                    session.setAttribute("sessionId", sessionId);
-                    Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
-                    if (uidSet == null) {
-                        uidSet = new HashSet<>();
-                    }
-                    uidSet.add(uid);
-                    session.setAttribute("uid", uidSet);
-
+//                    Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
+//                    if (uidSet == null) {
+//                        uidSet = new HashSet<>();
+//                    }
+//                    uidSet.add(uid);
+                    session.setAttribute("uid", uid);
+                    System.out.println(session.getId());
 //                    session.setAttribute("uid", uid);
                     String regex = "^(.+)@sjsu.edu$";
                     Pattern pattern = Pattern.compile(regex);
@@ -237,12 +235,7 @@ public class UserController {
     public ResponseEntity<?> logout(@RequestBody Map<String, Object> payload, HttpSession session){
         //aop uid
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
-        Set<Long> uidSet = (Set<Long>) session.getAttribute("uid");
-        if (uidSet == null || !uidSet.contains(uid)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        uidSet.remove(uid);
-        session.setAttribute("uid", uidSet);
+        session.removeAttribute("uid");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

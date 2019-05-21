@@ -25,7 +25,7 @@ class Evaluation extends Component {
         const uid = localStorage.getItem('uid');
         const hid = this.props.match.params.hid;
 
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 uid: uid,
                 hid: hid,
@@ -43,7 +43,7 @@ class Evaluation extends Component {
     }
 
     getTeams(uid, tid) {
-        axios.get('/hackathon/team', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/team', {
             params: {
                 uid: uid,
                 tid: tid,

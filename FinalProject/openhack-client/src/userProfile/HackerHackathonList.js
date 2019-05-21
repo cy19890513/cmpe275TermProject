@@ -18,7 +18,7 @@ class HackerHackathonList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/hackathons', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathons', {
             params: {
                 uid: this.state.uid,
             }

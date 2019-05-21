@@ -21,7 +21,7 @@ class Organization extends Component {
 
     componentDidMount() {
         const role = localStorage.getItem('role');
-        axios.get('/organizations')
+        axios.get(process.env.REACT_APP_API_URL + '/organizations')
             .then(res => {
                 this.setState(() => {
                     return {autoCmplOrgs: res.data};
@@ -39,7 +39,7 @@ class Organization extends Component {
         const orgs = this.state.autoCmplOrgs;
         const orgId = orgs.find(org => org.name === this.state.selectedOrg[0]).id;
         // console.log('orgs', this.state.autoCmplOrgs);
-        axios.post('/joinOrg', {uid: uid, oid: orgId})
+        axios.post(process.env.REACT_APP_API_URL + '/joinOrg', {uid: uid, oid: orgId})
             .then(res => {
                 this.props.change({name: this.state.selectedOrg + " (Pending)"});
             })
@@ -58,7 +58,7 @@ class Organization extends Component {
     handleLeave(e) {
         const uid = localStorage.getItem("uid");
 
-        axios.post('/leaveOrg', {uid: uid})
+        axios.post(process.env.REACT_APP_API_URL + '/leaveOrg', {uid: uid})
             .then(res => {
                 this.props.change({});
             });

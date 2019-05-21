@@ -34,7 +34,7 @@ class CreateOrg extends Component {
         const data = this.state;
         const id = localStorage.getItem('uid');
         // console.log(data);
-        axios.post('/organization', {
+        axios.post(process.env.REACT_APP_API_URL + '/organization', {
             uid: id,
             name: data.name,
             description: data.description,

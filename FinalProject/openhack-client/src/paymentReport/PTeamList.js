@@ -35,7 +35,7 @@ class PTeamList extends Component {
         e.preventDefault();
         const grade = this.state.teams.find(t => t.id === tid).grade;
 
-        axios.post('/hackathon/grade', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/grade', {
             tid: tid,
             grade: grade,
         })

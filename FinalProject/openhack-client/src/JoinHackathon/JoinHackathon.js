@@ -28,7 +28,7 @@ class JoinHackathon extends Component {
         const uid = localStorage.getItem("uid");
         const teamLead = localStorage.getItem('username');
 
-        axios.get('/hackathon/search', {
+        axios.get(process.env.REACT_APP_API_URL + '/hackathon/search', {
             params: {
                 hid: hid,
             }
@@ -84,7 +84,7 @@ class JoinHackathon extends Component {
             members: members,
         };
         // console.log(payload);
-        axios.post('/hackathon/team', payload)
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/team', payload)
             .then(res => {
                 const data = res.data;
                 // console.log(data);
@@ -97,7 +97,7 @@ class JoinHackathon extends Component {
     }
 
     joinHack(tid) {
-        axios.post('/hackathon/join', {
+        axios.post(process.env.REACT_APP_API_URL + '/hackathon/join', {
             uid: this.state.uid,
             tid: tid,
             hid: this.state.hid,
