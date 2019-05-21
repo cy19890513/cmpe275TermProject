@@ -139,7 +139,7 @@ public class HackathonController {
             String role = entry.get("role");
             HackerUser hackerUser = hackerUserService.getHackerByEmail(email);
             Long oid = hackerUser.getOrganization().getId();
-            double pay =0;
+            double pay =fee;
             if(hackathonService.matchOrg(oid, h)){
                 pay = fee *(1-0.01*discount) ;
             }
@@ -163,7 +163,7 @@ public class HackathonController {
         Member lead = new Member();
         HackerUser hacklead= lead.getHacker();
         Long oid = hacklead.getOrganization().getId();
-        double pay = 0;
+        double pay = fee;
         if(hackathonService.matchOrg(oid, h)){
             pay = fee *(1-0.01*discount) ;
         }
