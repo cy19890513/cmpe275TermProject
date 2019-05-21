@@ -671,7 +671,7 @@ public class HackathonController {
      */
     @GetMapping(value = "/hackathon/result")
     public ResponseEntity<?> getResult(@RequestParam long hid) {
-        if(hackathonService.exist(hid)){
+        if(!hackathonService.exist(hid)){
             return new ResponseEntity<>("hid does not exist", HttpStatus.NOT_FOUND);
         }
         Hackathon hackathon = hackathonService.getHackathon(hid);

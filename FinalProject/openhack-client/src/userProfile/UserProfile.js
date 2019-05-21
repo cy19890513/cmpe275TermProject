@@ -118,7 +118,7 @@ class UserProfile extends Component {
                                         <img src= {portrait}/>
                                     </div>
                                     <div>
-                                        <div>Screen Name: {user.ScreenName}</div>
+                                        <div>Screen Name: {user.Screenname}</div>
                                         <div>Name: {user.name}</div>
                                         <div>Email: {user.email}</div>
                                         <div>BusinessTitle: {user.BusinessTitle}</div>
