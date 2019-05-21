@@ -45,8 +45,8 @@ class JoinHackathon extends Component {
                 }
                 this.setState({hackathon: h, members: memberHolder});
             })
-            .catch( (err,info) => {
-                alert(err+info);
+            .catch( err => {
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
         this.setState({hid: hid, uid: uid, teamLead: teamLead});
@@ -111,7 +111,7 @@ class JoinHackathon extends Component {
                 // this.props.history.push('/hackathonEvent/' + this.state.hid);
             })
             .catch(err => {
-                alert(err.response.data);
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
     }
@@ -166,7 +166,7 @@ console.log("e ",e);
                 this.setState({inviteEmail:""});
             })
             .catch(err => {
-                alert(err);
+                alert(err+"\n"+err.response.data);
                 console.log(err);
             });
     }
