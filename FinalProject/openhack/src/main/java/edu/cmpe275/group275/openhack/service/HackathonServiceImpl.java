@@ -221,8 +221,48 @@ public class HackathonServiceImpl implements HackathonService{
 
     }
 
+    public void sentCongr(Team t, Hackathon h){
+        long  hid = h.getId();
+        List<Member> members = t.getMembers();
+        for(Member m: members) {
+            HackerUser hackerUser = m.getHacker();
+            SimpleMailMessage message = new SimpleMailMessage();
+            String to = hackerUser.getEmail();
+            String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
+                    "Congratulations on your hackathon " + h.getName() + "result! You have been named top 3!" +
+                    " Check your result here \n\n  " +
+                    "<a href='http://openhack.thewatercats.com/hackathon/"+hid+"/result'>" +
+                    "Result</a> \n\n"+
+                    "Hackathon Management System";
+            message.setTo(to);
+            message.setSubject("Hackathon Management: Congratulations on your result!");
+            message.setText(text);
+            emailSender.send(message);
+            System.out.println("sent congrats page");
+        }
+    }
+
     public void sentResult(Team t, Hackathon h){
         long  hid = h.getId();
+
+        List<HackerUser> judges = h.getJudges();
+        if(judges != null) {
+            for (HackerUser j : judges) {
+                HackerUser hackerUser = j;
+                SimpleMailMessage message = new SimpleMailMessage();
+                String to = hackerUser.getEmail();
+                String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
+                        "The hackton: " + h.getName() + "result has been posted below \n\n  " +
+                        "<a href='http://openhack.thewatercats.com/hackathon/"+hid+"/result'>" +
+                        "Result</a> \n\n"+
+                        "Hackathon Management System";
+                message.setTo(to);
+                message.setSubject("Hackathon Management: Result is out!");
+                message.setText(text);
+                emailSender.send(message);
+                System.out.println("sent result page");
+            }
+        }
 
         List<Member> members = t.getMembers();
         for(Member m: members) {
@@ -231,12 +271,12 @@ public class HackathonServiceImpl implements HackathonService{
             SimpleMailMessage message = new SimpleMailMessage();
             String to = hackerUser.getEmail();
             String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
-                    "The hackton: " + h.getName() + " has been posted below \n\n  " +
+                    "The hackton: " + h.getName() + "result has been posted below \n\n  " +
                     "<a href='http://openhack.thewatercats.com/hackathon/"+hid+"/result'>" +
                     "Result</a> \n\n"+
                     "Hackathon Management System";
             message.setTo(to);
-            message.setSubject("Hackathon Management: Result Page");
+            message.setSubject("Hackathon Management: Result is out!");
             message.setText(text);
             emailSender.send(message);
             System.out.println("sent result page");

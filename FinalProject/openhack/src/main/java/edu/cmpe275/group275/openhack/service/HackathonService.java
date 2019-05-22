@@ -34,6 +34,7 @@ public interface HackathonService {
     boolean exist(long hid);
 
     void sentResult(Team t, Hackathon h);
+    void sentCongr(Team t, Hackathon h);
 
     boolean matchOrg(long oid, Hackathon h);
 

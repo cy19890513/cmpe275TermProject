@@ -586,9 +586,15 @@ public class HackathonController {
         }
 
         hackathon.setFinalized(true);
+        int c = 0;
         for (Team team : teams) {
             hackathonService.sentResult(team, hackathon);
+            if(c < 3){
+                hackathonService.sentCongr(team, hackathon);
+            }
+            c++;
         }
+
         hackathonService.update(hackathon);
         return new ResponseEntity(HttpStatus.OK);
     }
