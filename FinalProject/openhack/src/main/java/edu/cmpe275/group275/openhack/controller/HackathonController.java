@@ -117,7 +117,7 @@ public class HackathonController {
         long hackathonId = Long.valueOf(String.valueOf(payload.get("hid")));
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         if (!hackathonService.exist(hackathonId) || !hackerUserService.eixtId(uid)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("hackathon or user not found",HttpStatus.NOT_FOUND);
         }
         Hackathon h = hackathonService.getHackathon(hackathonId);
         double fee = h.getFee();
