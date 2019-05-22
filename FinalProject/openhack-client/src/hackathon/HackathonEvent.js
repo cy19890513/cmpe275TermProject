@@ -130,7 +130,7 @@ console.log("url ",url);
         }
 
         if(this.state.isAdmin){
-            if(this.state.registText=="Open Registration"){
+            if(this.state.status=="Open Registration"){
                 this.state.registHref = "#";
             }
             if(!this.state.subText =="Results")
