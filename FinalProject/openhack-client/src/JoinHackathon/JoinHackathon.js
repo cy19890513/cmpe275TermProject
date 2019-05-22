@@ -74,10 +74,8 @@ class JoinHackathon extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const members = this.state.members.filter(mem => {
-            if (mem.email === "" || mem.role === "") {
-                return false;
-            }
-            return true;
+            return !(mem.email === "" || mem.role === "");
+
         });
 
         const payload = {
