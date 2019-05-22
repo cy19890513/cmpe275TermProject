@@ -310,7 +310,7 @@ public class UserController {
     public ResponseEntity<?> joinOrg(@RequestBody Map<String, Object> payload, HttpSession s) {
         //aop uid, oid
         if(!payload.containsKey("uid") || !payload.containsKey("oid")){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("missing parameter or not exist", HttpStatus.BAD_REQUEST);
         }
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         long oid = Long.valueOf(String.valueOf(payload.get("oid")));
@@ -334,10 +334,10 @@ public class UserController {
     public ResponseEntity<?> approveJoinRequest(@RequestParam Long uid, @RequestParam Long oid) {
         //aop uid, oid
         if(oid == null || uid == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("missing parameter",HttpStatus.BAD_REQUEST);
         }
         if(!hackerUserService.eixtId(uid) || !organizationService.exist(oid)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("not exist",HttpStatus.NOT_FOUND);
         }
         Organization org = organizationService.getOrg(oid);
         HackerUser hacker = hackerUserService.getHackerUser(uid);

@@ -48,7 +48,7 @@ public class OrganizationController {
         // AOP check required field
         // AOP check if owner is a verified hacker
         if(!payload.containsKey("name") || !payload.containsKey("uid")){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("missing parameter or not exist",HttpStatus.BAD_REQUEST);
         }
         String name = String.valueOf(payload.get("name"));
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
@@ -110,10 +110,10 @@ public class OrganizationController {
     @RequestMapping(value = "/organization", method = RequestMethod.GET)
     public ResponseEntity<?> getOrganization(@RequestParam String name){
         if(name == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("missing parameter or not exist",HttpStatus.BAD_REQUEST);
         }
         if(!organizationService.exists(name)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("missing parameter or not exist",HttpStatus.NOT_FOUND);
         }
         Organization org = organizationService.getByName(name);
         return new ResponseEntity<>(organizationService.convertOrgToMap(org), HttpStatus.OK);
@@ -128,11 +128,11 @@ public class OrganizationController {
     @RequestMapping(value = "/organizationInfo", method = RequestMethod.GET)
     public ResponseEntity<?> getOrganizationById(@RequestParam Long oid){
         if(oid == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("missing parameter or not exist",HttpStatus.BAD_REQUEST);
         }
         Organization org = organizationService.getOrg(oid);
         if(org == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("missing parameter or not exist",HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(organizationService.convertOrgToMap(org), HttpStatus.OK);
     }
