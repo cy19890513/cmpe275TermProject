@@ -1,6 +1,6 @@
-cmpe275 projects
+cmpe275 project in FinalProject folder.
 
-class, employer get, delete - Jiehan  
-database, employee get, delete - Rui  
-employee create, update, collaborator create - Yang  
-employer create, update, collaborator delete - Vera  
+Google doc link: https://docs.google.com/document/d/1jOSIULEdApR4kgQ2o2aTF9jHNJEvIE8Cr3S0gpBj1rY/edit
+
+To access the website, go to http://openhack.thewatercats.com
+

@@ -191,7 +191,7 @@ public class HackathonServiceImpl implements HackathonService{
         String text = "Dear " + member.getHacker().getUsername() + ", \n\n" +
                 "You have successfully joined the hackathon event " + h.getName() +
                 ". The registration fee is $" + fee + ". Please process your payment below. \n\n" +
-                "<a href='http://localhost:3000/hackathon/payment/"+id+"/"+teamId+"/"+fee+"'>" +
+                "<a href='http://openhack.thewatercats.com/hackathon/payment/"+id+"/"+teamId+"/"+fee+"'>" +
                 "payyourfee</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);

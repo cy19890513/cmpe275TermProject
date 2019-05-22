@@ -17,10 +17,12 @@ class TeamList extends Component {
 
         this.state = {
             teams: [],
+            uid:localStorage.getItem('uid')
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        
         if (prevProps !== this.props) {
             const teams = this.props.teams;
             const t = teams.map(team => {
@@ -36,6 +38,7 @@ class TeamList extends Component {
         const grade = this.state.teams.find(t => t.id === tid).grade;
 
         axios.post(process.env.REACT_APP_API_URL + '/hackathon/grade', {
+            uid: this.state.uid,
             tid: tid,
             grade: grade,
         })
@@ -49,6 +52,8 @@ class TeamList extends Component {
                 this.setState({teams: newTeams});
             })
             .catch(err => {
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
         // console.log(this.state.teams);

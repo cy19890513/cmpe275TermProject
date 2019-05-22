@@ -68,7 +68,8 @@ console.log("url ",url);
                     this.setState({isJoined: hkData.isJoined});
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.error("line 45 err");
             })
         

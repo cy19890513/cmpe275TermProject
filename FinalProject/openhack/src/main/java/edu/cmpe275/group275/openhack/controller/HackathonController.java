@@ -117,7 +117,7 @@ public class HackathonController {
         long hackathonId = Long.valueOf(String.valueOf(payload.get("hid")));
         long uid = Long.valueOf(String.valueOf(payload.get("uid")));
         if (!hackathonService.exist(hackathonId) || !hackerUserService.eixtId(uid)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("hackathon or user not found",HttpStatus.NOT_FOUND);
         }
         Hackathon h = hackathonService.getHackathon(hackathonId);
         double fee = h.getFee();
@@ -615,6 +615,10 @@ public class HackathonController {
         }
         double grade = Double.valueOf(String.valueOf(payload.get("grade")));
         Team team = teamService.getTeam(tid);
+        Hackathon h = team.getHackathon();
+        if(h == null || h.getFinalized() || !h.getClosed()){
+            return new ResponseEntity<>("Event is either not closed or has been finalized.", HttpStatus.BAD_REQUEST);
+        }
         team.setGrade(grade);
         teamService.update(team);
         return new ResponseEntity(HttpStatus.OK);
