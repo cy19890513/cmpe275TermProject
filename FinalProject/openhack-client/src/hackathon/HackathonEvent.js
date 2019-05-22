@@ -96,7 +96,9 @@ console.log("url ",url);
             this.state.isAdmin = true ;
         }
     }
-
+    
+    
+    // regist button can be eval, open/clase regis. submit button can be results or submit
     parseStatus(){
         // console.log("parseStatus ",this.state);
         if(this.state.isJudge){
@@ -131,7 +133,7 @@ console.log("url ",url);
             if(this.state.registText=="Open Registration"){
                 this.state.registHref = "#";
             }
-            if(!this.state.subText=="Results")
+            if(!this.state.subText =="Results")
                 this.state.submitButton ="";
         }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
