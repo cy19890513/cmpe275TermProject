@@ -134,7 +134,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         String text = "Dear " + owner.getUsername() + ", \n\n" +
                 "User " + hacker.getUsername() + " has requested to join your organization. " +
                 "Please click link below for approval. \n\n" +
-                "<a href='http://localhost:8080/approveJoinRequest?uid="+uid+"&oid="+orgId+ "'>" +
+                "<a href='http://openhack.thewatercats.com:8081/approveJoinRequest?uid="+uid+"&oid="+orgId+ "'>" +
                 "approvetheuserrequest</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);

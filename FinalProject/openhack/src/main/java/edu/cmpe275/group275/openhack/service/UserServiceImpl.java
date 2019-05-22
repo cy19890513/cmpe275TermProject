@@ -152,12 +152,11 @@ public class UserServiceImpl implements UserService {
         String code = UUID.randomUUID().toString();
         SimpleMailMessage message = new SimpleMailMessage();
         String to = email;
-     //   String to = "verawang0112@gmail.com";
         long uid = user.getId();
         String text = "Dear " + user.getUsername() + ", \n\n" +
                 "Thank you for registering our hackathon system. " +
                 "Please click link below for account verification. \n\n" +
-                "<a href='http://localhost:8080/verifyUser?uid="+uid+"&code="+code+ "'>" +
+                "<a href='http://openhack.thewatercats.com:8081/verifyUser?uid="+uid+"&code="+code+ "'>" +
                 "verifyyouremailaccount</a> \n\n" +
                 "Hackathon Management System";
         message.setTo(to);
@@ -175,7 +174,7 @@ public class UserServiceImpl implements UserService {
                 "Your friend " + user.getUsername() +
                 " has invited you to join openhack to participate in hackathon events. \n\n" +
                 "Please click link below to check out our website. \n\n" +
-                "<a href='http://localhost:3000/'>" +
+                "<a href='http://openhack.thewatercats.com/'>" +
                 "joinopenhack</a> \n\n" +
                 "Thank you! \n\n" +
                 "Hackathon Management System";
