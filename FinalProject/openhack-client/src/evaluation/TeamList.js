@@ -92,7 +92,7 @@ class TeamList extends Component {
                                 <Form onSubmit={this.handleSubmit.bind(this, team.id)}>
                                     <InputGroup className="mb-3">
                                         <FormControl
-                                            placeholder="0.0"
+                                            placeholder={team.grade}
                                             aria-label="Grade"
                                             type={"number"}
                                             // value={this.state.teamGrade[team.id]}
