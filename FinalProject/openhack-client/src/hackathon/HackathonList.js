@@ -60,9 +60,9 @@ class HackathonList extends Component{
                 this.setState({hkData} );
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
-                console.error("err");
+                // var eMessage = err.response.data? "\n"+err.response.data : "";
+                // alert(eMessage);
+                // console.error("err");
             });
     }
 

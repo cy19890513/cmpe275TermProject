@@ -54,7 +54,7 @@ class Login extends Component {
                 }
             }
         ).catch(function (error) {
-            alert(error);
+            alert(error.response.data);
         });
     };
 
