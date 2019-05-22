@@ -232,7 +232,7 @@ public class HackathonServiceImpl implements HackathonService{
             String to = hackerUser.getEmail();
             String text = "Dear " + hackerUser.getUsername() + ", \n\n" +
                     "The hackton: " + h.getName() + " has been posted below \n\n  " +
-                    "<a href='http://localhost:3000/hackathon/"+hid+"/result'>" +
+                    "<a href='http://openhack.thewatercats.com/hackathon/"+hid+"/result'>" +
                     "Result</a> \n\n"+
                     "Hackathon Management System";
             message.setTo(to);
