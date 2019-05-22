@@ -128,9 +128,11 @@ console.log("url ",url);
         }
 
         if(this.state.isAdmin){
-            this.state.registText="Open Registration";
-            this.state.registHref = "#";
-            this.state.submitButton ="";
+            if(this.state.registText=="Open Registration"){
+                this.state.registHref = "#";
+            }
+            if(!this.state.subText=="Results")
+                this.state.submitButton ="";
         }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
     }
