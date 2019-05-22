@@ -615,6 +615,10 @@ public class HackathonController {
         }
         double grade = Double.valueOf(String.valueOf(payload.get("grade")));
         Team team = teamService.getTeam(tid);
+        Hackathon h = team.getHackathon();
+        if(h == null || h.getFinalized() || !h.getClosed()){
+            return new ResponseEntity<>("Event is either not closed or has been finalized.", HttpStatus.BAD_REQUEST);
+        }
         team.setGrade(grade);
         teamService.update(team);
         return new ResponseEntity(HttpStatus.OK);
