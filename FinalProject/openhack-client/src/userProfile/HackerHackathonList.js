@@ -13,7 +13,7 @@ class HackerHackathonList extends Component {
         this.state = {
             hackathons: [],
             uid: localStorage.getItem('uid'),
-            open: false,
+            open: true,
         }
     }
 
@@ -83,11 +83,7 @@ class HackerHackathonList extends Component {
 
         return (
             <Card>
-                {/*<Accordion>*/}
-                    {/*<Accordion.Toggle as={Card.Header} eventKey="1">*/}
                 <Card.Header onClick={() => this.setState({ open: !open })}>My Hackathons</Card.Header>
-                    {/*</Accordion.Toggle>*/}
-                    {/*<Accordion.Collapse eventKey="1">*/}
                 <Collapse in={this.state.open}>
                         <Card.Body>
                             <ol className={"hackathon-list"}>
@@ -95,8 +91,6 @@ class HackerHackathonList extends Component {
                             </ol>
                         </Card.Body>
                 </Collapse>
-                    {/*</Accordion.Collapse>*/}
-                {/*</Accordion>*/}
             </Card>
         )
     }

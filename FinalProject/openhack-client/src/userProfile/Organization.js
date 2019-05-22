@@ -91,14 +91,7 @@ class Organization extends Component {
 
         return (
             <Card>
-                {/*<Card.Header as="h5">Organization</Card.Header>*/}
-                {/*<Accordion>*/}
-
-                {/*<Accordion.Toggle as={Card.Header} eventKey={"0"}>*/}
                 <Card.Header onClick={() => this.setState({open: !open})}>Organization</Card.Header>
-
-                {/*</Accordion.Toggle>*/}
-                {/*<Accordion.Collapse eventKey="0">*/}
                 <Collapse in={this.state.open}>
 
                     <Card.Body>
@@ -149,8 +142,6 @@ class Organization extends Component {
                         </Form>
                     </Card.Body>
                 </Collapse>
-                {/*</Accordion.Collapse>*/}
-                {/*</Accordion>*/}
             </Card>
         );
     }
