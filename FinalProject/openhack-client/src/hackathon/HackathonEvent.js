@@ -26,6 +26,7 @@ class HackathonEvent extends Component {
             subText:"Submission",
             submitButton: null,
             isJudge: false,
+            isAdmin: false,
             isJoined: false,
             hackerEmail: null,
             eventName: null,
@@ -89,6 +90,13 @@ console.log("url ",url);
         }
     }
 
+    checkIfAdmin(){
+        var role = localStorage.getItem("role");
+        if(role === 'AdminUser' ){
+            this.state.isAdmin = true ;
+        }
+    }
+
     parseStatus(){
         // console.log("parseStatus ",this.state);
         if(this.state.isJudge){
@@ -118,6 +126,12 @@ console.log("url ",url);
             this.state.status = "Open Registration";
             this.state.submitButton = ""
         }
+
+        if(this.state.isAdmin){
+            this.state.registText="Open Registration";
+            this.state.registHref = "#";
+            this.state.submitButton ="";
+        }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
     }
     
@@ -142,6 +156,8 @@ console.log("url ",url);
     render(){
         // console.log("hkData ",this.state.hkData);
         this.checkIfJudge();
+        setTimeout(10);
+        this.checkIfAdmin();
         setTimeout(10);
         this.parseStatus();
         setTimeout(10);
