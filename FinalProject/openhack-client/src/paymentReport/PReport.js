@@ -52,7 +52,8 @@ class PReport extends Component {
 
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.error("line 45 err");
             })
         

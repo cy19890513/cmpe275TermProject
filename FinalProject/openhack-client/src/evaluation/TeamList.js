@@ -49,6 +49,8 @@ class TeamList extends Component {
                 this.setState({teams: newTeams});
             })
             .catch(err => {
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
         // console.log(this.state.teams);

@@ -43,7 +43,8 @@ class CreateHackathon extends Component {
                 this.setState({typeaheadOrg: list.map(org => org.name)});
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
         axios.get(process.env.REACT_APP_API_URL + "/get_all_users")
@@ -53,7 +54,8 @@ class CreateHackathon extends Component {
                 this.setState({hackers: list});
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }
@@ -80,7 +82,8 @@ class CreateHackathon extends Component {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }
