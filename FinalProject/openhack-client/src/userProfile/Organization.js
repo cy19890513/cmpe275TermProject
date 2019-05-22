@@ -28,8 +28,8 @@ class Organization extends Component {
                 });
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                // alert(err+eMessage);
                 console.log(err);
             });
     }
@@ -45,8 +45,8 @@ class Organization extends Component {
                 this.props.change({name: this.state.selectedOrg + " (Pending)"});
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err.response.data);
                 console.log(err);
             });
     }

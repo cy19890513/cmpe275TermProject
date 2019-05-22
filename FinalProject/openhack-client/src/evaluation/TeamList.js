@@ -52,8 +52,8 @@ class TeamList extends Component {
                 this.setState({teams: newTeams});
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                // alert(err+eMessage);
                 console.log(err);
             });
         // console.log(this.state.teams);
@@ -92,7 +92,7 @@ class TeamList extends Component {
                                 <Form onSubmit={this.handleSubmit.bind(this, team.id)}>
                                     <InputGroup className="mb-3">
                                         <FormControl
-                                            placeholder="0.0"
+                                            placeholder={team.grade}
                                             aria-label="Grade"
                                             type={"number"}
                                             // value={this.state.teamGrade[team.id]}

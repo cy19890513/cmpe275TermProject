@@ -29,9 +29,9 @@ class Header extends Component {
                 // console.log("logout");
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
-                console.error(err);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                // alert(err+eMessage);
+                // console.error(err);
             });
         localStorage.clear();
         this.setState({loginName: undefined});

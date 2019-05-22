@@ -26,6 +26,7 @@ class HackathonEvent extends Component {
             subText:"Submission",
             submitButton: null,
             isJudge: false,
+            isAdmin: false,
             isJoined: false,
             hackerEmail: null,
             eventName: null,
@@ -68,8 +69,8 @@ console.log("url ",url);
                     this.setState({isJoined: hkData.isJoined});
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                var eMessage = err.response.data? "\n"+err.response.data : "";
+                alert(eMessage);
                 console.error("line 45 err");
             })
         
@@ -89,6 +90,15 @@ console.log("url ",url);
         }
     }
 
+    checkIfAdmin(){
+        var role = localStorage.getItem("role");
+        if(role === 'AdminUser' ){
+            this.state.isAdmin = true ;
+        }
+    }
+    
+    
+    // regist button can be eval, open/clase regis. submit button can be results or submit
     parseStatus(){
         // console.log("parseStatus ",this.state);
         if(this.state.isJudge){
@@ -118,6 +128,14 @@ console.log("url ",url);
             this.state.status = "Open Registration";
             this.state.submitButton = ""
         }
+
+        if(this.state.isAdmin){
+            if(this.state.status=="Open Registration"){
+                this.state.registHref = "#";
+            }
+            if(!this.state.subText =="Results")
+                this.state.submitButton ="";
+        }
         //this.setState({ this.state.status, this.state.registHref,this.state.subHref,this.state.registText });
     }
     
@@ -142,6 +160,8 @@ console.log("url ",url);
     render(){
         // console.log("hkData ",this.state.hkData);
         this.checkIfJudge();
+        setTimeout(10);
+        this.checkIfAdmin();
         setTimeout(10);
         this.parseStatus();
         setTimeout(10);

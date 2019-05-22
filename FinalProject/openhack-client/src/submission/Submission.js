@@ -68,8 +68,8 @@ class Submission extends Component {
                 });
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                const eMessage = err.response.data? "\n"+err.response.data : "";
+                alert(eMessage);
                 console.error(err);
             });
     }

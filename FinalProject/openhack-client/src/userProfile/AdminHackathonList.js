@@ -23,8 +23,8 @@ class AdminHackathonList extends Component {
                 this.setState({hackathons: res.data});
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                // alert(err+eMessage);
                 console.log(err);
             });
     }
@@ -64,8 +64,8 @@ class AdminHackathonList extends Component {
                 alert("Now open for submission");
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err.response.data);
                 console.log(err)
             });
     }
@@ -88,8 +88,8 @@ class AdminHackathonList extends Component {
                 this.setState(state);
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err.response.data);
                 console.log(err);
             });
     }

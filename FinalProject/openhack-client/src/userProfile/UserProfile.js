@@ -53,8 +53,9 @@ class UserProfile extends Component {
 
             })
             .catch(err => {
-                var eMessage = err.response.message? "\n"+err.response.message : "";
-                alert(err+eMessage);
+                // var eMessage = err.response.message? "\n"+err.response.message : "";
+                // alert(err+eMessage);
+                console.log(err);
                 this.setState(() => {
                     return {error: false};
                 });
