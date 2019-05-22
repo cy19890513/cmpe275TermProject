@@ -85,7 +85,8 @@ class EditUser extends Component {
                 this.props.history.push('/userprofile');
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }

@@ -38,6 +38,8 @@ class Evaluation extends Component {
                 this.setState({hackathon: hackathon});
             })
             .catch(err => {
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }
@@ -56,6 +58,8 @@ class Evaluation extends Component {
                 this.setState({teams: teams});
             })
             .catch(err => {
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }

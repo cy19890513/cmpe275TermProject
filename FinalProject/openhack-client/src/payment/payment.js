@@ -57,7 +57,8 @@ class Payment extends Component {
                 alert("payment sucessful!");
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }

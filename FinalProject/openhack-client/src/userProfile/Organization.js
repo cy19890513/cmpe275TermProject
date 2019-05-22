@@ -28,7 +28,8 @@ class Organization extends Component {
                 });
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }
@@ -44,7 +45,8 @@ class Organization extends Component {
                 this.props.change({name: this.state.selectedOrg + " (Pending)"});
             })
             .catch(err => {
-                alert(err);
+                var eMessage = err.response.message? "\n"+err.response.message : "";
+                alert(err+eMessage);
                 console.log(err);
             });
     }
