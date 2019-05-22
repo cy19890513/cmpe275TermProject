@@ -3,6 +3,7 @@ import {Button, Col, Row} from "react-bootstrap";
 import Header from '../utils/Header';
 import axios from 'axios';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import Accordion from 'react-bootstrap/Accordion';
 
 import './userProfile.css';
 
@@ -71,7 +72,9 @@ class UserProfile extends Component {
                 <div>
                     <Organization organization={this.state.organization} change={this.changeOrg.bind(this)}/>
                     <HackerHackathonList email={this.state.user.email}/>
+
                 </div>
+
             );
         }
 
@@ -115,7 +118,7 @@ class UserProfile extends Component {
                                         <img src= {portrait}/>
                                     </div>
                                     <div>
-                                        <div>Screen Name: {user.ScreenName}</div>
+                                        <div>Screen Name: {user.Screenname}</div>
                                         <div>Name: {user.name}</div>
                                         <div>Email: {user.email}</div>
                                         <div>BusinessTitle: {user.BusinessTitle}</div>

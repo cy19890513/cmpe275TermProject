@@ -45,7 +45,9 @@ function Routing() {
                 <Route path={'/hackathon/eval/:hid'} component={Evaluation}/>
                 <Route path={'/hackathon/:hid/result'} component={Result}/>
                 <Route path={'/hackathon/:hid/report'} component={FinancialReport}/>
+
                 <Route component={NotFound}/>
+
             </Switch>
         </Router>
     );
